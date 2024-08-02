@@ -4091,6 +4091,126 @@ class AirController extends Controller
           
     }
 
-      
+    public function air_setting_year(Request $request)
+    {
+        $startdate          = $request->startdate;
+        $enddate            = $request->enddate;
+        $air_plan_month_id  = $request->air_plan_month_id;
+        $date_now           = date('Y-m-d');
+        $years              = date('Y') + 543;
+        $yearnew_plus       = date('Y') + 544;
+        $monthsnew_         = date('m'); 
+        $monthsnew          = substr($monthsnew_,1,2);  
+        $newdays            = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek            = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate            = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 3 เดือน
+        $newyear            = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew            = date('Y'); 
+        $year_old           = date('Y')-1;
+        $months_old         = ('10');
+        $startdate_b        = (''.$year_old.'-10-01');
+        $enddate_b          = (''.$yearnew.'-09-30'); 
+        $iduser             = Auth::user()->id;
+        // dd($years);
+        $data['datashow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" ORDER BY air_list_id ASC');        
+        $data['yearsshow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" AND air_year = "'.$years.'" ORDER BY air_list_id DESC LIMIT 1'); 
+     
+            // $datashow  = DB::select(
+            //     'SELECT b.*,c.air_repaire_typename 
+            //         FROM air_plan_month b 
+            //         LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id 
+            //         WHERE b.years BETWEEN "'.$years.'" AND "'.$yearnew_plus.'"
+            // '); 
+        // } 
+        return view('support_prs.air.air_setting_year',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow,  
+        ]);
+    }
 
+    function air_setting_yearcopy(Request $request)
+    {   
+        $air_year      = $request->air_year; 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $dataget       = Air_list::where('air_year',$air_year)->get();
+                foreach ($dataget as $row ) {
+                         $check = Air_list::where('air_list_num',$row->air_list_num)->where('air_year',$air_year)->count();
+                        if ($check > 0) {  
+                        } else {
+                            Air_list::insert([
+                                'air_list_num'         => $row->air_list_num,
+                                'air_list_name'        => $row->air_list_name,
+                                'detail'               => $row->detail,
+                                'bran_id'              => $row->bran_id,
+                                'brand_name'           => $row->brand_name,
+                                'btu'                  => $row->btu, 
+                                'serial_no'            => $row->serial_no, 
+                                'air_location_id'      => $row->air_location_id, 
+                                'air_location_name'    => $row->air_location_name, 
+                                'air_price'            => $row->air_price, 
+                                'air_room_class'       => $row->air_room_class, 
+                                'air_img'              => $row->air_img, 
+                                'air_imgname'          => $row->air_imgname, 
+                                'air_img_base'         => $row->air_img_base, 
+                                'air_recive_date'      => $row->air_recive_date, 
+                                'active'               => $row->active, 
+                                'air_edit'             => $row->air_edit, 
+                                'air_backup'           => $row->air_backup, 
+                                'air_date_pdd'         => $row->air_date_pdd, 
+                                'air_date_exp'         => $row->air_date_exp, 
+                                'air_for_check'        => $row->air_for_check, 
+                                'user_id'              => $row->user_id, 
+                                'air_year'             => $bg_yearnow, 
+                            ]);
+                        }
+                         
+                } 
+                
+                return response()->json([
+                    'status'     => '200'
+                ]);  
+    }
+
+    public function air_setting_yearnow(Request $request)
+    {
+        $startdate          = $request->startdate;
+        $enddate            = $request->enddate;
+        $air_plan_month_id  = $request->air_plan_month_id;
+        $date_now           = date('Y-m-d');
+        $years              = date('Y') + 543;
+        $yearnew_plus       = date('Y') + 544;
+        $monthsnew_         = date('m'); 
+        $monthsnew          = substr($monthsnew_,1,2);  
+        $newdays            = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek            = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate            = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 3 เดือน
+        $newyear            = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew            = date('Y'); 
+        $year_old           = date('Y')-1;
+        $months_old         = ('10');
+        $startdate_b        = (''.$year_old.'-10-01');
+        $enddate_b          = (''.$yearnew.'-09-30'); 
+        $iduser             = Auth::user()->id;
+        // dd($years);
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        // $bg_yearnow    = $bgs_year->leave_year_id;
+        // $data['datashow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" ORDER BY air_list_id ASC');        
+        $data['datashow'] = DB::select('SELECT * FROM budget_year ORDER BY leave_year_id DESC'); 
+        // WHERE years_now = "Y" 
+        return view('support_prs.air.air_setting_yearnow',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            // 'datashow'      =>     $datashow,  
+        ]);
+    }
+    function air_setting_yearnowswith(Request $request)
+    {  
+        $id = $request->idfunc; 
+        $active = Budget_year::find($id);
+        $active->years_now = $request->onoff;
+        $active->save();
+    }
+     
  }

@@ -3441,6 +3441,10 @@ Route::match(['get','post'],'importplan_send',[App\Http\Controllers\AirControlle
 Route::match(['get','post'],'air_setting_type',[App\Http\Controllers\AirController::class, 'air_setting_type'])->name('prs.air_setting_type');//
 Route::match(['get','post'],'air_setting_typeswith',[App\Http\Controllers\AirController::class, 'air_setting_typeswith'])->name('prs.air_setting_typeswith');//
 Route::match(['get','post'],'air_setting_typecopy',[App\Http\Controllers\AirController::class, 'air_setting_typecopy'])->name('prs.air_setting_typecopy');//
+Route::match(['get','post'],'air_setting_year',[App\Http\Controllers\AirController::class, 'air_setting_year'])->name('prs.air_setting_year');//
+Route::match(['get','post'],'air_setting_yearcopy',[App\Http\Controllers\AirController::class, 'air_setting_yearcopy'])->name('prs.air_setting_yearcopy');//
+Route::match(['get','post'],'air_setting_yearnow',[App\Http\Controllers\AirController::class, 'air_setting_yearnow'])->name('prs.air_setting_yearnow');//
+Route::match(['get','post'],'air_setting_yearnowswith',[App\Http\Controllers\AirController::class, 'air_setting_yearnowswith'])->name('prs.air_setting_yearnowswith');//
 
 Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
 Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//

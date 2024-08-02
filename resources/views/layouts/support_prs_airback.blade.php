@@ -572,6 +572,18 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_yearnow')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ตั้งค่าปีงบประมาณ</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-verti"
                                             role="button">
                                             <span key="t-vertical">Import Data</span> <div class="arrow-down"></div>
@@ -587,8 +599,7 @@
                                             <span key="t-horizontal">ประเภท/ปีงบประมาณ</span> <div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-layout-hori">
-                                            <a href="{{url('air_setting_type')}}" class="dropdown-item" key="t-horizontal">กำหนดประเภท/ปีงบประมาณ</a>
-                                       
+                                            <a href="{{url('air_setting_type')}}" class="dropdown-item" key="t-horizontal">กำหนดประเภท/ปีงบประมาณ</a>                                       
                                         </div>
                                     </div>  
                                 </div>

@@ -90,8 +90,7 @@
             <div class="col"></div>
             <div class="col-xl-1 text-end mt-2"><p style="font-size: 17px">ปีงบประมาณ</p></div>
             <div class="col-xl-1">
-                <select name="edit_yeardb" id="edit_yeardb" class="form-control bt_prs text-center" required>
-                    {{-- <option value="">-- ปีงบประมาณ --</option> --}}
+                <select name="edit_yeardb" id="edit_yeardb" class="form-control bt_prs text-center" required> 
                     @foreach ($budget_year as $item)
                     @if ($edit_yeardb == $item->leave_year_id)
                     <option value="{{$item->leave_year_id}}" selected>{{$item->leave_year_id}}</option>
@@ -211,6 +210,66 @@
         </div> 
         <hr style="color:#ffffff"> 
         @foreach ($datashow as $item) 
+            <?php 
+                if ($edit_yeardb != '') {
+                    $bg_year        = DB::table('budget_year')->where('leave_year_id',$edit_yeardb)->first();
+                    $startdate_new  = $request->date_begin;
+                    $enddate_new    = $request->date_end;
+                    $sup_ploblems_ = DB::select(
+                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            FROM air_repaire a 
+                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                            WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="04" 
+                            AND a.repaire_date BETWEEN "'.$startdate_new.'" AND "'.$enddate_new.'"
+                    ');                                     
+                    foreach ($sup_ploblems_ as $key => $value_sup) {
+                        $supploblems = $value_sup->sup_ploblems;
+                        $percentsup  = $value_sup->percent_sup;
+                    }
+                    $sup_ploblems_2 = DB::select(
+                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            FROM air_repaire a 
+                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                            WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="01" 
+                            AND a.repaire_date BETWEEN "'.$startdate_new.'" AND "'.$enddate_new.'"
+                    ');                                     
+                    foreach ($sup_ploblems_2 as $key => $value_sup2) {
+                        $supploblems2 = $value_sup2->sup_ploblems;
+                        $percentsup2  = $value_sup2->percent_sup;
+                    }
+                } else {
+                    $yearnew     = date('Y');
+                    $year_old    = date('Y')-1; 
+                    $startdate   = (''.$year_old.'-10-01');
+                    $enddate     = (''.$yearnew.'-09-30'); 
+                    $sup_ploblems_ = DB::select(
+                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            FROM air_repaire a 
+                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                            WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="04" 
+                            AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    ');                                     
+                    foreach ($sup_ploblems_ as $key => $value_sup) {
+                        $supploblems = $value_sup->sup_ploblems;
+                        $percentsup  = $value_sup->percent_sup;
+                    }
+                    $sup_ploblems_2 = DB::select(
+                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            FROM air_repaire a 
+                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                            WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="01" 
+                            AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    ');                                     
+                    foreach ($sup_ploblems_2 as $key => $value_sup2) {
+                        $supploblems2 = $value_sup2->sup_ploblems;
+                        $percentsup2  = $value_sup2->percent_sup;
+                    }
+                }  
+            ?>
             <div class="row">  
                 <h2 >บริษัท {{$item->supplies_name}}</h2>
                 <div class="col-xl-6 col-md-6">
@@ -219,7 +278,7 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
                                     <p class="text-start font-size-18 mb-2">ซ่อมตามปัญหา(ครั้ง)</p>
-                                    <h1 class="text-start mb-2">0.00</h1> 
+                                    <h1 class="text-start mb-2">{{$supploblems}}</h1> 
                                 </div> 
                                 @if ($item->air_supplies_id == '2') 
                                 <div class="avatar-sm" style="width: 110px;height:100px">
@@ -239,11 +298,11 @@
                                 <p class="text-muted mb-0">                                 
                                     @if ($item->air_supplies_id == '2')                                 
                                         <span class="w-bold font-size-20 me-2" style="color: #4cc5fd">
-                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percent,2)}} %
+                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percentsup,2)}} %
                                         </span>                               
                                     @else 
                                         <span class="w-bold font-size-20 me-2" style="color: #fda14c">
-                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percent,2)}} %
+                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percentsup,2)}} %
                                         </span>
                                     @endif 
                                 </p>
@@ -257,7 +316,7 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
                                     <p class="text-start font-size-18 mb-2">การบำรุงรักษาประจำปี(ครั้ง)</p>
-                                    <h1 class="text-start mb-2">00</h1> 
+                                    <h1 class="text-start mb-2">{{$supploblems2}}</h1> 
                                 </div> 
                                 @if ($item->air_supplies_id == '2') 
                                 <div class="avatar-sm" style="width: 110px;height:100px">
@@ -277,11 +336,11 @@
                                 <p class="text-muted mb-0">                                 
                                     @if ($item->air_supplies_id == '2')                                 
                                         <span class="w-bold font-size-20 me-2" style="color: #4cc5fd">
-                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percent,2)}} %
+                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percentsup2,2)}} %
                                         </span>                               
                                     @else 
                                         <span class="w-bold font-size-20 me-2" style="color: #fda14c">
-                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percent,2)}} %
+                                            <i class="ri-arrow-right-up-line me-1 align-middle"></i>คิดเป็น {{number_format($percentsup2,2)}} %
                                         </span>
                                     @endif 
                                 </p>
