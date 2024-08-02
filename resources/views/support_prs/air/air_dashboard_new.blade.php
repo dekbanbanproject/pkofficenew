@@ -84,30 +84,7 @@
                 </div>
             </div>
         </div>
-    <form action="{{ url('air_dashboard') }}" method="GET">
-        @csrf
-        <div class="row mb-4">
-            <div class="col"></div>
-            <div class="col-xl-1 text-end mt-2"><p style="font-size: 17px">ปีงบประมาณ</p></div>
-            <div class="col-xl-1">
-                <select name="edit_yeardb" id="edit_yeardb" class="form-control bt_prs text-center" required>
-                    {{-- <option value="">-- ปีงบประมาณ --</option> --}}
-                    @foreach ($budget_year as $item)
-                    @if ($edit_yeardb == $item->leave_year_id)
-                    <option value="{{$item->leave_year_id}}" selected>{{$item->leave_year_id}}</option>
-                    @else
-                    <option value="{{$item->leave_year_id}}">{{$item->leave_year_id}}</option>
-                    @endif 
-                    @endforeach
-                </select>
-            </div> 
-            <div class="col-xl-1 text-start">
-                <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
-                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
-                </button> 
-            </div>             
-            <div class="col"></div>
-        </div>   
+
         <div class="row">
             <div class="col"></div>
             <div class="col-xl-6 col-md-6">
@@ -135,10 +112,17 @@
                     </div> 
                 </div> 
                 <hr style="color:#ffffff">  
-            </div>  
+            </div> 
+            <div class="col-xl-2">
+                <select name="edit_yeardb" id="edit_yeardb" class="from-control bt_prs" onchange="yeardb()">
+                    <option value="">-- ปีงบประมาณ --</option>
+                    @foreach ($budget_year as $item)
+                        <option value="{{$item->leave_year_id}}">{{$item->leave_year_id}}</option>
+                    @endforeach
+                </select>
+            </div> 
             <div class="col"></div>
         </div> 
-    </form>
         {{-- <div class="row">
             <div class="col"></div>
             <div class="col-xl-6 col-md-6">
@@ -155,7 +139,7 @@
         </div>  --}}
         <div class="row"> 
             <div class="col-xl-6 col-md-6">
-                <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 225px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1"> 
@@ -184,7 +168,7 @@
                 <div class="vl"></div> 
             </div>   --}}
             <div class="col-xl-6 col-md-6">
-                <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                <div class="card widget-chart widget-chart-hover" style="height: 225px">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1"> 
@@ -214,7 +198,7 @@
             <div class="row">  
                 <h2 >บริษัท {{$item->supplies_name}}</h2>
                 <div class="col-xl-6 col-md-6">
-                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                    <div class="card widget-chart widget-chart-hover" style="height: 225px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
@@ -252,7 +236,7 @@
                     </div>  
                 </div> 
                 <div class="col-xl-6 col-md-6">
-                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                    <div class="card widget-chart widget-chart-hover" style="height: 225px">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
@@ -387,7 +371,7 @@
         <script>
             $(document).ready(function() {
                 // $('#select_2').hide();
-                $('#edit_yeardb_').change(function(){ 
+                $('#edit_yeardb').change(function(){ 
                     // $('#select_2').show();
                 var edit_yeardb = $(this).val();  
                  alert(edit_yeardb);         

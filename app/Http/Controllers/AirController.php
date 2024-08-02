@@ -299,6 +299,7 @@ class AirController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        // $dabudget_year = DB::table('budget_year')->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
         $y = date('Y') + 543;
@@ -334,15 +335,19 @@ class AirController extends Controller
     }
     public function air_dashboard(Request $request)
     {
-        $datenow = date('Y-m-d');
-        $months = date('m');
-        $year = date('Y'); 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $date_now    = date('Y-m-d');
-        $y           = date('Y') + 543;
-        $months = date('m');
-   
+        
+        $months         = date('m');
+        $year           = date('Y'); 
+        $startdate      = $request->startdate;
+        $enddate        = $request->enddate;
+        $edit_yeardb    = $request->edit_yeardb;
+        $bg_year        = DB::table('budget_year')->where('leave_year_id',$edit_yeardb)->first();
+        $startdate_new  = $request->date_begin;
+        $enddate_new    = $request->date_end;
+
+        $date_now     = date('Y-m-d');
+        $y            = date('Y') + 543;  
+        $data['budget_year'] = DB::table('budget_year')->where('active','True')->orderByDesc('leave_year_id')->get();
         $newdays     = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
         $newweek     = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
@@ -353,6 +358,118 @@ class AirController extends Controller
         $enddate     = (''.$yearnew.'-09-30'); 
         $iduser      = Auth::user()->id;
         // dd($enddate);
+        if ($edit_yeardb != '') { 
+            // dd($edit_yeardb);
+                $datashow = DB::select(
+                    'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
+                        FROM air_repaire a
+                        LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                        LEFT JOIN users p ON p.id = a.air_staff_id 
+                        LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id
+                        WHERE al.air_year = "'.$edit_yeardb.'"
+                        GROUP BY a.air_supplies_id
+                '); 
+                $maintenance_1 = DB::select(
+                    'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+                    ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id 
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="04" AND al.air_year = "'.$edit_yeardb.'"
+                '); 
+                foreach ($maintenance_1 as $key => $value) {
+                    $data['air_qty']  = $value->air_qty;
+                    $data['percent']  = $value->percent;
+                }
+                $maintenance_2 = DB::select(
+                    'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+                    ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="01" AND al.air_year = "'.$edit_yeardb.'"
+                '); 
+                foreach ($maintenance_2 as $key => $value2) {
+                    $data['main_qty']      = $value2->air_qty;
+                    $data['main_percent']  = $value2->percent;
+                } 
+                $data['count_air'] = Air_list::where('active','Y')->where('air_year',$edit_yeardb)->count();
+        } else {
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
+                $datashow = DB::select(
+                    'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
+                        FROM air_repaire a
+                        LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                        LEFT JOIN users p ON p.id = a.air_staff_id 
+                        LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id
+                        WHERE al.air_year = "'.$bg_yearnow.'"
+                        GROUP BY a.air_supplies_id
+                '); 
+                $maintenance_1 = DB::select(
+                    'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+                    ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="04" AND al.air_year = "'.$bg_yearnow.'"
+                '); 
+                foreach ($maintenance_1 as $key => $value) {
+                    $data['air_qty']  = $value->air_qty;
+                    $data['percent']  = $value->percent;
+                }
+                $maintenance_2 = DB::select(
+                    'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+                    ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="01" AND al.air_year = "'.$bg_yearnow.'"
+                '); 
+                foreach ($maintenance_2 as $key => $value2) {
+                    $data['main_qty']      = $value2->air_qty;
+                    $data['main_percent']  = $value2->percent;
+                } 
+                $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
+        }
+
+
+        
+        return view('support_prs.air.air_dashboard',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+            'edit_yeardb'   => $edit_yeardb,
+        ]);
+    }
+    public function air_dashboard_new(Request $request,$years)
+    {
+        
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date_now    = date('Y-m-d');
+        $y           = date('Y') + 543;  
+        $data['budget_year'] = DB::table('budget_year')->get();
+        $newdays     = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew     = date('Y');
+        $year_old    = date('Y')-1; 
+        $startdate   = (''.$year_old.'-10-01');
+        $enddate     = (''.$yearnew.'-09-30'); 
+        $iduser      = Auth::user()->id;
+        dd($years);
         $datashow = DB::select(
             'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
                 FROM air_repaire a
@@ -361,14 +478,39 @@ class AirController extends Controller
                 LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id
                 GROUP BY a.air_supplies_id
         '); 
-        //  a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
-        //  ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-       
-        return view('support_prs.air.air_dashboard',[
-            'startdate'     => $startdate,
-            'enddate'       => $enddate, 
-            'datashow'      => $datashow,
-        ]);
+  
+        $data['count_air'] = Air_list::where('active','Y')->count();
+        $maintenance_1 = DB::select(
+            'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+            ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+            WHERE b.air_repaire_type_code ="04"  
+        '); 
+        foreach ($maintenance_1 as $key => $value) {
+            $data['air_qty']  = $value->air_qty;
+            $data['percent']  = $value->percent;
+        }
+
+        $maintenance_2 = DB::select(
+            'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+            ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
+            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+            WHERE b.air_repaire_type_code ="01"  
+        '); 
+        foreach ($maintenance_2 as $key => $value2) {
+            $data['main_qty']      = $value2->air_qty;
+            $data['main_percent']  = $value2->percent;
+        }
+
+        // return view('support_prs.air.air_dashboard_new',$data,[
+        //     'startdate'     => $startdate,
+        //     'enddate'       => $enddate, 
+        //     'datashow'      => $datashow,
+        // ]);
     }
     public function air_main(Request $request)
     {

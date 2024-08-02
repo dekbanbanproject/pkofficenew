@@ -387,10 +387,8 @@
                 <div class="card card_prs_4">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
-                                {{-- <div class="ont-size-lg text-capitalize fw-normal"> --}}
-                                    <h4 style="color: rgb(7, 121, 106)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
-                                {{-- </div>  --}}
+                            <div class="col-md-10"> 
+                                    <h4 style="color: rgb(7, 121, 106)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4> 
                             </div>
                             <div class="col-md-2 text-end"> 
                                     <a href="{{url('support_system_excel')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success bt_prs">
@@ -554,8 +552,7 @@
                                 </div>
                             </div> 
                         </div>
-                    {{-- <div class="d-block p-4 text-center card-footer"> 
-                    </div> --}}
+                  
                 </div>
 
             </div> 

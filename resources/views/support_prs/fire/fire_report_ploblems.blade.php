@@ -98,25 +98,37 @@
             </div>
         </div>
     </div>
-    <form action="{{ url('air_report_building') }}" method="GET">
+    <form action="{{ url('fire_report_ploblems') }}" method="GET">
         @csrf
         <div class="row"> 
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <h4 style="color:rgb(10, 151, 85)">รายงานผลการแก้ไขปัญหาถังดับเพลิง ชำรุด โรงพระยาบาลภูเขียว</h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
              
             <div class="col"></div>
-            <div class="col-md-2 text-end"> 
+            {{-- <div class="col-md-2 text-end">  --}}
                 {{-- <a href="{{url('air_report_building_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                     <i class="fa-solid fa-file-excel me-2"></i>
                     Export To Excel
                 </a> --}}
-                <a href="{{url('fire_report_ploblems_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
-                    <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
-                </a>
+                <div class="col-md-5 text-end"> 
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                        <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $enddate }}"/>  
+                            <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
+                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
+                            </button> 
+                            <a href="{{url('fire_report_ploblems_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                                <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export</span>  
+                            </a>
+                    </div> 
+                </div>
+               
             
-            </div>
+            {{-- </div> --}}
         </div>  
     </form>
  

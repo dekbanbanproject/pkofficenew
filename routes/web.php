@@ -3139,7 +3139,7 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 
 // ************** Support-System ****************************
 
-Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
+// Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\SupportPRSController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'support_system_excel',[App\Http\Controllers\SupportPRSController::class, 'support_system_excel'])->name('prs.support_system_excel');//
 Route::match(['get','post'],'support_system_process',[App\Http\Controllers\SupportPRSController::class, 'support_system_process'])->name('prs.support_system_process');//
 Route::match(['get','post'],'support_system_check/{monts}/{years}',[App\Http\Controllers\SupportPRSController::class, 'support_system_check'])->name('prs.support_system_check');//
@@ -3169,6 +3169,8 @@ Route::delete('cctv_destroy/{id}',[App\Http\Controllers\CCtvController::class, '
 Route::match(['get','post'],'cctv_report',[App\Http\Controllers\CCtvController::class, 'cctv_report'])->name('tec.cctv_report');//
 Route::match(['get','post'],'cctv_report_process',[App\Http\Controllers\CCtvController::class, 'cctv_report_process'])->name('tec.cctv_report_process');//
 
+
+Route::match(['get','post'],'support_system_dashboard',[App\Http\Controllers\FireController::class, 'support_system_dashboard'])->name('prs.support_system_dashboard');//
 Route::match(['get','post'],'fire_dashboard',[App\Http\Controllers\FireController::class, 'fire_dashboard'])->name('prs.fire_dashboard');//
 Route::match(['get','post'],'fire_main',[App\Http\Controllers\FireController::class, 'fire_main'])->name('prs.fire_main');//
 Route::match(['get','post'],'fire_pramuan_admin',[App\Http\Controllers\FireController::class, 'fire_pramuan_admin'])->name('prs.fire_pramuan_admin');//
@@ -3396,6 +3398,7 @@ Route::match(['get','post'],'sss_insipd302_zip',[App\Http\Controllers\Fdh_sss302
 Route::match(['get','post'],'support_main',[App\Http\Controllers\AirController::class, 'support_main'])->name('prs.support_main');//
 
 Route::match(['get','post'],'air_dashboard',[App\Http\Controllers\AirController::class, 'air_dashboard'])->name('prs.air_dashboard');//
+Route::match(['get','post'],'air_dashboard_new/{years}',[App\Http\Controllers\AirController::class, 'air_dashboard_new'])->name('prs.air_dashboard_new');//
 Route::match(['get','post'],'air_main',[App\Http\Controllers\AirController::class, 'air_main'])->name('prs.air_main');//
 Route::match(['get','post'],'air_pramuan_admin',[App\Http\Controllers\AirController::class, 'air_pramuan_admin'])->name('prs.air_pramuan_admin');//
 Route::match(['get','post'],'air_add',[App\Http\Controllers\AirController::class, 'air_add'])->name('prs.air_add');//
