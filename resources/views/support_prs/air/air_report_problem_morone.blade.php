@@ -195,8 +195,7 @@
                                         <td class="text-start">{{ $item->air_list_name }} {{ $item->btu }} btu</td>   
                                         <td class="text-start" width="20%">{{ $item->air_location_name }}</td>  
                                         {{-- <td class="text-start" width="10%">{{ $item->ptname }}</td>   --}}
-                                        {{-- <td class="text-start" width="10%">{{ $item->tectname }}</td>   --}}
-                                         
+                                        {{-- <td class="text-start" width="10%">{{ $item->tectname }}</td>   --}}                                         
                                     </tr>
                                 @endforeach
                             </tbody>
