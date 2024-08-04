@@ -107,27 +107,7 @@ class AirController extends Controller
         $data['sup_name']    = $sup_->supplies_name;
         $data['sup_tel']     = $sup_->supplies_tel;
         $data['sup_address'] = $sup_->supplies_address;
-        // if ($startdate =='') {
-        //     $datashow = DB::select(
-        //         'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
-        //         ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-        //         FROM air_repaire a
-        //         LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
-        //          LEFT JOIN users p ON p.id = a.air_staff_id 
-        //          WHERE a.repaire_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.air_supplies_id = "'.$idsup.'"
-        //         ORDER BY air_repaire_id DESC
-        //     '); 
-        // } else {
-        //     $datashow = DB::select(
-        //         'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
-        //          ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-        //         FROM air_repaire a
-        //         LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
-        //         LEFT JOIN users p ON p.id = a.air_staff_id 
-        //         WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.air_supplies_id = "'.$idsup.'"
-        //         ORDER BY air_repaire_id DESC
-        //     '); 
-        // }
+         
         Air_repaire_supexcel::truncate();
         if ($repaire_type == '') {
             $datashow  = DB::select(
@@ -147,7 +127,7 @@ class AirController extends Controller
                 ORDER BY a.air_repaire_id DESC  
             ');   
             foreach ($datashow as $key => $value) {
-                // if ( $value->air_repaire_type_code == '04') {
+                
                     Air_repaire_supexcel::insert([
                         'air_repaire_id'     => $value->air_repaire_id,
                         'repaire_date'       => $value->repaire_date,
@@ -186,7 +166,7 @@ class AirController extends Controller
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
                     LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
                     ORDER BY a.air_repaire_id DESC  
                 '); 
@@ -226,7 +206,7 @@ class AirController extends Controller
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
                     LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
                     ORDER BY a.air_repaire_id DESC  
                 '); 
@@ -298,10 +278,9 @@ class AirController extends Controller
                 -- WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 WHERE a.air_supplies_id = "'.$idsup.'"  
                 GROUP BY a.air_repaire_id 
-                ORDER BY a.air_repaire_id DESC  LIMIT 10
+                ORDER BY a.air_repaire_id DESC  LIMIT 30
             ');   
-            foreach ($datashow as $key => $value) {
-                // if ( $value->air_repaire_type_code == '04') {
+            foreach ($datashow as $key => $value) {               
                     Air_repaire_supexcel::insert([
                         'air_repaire_id'     => $value->air_repaire_id,
                         'repaire_date'       => $value->repaire_date,
@@ -318,14 +297,11 @@ class AirController extends Controller
                         'tect_name'          => $value->tect_name,
                         'air_techout_name'   => $value->air_techout_name,
                         'supplies_name'      => $value->supplies_name,
-                    ]);
-                
-               
+                    ]); 
             }
             
         } else { 
             
-
             if ($repaire_type == '04') {
                 $datashow  = DB::select(
                     'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
@@ -340,9 +316,9 @@ class AirController extends Controller
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
                     LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC  
+                    ORDER BY a.air_repaire_id DESC LIMIT 30
                 '); 
                 foreach ($datashow as $key => $value) {
                     
@@ -380,9 +356,9 @@ class AirController extends Controller
                     LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
                     LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    AND b.air_repaire_type_code = "'.$repaire_type.'"
+                    AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC  
+                    ORDER BY a.air_repaire_id DESC LIMIT 30 
                 '); 
                 foreach ($datashow as $key => $value) { 
                     

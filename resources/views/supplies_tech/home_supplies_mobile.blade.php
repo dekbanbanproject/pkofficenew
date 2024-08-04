@@ -89,13 +89,26 @@
                 </div>
             </div>
         </div>
-        <form action="{{ url('home_supplies_mobile') }}" method="GET">
-            @csrf
-        <div class="row mt-5 ms-3 me-3 text-center"> 
+        <div class="row mt-4 ms-3 me-3 text-center"> 
+            <div class="col-6"> 
+                <a href="{{ url('home_supplies') }}" class="ladda-button btn-pill btn btn-info cardair" data-style="expand-left">
+                    <span class="ladda-label"> <i class="fa-solid fa-desktop text-white me-2"></i>PC</span> 
+                </a>
+            </div>
+            <div class="col-6"> 
+                <a href="{{ url('home_supplies_mobile') }}" class="ladda-button btn-pill btn btn-info cardair" data-style="expand-left">
+                    <span class="ladda-label"> <i class="fa-solid fa-mobile-screen text-white me-2"></i>MOBILE</span> 
+                </a> 
+            </div>
+        </div>
+        <div class="row mt-2 ms-3 me-3 text-center"> 
             <div class="col"> 
                 <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม</h4> 
             </div>
         </div>
+        <form action="{{ url('home_supplies_mobile') }}" method="GET">
+            @csrf
+       
         <div class="row mt-3 ms-3 me-3"> 
             <div class="col">
                 <select class="form-control cardair" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
@@ -137,9 +150,9 @@
                                         <tr style="font-size:13px">
                                           
                                             {{-- <th width="5%" class="text-center">ลำดับ</th>    --}}
-                                            <th class="text-center" width="10%">วันที่ซ่อม</th>  
+                                            <th class="text-center" width="10%">วันที่</th>  
                                             <th class="text-center" width="10%">เวลา</th>
-                                            <th class="text-center" width="10%">เลขที่แจ้งซ่อม</th>
+                                            <th class="text-center" width="10%">เลขที่</th>
                                             <th class="text-center">รหัส</th>   
                                             {{-- <th class="text-center">รายการ</th>    --}}
                                             {{-- <th class="text-center" width="12%">เจ้าหน้าที่</th>  --}}

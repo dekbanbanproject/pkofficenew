@@ -165,7 +165,7 @@
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
                     <a href="{{url('home_supplies')}}">
-                        <h3 style="color:rgb(5, 131, 153)" class="mt-4">Manage Supplies (บริษัท {{$sup_name}})</h3>
+                        <h3 style="color:rgb(5, 131, 153)" class="mt-4">บริษัท {{$sup_name}}</h3>
                     </a>
                    
                    
@@ -240,7 +240,7 @@
                                 <span>เครื่องปรับอากาศ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                {{-- <li><a href="{{ url('air_main') }}">ทะเบียนเครื่องปรับอากาศ</a></li> --}}
+                                <li><a href="{{ url('home_supplies_mobile') }}">mobile</a></li>
                                 <li><a href="{{ url('home_supplies') }}">ทะเบียนแจ้งซ่อม</a></li>
                                 {{-- <li><a href="{{ url('air_report_type') }}">รายงานแยกตามประเภท</a></li>  --}}
                                 {{-- <li><a href="{{ url('air_report_building') }}">รายงานแยกตามอาคาร</a></li>  --}}
