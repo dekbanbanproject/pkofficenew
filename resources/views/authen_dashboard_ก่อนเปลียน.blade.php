@@ -1,5 +1,5 @@
 @extends('layouts.authenthemes_new')
-@section('title', 'PK-OFFICER || รพ.สต.')
+@section('title', 'PK-OFFICE || รพ.สต.')
  
 @section('content')
     

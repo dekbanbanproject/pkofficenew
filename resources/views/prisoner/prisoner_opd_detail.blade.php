@@ -1,5 +1,5 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-OFFICER || Detail')
+@section('title', 'PK-OFFICE || Detail')
 @section('content')
 <style>
     #button{

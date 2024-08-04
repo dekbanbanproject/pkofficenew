@@ -258,7 +258,7 @@ use App\Models\Products_request_sub;
                             </span>
                             <span class="logo-lg">
                                 {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
-                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICER</h4>
+                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
 
@@ -267,7 +267,7 @@ use App\Models\Products_request_sub;
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICER</h4>
+                                <h4 style="color:rgba(147, 204, 248, 0.871)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>
@@ -443,7 +443,7 @@ use App\Models\Products_request_sub;
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICER
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
                             </div>
                         </div>
                     </div>

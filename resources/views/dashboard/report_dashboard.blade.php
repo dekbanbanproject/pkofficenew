@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/apexcharts/apexcharts.css') }}" />
 @endsection --}}
 @extends('layouts.report_font')
-@section('title', 'PK-OFFICER || DASHBOARD')
+@section('title', 'PK-OFFICE || DASHBOARD')
 @section('content')
     <div class="container-fluid">
         <!-- Button to trigger modal -->

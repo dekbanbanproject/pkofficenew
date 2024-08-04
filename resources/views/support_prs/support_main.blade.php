@@ -1,6 +1,6 @@
 {{-- @extends('layouts.support_prs_new') --}}
 @extends('layouts.support_prs_db')
-@section('title', 'PK-OFFICER || Support-System')
+@section('title', 'PK-OFFICE || Support-System')
 <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 @section('content')
     <script>
@@ -96,7 +96,7 @@
                                         <div class="widget-chart widget-chart-hover rounded-pill">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                     <a href="{{ url('support_main') }}" target="_blank"> 
                                                         <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
                                                     </a>

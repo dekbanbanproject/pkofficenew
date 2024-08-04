@@ -1,5 +1,5 @@
 @extends('layouts.support_prs_airback')
-@section('title', 'PK-OFFICER || Air-Service')
+@section('title', 'PK-OFFICE || Air-Service')
 
 @section('content')
     <script>

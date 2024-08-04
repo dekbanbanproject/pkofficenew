@@ -1,5 +1,5 @@
 @extends('layouts.plannew')
-@section('title','PK-OFFICER || Plan')
+@section('title','PK-OFFICE || Plan')
 @section('content')
 <style>
     #button{

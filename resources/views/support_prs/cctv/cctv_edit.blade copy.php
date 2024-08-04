@@ -1,5 +1,5 @@
 @extends('layouts.support_prs')
-@section('title', 'PK-OFFICER || CCTV')
+@section('title', 'PK-OFFICE || CCTV')
 
 <style>
     #button {

@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-@section('title', 'PK-OFFICER || ผู้ดูแลระบบ')
+@section('title', 'PK-OFFICE || ผู้ดูแลระบบ')
 
 @section('content')
     <?php
@@ -133,7 +133,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('pre_audit') }}" target="_blank">
                                                 <h5 class="text-start mb-2">PRE-AUDIT</h5>
                                             </a>
@@ -162,7 +162,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('person/person_index') }}" target="_blank">
                                                 <h5 class="text-start mb-2">PERSONNEL</h5>
                                             </a>
@@ -195,7 +195,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('otone') }}" target="_blank">
                                                 <h5 class="text-start mb-2">OT</h5>
                                             </a>
@@ -228,7 +228,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('time_dashboard') }}" target="_blank">
                                                 <h5 class="text-start mb-2">TIME</h5>
                                             </a>
@@ -261,7 +261,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <h5 class="text-start mb-2">DOCUMENT</h5>
                                         </div>
                                         <div class="avatar ms-2">
@@ -291,7 +291,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('plan') }}" target="_blank">
                                                 <h5 class="text-start mb-2">PLAN</h5>
                                             </a>
@@ -324,7 +324,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('article/article_index') }}" target="_blank">
                                                 <h5 class="text-start mb-2">ASSET</h5>
                                             </a>
@@ -355,7 +355,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('supplies/supplies_index') }}" target="_blank">
                                                 <h5 class="text-start mb-2">SUPPLIES</h5>
                                             </a>
@@ -388,7 +388,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('computer/com_staff_calenda') }}" target="_blank">
                                                 <h5 class="text-start mb-2">COMPUTER</h5>
                                             </a>
@@ -420,7 +420,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('medical/med_calenda') }}" target="_blank">
                                                 <h5 class="text-start mb-2">MEDICAL</h5>
                                             </a>
@@ -453,7 +453,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
                                                 <h5 class="text-start mb-2">WAREHOUSE</h5>
                                             </a>
@@ -487,7 +487,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('account_info') }}" target="_blank">
                                                 <h5 class="text-start mb-2">FINANCE</h5>
                                             </a>
@@ -520,7 +520,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('account_pk_dash') }}" target="_blank">
                                                 <h5 class="text-start mb-2">ACCOUNT</h5>
                                             </a>
@@ -554,7 +554,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('p4p') }}" target="_blank">
                                                 <h5 class="text-start">P4P</h5>
                                             </a>
@@ -587,7 +587,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('env_dashboard') }}" target="_blank">
                                                 <h5 class="text-start mb-2">ENV</h5>
                                             </a>
@@ -621,7 +621,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-12 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('prenatal_care_db') }}" target="_blank">
                                                 <h5 class="text-start mb-2">PEDIATRICS</h5>
                                             </a>
@@ -655,7 +655,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('medicine_salt') }}" target="_blank">
                                                 <h5 class="text-start mb-2">แพทย์แผนไทย</h5>
                                             </a>
@@ -689,7 +689,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('pkclaim_info') }}" target="_blank">
                                                 <h5 class="text-start mb-2">CLAIM </h5>
                                             </a>
@@ -723,7 +723,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('ct_rep') }}" target="_blank">
                                                 <h5 class="text-start mb-2">DIALYSIS CT</h5>
                                             </a>
@@ -756,7 +756,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('report_db') }}" target="_blank">
                                                 <h5 class="text-start mb-2">REPORT ALL</h5>
                                             </a>
@@ -790,7 +790,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('audiovisual_admin') }}" target="_blank">
                                                 <h5 class="text-start mb-2">งานโสต</h5>
                                             </a>
@@ -823,7 +823,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('tb_main') }}" target="_blank">
                                                 <h5 class="text-start mb-2">CLINIC TB</h5>
                                             </a>
@@ -854,7 +854,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="" target="_blank">
                                                 <h5 class="text-start mb-2">DENTAL</h5>
                                             </a>
@@ -885,7 +885,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('support_main') }}" target="_blank">
                                                 {{-- <h5 class="text-start mb-2">Support System</h5> --}}
                                                 <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
@@ -916,7 +916,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="" target="_blank">
                                                 <h5 class="text-start mb-2">CCTV</h5>
                                             </a>
@@ -946,7 +946,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('fdh_dashboard') }}" target="_blank">
                                                 <h5 class="text-start mb-2">FDH</h5>
                                             </a>
@@ -977,7 +977,7 @@
                                 <div class="widget-chart widget-chart-hover rounded-pill">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICER</p>
+                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('nurse_index') }}" target="_blank">
                                                 <h5 class="text-start mb-2">NURSE</h5>
                                             </a>

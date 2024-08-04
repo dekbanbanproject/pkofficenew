@@ -264,7 +264,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <img src="{{ asset('images/pp.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/kk.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
-                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICER</h4> --}}
+                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICE</h4> --}}
                                 {{-- <div class = "loadingIcon"></div> --}}
                                 {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
                             </span>
@@ -598,7 +598,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICER
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
                             </div>
                         </div>
                     </div>

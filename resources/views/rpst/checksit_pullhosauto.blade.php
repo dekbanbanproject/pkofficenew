@@ -1,5 +1,5 @@
 @extends('layouts.auto_rpst')
-@section('title', 'PK-OFFICER || Auto')
+@section('title', 'PK-OFFICE || Auto')
 @section('content')
 
     <div class="tabs-animation">

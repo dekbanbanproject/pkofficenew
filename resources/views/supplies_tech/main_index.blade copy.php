@@ -1,5 +1,5 @@
 @extends('layouts.suppliesnew')
-@section('title', 'PK-OFFICER || Suplieser')
+@section('title', 'PK-OFFICE || Suplieser')
 @section('content')
     <style>
         #button {

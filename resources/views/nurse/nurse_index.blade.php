@@ -1,5 +1,5 @@
 @extends('layouts.nurse')
-@section('title', 'PK-OFFICER || nurse')
+@section('title', 'PK-OFFICE || nurse')
 @section('content')
     <style>
         #button {

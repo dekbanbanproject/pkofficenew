@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'PK-OFFICER || ทะเบียนทรัพย์สิน')
+@section('title', 'PK-OFFICE || ทะเบียนทรัพย์สิน')
 
      <?php
      use App\Http\Controllers\StaticController;

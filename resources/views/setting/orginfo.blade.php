@@ -1,5 +1,5 @@
 @extends('layouts.admin_setting')
-@section('title', 'PK-OFFICER || องค์กร')
+@section('title', 'PK-OFFICE || องค์กร')
 <script>
   function TypeAdmin() {
       window.location.href = '{{ route('index') }}';

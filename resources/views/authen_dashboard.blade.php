@@ -1,5 +1,5 @@
 @extends('layouts.dashboardlayout')
-@section('title', 'PK-OFFICER || Dashboard-Day')
+@section('title', 'PK-OFFICE || Dashboard-Day')
 
 @section('content')
     <style>

@@ -1,5 +1,5 @@
 @extends('layouts.gleave')
-@section('title', 'PK-OFFICER || ระบบลา')
+@section('title', 'PK-OFFICE || ระบบลา')
 
 @section('content')
     <script>

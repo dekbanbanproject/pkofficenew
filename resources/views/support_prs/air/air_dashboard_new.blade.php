@@ -1,6 +1,6 @@
 {{-- @extends('layouts.support_prs_new') --}}
 @extends('layouts.support_prs_airback')
-@section('title', 'PK-OFFICER || Support-System')
+@section('title', 'PK-OFFICE || Support-System')
 
 @section('content')
 

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', 'PK-OFFICER || Air-Service')
+@section('title', 'PK-OFFICE || Air-Service')
 
 @section('content')
 
@@ -867,7 +867,7 @@
                                     console.log(
                                         data);
                                     // window.location.reload();
-                                    window.location = "{{ url('home_supplies') }}";
+                                    window.location = "{{ url('home_supplies_mobile') }}";
                                     $('#spinner')
                                 .hide(); //Request is complete so hide spinner
                                     setTimeout(function() {

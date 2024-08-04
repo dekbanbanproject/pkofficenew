@@ -1,5 +1,5 @@
 @extends('layouts.accpk')
-@section('title', 'PK-OFFICER || คลังวัสดุ')
+@section('title', 'PK-OFFICE || คลังวัสดุ')
 
 <script>
     function TypeAdmin() {

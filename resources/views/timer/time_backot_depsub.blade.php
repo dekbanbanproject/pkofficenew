@@ -1,5 +1,5 @@
 @extends('layouts.timesystem')
-@section('title', 'PK-OFFICER || Time-Index')
+@section('title', 'PK-OFFICE || Time-Index')
 @section('content')
 <style>
     #button{

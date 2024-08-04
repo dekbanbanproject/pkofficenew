@@ -1,5 +1,5 @@
 @extends('layouts.support_prs_fireback')
-@section('title', 'PK-OFFICER || Fire')
+@section('title', 'PK-OFFICE || Fire')
 
 <style>
     .btn {

@@ -1,6 +1,6 @@
  
 @extends('layouts.car')
-@section('title', 'PK-OFFICER || ยานพาหนะ')
+@section('title', 'PK-OFFICE || ยานพาหนะ')
 @section('content')
 <script>
     function TypeAdmin() {

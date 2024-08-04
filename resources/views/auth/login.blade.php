@@ -1,5 +1,5 @@
 @extends('layouts.fontend')
-@section('title', 'PK-OFFICER || เข้าสู่ระบบ') 
+@section('title', 'PK-OFFICE || เข้าสู่ระบบ') 
 
 @section('content')
 

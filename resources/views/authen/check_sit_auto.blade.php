@@ -1,5 +1,5 @@
 @extends('layouts.checksit')
-@section('title', 'PK-OFFICER || checksit')
+@section('title', 'PK-OFFICE || checksit')
 @section('content')
 
     <div class="tabs-animation">

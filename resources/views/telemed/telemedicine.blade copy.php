@@ -1,5 +1,5 @@
 @extends('layouts.telemed')
-@section('title', 'PK-OFFICER || telemedicine')
+@section('title', 'PK-OFFICE || telemedicine')
  
 @section('content')
 

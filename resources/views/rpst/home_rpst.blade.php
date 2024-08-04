@@ -1,5 +1,5 @@
 @extends('layouts.rpst_themes')
-@section('title', 'PK-OFFICER || รพ.สต.')
+@section('title', 'PK-OFFICE || รพ.สต.')
  
 @section('content')
     <script>

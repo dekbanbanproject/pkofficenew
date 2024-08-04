@@ -1,5 +1,5 @@
 @extends('layouts.support_prs_fireback')
-@section('title', 'PK-OFFICER || Report')
+@section('title', 'PK-OFFICE || Report')
  
 @section('content')
     <script>

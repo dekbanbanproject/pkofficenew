@@ -1,5 +1,5 @@
 @extends('layouts.anc')
-@section('title', 'PK-OFFICER || PCT')
+@section('title', 'PK-OFFICE || PCT')
 
      <?php
      use App\Http\Controllers\StaticController;

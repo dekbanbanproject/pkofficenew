@@ -123,7 +123,7 @@
                                 <img src="{{ asset('images/p.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-OFFICER</h4>
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-OFFICE</h4>
                             </span>
                         </a>
                     </div>

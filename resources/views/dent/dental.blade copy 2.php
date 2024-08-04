@@ -1,5 +1,5 @@
 @extends('layouts.dentalnew')
-@section('title', 'PK-OFFICER || ทันตกรรม')
+@section('title', 'PK-OFFICE || ทันตกรรม')
 @section('content')
     <script>
         function TypeAdmin() {

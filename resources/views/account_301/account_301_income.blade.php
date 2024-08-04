@@ -1,5 +1,5 @@
 @extends('layouts.accountpk')
-@section('title', 'PK-OFFICER || ACCOUNT')
+@section('title', 'PK-OFFICE || ACCOUNT')
 {{-- <link href="{{ asset('css/loading_1.css') }}" rel="stylesheet"> --}}
 @section('content')
     <script>
