@@ -90,20 +90,35 @@
             </div>
         </div>
         <div class="row mt-4 ms-3 me-3 text-center"> 
-            <div class="col-6"> 
+            <div class="col-4"> 
                 <a href="{{ url('home_supplies') }}" class="ladda-button btn-pill btn btn-info cardair" data-style="expand-left">
                     <span class="ladda-label"> <i class="fa-solid fa-desktop text-white me-2"></i>PC</span> 
                 </a>
             </div>
-            <div class="col-6"> 
+            <div class="col-4"> 
                 <a href="{{ url('home_supplies_mobile') }}" class="ladda-button btn-pill btn btn-info cardair" data-style="expand-left">
                     <span class="ladda-label"> <i class="fa-solid fa-mobile-screen text-white me-2"></i>MOBILE</span> 
                 </a> 
             </div>
+            <div class="col-4"> 
+                {{-- <a href="{{ url('home_supplies_mobile') }}" class="ladda-button btn-pill btn btn-info cardair" data-style="expand-left">
+                    <span class="ladda-label"> <i class="fa-solid fa-mobile-screen text-white me-2"></i>MOBILE</span> 
+                </a>  --}}
+                <a class="ladda-button btn-pill btn btn-danger cardair" href="{{ route('logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="ri-shut-down-line align-middle me-1 text-white"></i>
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
         </div>
-        <div class="row mt-2 ms-3 me-3 text-center"> 
+        <div class="row mt-3 ms-3 me-3 text-center"> 
             <div class="col"> 
-                <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม</h4> 
+                <h4 style="color:green">รายการซ่อมตามใบแจ้งซ่อม <br>
+                    บริษัท {{$sup_name}}
+                </h4> 
             </div>
         </div>
         <form action="{{ url('home_supplies_mobile') }}" method="GET">
@@ -168,7 +183,15 @@
                                                 <td class="text-center">{{ DateThai($item->repaire_date )}}</td>  
                                                 <td class="text-center">{{ $item->repaire_time }}</td> 
                                                 <td class="text-center">{{ $item->air_repaire_no }}</td> 
-                                                <td class="text-start">{{ $item->air_list_num }}</td>  
+                                                <td class="text-start">
+                                                    
+                                                    <button type="button" class="ladda-button btn-pill btn btn-secondary cardair btn-sm maintenance1Modal" value="{{ $item->air_repaire_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <h7 class="text-start">{{$item->air_list_num}}</h7>
+                                                    </button> 
+                                                    {{-- <button type="button" class="btn btn-sm maintenance1Modal" style="background: transparent" value="{{ $item->air_repaire_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                        <h7 class="text-start">{{$item->air_list_num}} รายการ</h7>
+                                                    </button> --}}
+                                                </td>  
                                                 {{-- <td class="text-start" width="10%">{{ $item->staff_name }}</td>  --}}
                                                 {{-- <td class="text-start" width="10%">{{ $item->tect_name }}</td>  --}}
                                                 {{-- <td class="text-start" width="10%">{{ $item->air_techout_name }}</td>  --}}
@@ -187,6 +210,29 @@
     </div> 
     </div>
  
+
+     <!-- maintenance1Modal Modal --> 
+     <div class="modal fade" id="maintenance1Modal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">รายการซ่อม</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">  
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style='overflow:scroll; height:300px;'>
+                                    <div id="detail_maintenance1Modal"></div>                                                
+                                </div>
+                            </div> 
+                        </div>  
+                </div>
+            
+            </div>
+        </div>
+    </div> 
 
 @endsection
 @section('footer') 
@@ -277,6 +323,20 @@
                          }
              })
          });
+
+         $(document).on('click', '.maintenance1Modal', function() {
+                var air_repaire_id = $(this).val(); 
+                // var maintenance_list_num = '1';
+                $('#maintenance1Modal').modal('show'); 
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_repaire_sup') }}",
+                    data: { air_repaire_id: air_repaire_id},
+                    success: function(result) { 
+                        $('#detail_maintenance1Modal').html(result);
+                    },
+                });
+            });
  
  
         });

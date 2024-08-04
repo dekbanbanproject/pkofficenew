@@ -3466,6 +3466,7 @@ Route::match(['get','post'],'detail_lom',[App\Http\Controllers\AirController::cl
 Route::match(['get','post'],'detail_dap',[App\Http\Controllers\AirController::class, 'detail_dap'])->name('prs.detail_dap');//
 Route::match(['get','post'],'detail_orther',[App\Http\Controllers\AirController::class, 'detail_orther'])->name('prs.detail_orther');//
 Route::match(['get','post'],'detail_moreModal',[App\Http\Controllers\AirController::class, 'detail_moreModal'])->name('prs.detail_moreModal');//
+Route::match(['get','post'],'detail_repaire_sup',[App\Http\Controllers\AirController::class, 'detail_repaire_sup'])->name('prs.detail_repaire_sup');//
 
 Route::match(['get','post'],'document',[App\Http\Controllers\DocumentController::class, 'document'])->name('d.document');//
 Route::match(['get','post'],'document_save',[App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save');//

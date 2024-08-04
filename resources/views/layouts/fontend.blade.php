@@ -387,8 +387,8 @@
                                     </div>
                                     <div class="row mt-1">
                                         <div class="col"></div>
-                                        <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-user-large text-primary"></i></div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-user-large text-primary"></i></div> --}}
+                                        <div class="col-md-5">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Username">
                                                     <input type="text" class="form-control input100" name="username" id="username" placeholder="Username" required> 
@@ -399,8 +399,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col"></div>
-                                        <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-key text-danger"></i></div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-key text-danger"></i></div> --}}
+                                        <div class="col-md-5">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Password">
                                                     <input type="password" class="form-control input100" name="password" id="password" placeholder="Password" required>

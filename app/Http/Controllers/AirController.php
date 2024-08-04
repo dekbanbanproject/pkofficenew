@@ -318,7 +318,7 @@ class AirController extends Controller
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC LIMIT 30
+                    ORDER BY a.air_repaire_id DESC  
                 '); 
                 foreach ($datashow as $key => $value) {
                     
@@ -358,7 +358,7 @@ class AirController extends Controller
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.air_repaire_type_code = "'.$repaire_type.'" AND a.air_supplies_id = "'.$idsup.'"
                     GROUP BY a.air_repaire_id 
-                    ORDER BY a.air_repaire_id DESC LIMIT 30 
+                    ORDER BY a.air_repaire_id DESC  
                 '); 
                 foreach ($datashow as $key => $value) { 
                     
@@ -1506,7 +1506,11 @@ class AirController extends Controller
                             $add2->air_list_num            = $request->air_list_num;
                             $add2->air_repaire_ploblem_id  = $id_problems->air_repaire_ploblem_id;
                             $add2->repaire_sub_name        = $id_problems->air_repaire_ploblemname;
-                            $add2->repaire_no              = $count_num;
+                            if ($id_problems->air_repaire_ploblem_id == '6') {
+                                $add2->repaire_no              = '0';
+                            } else {
+                                $add2->repaire_no              = $count_num;
+                            }                                                       
                             $add2->air_repaire_type_code   = $id_problems->air_repaire_type_code;
                             $add2->save();        
                         }
@@ -3961,6 +3965,66 @@ class AirController extends Controller
                         </tr>';
                     }
                     
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+        </div>
+        ';
+        echo $output;        
+    }
+
+    public function detail_repaire_sup(Request $request)
+    {
+        $id                =  $request->air_repaire_id;
+        // $maintenance_num   = $request->maintenance_list_num;
+        // $data_sub = Air_repaire::where('air_supplies_id',$id)->get();  
+        $data_sub = DB::select('SELECT a.air_problems_orthersub,b.* 
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id
+                WHERE a.air_repaire_id = "'.$id.'"    
+        ');     
+        // a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.serial_no,a.air_location_name 
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            
+                            <th width="20%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="20%">ครั้งที่</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        
+                            $output.=' 
+                                <tr> 
+                                    <td width="20%">'.$value->air_list_num.'</td>';
+
+                                        if ($value->air_repaire_ploblem_id != '6') {
+                                    
+                                            $output.=' 
+                                                <td>'.$value->repaire_sub_name.'</td>
+                                                 <td width="20%">'.$value->repaire_no.'</td> 
+                                            ';
+                                        } else {
+                                                $output.=' 
+                                                <td>'.$value->repaire_sub_name.' / '.$value->air_problems_orthersub.'</td>
+                                                <td width="20%"></td>';
+                                            
+                                        }
+                            $output.=' 
+                                </tr>
+                            ';
+ 
+                       
+                     }
+                       
                     $output.='
                     </tbody> 
                 </table> 

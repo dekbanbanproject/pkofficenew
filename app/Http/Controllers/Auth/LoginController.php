@@ -43,7 +43,8 @@ class LoginController extends Controller
             } elseif(auth()->user()->type == 'RPST') {
                 return redirect()->route('rpst.home_rpst');  
             } elseif(auth()->user()->type == 'SUPPLIES') {
-                return redirect()->route('manage.home_supplies');         
+                // return redirect()->route('manage.home_supplies');      
+                return redirect()->route('manage.home_supplies_mobile');    
            } else {
                 return redirect()->route('/');
            }
