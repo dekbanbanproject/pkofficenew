@@ -118,7 +118,7 @@
         
 
         <!-- documentModal Modal -->
-        {{-- <div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -126,22 +126,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center"> 
-                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการกำหนดประเภท / ปีงบประมาณ</p><br><br>
-                    <img src="{{ asset('images/doc/t1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการตั้งค่าปีงบประมาณ</p><br><br>
+                    <img src="{{ asset('images/doc/settingair2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
                     <br><br><br> 
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <br><br><br> 
                     
-                    <img src="{{ asset('images/doc/t2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    {{-- <img src="{{ asset('images/doc/t2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
 
-                    <img src="{{ asset('images/doc/t3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    {{-- <img src="{{ asset('images/doc/t3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
  
                 </div>
                 <div class="modal-footer">
@@ -149,7 +149,7 @@
                 </div>
             </div>
             </div>
-        </div> --}}
+        </div>
 
 
     </div>

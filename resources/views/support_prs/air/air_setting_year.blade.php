@@ -43,7 +43,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(10, 151, 85)">ตั้งค่าทะเบียนเครื่องปรับอากาศ / ปีงบประมาณ</h4> 
+                <h4 style="color:rgb(10, 151, 85)">ตั้งค่าทะเบียนเครื่องปรับอากาศประจำปีงบประมาณ</h4> 
             </div>
              
             <div class="col"></div>               
@@ -159,7 +159,7 @@
         </div>
 
         <!-- documentModal Modal -->
-        {{-- <div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -167,22 +167,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center"> 
-                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการกำหนดประเภท / ปีงบประมาณ</p><br><br>
-                    <img src="{{ asset('images/doc/t1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+                    <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการตั้งค่าทะเบียนเครื่องปรับอากาศประจำปีงบประมาณ</p><br><br>
+                    <img src="{{ asset('images/doc/settingair.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
                     <br><br><br> 
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
                     <br><br><br> 
                     
-                    <img src="{{ asset('images/doc/t2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+                    {{-- <img src="{{ asset('images/doc/t2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
-
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
+{{-- 
                     <img src="{{ asset('images/doc/t3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
                     <br><br><br>
                     <hr style="color: rgb(255, 255, 255);border: blueviolet">
-                    <hr style="color: rgb(255, 255, 255);border: blueviolet">
+                    <hr style="color: rgb(255, 255, 255);border: blueviolet"> --}}
  
                 </div>
                 <div class="modal-footer">
@@ -190,7 +190,7 @@
                 </div>
             </div>
             </div>
-        </div> --}}
+        </div>
 
 
     </div>
@@ -200,22 +200,22 @@
 @endsection
 @section('footer')
 <script>
-    // function switch_air_active(idfunc){
-    //         // var nameVar = document.getElementById("name").value;
-    //         var checkBox = document.getElementById(idfunc);
-    //         var onoff;            
-    //         if (checkBox.checked == true){
-    //             onoff = "Y";
-    //         } else {
-    //             onoff = "N";
-    //         } 
-    //         var _token=$('input[name="_token"]').val();
-    //         $.ajax({
-    //                 url:"{{route('prs.air_setting_typeswith')}}",
-    //                 method:"GET",
-    //                 data:{onoff:onoff,idfunc:idfunc,_token:_token}
-    //         })
-    //    }
+    function switch_air_active(idfunc){
+            // var nameVar = document.getElementById("name").value;
+            var checkBox = document.getElementById(idfunc);
+            var onoff;            
+            if (checkBox.checked == true){
+                onoff = "Y";
+            } else {
+                onoff = "N";
+            } 
+            var _token=$('input[name="_token"]').val();
+            $.ajax({
+                    url:"{{route('prs.switch_air_active')}}",
+                    method:"GET",
+                    data:{onoff:onoff,idfunc:idfunc,_token:_token}
+            })
+       }
 </script>
     <script>
         $(document).ready(function() {

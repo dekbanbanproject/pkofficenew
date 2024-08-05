@@ -88,8 +88,8 @@
         @csrf
         <div class="row mb-4">
             <div class="col"></div>
-            <div class="col-xl-1 text-end mt-2"><p style="font-size: 17px">ปีงบประมาณ</p></div>
-            <div class="col-xl-1">
+            <div class="col-md-1 text-end mt-2"><p style="font-size: 17px">ปีงบประมาณ</p></div>
+            <div class="col-md-2">
                 <select name="edit_yeardb" id="edit_yeardb" class="form-control bt_prs text-center" required> 
                     @foreach ($budget_year as $item)
                     @if ($edit_yeardb == $item->leave_year_id)
@@ -100,7 +100,7 @@
                     @endforeach
                 </select>
             </div> 
-            <div class="col-xl-1 text-start">
+            <div class="col-md-2 text-start">
                 <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                     <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                 </button> 

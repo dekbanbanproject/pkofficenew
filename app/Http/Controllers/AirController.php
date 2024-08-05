@@ -531,6 +531,7 @@ class AirController extends Controller
         } else {
                 $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
                 $bg_yearnow    = $bgs_year->leave_year_id;
+                // dd($bg_yearnow);
                 $datashow = DB::select(
                     'SELECT s.air_supplies_id,s.supplies_name,COUNT(air_repaire_id) as c_repaire           
                         FROM air_repaire a
@@ -649,7 +650,9 @@ class AirController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::select('SELECT * FROM air_list ORDER BY air_list_id DESC'); 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $datashow = DB::select('SELECT * FROM air_list WHERE air_year = "'.$bg_yearnow.'" ORDER BY air_list_id DESC'); 
         // WHERE active="Y"
         return view('support_prs.air.air_main',[
             'startdate'     => $startdate,
@@ -827,7 +830,7 @@ class AirController extends Controller
             $iddep     = Auth::user()->dep_subsubtrueid;
             $idsup     = Auth::user()->air_supplies_id; 
 
-              if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
+            if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
                     $datenow   = date('Y-m-d');
                     $months    = date('m');
                     $year      = date('Y'); 
@@ -4305,10 +4308,12 @@ class AirController extends Controller
         $startdate_b        = (''.$year_old.'-10-01');
         $enddate_b          = (''.$yearnew.'-09-30'); 
         $iduser             = Auth::user()->id;
-        // dd($years);
-        $data['datashow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" ORDER BY air_list_id ASC');        
-        $data['yearsshow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" AND air_year = "'.$years.'" ORDER BY air_list_id DESC LIMIT 1'); 
-     
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $data['datashow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" AND air_year = "'.$bg_yearnow.'" ORDER BY air_list_id ASC');        
+        $data['yearsshow'] = DB::select('SELECT * FROM air_list WHERE active = "Y" AND air_year = "'.$years.'" ORDER BY air_year DESC LIMIT 1'); 
+        // AIR0101OPD05
+        // WHERE active = "Y" AND air_year = "'.$bg_yearnow.'"
             // $datashow  = DB::select(
             //     'SELECT b.*,c.air_repaire_typename 
             //         FROM air_plan_month b 
@@ -4325,10 +4330,12 @@ class AirController extends Controller
 
     function air_setting_yearcopy(Request $request)
     {   
-        $air_year      = $request->air_year; 
-        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-        $bg_yearnow    = $bgs_year->leave_year_id;
-        $dataget       = Air_list::where('air_year',$air_year)->get();
+        $air_year_old  = $request->air_year; 
+        $air_year      = $air_year_old+1;
+        // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        // $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $dataget       = Air_list::where('air_year',$air_year_old)->get();
                 foreach ($dataget as $row ) {
                          $check = Air_list::where('air_list_num',$row->air_list_num)->where('air_year',$air_year)->count();
                         if ($check > 0) {  
@@ -4356,7 +4363,7 @@ class AirController extends Controller
                                 'air_date_exp'         => $row->air_date_exp, 
                                 'air_for_check'        => $row->air_for_check, 
                                 'user_id'              => $row->user_id, 
-                                'air_year'             => $bg_yearnow, 
+                                'air_year'             => $air_year, 
                             ]);
                         }
                          
@@ -4406,5 +4413,11 @@ class AirController extends Controller
         $active->years_now = $request->onoff;
         $active->save();
     }
-     
+    function switch_air_active(Request $request)
+    {  
+        $id = $request->idfunc; 
+        $active = Air_list::find($id);
+        $active->active = $request->onoff;
+        $active->save();
+    }
  }
