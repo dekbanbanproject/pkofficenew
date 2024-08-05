@@ -158,8 +158,10 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1"> 
-                                <p class="text-start font-size-18 mb-2">ซ่อมตามปัญหา(เครื่อง)</p>
-                                <h1 class="text-start mb-2">{{$air_qty}}</h1> 
+                                <p class="text-start font-size-18 mb-2">ซ่อมตามปัญหา(เครื่อง)</p> 
+                                <button type="button" class="btn typeallModal" style="background: transparent" value="{{ $years_now }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                    <h1 class="text-start mb-2">{{$air_qty}}</h1> 
+                                </button> 
                             </div> 
                             <div class="avatar-sm" style="width: 110px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3"> 
@@ -188,7 +190,9 @@
                         <div class="d-flex">
                             <div class="flex-grow-1"> 
                                 <p class="text-start font-size-18 mb-2">การบำรุงรักษาประจำปี(เครื่อง)</p>
-                                <h1 class="text-start mb-2">{{$main_qty}}</h1> 
+                                <button type="button" class="btn mainyearModal" style="background: transparent" value="{{ $years_now }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                    <h1 class="text-start mb-2">{{$main_qty}}</h1> 
+                                </button>   
                             </div> 
                             <div class="avatar-sm" style="width: 110px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3"> 
@@ -209,14 +213,22 @@
             </div>  
         </div> 
         <hr style="color:#ffffff"> 
+                <?php 
+                    $bg_year2        = DB::table('budget_year')->where('leave_year_id',$years_now)->first();
+                    $startdate_new2  = $bg_year2->date_begin;
+                    $enddate_new2    = $bg_year2->date_end;
+                ?>
+                <input type="hidden" name="startdate_news" id="startdate_news" value="{{$startdate_new2}}">
+                <input type="hidden" name="enddate_news" id="enddate_news" value="{{$enddate_new2}}"> 
+
         @foreach ($datashow as $item) 
             <?php 
                 if ($edit_yeardb != '') {
                     $bg_year        = DB::table('budget_year')->where('leave_year_id',$edit_yeardb)->first();
-                    $startdate_new  = $request->date_begin;
-                    $enddate_new    = $request->date_end;
+                    $startdate_new  = $bg_year->date_begin;
+                    $enddate_new    = $bg_year->date_end;
                     $sup_ploblems_ = DB::select(
-                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            'SELECT COUNT(DISTINCT a.air_repaire_id) as sup_ploblems
                             ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
                             FROM air_repaire a 
                             LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
@@ -228,16 +240,16 @@
                         $percentsup  = $value_sup->percent_sup;
                     }
                     $sup_ploblems_2 = DB::select(
-                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
-                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            'SELECT COUNT(DISTINCT a.air_repaire_id) as sup_ploblems2
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup2 
                             FROM air_repaire a 
                             LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                             WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="01" 
                             AND a.repaire_date BETWEEN "'.$startdate_new.'" AND "'.$enddate_new.'"
                     ');                                     
                     foreach ($sup_ploblems_2 as $key => $value_sup2) {
-                        $supploblems2 = $value_sup2->sup_ploblems;
-                        $percentsup2  = $value_sup2->percent_sup;
+                        $supploblems2 = $value_sup2->sup_ploblems2;
+                        $percentsup2  = $value_sup2->percent_sup2;
                     }
                 } else {
                     $yearnew     = date('Y');
@@ -245,7 +257,7 @@
                     $startdate   = (''.$year_old.'-10-01');
                     $enddate     = (''.$yearnew.'-09-30'); 
                     $sup_ploblems_ = DB::select(
-                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
+                            'SELECT COUNT(DISTINCT a.air_repaire_id) as sup_ploblems
                             ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
                             FROM air_repaire a 
                             LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
@@ -257,19 +269,22 @@
                         $percentsup  = $value_sup->percent_sup;
                     }
                     $sup_ploblems_2 = DB::select(
-                            'SELECT COUNT(b.repaire_sub_id) as sup_ploblems
-                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup 
+                            'SELECT COUNT(DISTINCT a.air_repaire_id) as sup_ploblems2
+                            ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent_sup2 
                             FROM air_repaire a 
                             LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                             WHERE a.air_supplies_id = "'.$item->air_supplies_id.'" AND b.air_repaire_type_code ="01" 
                             AND a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     ');                                     
                     foreach ($sup_ploblems_2 as $key => $value_sup2) {
-                        $supploblems2 = $value_sup2->sup_ploblems;
-                        $percentsup2  = $value_sup2->percent_sup;
+                        $supploblems2 = $value_sup2->sup_ploblems2;
+                        $percentsup2  = $value_sup2->percent_sup2;
                     }
                 }  
             ?>
+            
+              
+            
             <div class="row">  
                 <h2 >บริษัท {{$item->supplies_name}}</h2>
                 <div class="col-xl-6 col-md-6">
@@ -278,7 +293,9 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
                                     <p class="text-start font-size-18 mb-2">ซ่อมตามปัญหา(ครั้ง)</p>
-                                    <h1 class="text-start mb-2">{{$supploblems}}</h1> 
+                                    <button type="button" class="btn companytypeModal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                        <h1 class="text-start mb-2">{{$supploblems}}</h1> 
+                                    </button> 
                                 </div> 
                                 @if ($item->air_supplies_id == '2') 
                                 <div class="avatar-sm" style="width: 110px;height:100px">
@@ -315,8 +332,10 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1"> 
-                                    <p class="text-start font-size-18 mb-2">การบำรุงรักษาประจำปี(ครั้ง)</p>
-                                    <h1 class="text-start mb-2">{{$supploblems2}}</h1> 
+                                    <p class="text-start font-size-18 mb-2">การบำรุงรักษาประจำปี(ครั้ง)</p> 
+                                    <button type="button" class="btn companymaintanantModal" style="background: transparent" value="{{ $item->air_supplies_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                        <h1 class="text-start mb-2">{{$supploblems2}}</h1> 
+                                    </button> 
                                 </div> 
                                 @if ($item->air_supplies_id == '2') 
                                 <div class="avatar-sm" style="width: 110px;height:100px">
@@ -350,8 +369,101 @@
                 </div>  
             </div> 
             <hr style="color:#ffffff"> 
+ 
         @endforeach
+
+        <!-- companytypeModal Modal --> 
+        <div class="modal fade" id="companytypeModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">รายการซ่อม</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style='overflow:scroll; height:500px;'>
+                                        <div id="detail_companytypeModal"></div> 
+                                    </div>
+                                </div> 
+                            </div>  
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
+         <!-- companymaintanantModal Modal --> 
+         <div class="modal fade" id="companymaintanantModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">รายการบำรุงรักษาประจำปี(ครั้ง)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style='overflow:scroll; height:500px;'>
+                                        <div id="detail_companymaintanantModal"></div> 
+                                    </div>
+                                </div> 
+                            </div>  
+                    </div>
+                
+                </div>
+            </div>
+        </div>
     
+        
+        <!-- typeallModal Modal --> 
+        <div class="modal fade" id="typeallModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">รายการซ่อมตามปัญหา(เครื่อง)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style='overflow:scroll; height:500px;'> 
+                                        <div id="detail_typeallModal"></div> 
+                                    </div>
+                                </div> 
+                            </div>  
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
+        <!-- mainyearModal Modal --> 
+        <div class="modal fade" id="mainyearModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">รายการบำรุงรักษาประจำปี(เครื่อง)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style='overflow:scroll; height:500px;'> 
+                                        <div id="detail_mainyearModal"></div> 
+                                    </div>
+                                </div> 
+                            </div>  
+                    </div>
+                
+                </div>
+            </div>
+        </div>
                     {{-- @foreach ($datashow as $item) 
                         <?php 
                             // *********** ปีงบประมาณปัจบัน *******************
@@ -432,12 +544,9 @@
                                     </div> 
                                 </div> 
                             </div> 
-                        </div> 
-                        
-                    </div> 
-                   
+                        </div>                         
+                    </div>                    
                     <hr style="color:#ffffff">
-
                     @endforeach --}}
               
  
@@ -460,19 +569,60 @@
                     });
                 });
             });
-            $(document).on('click', '.companyallModal', function() {
-                var air_supplies_id = $(this).val();  
-                $('#companyallModal').modal('show');           
+            $(document).on('click', '.typeallModal', function() {
+                var years_now = $(this).val();   
+                $('#typeallModal').modal('show');           
                 $.ajax({
                     type: "GET",
-                    url:"{{ url('detail_companyall') }}",
-                    data: { air_supplies_id: air_supplies_id },
+                    url:"{{ url('detail_typeall') }}",
+                    data: { years_now: years_now},
                     success: function(result) { 
-                        $('#detail_companyall').html(result);
+                        $('#detail_typeallModal').html(result);
                     },
                 });
             });
-
+            $(document).on('click', '.mainyearModal', function() {
+                var years_now = $(this).val();   
+                $('#mainyearModal').modal('show');           
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_mainyear') }}",
+                    data: { years_now: years_now},
+                    success: function(result) { 
+                        $('#detail_mainyearModal').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.companytypeModal', function() {
+                var air_supplies_id = $(this).val();  
+                var startdate_news  = $('#startdate_news').val();
+                var enddate_news    = $('#enddate_news').val();
+                // alert(startdate_news);
+                $('#companytypeModal').modal('show');           
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_company_typeall') }}",
+                    data: { air_supplies_id: air_supplies_id,startdate_news:startdate_news ,enddate_news:enddate_news},
+                    success: function(result) { 
+                        $('#detail_companytypeModal').html(result);
+                    },
+                });
+            });
+            $(document).on('click', '.companymaintanantModal', function() {
+                var air_supplies_id = $(this).val();  
+                var startdate_news  = $('#startdate_news').val();
+                var enddate_news    = $('#enddate_news').val();
+                // alert(startdate_news);
+                $('#companymaintanantModal').modal('show');           
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('detail_companymaintanant') }}",
+                    data: { air_supplies_id: air_supplies_id,startdate_news:startdate_news ,enddate_news:enddate_news},
+                    success: function(result) { 
+                        $('#detail_companymaintanantModal').html(result);
+                    },
+                });
+            });
             $(document).on('click', '.maintenance1Modal', function() {
                 var air_supplies_id = $(this).val(); 
                 var maintenance_list_num = '1';

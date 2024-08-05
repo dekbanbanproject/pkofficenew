@@ -428,8 +428,8 @@ class AirController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        // $dabudget_year = DB::table('budget_year')->first();
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
         $y = date('Y') + 543;
@@ -450,7 +450,7 @@ class AirController extends Controller
         $data['count_red_back']        = Fire::where('fire_color','red')->where('fire_backup','Y')->count(); 
         $data['count_green_back']      = Fire::where('fire_color','green')->where('fire_backup','Y')->count(); 
         $datashow = DB::select('SELECT COUNT(DISTINCT air_list_num) as count_air FROM air_list WHERE active = "Y"'); 
-        $data['count_air']             = Air_list::where('active','Y')->count();
+        $data['count_air']             = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         $data['fire']                  = Fire::where('active','Y')->count();
         $data['cctv_list']             = Cctv_list::where('cctv_status','0')->count();
                
@@ -464,8 +464,7 @@ class AirController extends Controller
         ]);
     }
     public function air_dashboard(Request $request)
-    {
-        
+    {        
         $months         = date('m');
         $year           = date('Y'); 
         $startdate      = $request->startdate;
@@ -474,7 +473,6 @@ class AirController extends Controller
         $bg_year        = DB::table('budget_year')->where('leave_year_id',$edit_yeardb)->first();
         $startdate_new  = $request->date_begin;
         $enddate_new    = $request->date_end;
-
         $date_now     = date('Y-m-d');
         $y            = date('Y') + 543;  
         $data['budget_year'] = DB::table('budget_year')->where('active','True')->orderByDesc('leave_year_id')->get();
@@ -528,6 +526,7 @@ class AirController extends Controller
                     $data['main_percent']  = $value2->percent;
                 } 
                 $data['count_air'] = Air_list::where('active','Y')->where('air_year',$edit_yeardb)->count();
+                $years_now = $edit_yeardb;
         } else {
                 $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
                 $bg_yearnow    = $bgs_year->leave_year_id;
@@ -570,15 +569,14 @@ class AirController extends Controller
                     $data['main_percent']  = $value2->percent;
                 } 
                 $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
-        }
-
-
-        
+                $years_now = $bg_yearnow;
+        }        
         return view('support_prs.air.air_dashboard',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
             'edit_yeardb'   => $edit_yeardb,
+            'years_now'     => $years_now,
         ]);
     }
     public function air_dashboard_new(Request $request,$years)
@@ -1392,8 +1390,7 @@ class AirController extends Controller
         }
         
        
-    }
-    
+    }    
     public function air_detail(Request $request, $id)
     {  
         $data_detail_                    = Air_list::where('air_list_num', '=', $id)->first();
@@ -1410,8 +1407,7 @@ class AirController extends Controller
  
             
             
-    } 
-    
+    }     
     public function air_main_repaire_destroy(Request $request,$id)
     {
         $del = Air_repaire::find($id);  
@@ -2565,7 +2561,6 @@ class AirController extends Controller
             'status'     => '200'
         ]);
     }
-
     public function air_destroy(Request $request,$id)
     {
         $del = Air_list::find($id);  
@@ -2577,8 +2572,7 @@ class AirController extends Controller
         // Fire::whereIn('fire_id',explode(",",$id))->delete();
 
         return response()->json(['status' => '200']);
-    }
-    
+    }    
     public function fire_report_day(Request $request)
     {
         $startdate   = $request->startdate;
@@ -2616,8 +2610,7 @@ class AirController extends Controller
             'enddate'       =>     $enddate,
             'datashow'    =>     $datashow, 
         ]);
-    }
- 
+    } 
     public function air_qrcode(Request $request, $id)
     {
 
@@ -2637,8 +2630,7 @@ class AirController extends Controller
             'dataprint'  =>  $dataprint
         ]);
 
-    }
-   
+    }   
     public function air_qrcode_detail_all(Request $request)
     {  
             $dataprint_main = Air_list::get();
@@ -2659,7 +2651,6 @@ class AirController extends Controller
         ]);
 
     }
-
     public function air_report_building(Request $request)
     {
         $startdate   = $request->startdate;
@@ -2903,7 +2894,6 @@ class AirController extends Controller
             'datashow'    =>     $datashow, 
         ]);
     }
-
     public function air_report_problems(Request $request)
     {
         $startdate   = $request->startdate;
@@ -3905,8 +3895,7 @@ class AirController extends Controller
         </div>
         ';
         echo $output;        
-    }
-    
+    }    
     public function detail_moreModal(Request $request)
     {
         $id             =  $request->air_repaire_ploblem_id;
@@ -3976,7 +3965,6 @@ class AirController extends Controller
         ';
         echo $output;        
     }
-
     public function detail_repaire_sup(Request $request)
     {
         $id                =  $request->air_repaire_id;
@@ -4036,6 +4024,242 @@ class AirController extends Controller
         ';
         echo $output;        
     }
+    public function detail_company_typeall(Request $request)
+    {
+        $id                 = $request->air_supplies_id;
+        $enddate_news       = $request->enddate_news;
+        $startdate_news     = $request->startdate_news;
+    
+        $data_sub           = DB::select(
+            'SELECT a.air_repaire_id,a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.air_location_name
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+            WHERE a.air_supplies_id = "'.$id.'" AND b.air_repaire_type_code ="04" 
+            AND a.repaire_date BETWEEN "'.$startdate_news.'" AND "'.$enddate_news.'"
+            GROUP BY a.air_repaire_id ORDER BY a.repaire_date ASC
+        ');      
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                    //  <th width="15%">รายการซ่อม</th>
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        // $sub_ = DB::select('SELECT air_repaire_id,air_list_num,repaire_sub_name FROM air_repaire_sub WHERE air_repaire_id = "'.$value->air_repaire_id.'"');
+                        // foreach ($sub_ as $key => $v_sub) {
+                        //     $repaire_sub_name = $v_sub->repaire_sub_name;
+                        // }
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.DateThai($value->repaire_date).'</td>
+                            <td>'.$value->repaire_time.'</td>
+                            <td>'.$value->air_repaire_no.'</td>
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td>'.$value->btu.'</td>                           
+                            <td>'.$value->air_location_name.'</td>
+                           
+                        </tr>';
+                     }
+                    //  <td width="15%">'.$repaire_sub_name.'</td>  
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+            </div>
+        ';
+        echo $output;        
+    }
+    public function detail_typeall(Request $request)
+    {
+        $years_now                 = $request->years_now;
+        // $enddate_news       = $request->enddate_news;
+        // $startdate_news     = $request->startdate_news;    
+        $data_sub           = DB::select( 
+            'SELECT a.air_repaire_id,a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.air_location_name
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="04" AND al.air_year = "'.$years_now.'"
+                GROUP BY a.air_list_num
+        ');      
+        $output=' 
+            <div class="row">  
+                <div class="col-md-12">         
+                    <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th width="5%">ลำดับ</th>
+                                <th width="10%">วันที่</th>
+                                <th width="7%">เวลา</th>
+                                <th width="10%">เลขที่แจ้งซ่อม</th>
+                                <th width="10%">รหัสแอร์</th>
+                                <th>รายการ</th>
+                                <th width="7%">btu</th> 
+                                <th>สถานที่ตั้ง</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ';
+                    
+                            $i = 1;
+                            foreach ($data_sub as $key => $value) {
+                                
+                                $output.=' 
+                                <tr>
+                                    <td>'.$i++.'</td>
+                                    <td>'.DateThai($value->repaire_date).'</td>
+                                    <td>'.$value->repaire_time.'</td>
+                                    <td>'.$value->air_repaire_no.'</td>
+                                    <td>'.$value->air_list_num.'</td>
+                                    <td>'.$value->air_list_name.'</td>
+                                    <td>'.$value->btu.'</td>                           
+                                    <td>'.$value->air_location_name.'</td>
+                                
+                                </tr>';
+                            }
+                        
+                            $output.='
+                        </tbody> 
+                    </table> 
+                </div>
+            </div>
+        ';
+        echo $output;        
+    }
+    public function detail_mainyear(Request $request)
+    {
+        $years_now                 = $request->years_now;  
+        $data_sub           = DB::select( 
+            'SELECT a.air_repaire_id,a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.air_location_name
+                    FROM air_repaire a 
+                    LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+                    LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
+                    LEFT JOIN air_list al ON al.air_list_id = a.air_list_id 
+                    WHERE b.air_repaire_type_code ="01" AND al.air_year = "'.$years_now.'"
+                GROUP BY a.air_list_num
+        ');      
+        $output=' 
+            <div class="row">  
+                <div class="col-md-12">         
+                    <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th width="5%">ลำดับ</th>
+                                <th width="10%">วันที่</th>
+                                <th width="7%">เวลา</th>
+                                <th width="10%">เลขที่แจ้งซ่อม</th>
+                                <th width="10%">รหัสแอร์</th>
+                                <th>รายการ</th>
+                                <th width="7%">btu</th> 
+                                <th>สถานที่ตั้ง</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ';
+                    
+                            $i = 1;
+                            foreach ($data_sub as $key => $value) {
+                                
+                                $output.=' 
+                                <tr>
+                                    <td>'.$i++.'</td>
+                                    <td>'.DateThai($value->repaire_date).'</td>
+                                    <td>'.$value->repaire_time.'</td>
+                                    <td>'.$value->air_repaire_no.'</td>
+                                    <td>'.$value->air_list_num.'</td>
+                                    <td>'.$value->air_list_name.'</td>
+                                    <td>'.$value->btu.'</td>                           
+                                    <td>'.$value->air_location_name.'</td>
+                                
+                                </tr>';
+                            }
+                        
+                            $output.='
+                        </tbody> 
+                    </table> 
+                </div>
+            </div>
+        ';
+        echo $output;        
+    }
+    public function detail_companymaintanant(Request $request)
+    {
+        $id                 = $request->air_supplies_id;
+        $enddate_news       = $request->enddate_news;
+        $startdate_news     = $request->startdate_news;
+    
+        $data_sub           = DB::select(
+            'SELECT a.air_repaire_id,a.repaire_date,a.repaire_time,a.air_repaire_no,a.air_list_num,a.air_list_name,a.btu,a.air_location_name
+            FROM air_repaire a 
+            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
+            WHERE a.air_supplies_id = "'.$id.'" AND b.air_repaire_type_code ="01" 
+            AND a.repaire_date BETWEEN "'.$startdate_news.'" AND "'.$enddate_news.'"
+            GROUP BY a.air_repaire_id ORDER BY a.repaire_date ASC
+        ');      
+        $output=' 
+            <div class="row">  
+             <div class="col-md-12">         
+                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%">ลำดับ</th>
+                            <th width="10%">วันที่</th>
+                            <th width="7%">เวลา</th>
+                            <th width="10%">เลขที่แจ้งซ่อม</th>
+                            <th width="10%">รหัสแอร์</th>
+                            <th>รายการ</th>
+                            <th width="7%">btu</th> 
+                            <th>สถานที่ตั้ง</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                     ';
+                   
+                     $i = 1;
+                     foreach ($data_sub as $key => $value) {
+                        
+                        $output.=' 
+                        <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.DateThai($value->repaire_date).'</td>
+                            <td>'.$value->repaire_time.'</td>
+                            <td>'.$value->air_repaire_no.'</td>
+                            <td>'.$value->air_list_num.'</td>
+                            <td>'.$value->air_list_name.'</td>
+                            <td>'.$value->btu.'</td>                           
+                            <td>'.$value->air_location_name.'</td>
+                           
+                        </tr>';
+                     }
+                     
+                    $output.='
+                    </tbody> 
+                </table> 
+            </div>
+            </div>
+        ';
+        echo $output;        
+    }
 
 
 
@@ -4051,7 +4275,6 @@ class AirController extends Controller
         $pdf = PDF::loadView('support_prs.air.air_report_monthpdf',['dataprint'  =>  $dataprint]);
         return @$pdf->stream();
     }
-
     // **************  แผน **********************
     public function air_setting(Request $request)
     {
@@ -4287,7 +4510,6 @@ class AirController extends Controller
             // return redirect()->back();
           
     }
-
     public function air_setting_year(Request $request)
     {
         $startdate          = $request->startdate;
@@ -4327,7 +4549,6 @@ class AirController extends Controller
             // 'datashow'      =>     $datashow,  
         ]);
     }
-
     function air_setting_yearcopy(Request $request)
     {   
         $air_year_old  = $request->air_year; 
@@ -4373,7 +4594,6 @@ class AirController extends Controller
                     'status'     => '200'
                 ]);  
     }
-
     public function air_setting_yearnow(Request $request)
     {
         $startdate          = $request->startdate;

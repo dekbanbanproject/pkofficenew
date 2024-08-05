@@ -161,6 +161,7 @@
     use App\Http\Controllers\StaticController;
     use App\Http\Controllers\UsersuppliesController;
     use App\Models\Products_request_sub;
+    use App\Models\Air_list;
     $permiss_account         = StaticController::permiss_account($iduser);
     $permiss_setting_upstm   = StaticController::permiss_setting_upstm($iduser);
     $permiss_ucs             = StaticController::permiss_ucs($iduser);
@@ -170,7 +171,6 @@
     $permiss_prb             = StaticController::permiss_prb($iduser);
     $permiss_ti              = StaticController::permiss_ti($iduser);
     $permiss_rep_money       = StaticController::permiss_rep_money($iduser);
-
     $refnumber                = UsersuppliesController::refnumber();
     $checkhn                  = StaticController::checkhn($iduser);
     $checkhnshow              = StaticController::checkhnshow($iduser);
@@ -210,6 +210,33 @@
     $per_fire                 = StaticController::per_fire($iduser);
     $per_air                  = StaticController::per_air($iduser);
 
+    $bgs_year         = DB::table('budget_year')->where('years_now','Y')->first();
+    $bg_yearnow       = $bgs_year->leave_year_id;
+    $bg_year2         = DB::table('budget_year')->where('leave_year_id',$bg_yearnow)->first();
+    $startdate_new    = $bg_year2->date_begin;
+    $enddate_new      = $bg_year2->date_end;
+    $count_air        = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
+    $datashow         = DB::select(
+                        'SELECT  COUNT(DISTINCT a.air_repaire_id) as air_repaire_id 
+                        FROM air_repaire a
+                        LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
+                        LEFT JOIN users p ON p.id = a.air_staff_id 
+                        WHERE a.repaire_date BETWEEN "'.$startdate_new.'" AND "'.$enddate_new.'"
+                        ORDER BY air_repaire_id DESC
+    '); 
+    foreach ($datashow as $key => $v_reg) {
+        $count_air_repaire     = $v_reg->air_repaire_id;
+    }
+    // $datashow_buil    = DB::select(
+    //         'SELECT COUNT(DISTINCT a.building_id) as air_location_id  
+    //         FROM air_list al 
+    //         LEFT JOIN building_data a ON a.building_id = al.air_location_id 
+    //         WHERE al.air_year = "'.$bg_yearnow.'"
+    //         GROUP BY a.building_id
+    // ');
+    // foreach ($datashow_buil as $key => $v_build) {
+    //     $count_building             = $v_reg->air_location_id;
+    // }
 ?>
  
  <body data-topbar="dark" data-layout="horizontal">
@@ -502,7 +529,7 @@
                             <li class="nav-item dropdown"> 
 
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนเครื่องปรับอากาศ  
+                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนเครื่องปรับอากาศ  <span class="badge bg-danger me-2 ms-2">{{$count_air}}</span>
                                 </a>
                                 {{-- <div class="dropdown-menu" aria-labelledby="topnav-more">
                                     <div class="dropdown">
@@ -537,7 +564,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main_repaire') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนแจ้งซ่อม  
+                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนแจ้งซ่อม  <span class="badge bg-danger me-2 ms-2">{{$count_air_repaire}}</span>
                                 </a>
                             </li>
 
@@ -549,7 +576,8 @@
                             {{-- <i class="fa-solid fa-chart-line"></i> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_building') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามอาคาร  
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามอาคาร 
+                                    {{-- <span class="badge bg-danger me-2 ms-2">{{$count_building}}</span> --}}
                                 </a>
                             </li>
 

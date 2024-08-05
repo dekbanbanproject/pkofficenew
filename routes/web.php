@@ -3458,6 +3458,10 @@ Route::match(['get','post'],'air_count_ploblem_5/{id}',[App\Http\Controllers\Air
 Route::match(['get','post'],'air_count_ploblem_orther/{id}',[App\Http\Controllers\AirController::class, 'air_count_ploblem_orther'])->name('prs.air_count_ploblem_orther');//
 
 Route::match(['get','post'],'detail_companyall',[App\Http\Controllers\AirController::class, 'detail_companyall'])->name('prs.detail_companyall');//
+Route::match(['get','post'],'detail_companymaintanant',[App\Http\Controllers\AirController::class, 'detail_companymaintanant'])->name('prs.detail_companymaintanant');//
+Route::match(['get','post'],'detail_company_typeall',[App\Http\Controllers\AirController::class, 'detail_company_typeall'])->name('prs.detail_company_typeall');//
+Route::match(['get','post'],'detail_typeall',[App\Http\Controllers\AirController::class, 'detail_typeall'])->name('prs.detail_typeall');//
+Route::match(['get','post'],'detail_mainyear',[App\Http\Controllers\AirController::class, 'detail_mainyear'])->name('prs.detail_mainyear');//
 Route::match(['get','post'],'detail_maintenance',[App\Http\Controllers\AirController::class, 'detail_maintenance'])->name('prs.detail_maintenance');//
 Route::match(['get','post'],'detail_maintenance_qty',[App\Http\Controllers\AirController::class, 'detail_maintenance_qty'])->name('prs.detail_maintenance_qty');//
 Route::match(['get','post'],'detail_namyod',[App\Http\Controllers\AirController::class, 'detail_namyod'])->name('prs.detail_namyod');//

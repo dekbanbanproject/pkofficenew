@@ -315,7 +315,7 @@
             </div>
             @endif
 
-            <div class="col-xl-3 col-md-3">
+            {{-- <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(174, 180, 177, 0.781)">
                     <div class="grid-menu-col">
@@ -344,9 +344,9 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>  --}}
              
-            @if ($countpesmiss_supplies != 0)  
+            {{-- @if ($countpesmiss_supplies != 0)  
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 222, 161)">
                     <div class="grid-menu-col">
@@ -363,9 +363,7 @@
                                         <div class="avatar ms-2">
                                             <a href="{{ url('supplies/supplies_index') }}" target="_blank">
                                                 <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-paste font-size-25 ms-2"
-                                                        style="color: rgb(252, 212, 138)"></i> --}}
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         <img src="{{ asset('images/list1.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
                                             </a>
@@ -377,7 +375,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
     
             {{-- @if ($countpesmiss_com != 0)  
             <div class="col-xl-3 col-md-3">
@@ -876,7 +874,7 @@
             </div> --}}
 
             @if ($per_prs != 0) 
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-3 col-md-6">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(147, 204, 248, 0.871)">
                     <div class="grid-menu-col">
@@ -888,7 +886,7 @@
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                             <a href="{{ url('support_main') }}" target="_blank">
                                                 {{-- <h5 class="text-start mb-2">Support System</h5> --}}
-                                                <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
+                                                <h6 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h6> 
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
