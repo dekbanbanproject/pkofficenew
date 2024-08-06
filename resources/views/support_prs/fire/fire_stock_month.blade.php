@@ -326,7 +326,7 @@
                 })
             });
 
-            $('#Copydata').click(function() {
+            $('#Copydata333333').click(function() {
                 var air_year = $('#air_year').val();  
                 Swal.fire({
                     position: "top-end",
