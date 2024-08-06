@@ -15,7 +15,7 @@ return new class extends Migration
         {
             Schema::create('fire', function (Blueprint $table) {
                 $table->bigIncrements('fire_id'); 
-                $table->string('fire_num')->nullable();  //           
+                $table->string('fire_num')->nullable();  //    
                 $table->string('fire_name')->nullable(); //  
                 $table->string('fire_size')->nullable(); //  
                 $table->string('fire_color')->nullable(); //  
@@ -29,7 +29,7 @@ return new class extends Migration
                 $table->string('fire_year')->nullable();  //  
                 $table->decimal('fire_price',total: 12, places: 2)->nullable(); // 
                 $table->string('fire_brand')->nullable(); // 
-                $table->enum('active', ['N','R','Y','D'])->default('Y');
+                $table->enum('active', ['N','R','Y','D','B'])->default('Y');
                 $table->longText('fire_img_base')->nullable(); //                 
                 $table->string('fire_img_base_name')->nullable(); //
                 $table->enum('fire_edit', ['Chang','Repaire','Dispose','Narmal'])->default('Narmal');

@@ -43,26 +43,26 @@
         @csrf
         <div class="row"> 
             <div class="col-md-3">
-                <h4 style="color:rgb(10, 151, 85)">Import Data Plan</h4> 
+                <h4 style="color:rgb(255, 255, 255)">Import Data Plan</h4> 
             </div>
              
             <div class="col"></div>               
             <div class="col-md-2"> 
-                <select name="air_plan_month_id" id="air_plan_month_id" class="form-control inputmedsalt text-center bt_prs" style="width: 100%;font-size:13px">
+                <select name="air_plan_month_id" id="air_plan_month_id" class="form-control form-control-sm inputmedsalt text-center bt_prs" style="width: 100%;font-size:13px">
                     @foreach ($years_show as $item_y) 
                             <option value="{{$item_y->air_plan_month_id}}">{{$item_y->air_plan_name}} {{$item_y->air_plan_year}} ปีงบประมาณ {{$item_y->years}}</option> 
                     @endforeach
                 </select>
             </div>                     
             <div class="col-md-1 text-start">  
-                <button type="submit" class="ladda-button btn-pill btn btn-primary bt_prs me-2" data-style="expand-left">
+                <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary bt_prs me-2" data-style="expand-left">
                     <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                     <span class="ladda-spinner"></span>
                 </button>  
             </div>  
             <div class="col"></div> 
             <div class="col-md-4 text-end">   
-                <button type="button" class="ladda-button btn-pill btn btn-info bt_prs" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">   
+                <button type="button" class="ladda-button btn-pill btn btn-sm btn-info bt_prs" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">   
                     <i class="fas fa-file-excel text-white me-2" style="font-size:13px"></i>
                     <span>Import</span> 
                 </button> 
@@ -71,18 +71,18 @@
                     <span>Send</span> 
                 </a>   --}}
                 {{-- <button type="button" class="ladda-button btn-pill btn btn-success bt_prs Sendata" data-url="{{url('importplan_send')}}">  --}}
-                <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Sendata">   
+                <button type="button" class="ladda-button btn-pill btn btn-sm btn-success bt_prs" id="Sendata">   
                     <i class="fa-solid fa-file-import text-white me-2" style="font-size:13px"></i>
                     <span>Send</span> 
                 </button> 
-                <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
+                <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
                     <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
                 </button>
             </div> 
         </div>  
     </form>
  
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-xl-7">
                 <div class="card card_prs_4">
                     <div class="card-body">  

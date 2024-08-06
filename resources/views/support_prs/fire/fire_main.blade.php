@@ -148,22 +148,22 @@
     <div class="row"> 
         <div class="col-md-4">
           
-            <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
-            <p class="card-title-desc" style="font-size: 17px;">ทะเบียนถังดับเพลิง</p>
+            <h4 style="color:rgb(255, 255, 255)">ทะเบียนถังดับเพลิง</h4>
+            {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนถังดับเพลิง</p> --}}
         </div>
         <div class="col"></div>
       
         <div class="col-md-6 text-end">
-            <a href="{{url('fire_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs">  
+            <a href="{{url('fire_qrcode_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-info bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE All</span> 
             </a> 
-            <a href="{{url('fire_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary bt_prs">  
+            <a href="{{url('fire_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-secondary bt_prs">  
                 <i class="fa-solid fa-print me-2 text-white me-2" style="font-size:13px"></i>
                 <span>Print QRCODE Detail All</span>
                 
             </a> 
-            <a href="{{url('fire_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary bt_prs"> 
+            <a href="{{url('fire_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
@@ -171,18 +171,11 @@
         </div>
 </div> 
 
-<div class="row">
+<div class="row mt-2">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    
-                <div class="row mb-3">
-                   
-                    <div class="col"></div>
-                    <div class="col-md-5 text-end">
-                       
-                    </div>
-                </div>
-
+                 
                 <p class="mb-0">
                     <div class="table-responsive">
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -219,9 +212,9 @@
                                         </td>
                                       
                                         @if ( $item->fire_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/fire/'.$item->fire_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%"> 

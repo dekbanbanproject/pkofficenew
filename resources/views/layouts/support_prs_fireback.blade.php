@@ -143,6 +143,13 @@
         border:solid 1px #0583cc;
         /* background-color: aliceblue; */
     }
+    .bg_prs{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 25px rgb(124, 225, 250);
+        /* border-color: #0583cc */
+        border:solid 1px #0583cc;
+        background-color: rgb(255, 255, 255);
+    }
     .card_prs_4{
         border-radius: 2em 2em 2em 2em;
         box-shadow: 0 0 25px rgb(124, 225, 250);
@@ -578,7 +585,7 @@ use App\Models\Products_request_sub;
             integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- apexcharts -->
-        {{-- <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
+        <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script>
 
         <!-- jquery.vectormap map -->
         <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>

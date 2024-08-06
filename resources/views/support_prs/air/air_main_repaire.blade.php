@@ -150,8 +150,8 @@
    
         <div class="row"> 
             <div class="col-md-3">
-                <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
-                <p class="card-title-desc" style="font-size: 17px;">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p>
+                <h4 style="color:rgb(255, 255, 255)">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h4>
+                {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p> --}}
             </div>
             <div class="col"></div>
         
@@ -200,7 +200,7 @@
         </div> --}}
 {{-- </div>  --}}
 
-<div class="row">
+<div class="row mt-2">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    

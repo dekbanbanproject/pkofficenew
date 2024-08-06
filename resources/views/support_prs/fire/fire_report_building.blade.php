@@ -102,7 +102,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-7">
-                <h4 style="color:rgb(10, 151, 85)">รายงานจำนวนถังดับเพลิงแยกตามสถานที่ตั้งและขนาด ปีงบประมาณ </h4>
+                <h4 style="color:rgb(255, 255, 255)">รายงานจำนวนถังดับเพลิงแยกตามสถานที่ตั้งและขนาด ปีงบประมาณ </h4>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
              
@@ -112,7 +112,7 @@
                     <i class="fa-solid fa-file-excel me-2"></i>
                     Export To Excel
                 </a> --}}
-                <a href="{{url('fire_report_building_excel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                <a href="{{url('fire_report_building_excel')}}" class="ladda-button btn-pill btn btn-sm btn-success bt_prs">
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
                 </a>
             
@@ -120,7 +120,7 @@
         </div>  
     </form>
  
-<div class="row mt-3">
+<div class="row mt-2">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    

@@ -103,285 +103,37 @@
                     <div class="page-title-wrapper">
                         <div class="page-title-heading">
                             <div>
-                                <div class="page-title-head center-elem">
+                                {{-- <div class="page-title-head center-elem">
                                     <span class="d-inline-block pe-2">
                                         <i class="lnr-apartment opacity-6" style="color:rgb(228, 8, 129)"></i>
                                     </span>
-                                    <span class="d-inline-block"><h3>ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ Dashboard</h3></span>
-                                </div>
-                                <div class="page-title-subheading opacity-10">
-                                    <nav class="" aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a>
-                                                    <i aria-hidden="true" class="fa fa-home" style="color:rgb(252, 52, 162)"></i>
-                                                </a>
-                                            </li>
-                                            <li class="breadcrumb-item">
-                                                <a>Dashboards</a>
-                                            </li>
-                                            <li class="active breadcrumb-item" aria-current="page">
-                                                Inspection and maintenance Dashboard
-                                            </li>
-                                        </ol>
-                                    </nav>
+                                    <span class="d-inline-block"><h3>รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h3></span>
+                                </div>  --}}
+                                <div class="row">
+                                    <div class="col-md-10"> 
+                                            <h4 style="color: rgb(255, 255, 255)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4> 
+                                    </div>
+                                    <div class="col-md-2 text-end"> 
+                                            <a href="{{url('support_system_excel')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success bt_prs">
+                                                <i class="fa-solid fa-file-excel me-2"></i>
+                                                Export To Excel
+                                            </a> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="page-title-actions"> 
+                            
                         </div>
                     </div>
                 </div>
            
-
-                <div class="row">
-                    <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-12">
-                                {{-- <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <span class="opacity-10 text-danger pe-2">
-                                                                <i class="fa fa-angle-left"></i>
-                                                            </span>
-                                                            {{ number_format($count_red_all, 0) }} 
-                                                        </div>
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
-                                                            <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
-                                                        
-                                                            {{$count_red_allactive}} 
-                                                            <small class="opacity-5 ps-1">ถัง</small> 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                    <div class="card" style="height: 125px">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (RED)</p>
-                                                    <h2 class="mb-2">{{ number_format($count_red_all, 0) }} </h2> 
-                                                </div>
-                                                <div class="avatar-sm" style="width: 70px;height:60px">
-                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
-                                                        <img src="{{ asset('images/fire_extinguisher_r.png') }}" height="50px" width="50px" class="text-danger"> 
-                                                    </span>
-                                                </div>
-                                            </div>  
-                                            <div class="d-flex align-content-center flex-wrap">
-                                                <p class="text-muted mb-0">
-                                                    <span class="text-success fw-bold font-size-20 me-2">
-                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_red_allactive}} ถัง
-                                                    </span>
-                                                    {{-- from previous period --}}
-                                                </p>
-                                            </div>                                           
-                                        </div> 
-                                    </div> 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {{-- <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (GREEN)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <span class="opacity-10 text-success pe-2">
-                                                                <i class="fa fa-angle-left"></i>
-                                                            </span>
-                                                        {{ number_format($count_green_all, 0) }} 
-                                                        </div>
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted mt-3">
-                                                            <small class="opacity-5 ps-1">พร้อมใช้งาน </small>
-                                                        
-                                                            {{$count_green_allactive}} 
-                                                            <small class="opacity-5 ps-1">ถัง</small> 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <div class="card" style="height: 125px">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (GREEN)</p>
-                                                    <h2 class="mb-2">{{ number_format($count_green_all, 0) }} </h2> 
-                                                </div>
-                                                <div class="avatar-sm" style="width: 70px;height:60px">
-                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
-                                                        <img src="{{ asset('images/fire_extinguisher_g.png') }}" height="50px" width="50px" class="text-danger"> 
-                                                    </span>
-                                                </div>
-                                            </div>  
-                                            <div class="d-flex align-content-center flex-wrap">
-                                                <p class="text-muted mb-0">
-                                                    <span class="text-success fw-bold font-size-20 me-2">
-                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_green_allactive}} ถัง
-                                                    </span>
-                                                    {{-- from previous period --}}
-                                                </p>
-                                            </div>                                           
-                                        </div> 
-                                    </div> 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {{-- <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-danger border-danger card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (RED สำรอง)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <small class="text-danger pe-1">+</small>
-                                                            {{ $count_red_back }} 
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <div class="card" style="height: 125px">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    <p class="text-truncate font-size-14 mb-2">ถังดับเพลิง (RED สำรอง)</p>
-                                                    <h2 class="mb-2">{{ number_format($count_red_back, 0) }} </h2> 
-                                                </div>
-                                                <div class="avatar-sm" style="width: 70px;height:60px">
-                                                    <span class="avatar-title bg-light text-primary rounded-3"> 
-                                                        <img src="{{ asset('images/fire_extinguisher_r.png') }}" height="50px" width="50px" class="text-danger"> 
-                                                    </span>
-                                                </div>
-                                            </div>  
-                                            <div class="d-flex align-content-center flex-wrap">
-                                                <p class="text-muted mb-0">
-                                                    <span class="text-success fw-bold font-size-20 me-2">
-                                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>พร้อมใช้งาน {{$count_red_back}} ถัง
-                                                    </span>
-                                                    {{-- from previous period --}}
-                                                </p>
-                                            </div>                                           
-                                        </div> 
-                                    </div> 
-                                </div>
-                            </div>
-                            {{-- <div class="row">
-                                <div class="col-md-12">
-                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-success border-success card">
-                                        <div class="widget-chat-wrapper-outer">
-                                            <div class="widget-chart-content">
-                                                <div class="widget-title opacity-5 text-uppercase">ถังดับเพลิง (GREEN สำรอง)</div>
-                                                <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
-                                                    <div class="widget-chart-flex align-items-center">
-                                                        <div>
-                                                            <small class="text-success pe-1">+</small>
-                                                            {{ $count_green_back }} 
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                      
-                    </div>
-                    <div class="col-md-9">
-                        <div class="row">
-                   
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="mb-3 card">
-                                    <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-sm text-capitalize fw-normal">ถังดับเพลิง (RED) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="p-0 card-body">
-                                        <div id="radials"></div>
-        
-                                        <div class="widget-content pt-0 w-100">
-                                            <div class="widget-content-outer">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-danger ms-3">{{ $count_color_red_qty }} ถัง</div> 
-                                                    </div>
-                                                    <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress ms-3 me-3">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                aria-valuenow="{{$count_color_red_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: {{$count_red_percent}}%;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-content-left fsize-1 ms-3">
-                                                    <div class="text-muted opacity-6">Check Qty</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="mb-3 card">
-                                    <div class="card-header-tab card-header">
-                                        <div class="card-header-title font-size-sm text-capitalize fw-normal">ถังดับเพลิง (GREEN) Check ไปแล้วคิดเป็น( % ) ของทั้งหมดในเดือนนี้
-                                        </div>
-                                        <div class="btn-actions-pane-right text-capitalize actions-icon-btn">
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="p-0 card-body">
-                                        <div id="radials_green"></div>
-                                        <div class="widget-content pt-0 w-100">
-                                            <div class="widget-content-outer">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left pe-2 fsize-1">
-                                                        <div class="widget-numbers mt-0 fsize-3 text-success ms-3">{{$count_color_green_qty}} ถัง</div>
-                                                    </div>
-                                                    <div class="widget-content-right w-100">
-                                                        <div class="progress-bar-xs progress ms-3 me-3">
-                                                            <div class="progress-bar bg-success" role="progressbar"
-                                                                aria-valuenow="{{$count_color_green_qty}}" aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: {{$count_green_percent}}%;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-content-left fsize-1 ms-3">
-                                                    <div class="text-muted opacity-6">Check Qty</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-        
-                        </div>
-
-                    </div>
-                    
-                </div>
  
-                {{-- <div class="card card_prs_4">
+            
+  
+                <div class="card card_prs_4 mt-2">
                     <div class="card-body">
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-10"> 
                                     <h4 style="color: rgb(7, 121, 106)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4> 
                             </div>
@@ -391,9 +143,11 @@
                                         Export To Excel
                                     </a> 
                             </div>
-                        </div> 
+                        </div> --}}
+                        
                         <div class="row mt-2">
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
+                   
                                 <div class="table-responsive">
                                     <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
                                         <thead>
@@ -495,48 +249,75 @@
                                                         {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redten}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                            {{$redten}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redfifteen}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                            {{-- {{$redfifteen}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">{{$redtwenty}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                            {{-- {{$redtwenty}} --}}
+                                                        </a>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$greenten}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
+                                                            {{-- {{$greenten}} --}}
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">                                                    
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
+                                                            {{-- {{$total_all}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                    
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">{{$total_all}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{-- {{$Check_redten}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redten}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{-- {{$Check_redfifteen}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redfifteen}}</a>
-                                                    </td>
-                                                    <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">{{$Check_redtwenty}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{-- {{$Check_redtwenty}} --}}
+                                                        </a>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">{{$Check_greenten}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
+                                                            {{-- {{$Check_greenten}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(219, 243, 252)">
-                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">{{$Checktotal_all}}</a>
+                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">
+                                                            {{-- {{$Checktotal_all}} --}}
+                                                        </a>
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">{{$total_all- $Checktotal_all}}</a>
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">
+                                                            {{-- {{$total_all- $Checktotal_all}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{$camroot}}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
+                                                            {{-- {{$camroot}} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($trut, 2) }}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
+                                                            {{-- {{ number_format($trut, 2) }} --}}
+                                                        </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">{{ number_format($chamrootcount, 2) }}</a>
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
+                                                            {{-- {{ number_format($chamrootcount, 2) }} --}}
+                                                        </a>
                                                     </td>
                                                 </tr> 
                                             @endforeach
@@ -544,9 +325,11 @@
                                     </table>
                                 </div>
                             </div> 
-                        </div> 
-                    </div> 
-                </div>  --}}
+                        </div>
+                  
+                </div>
+
+            </div> 
         </div> 
     </div>
 

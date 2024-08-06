@@ -3338,7 +3338,7 @@ class AirController extends Controller
                 FROM air_repaire a
                 LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
                 LEFT OUTER JOIN air_list al ON al.air_list_id = a.air_list_id 
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND al.air_year = "'.$bg_yearnow.'"
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 GROUP BY MONTH(a.repaire_date)
                 ORDER BY MONTH(a.repaire_date) ASC
             ');
@@ -3356,7 +3356,10 @@ class AirController extends Controller
             //  GROUP BY MONTH(a.repaire_date)
             //  ORDER BY MONTH(a.repaire_date) ASC
             // $data['count_air']             = $datashow  = DB::select('');
-              $data['count_air'] = Air_list::where('active','Y')->count();
+
+            // AND al.air_year = "'.$bg_yearnow.'"
+
+              $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         }
         
             

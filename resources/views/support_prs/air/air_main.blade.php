@@ -149,8 +149,8 @@
     <div class="row"> 
         <div class="col-md-4">
            
-            <h4 style="color:rgb(10, 151, 85)">เครื่องปรับอากาศ</h4>
-            <p class="card-title-desc" style="font-size: 17px;">ทะเบียนเครื่องปรับอากาศ</p>
+            <h4 style="color:rgb(255, 255, 255)">ทะเบียนเครื่องปรับอากาศ</h4>
+            {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนเครื่องปรับอากาศ</p> --}}
         </div>
         <div class="col"></div>
       
@@ -159,27 +159,27 @@
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>All</span> 
             </a>  --}}
-            <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-secondary bt_prs">  
+            <a href="{{url('air_qrcode_detail_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-secondary bt_prs">  
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
             </a> 
-            <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
+            <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs">  
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Repaire All</span> 
             </a> 
-            <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-primary bt_prs"> 
+            <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
 
-            <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+            <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                 <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
             </button>
            
         </div>
 </div> 
 
-<div class="row">
+<div class="row mt-2">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    

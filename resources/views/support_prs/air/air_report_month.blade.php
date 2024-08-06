@@ -43,7 +43,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(10, 151, 85)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ รายเดือน </h4> 
+                <h4 style="color:rgb(255, 255, 255)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ รายเดือน </h4> 
             </div>
              
             <div class="col"></div>
@@ -55,11 +55,7 @@
                         data-date-language="th-th" />  
                         <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
-                        </button>  
-                        {{-- <a href="" target="_blank" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
-                            <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
-                            <span>Print</span> 
-                        </a>  --}}
+                        </button> 
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-primary bt_prs">  
                             <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
                             <span>Print</span> 

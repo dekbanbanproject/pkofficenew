@@ -96,12 +96,12 @@
             <div class="col-md-4">
                 {{-- <h4 class="card-title" style="color:rgb(10, 151, 85)">REPORT FIRE </h4> --}}
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
-                <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
-                <p class="card-title-desc" style="font-size: 17px;">บันทึกการตรวจสอบ</p>
+                <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบถังดับเพลิง</h4>
+                {{-- <p class="card-title-desc" style="font-size: 17px;">บันทึกการตรวจสอบ</p> --}}
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-4 text-end">
                 <form action="{{ url('fire_report_day') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
@@ -118,16 +118,16 @@
             </div>
     </div>  
         
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card card_prs_4">
                     <div class="card-body">    
                         
-                        <p class="mb-0">
+                        {{-- <p class="mb-0"> --}}
                             {{-- <div class="table-responsive"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                     {{-- <table id="example" class="table table-striped table-bordered nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                                        <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">
                                     {{-- <table class="table table-striped mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -152,48 +152,60 @@
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ Datethai($item->check_date) }}</td> 
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ $item->fire_num }}</td>  
-                                                <td class="text-center" width="7%"> 
+                                                <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_injection == '0')
-                                                         <p style="color: #06af8b;font-size: 12px">ปกติ</p>
+                                                         {{-- <p style="color: #06af8b;font-size: 12px">ปกติ</p> --}}
+                                                         <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @else
-                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
+                                                        {{-- <p style="color: #fc2424;font-size: 12px">ชำรุด</p> --}}
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
                                                 </td>  
-                                                <td class="text-center" width="7%"> 
+                                                <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_joystick == '0')
-                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
+                                                        {{-- <p style="color: #06af8b;font-size: 12px">ปกติ</p> --}}
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @else
-                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
+                                                        {{-- <p style="color: #fc2424;font-size: 12px">ชำรุด</p> --}}
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
                                                 </td>   
-                                                <td class="text-center" width="7%"> 
+                                                <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_body == '0')
-                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
+                                                        {{-- <p style="color: #06af8b;font-size: 12px">ปกติ</p> --}}
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @else
-                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
+                                                        {{-- <p style="color: #fc2424;font-size: 12px">ชำรุด</p> --}}
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
                                                 </td>   
                                                 <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_gauge == '0')
-                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
+                                                        {{-- <p style="color: #06af8b;font-size: 12px">ปกติ</p> --}}
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @else
-                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
+                                                        {{-- <p style="color: #fc2424;font-size: 12px">ชำรุด</p> --}}
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
                                                 </td> 
-                                                <td class="text-center" width="7%"> 
+                                                <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_drawback == '0')
-                                                        <p style="color: #06af8b;font-size: 12px">ปกติ</p>
+                                                        {{-- <p style="color: #06af8b;font-size: 12px">ปกติ</p> --}}
+                                                        {{-- <label style="color: #06af8b;font-size: 10px">ปกติ</label> --}}
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                        
                                                     @else
-                                                        <p style="color: #fc2424;font-size: 12px">ชำรุด</p>
+                                                        {{-- <p style="color: #fc2424;font-size: 12px">ชำรุด</p> --}}
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
                                                 </td> 
                                                 <td class="text-start" style="color:rgb(73, 147, 231)">
                                                     @if ($item->fire_check_injection == '0' || $item->fire_check_joystick == '0' || $item->fire_check_body == '0' || $item->fire_check_gauge == '0' || $item->fire_check_drawback == '0')
-                                                    <p style="color: #fc2424;font-size: 12px">
+                                                    {{-- <p style="color: #fc2424;font-size: 12px"> --}}
                                                         -
-                                                    </p>
+                                                    {{-- </p> --}}
                                                     @else
-                                                    <p style="color: #fc2424;font-size: 12px">
+                                                    {{-- <p style="color: #fc2424;font-size: 12px"> --}}
                                                         @if ($item->fire_check_injection == '1')
                                                         สายฉีด,                                                                                                 
                                                         @endif
@@ -209,7 +221,7 @@
                                                         @if ($item->fire_check_drawback == '1')
                                                         สิ่งกีดขวาง,
                                                         @endif
-                                                    </p>
+                                                    {{-- </p> --}}
                                                     @endif
                                                       
                                                 </td>   
@@ -219,7 +231,7 @@
                                     </tbody>
                                 </table>
                             {{-- </div> --}}
-                        </p>
+                        {{-- </p> --}}
                     </div>
                 </div>
             </div>

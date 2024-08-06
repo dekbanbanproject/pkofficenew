@@ -43,7 +43,7 @@
         @csrf --}}
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(10, 151, 85)">ตั้งค่าปีงบประมาณ</h4> 
+                <h4 style="color:rgb(255, 255, 255)">ตั้งค่าปีงบประมาณ</h4> 
             </div>
              
             <div class="col"></div>               
@@ -54,14 +54,14 @@
                     <span>เพิ่มรายการทะเบียนเครื่องปรับอากาศ</span> 
                 </button> 
                --}}
-                <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
+                <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
                     <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
                 </button>
             </div> 
         </div>  
     {{-- </form> --}}
  
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-xl-12">
                 <div class="card card_prs_4">
                     <div class="card-body">  
