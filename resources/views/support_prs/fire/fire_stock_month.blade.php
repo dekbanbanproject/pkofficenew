@@ -1,5 +1,5 @@
 @extends('layouts.support_prs_fireback')
-@section('title', 'PK-OFFICE || Air-Service')
+@section('title', 'PK-OFFICE || Fire-Service')
 
 @section('content')
 
@@ -43,7 +43,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(255, 255, 255)">ตั้งค่าทะเบียนเครื่องถังดับเพลิง-ยกยอดสต็อครายเดือน</h4> 
+                <h4 style="color:rgb(255, 255, 255)">ตั้งค่าทะเบียนถังดับเพลิง-ยกยอดสต็อครายเดือน</h4> 
             </div>
              
             <div class="col"></div>               
@@ -51,7 +51,7 @@
             <div class="col-md-4 text-end">   
                 <button type="button" class="ladda-button btn-pill btn btn-sm btn-info bt_prs" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">   
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
-                    <span>เพิ่มรายการทะเบียนเครื่องปรับอากาศ</span> 
+                    <span>ยกยอดสต็อค</span> 
                 </button> 
               
                 {{-- <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#documentModal"> 
@@ -76,8 +76,8 @@
                                                     <th class="text-center" width="10%">ปีงบประมาณ</th>  
                                                     <th class="text-center" width="10%">รหัส</th> 
                                                     <th class="text-center" >รายการ</th>   
-                                                    <th class="text-center" width="10%">fire_size</th>  
-                                                    <th class="text-center" width="10%">color</th>   
+                                                    <th class="text-center" width="10%">ขนาด</th>  
+                                                    <th class="text-center" width="10%">สี</th>   
                                                     <th class="text-center" width="8%">เปิดใช้งาน</th>  
                                                 </tr>  
                                         </thead>
