@@ -412,6 +412,21 @@ use App\Models\Products_request_sub;
                                     <i class="fa-solid fa-chart-line me-2"></i>แบบประเมิน  
                                 </a>
                             </li> --}}
+                          
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <i class="fas fa-tools me-2"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>
+                              
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('fire_stock_month')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ยกยอดสต็อครายเดือน</span>  
+                                        </a> 
+                                    </div> 
+                                </div>
+                            </li>
 
                          
                         </ul>

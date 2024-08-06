@@ -187,15 +187,15 @@
                                                 <?php $i++ ?>
                                                 <?php 
                                                         $dashboard_ = DB::select(
-                                                            'SELECT (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal") as redten
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal") as redfifteen
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal") as redtwenty 
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") as greenten
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal")+
-                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal")+
-                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal")+
-                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal") total_all
+                                                            'SELECT (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_year = "'.$itemreport->yearsthai.'" ) as red_all
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as redten
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as redfifteen
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as redtwenty 
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as greenten
+                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") total_all
                                                                 
                                                                 ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redten
                                                                 ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redfifteen
@@ -218,7 +218,7 @@
             
                                                         ');                                     
                                                         foreach ($dashboard_ as $key => $value) {
-                                                            $red_all               = $value->red_all;
+                                                            // $red_all               = $value->red_all;
                                                             $redten                = $value->redten;
                                                             $redfifteen            = $value->redfifteen;
                                                             $redtwenty             = $value->redtwenty;
@@ -255,22 +255,22 @@
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
-                                                            {{-- {{$redfifteen}} --}}
+                                                            {{$redfifteen}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
-                                                            {{-- {{$redtwenty}} --}}
+                                                            {{$redtwenty}}
                                                         </a>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
-                                                            {{-- {{$greenten}} --}}
+                                                            {{$greenten}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">                                                    
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
-                                                            {{-- {{$total_all}} --}}
+                                                            {{$total_all}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">

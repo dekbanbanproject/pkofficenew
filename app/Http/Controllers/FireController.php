@@ -1134,11 +1134,45 @@ class FireController extends Controller
             'chart_location'          =>  $chart_location,
         ]);
     }
-
-
-
-
-
+    public function fire_stock_month(Request $request)
+    {
+        $startdate          = $request->startdate;
+        $enddate            = $request->enddate;
+        $air_plan_month_id  = $request->air_plan_month_id;
+        $date_now           = date('Y-m-d');
+        $years              = date('Y') + 543;
+        $yearnew_plus       = date('Y') + 544;
+        $monthsnew_         = date('m'); 
+        $monthsnew          = substr($monthsnew_,1,2);  
+        $newdays            = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek            = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate            = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 3 เดือน
+        $newyear            = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew            = date('Y'); 
+        $year_old           = date('Y')-1;
+        $months_old         = ('10');
+        $startdate_b        = (''.$year_old.'-10-01');
+        $enddate_b          = (''.$yearnew.'-09-30'); 
+        $iduser             = Auth::user()->id;
+        $bgs_year           = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow         = $bgs_year->leave_year_id;
+        $data['datashow']   = DB::select('SELECT * FROM fire WHERE active = "Y" AND fire_year = "'.$bg_yearnow.'" ORDER BY fire_id ASC'); 
+        $data['yearsshow']  = DB::select('SELECT * FROM air_list WHERE active = "Y" AND air_year = "'.$years.'" ORDER BY air_year DESC LIMIT 1'); 
+        $data['data_stock'] = DB::select('SELECT * FROM fire_stock WHERE fire_year = "'.$bg_yearnow.'" ORDER BY fire_stock_id ASC'); 
+  
+        // WHERE active = "Y" AND air_year = "'.$bg_yearnow.'"
+            // $datashow  = DB::select(
+            //     'SELECT b.*,c.air_repaire_typename 
+            //         FROM air_plan_month b 
+            //         LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id 
+            //         WHERE b.years BETWEEN "'.$years.'" AND "'.$yearnew_plus.'"
+            // '); 
+        // } 
+        return view('support_prs.fire.fire_stock_month',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
 
     public function fire_qrcode_all๘๘๘๘(Request $request)
     {
@@ -1152,6 +1186,8 @@ class FireController extends Controller
         $pdf = PDF::loadView('support_prs.fire.fire_qrcode_all',['dataprint'  =>  $dataprint]);
         return @$pdf->stream();
     }
+    
+
     
  
 

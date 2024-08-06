@@ -15,16 +15,14 @@ return new class extends Migration
         {
             Schema::create('fire_stock', function (Blueprint $table) {
                 $table->bigIncrements('fire_stock_id'); 
-                $table->string('fire_id')->nullable();  //  
-                $table->string('fire_qty')->nullable(); //
-                $table->string('fire_unit')->nullable(); // 
+                $table->string('fire_id')->nullable();  // 
+                $table->string('fire_num')->nullable();  //                
+                // $table->string('fire_unit')->nullable(); // 
                 $table->string('fire_month')->nullable();  //  
                 $table->string('fire_year')->nullable();  //  
+                $table->string('fire_qty')->nullable(); //
                 $table->decimal('fire_price',total: 12, places: 2)->nullable(); //  
-                $table->enum('active', ['N','R','Y','D'])->default('Y'); 
-                $table->date('fire_date_pdd')->nullable();  // วันที่ผลิต
-                $table->date('fire_date_exp')->nullable();  // วันหมดอายุ
-               
+                $table->enum('status', ['N','R','Y','D'])->default('Y');                 
                 $table->timestamps();
             });
         }
