@@ -3329,13 +3329,16 @@ class AirController extends Controller
         $startdate_b = (''.$year_old.'-10-01');
         $enddate_b = (''.$yearnew.'-09-30'); 
         $iduser       = Auth::user()->id;
-       
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
         if ($startdate != '') {
             $datashow  = DB::select(
                 'SELECT MONTH(a.repaire_date) as months,l.MONTH_NAME,YEAR(a.repaire_date) as years,(YEAR(a.repaire_date)+543) as years_ps 
                 FROM air_repaire a
                 LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
-                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                LEFT OUTER JOIN air_list al ON al.air_list_id = a.air_list_id 
+                WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND al.air_year = "'.$bg_yearnow.'"
                 GROUP BY MONTH(a.repaire_date)
                 ORDER BY MONTH(a.repaire_date) ASC
             ');
