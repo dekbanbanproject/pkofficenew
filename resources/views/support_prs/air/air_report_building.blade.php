@@ -179,19 +179,19 @@
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">                         --}}
                             <thead>                             
                                     <tr style="font-size:13px"> 
-                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(228, 255, 255);width: 5%">ลำดับ</th>  
+                                        <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(228, 255, 255);">ลำดับ</th>  
                                         <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255)">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">อาคาร</th>  
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">จำนวน</th>  
-                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);width: 40%">ขนาด( BTU )</th>   
+                                        {{-- <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">อาคาร</th>   --}}
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);">จำนวน</th>  
+                                        <th colspan="6" class="text-center" style="background-color: rgb(239, 228, 255);" width= "50%">ขนาด( BTU )</th>   
                                     </tr> 
                                     <tr style="font-size:11px">  
-                                        <th class="text-center">< 10000</th> 
-                                        <th class="text-center">10001-20000</th>   
-                                        <th class="text-center">20001-30000</th> 
-                                        <th class="text-center">30001-40000</th>
-                                        <th class="text-center">40001-50000</th>
-                                        <th class="text-center">50000 ขึ้นไป</th>
+                                        <th class="text-center" width="5%">< 10000</th> 
+                                        <th class="text-center" width="5%">10001-20000</th>   
+                                        <th class="text-center" width="5%">20001-30000</th> 
+                                        <th class="text-center" width="5%">30001-40000</th>
+                                        <th class="text-center" width="5%">40001-50000</th>
+                                        <th class="text-center" width="5%">50000 ขึ้นไป</th>
                                     </tr> 
                             </thead>
                             <tbody>
@@ -199,20 +199,20 @@
                                 @foreach ($datashow as $item) 
                                 <?php $i++ ?>                               
                                     <tr>                                                  
-                                        <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(13, 134, 185)" width="5%">{{$i}}</td>
                                         <td class="text-start" style="font-size:13px;color: rgb(2, 95, 182)">{{$item->building_name}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td>
+                                        {{-- <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td> --}}
                                         <td class="text-center" style="font-size:13px;color: rgb(228, 15, 86)">
                                            <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank"> 
                                                 <span class="badge bg-success"> {{$item->qtyall}}</span> 
                                             </a> 
                                         </td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->less_10000}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->one_two}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->two_tree}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->tree_four}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->four_five}}</td>
-                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">{{$item->more_five}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->less_10000}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->one_two}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->two_tree}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->tree_four}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->four_five}}</td>
+                                        <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)" width="5%">{{$item->more_five}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

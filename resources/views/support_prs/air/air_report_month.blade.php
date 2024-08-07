@@ -42,26 +42,39 @@
     <form action="{{ url('air_report_month') }}" method="GET">
         @csrf
         <div class="row"> 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h4 style="color:rgb(255, 255, 255)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ รายเดือน </h4> 
-            </div>
-             
+            </div> 
             <div class="col"></div>
-            <div class="col-md-5 text-end"> 
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control bt_prs" name="startdate" value="{{$startdate}}" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" required/>
-                    <input type="text" class="form-control bt_prs" name="enddate" value="{{$enddate}}" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" />  
-                        <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs" data-style="expand-left">
+            <div class="col-md-2 text-end">
+                <select name="month_id" id="month_id" class="form-control bt_prs form-control-sm" width="100%">
+                    <option value="" class="text-center">--ทั้งหมด--</option>
+                    @foreach ($air_plan_month as $item_m)
+                        <option value="{{$item_m->air_plan_month_id}}" class="text-center">{{$item_m->air_plan_name}} {{$item_m->years}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2"> 
+                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
+                    {{-- <input type="text" class="form-control bt_prs" name="startdate" value="{{$startdate}}" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" required/> --}}
+                    {{-- <input type="text" class="form-control bt_prs" name="enddate" value="{{$enddate}}" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" />   --}}
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info bt_prs me-2" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary bt_prs">  
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs">  
                             <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
                             <span>Print</span> 
                         </button> 
-                </div> 
+                {{-- </div>  --}}
             </div> 
+            {{-- <div class="col-md-1"> 
+                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs">  
+                    <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
+                    <span>Print</span> 
+                </button> 
+            </div>  --}}
         </div>  
     </form>
  
@@ -226,7 +239,7 @@
                                                         $percent_plan      =  "0";
                                                     } else {
                                                         $plan = $plan_s ;
-                                                        $percent_ploblames =  (100 / $count_air) * $airproblems;
+                                                        $percent_ploblames =  (100 / $item->total_qty) * $airproblems;
                                                         $percent_plan      =  (100 / $plan) * $airproblems_plan;
                                                     }  
                                             ?>                    
@@ -234,7 +247,7 @@
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
                                                     <td class="text-start" style="font-size:14px;color: rgb(2, 95, 182)">{{$item->MONTH_NAME}} พ.ศ. {{$item->years_ps}}</td> 
                                                     <td class="text-center" style="font-size:13px;color: rgb(112, 5, 98)" width="12%"> 
-                                                            {{$count_air}}   
+                                                            {{$item->total_qty}} 
                                                     </td>
                                                     <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="10%"> 
                                                              {{$airproblems}}  

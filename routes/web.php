@@ -3447,6 +3447,8 @@ Route::match(['get','post'],'air_setting_yearcopy',[App\Http\Controllers\AirCont
 Route::match(['get','post'],'air_setting_yearnow',[App\Http\Controllers\AirController::class, 'air_setting_yearnow'])->name('prs.air_setting_yearnow');//
 Route::match(['get','post'],'air_setting_yearnowswith',[App\Http\Controllers\AirController::class, 'air_setting_yearnowswith'])->name('prs.air_setting_yearnowswith');//
 Route::match(['get','post'],'switch_air_active',[App\Http\Controllers\AirController::class, 'switch_air_active'])->name('prs.switch_air_active');//
+Route::match(['get','post'],'air_setting_month',[App\Http\Controllers\AirController::class, 'air_setting_month'])->name('prs.air_setting_month');//
+Route::match(['get','post'],'air_setting_monthcopy',[App\Http\Controllers\AirController::class, 'air_setting_monthcopy'])->name('prs.air_setting_monthcopy');//
 
 Route::match(['get','post'],'air_count_sub/{id}',[App\Http\Controllers\AirController::class, 'air_count_sub'])->name('prs.air_count_sub');//
 Route::match(['get','post'],'air_count_qty/{id}',[App\Http\Controllers\AirController::class, 'air_count_qty'])->name('prs.air_count_qty');//

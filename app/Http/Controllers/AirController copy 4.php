@@ -3334,21 +3334,36 @@ class AirController extends Controller
         $iduser        = Auth::user()->id;
         $month_id_      = $request->month_id;
         // $months_       = DB::table('months')->where('month_id',$month_id)->first();
-        // $month_no      = $months_->month_no;    
+        // $month_no      = $months_->month_no;
+
+      
 
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();      
         $bg_yearnow    = $bgs_year->leave_year_id;
 
-        if ($month_id_ != '') {            
-                $months_         = DB::table('air_plan_month')->where('air_plan_month_id',$month_id_)->first();
-                $month_year      = $months_->years;
-                $month_s         = $months_->air_plan_month;           
-                $data['count_air'] = Air_stock_month::where('months','Y')->where('years_th',$bg_yearnow)->count(); 
-                $datashow = DB::select(
-                    'SELECT a.months,a.total_qty,a.years,a.years_th as years_ps,l.month_name as MONTH_NAME 
-                    FROM air_stock_month a 
-                    LEFT JOIN months l on l.month_no = a.months 
-                    WHERE a.years_th = "'.$month_year.'" AND a.months = "'.$month_s.'"
+        if ($month_id_ != '') {
+            // $datashow  = DB::select(
+            //     'SELECT MONTH(a.repaire_date) as months,l.MONTH_NAME,YEAR(a.repaire_date) as years,(YEAR(a.repaire_date)+543) as years_ps 
+            //     FROM air_repaire a
+            //     LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
+            //     -- LEFT OUTER JOIN air_stock_month s ON s.months = month(a.repaire_date) AND s.years = (YEAR(a.repaire_date)+543)
+            //     LEFT OUTER JOIN air_list al ON al.air_list_id = a.air_list_id 
+            //     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            //     GROUP BY MONTH(a.repaire_date)
+            //     ORDER BY MONTH(a.repaire_date) ASC
+            // ');
+            // $data['count_air'] = Air_list::where('active','Y')->count();
+            $months_         = DB::table('air_plan_month')->where('air_plan_month_id',$month_id_)->first();
+            $month_year      = $months_->years;
+            $month_s         = $months_->air_plan_month;
+            // dd($month_year);
+            $data['count_air'] = Air_stock_month::where('months','Y')->where('years_th',$bg_yearnow)->count();
+      
+            $datashow = DB::select(
+                'SELECT a.months,a.total_qty,a.years,a.years_th as years_ps,l.month_name as MONTH_NAME 
+                FROM air_stock_month a 
+                LEFT JOIN months l on l.month_no = a.months 
+                WHERE a.years_th = "'.$month_year.'" AND a.months = "'.$month_s.'"
                 ');
         } else {
             $datashow  = DB::select(
@@ -3359,7 +3374,17 @@ class AirController extends Controller
                 FROM air_stock_month a
                 LEFT JOIN months l on l.month_no = a.months 
                 WHERE a.years_th = "'.$bg_yearnow.'" 
-            '); 
+            ');
+            //  SELECT MONTH(a.repaire_date) as months,l.MONTH_NAME,YEAR(a.repaire_date) as years,(YEAR(a.repaire_date)+543) as years_ps 
+            //  FROM air_repaire a
+            //  LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.repaire_date)
+            //  WHERE a.repaire_date BETWEEN "'.$startdate_b.'" AND "'.$enddate_b.'"
+            //  GROUP BY MONTH(a.repaire_date)
+            //  ORDER BY MONTH(a.repaire_date) ASC
+            // $data['count_air']             = $datashow  = DB::select('');
+
+            // AND al.air_year = "'.$bg_yearnow.'"
+
               $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         }
         

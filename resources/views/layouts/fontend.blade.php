@@ -411,7 +411,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col"></div>
-                                        <div class="col-md-1 text-end"></div>
+                                        {{-- <div class="col-md-1 text-end"></div> --}}
                                         <div class="col-md-5">
                                             <div class="mb-3">
                                                 <button type="submit" class="login100-form-btn">

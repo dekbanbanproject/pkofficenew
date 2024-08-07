@@ -608,10 +608,29 @@
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ</span>  
+                                            <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ(ปีงบประมาณ)</span>  
                                         </a> 
                                     </div>
                                     <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_month')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ยกยอด(รายเดือน)</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">Import แผนการบำรุงรักษารายปี</span>  
+                                        </a> 
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_type')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">กำหนดประเภท/ปีงบประมาณ</span>  
+                                        </a> 
+                                    </div>
+                                    {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-verti"
                                             role="button">
                                             <span key="t-vertical">Import Data</span> <div class="arrow-down"></div>
@@ -619,9 +638,9 @@
                                         <div class="dropdown-menu" aria-labelledby="topnav-layout-verti">
                                             <a href="{{url('air_setting')}}" class="dropdown-item" key="t-dark-sidebar">แผนการบำรุงรักษารายปี</a> 
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                   <div class="dropdown">
+                                   {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-layout-hori"
                                             role="button">
                                             <span key="t-horizontal">ประเภท/ปีงบประมาณ</span> <div class="arrow-down"></div>
@@ -629,7 +648,7 @@
                                         <div class="dropdown-menu" aria-labelledby="topnav-layout-hori">
                                             <a href="{{url('air_setting_type')}}" class="dropdown-item" key="t-horizontal">กำหนดประเภท/ปีงบประมาณ</a>                                       
                                         </div>
-                                    </div>  
+                                    </div>   --}}
                                 </div>
                             </li>
  
