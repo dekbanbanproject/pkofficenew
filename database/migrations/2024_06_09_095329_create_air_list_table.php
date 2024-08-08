@@ -39,6 +39,7 @@ return new class extends Migration
                 $table->date('air_date_exp')->nullable();  // วันหมดอายุ
                 $table->char('air_for_check', length: 200)->nullable(); //   
                 $table->char('user_id', length: 200)->nullable(); //   
+                $table->char('air_type_id', length: 10)->nullable();  //  
                 $table->timestamps();
             });
         }

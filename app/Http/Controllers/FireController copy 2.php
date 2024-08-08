@@ -1081,18 +1081,31 @@ class FireController extends Controller
             }
             
             $datareport = DB::connection('mysql')->select(
-                'SELECT a.months,a.years,a.years_th as yearsthai,b.month_name
-                ,a.total_red10,a.total_red15,a.total_red20,a.total_green10,a.total_all_qty
-                FROM fire_stock_month a
-                LEFT JOIN months b ON b.month_id = a.months
-                GROUP BY a.months
-                
-                -- SELECT
-                --     YEAR(f.check_date) as years,(YEAR(f.check_date)+543) as yearsthai,MONTH(f.check_date) as months,l.MONTH_NAME 
-                --     ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all 
-                -- FROM fire_check f
-                -- LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(f.check_date)
-                -- GROUP BY MONTH(f.check_date) 
+                'SELECT
+                    YEAR(f.check_date) as years,(YEAR(f.check_date)+543) as yearsthai,MONTH(f.check_date) as months,l.MONTH_NAME
+
+                    ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red") as red_all
+                    -- ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal" AND fire_backup ="N") as redten
+                    -- ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND fire_backup ="N") as redfifteen
+                    -- ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND fire_backup ="N") as redtwenty 
+                    -- ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND fire_backup ="N") as greenten
+                    -- ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal" AND fire_backup ="N")+
+                    -- (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND fire_backup ="N")+
+                    -- (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND fire_backup ="N")+
+                    -- (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND fire_backup ="N") total_all
+                    
+                    -- ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10") as Check_redten
+                    -- ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15") as Check_redfifteen
+                    -- ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20") as Check_redtwenty
+                    -- ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10") as Check_greenten
+                    -- ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10")+
+                    -- (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15")+
+                    -- (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20")+
+                    -- (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10") as Checktotal_all
+ 
+                FROM fire_check f
+                LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(f.check_date)
+                GROUP BY MONTH(f.check_date) 
             '); 
 
             $chart_location = DB::connection('mysql')->select(

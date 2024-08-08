@@ -197,7 +197,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">ลำดับ</th> 
-                                        <th class="text-center">vn</th> 
+                                        <th class="text-center">an</th> 
                                         <th class="text-center">hn</th>
                                         <th class="text-center">cid</th> 
                                         <th class="text-center">dchdate</th> 
@@ -213,7 +213,7 @@
                                         <?php $number++; ?>                    
                                         <tr height="20">
                                             <td class="text-center" width="4%">{{ $number }}</td>
-                                            <td class="text-center" width="7%">{{ $item->vn }}</td>
+                                            <td class="text-center" width="7%">{{ $item->an }}</td>
                                             <td class="text-center" width="7%">{{ $item->hn }}</td>
                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
                                             <td class="text-center" width="7%">{{ $item->dchdate }}</td>

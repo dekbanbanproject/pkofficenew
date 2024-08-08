@@ -50,7 +50,11 @@
                 <select name="month_id" id="month_id" class="form-control bt_prs form-control-sm" width="100%">
                     <option value="" class="text-center">--ทั้งหมด--</option>
                     @foreach ($air_plan_month as $item_m)
-                        <option value="{{$item_m->air_plan_month_id}}" class="text-center">{{$item_m->air_plan_name}} {{$item_m->years}}</option>
+                        @if ($month_id_ == $item_m->air_plan_month_id)
+                            <option value="{{$item_m->air_plan_month_id}}" class="text-center" selected>{{$item_m->air_plan_name}} {{$item_m->years}}</option>
+                        @else
+                            <option value="{{$item_m->air_plan_month_id}}" class="text-center">{{$item_m->air_plan_name}} {{$item_m->years}}</option>
+                        @endif 
                     @endforeach
                 </select>
             </div>

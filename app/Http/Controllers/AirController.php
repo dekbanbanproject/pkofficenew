@@ -555,7 +555,7 @@ class AirController extends Controller
                     $data['percent']  = $value->percent;
                 }
                 $maintenance_2 = DB::select(
-                    'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
+                    'SELECT COUNT(DISTINCT a.air_list_num) as main_qty 
                     ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
                     ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
                     FROM air_repaire a 
@@ -565,7 +565,7 @@ class AirController extends Controller
                     WHERE b.air_repaire_type_code ="01" AND al.air_year = "'.$bg_yearnow.'"
                 '); 
                 foreach ($maintenance_2 as $key => $value2) {
-                    $data['main_qty']      = $value2->air_qty;
+                    $data['main_qty']      = $value2->main_qty;
                     $data['main_percent']  = $value2->percent;
                 } 
                 $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
@@ -849,9 +849,10 @@ class AirController extends Controller
                     $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
                     $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
                     $data['users']                   = DB::table('users')->get();
+                    $data['air_type']                = DB::table('air_type')->get();
                     $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
                     $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
-                    $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
+                    $data_detail_                    = Air_list::where('air_list_id', '=', $id)->first();
                     // $signat = $data_detail_->air_img_base;
                     // $pic_fire = base64_encode(file_get_contents($signat)); 
                     // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
@@ -1467,6 +1468,7 @@ class AirController extends Controller
                     $add->repaire_date            = $date_now;
                     $add->repaire_time            = $mm;
                     $add->air_num                 = $request->air_num;
+                    $add->air_type_id             = $request->air_type_id;
                     $add->air_repaire_no          = $request->air_repaire_no;
                     $add->air_list_id             = $request->air_list_id;
                     $add->air_list_num            = $request->air_list_num;
@@ -1485,10 +1487,12 @@ class AirController extends Controller
                     $add->air_staff_id            = $request->air_staff_id; 
                     $add->air_status_tech         = $request->air_status_tech; 
                     $add->air_tech_id             = $request->air_tech_id; 
-                    $add->air_supplies_id         = $idsup;  
-            
-                                
+                    $add->air_supplies_id         = $idsup;                                   
                     $add->save();
+
+                    Air_list::where('air_list_id',$request->air_list_id)->update([
+                        'air_type_id'  => $request->air_type_id
+                    ]);
 
                     $air_repaire_id = Air_repaire::max('air_repaire_id');
 
@@ -3367,9 +3371,10 @@ class AirController extends Controller
         $data['air_plan_month']      = DB::table('air_plan_month')->where('active','Y')->get(); 
       
         return view('support_prs.air.air_report_month',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow,  
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,  
+            'month_id_'     => $month_id_, 
         ]);
     }
    

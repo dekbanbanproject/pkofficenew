@@ -131,6 +131,14 @@
                                             <div class="col text-start">
                                                 <p style="color:red">ส่วนที่ 2 : ช่างซ่อม(นอก รพ.) </p>
                                             </div>
+                                            <div class="col-5 text-start">
+                                                <select class="custom-select custom-select-sm" id="air_type_id" name="air_type_id" style="width: 100%"> 
+                                                    <option value="" >--เลือก--</option>
+                                                    @foreach ($air_type as $item_t)
+                                                        <option value="{{ $item_t->air_type_id }}" class="text-center">{{ $item_t->air_type_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4 text-start">

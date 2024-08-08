@@ -246,31 +246,31 @@
                                                 <tr> 
                                                     <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
                                                     <td class="text-start" style="width: 10%;background-color: rgb(2255, 251, 228)">
-                                                        {{$itemreport->MONTH_NAME}} พ.ศ.{{$itemreport->yearsthai}}
+                                                        {{$itemreport->month_name}} พ.ศ.{{$itemreport->yearsthai}}
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
-                                                            {{$redten}}
+                                                            {{$itemreport->total_red10}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
-                                                            {{$redfifteen}}
+                                                            {{$itemreport->total_red15}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
-                                                            {{$redtwenty}}
+                                                            {{$itemreport->total_red20}}
                                                         </a>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
-                                                            {{$greenten}}
+                                                            {{$itemreport->total_green10}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">                                                    
                                                         <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
-                                                            {{$total_all}}
+                                                            {{$itemreport->total_all_qty}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">

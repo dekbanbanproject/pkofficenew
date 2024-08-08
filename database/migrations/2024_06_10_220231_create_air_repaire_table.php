@@ -26,7 +26,8 @@ return new class extends Migration
                 $table->char('btu', length: 200)->nullable(); //
                 $table->char('serial_no', length: 200)->nullable(); //
                 $table->char('air_location_id', length: 200)->nullable(); //   
-                $table->char('air_location_name', length: 200)->nullable();  //  
+                $table->char('air_location_name', length: 200)->nullable();  // 
+                $table->char('air_type_id', length: 10)->nullable();  //   
                 $table->char('air_problems', length: 200)->nullable();  // ปัญหา 
                 $table->enum('air_status_techout', ['N','R','Y'])->default('N');   // พร้อมใช้งาน /ไม่พร้อมใช้งาน
                 $table->char('air_techout_name', length: 200)->nullable();          // ช่างนอก

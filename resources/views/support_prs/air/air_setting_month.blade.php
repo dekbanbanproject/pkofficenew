@@ -43,7 +43,7 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(255, 255, 255)">ตั้งค่าทะเบียนเครื่องปรับอากาศประจำปีงบประมาณ</h4> 
+                <h4 style="color:rgb(255, 255, 255)">ยกยอดจำนวนทั้งหมด(รายเดือน)</h4> 
             </div>
              
             <div class="col"></div>               
@@ -67,8 +67,7 @@
                     <div class="card-body">  
                        
                             <p class="mb-0">
-                                <div class="table-responsive">
-                                   
+                                <div class="table-responsive">                                   
                                     <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">                       
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
@@ -84,7 +83,7 @@
                                             <?php $i++  ?> 
                                                 <tr id="sid{{ $item->air_stock_month_id }}">                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
-                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years}}</td>  
+                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years_th}}</td>  
                                                     <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->month_name}}</td>  
                                                     <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="15%">{{$item->total_qty}} </td>
                                                     
@@ -104,14 +103,14 @@
 
         <!-- exampleModal Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog">
                 <div class="modal-content"> 
                     <div class="modal-body">
                       
                             <br>                            
                                 <div class="container"> 
                                     <div class="row">
-                                        <h3 class="text-center">ยกยอดจำนวนทั้งหมดรายเดือน</h3><br>
+                                        <h3 class="text-center">ยกยอดจำนวนทั้งหมด(รายเดือน)</h3><br>
                                         <h4 class="text-center">ปีงบประมาณ {{$bg_yearnow}}</h4>
                                         <div class="col-md-6">
                                             <p style="font-size: 14px">เดือน</p>
