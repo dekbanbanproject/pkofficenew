@@ -377,10 +377,9 @@ class Account401Controller extends Controller
                 LEFT JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
                 LEFT JOIN opdscreen d on d.vn = v.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")
-                  
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")                  
                 and v.income-v.discount_money-v.rcpt_money <> 0
-                and (o.an="" or o.an is null)
+                and (o.an="" or o.an is null) AND pt.cid IS NOT NULL
                 GROUP BY v.vn
         ');
         // AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401"))
@@ -391,7 +390,24 @@ class Account401Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.401')->count();
                     // ->whereBetween('vstdate', [$startdate, $enddate])
-                    if ($check == 0) {
+                   
+                    // $starttime = substr($vst, 0, 5);
+                    // $day = substr($value->vstdate,0,2);
+                    // $mo = substr($value->vstdate,3,2);
+                    // $year = substr($value->vstdate,7,4);
+                    
+                    // $vsttime = substr($value->vstdate,12,8);
+                    $hm = substr($value->vstdate,12,5);
+                    // $hh = substr($value->vstdate,12,2);
+                    // $mm = substr($value->vstdate,15,2);
+                    // $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    if ($check > 0) {
+                        Acc_1102050101_401::where('vn', $value->vn)->update([
+                            // 'vsttime' => $value->vsttime,
+                            'hm'      => $hm
+                        ]);
+                    }else{
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -400,6 +416,8 @@ class Account401Controller extends Controller
                             'ptname'             => $value->ptname,
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
+                            'vsttime'            => $value->vsttime,
+                            'hm'                 => $hm,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
@@ -538,6 +556,8 @@ class Account401Controller extends Controller
                             'cid'               => $value->cid,
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
+                            'vsttime'           => $value->vsttime,
+                            'hm'                => $value->hm,
                             'regdate'           => $value->regdate,
                             'dchdate'           => $value->dchdate,
                             'pttype'            => $value->pttype,

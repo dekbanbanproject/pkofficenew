@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('fire_countcheck'))
+        if (!Schema::hasTable('fire_count_nocheck'))
         {
-            Schema::create('fire_countcheck', function (Blueprint $table) {
-                $table->bigIncrements('fire_countcheck_id');
+            Schema::create('fire_count_nocheck', function (Blueprint $table) {
+                $table->bigIncrements('fire_count_nocheck_id');
                 $table->string('fire_id')->nullable();  //  
                 $table->string('fire_num')->nullable();  //  รหัส : OUT CO1
-                $table->date('check_date')->nullable();  //          
-                $table->string('fire_name')->nullable(); //   
                 $table->string('months')->nullable();  // 
-                $table->string('years')->nullable();  // 
+                $table->string('years')->nullable();  //          
+               
                 $table->timestamps();
             });
         }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fire_countcheck');
+        Schema::dropIfExists('fire_count_nocheck');
     }
 };

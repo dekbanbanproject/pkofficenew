@@ -251,7 +251,13 @@
                                         </td> 
                                         <td class="text-center" width="8%" style="font-size: 12px">{{ DateThai($item->repaire_date )}}</td>   
                                         <td class="text-center" width="5%" style="font-size: 12px">{{ $item->repaire_time }}</td> 
-                                        <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_repaire_no }}</td>   
+                                        <td class="text-center" width="7%" style="font-size: 11px">                                           
+                                            @if ($item->air_repaire_no == 'maintenance')
+                                                <span class="badge bg-success">การบำรุงรักษาประจำปี</span> 
+                                            @else
+                                                {{ $item->air_repaire_no }}
+                                            @endif
+                                        </td>   
                                         <td class="text-center" width="7%" style="font-size: 11px">
                                             {{ $item->air_list_num }}
                                         </td>  

@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->string('ptname')->nullable();// 
                 $table->date('vstdate')->nullable();//
                 $table->Time('vsttime')->nullable();// 
+                $table->string('hm')->nullable();//
                 $table->date('rxdate')->nullable();//
                 $table->date('dchdate')->nullable();//
                 // $table->Time('dchtime')->nullable();// 

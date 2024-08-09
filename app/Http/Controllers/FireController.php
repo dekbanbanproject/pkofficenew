@@ -39,10 +39,10 @@ use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
-use App\Models\Acc_stm_lgo;
-use App\Models\Acc_stm_lgoexcel;
+use App\Models\Fire_report;
+use App\Models\Fire_count_nocheck;
 use App\Models\Product_buy;
-use App\Models\Fire_pramuan;
+use App\Models\Fire_countcheck;
 use App\Models\Article_status;
 use App\Models\Fire_pramuan_sub;
 use App\Models\Cctv_report_months;
@@ -1225,6 +1225,89 @@ class FireController extends Controller
         return response()->json([
             'status'     => '200'
         ]);  
+    }
+    public function support_system_check(Request $request,$months,$years)
+    {
+        $datenow = date('Y-m-d'); 
+        Fire_countcheck::truncate();
+        $datareport = DB::connection('mysql')->select('SELECT fire_id,fire_num,fire_name,check_date FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'"'); 
+     
+        foreach ($datareport as $key => $value) {    
+            // $check1 = Fire_countcheck::where('fire_id',$value->fire_id)->where('check_date',$value->check_date)->count();
+            // if ($check1 >0) { 
+            // } else {
+                Fire_countcheck::insert([
+                    'fire_id'     => $value->fire_id,
+                    'fire_num'    => $value->fire_num,
+                    'fire_name'   => $value->fire_name,
+                    'check_date'  => $value->check_date,
+                    'months'      => $months,
+                    'years'       => $years
+                ]); 
+            // } 
+         } 
+         
+        $insert_1 = Fire_countcheck::get();
+        foreach ($insert_1 as $key => $val) {
+            $check_insert = Fire_report::where('fire_id',$val->fire_id)->where('check_date',$val->check_date)->count();
+            if ($check_insert > 0) { 
+            } else {
+                Fire_report::insert([
+                    'fire_id'     => $val->fire_id,
+                    'fire_num'    => $val->fire_num, 
+                    'check_date'  => $val->check_date,
+                    'months'      => $months,
+                    'years'       => $years,
+                    'check'       => 'Y'
+                ]); 
+            } 
+        } 
+
+        $datafire = DB::select(
+            'SELECT f.fire_num,f.fire_name,f.fire_size,f.fire_color,f.fire_location,fc.check_date,u.fname,u.lname
+                FROM fire f
+                LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id
+                LEFT JOIN users u ON u.id = fc.user_id
+                LEFT JOIN fire_countcheck fcc ON fcc.fire_num = f.fire_num 
+                WHERE fcc.fire_num IS NOT NULL AND f.active = "Y"
+                GROUP BY f.fire_num 
+        '); 
+
+        Fire_count_nocheck::truncate();
+        $datanocheck = DB::select(
+            'SELECT f.fire_id,f.fire_num,f.fire_name,f.fire_size,f.fire_color,f.fire_location 
+                FROM fire f 
+                LEFT JOIN fire_countcheck fcc ON fcc.fire_num = f.fire_num 
+                WHERE fcc.fire_num IS NULL AND f.active = "Y"
+                GROUP BY f.fire_num 
+            '); 
+        foreach ($datanocheck as $key => $value2) {   
+                Fire_count_nocheck::insert([
+                    'fire_id'     => $value2->fire_id,
+                    'fire_num'    => $value2->fire_num,
+                    'months'      => $months,
+                    'years'       => $years
+                ]);  
+        } 
+        $insert_2 = Fire_count_nocheck::get();
+        foreach ($insert_2 as $key => $val2) {
+            $check_insert2 = Fire_report::where('fire_id',$val2->fire_id)->where('months',$months)->where('years',$years)->count();
+            if ($check_insert2 > 0) { 
+            } else {
+                Fire_report::insert([
+                    'fire_id'     => $val2->fire_id,
+                    'fire_num'    => $val2->fire_num,  
+                    'months'      => $months,
+                    'years'       => $years,
+                    'check'       => 'N'
+                ]); 
+            } 
+        }      
+       
+        return view('support_prs.support_system_check',[
+            'datareport'     => $datareport,
+            'datafire'       => $datafire, 
+        ]);
     }
 
     public function fire_qrcode_all๘๘๘๘(Request $request)
