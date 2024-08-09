@@ -397,7 +397,7 @@ class Account401Controller extends Controller
                     // $year = substr($value->vstdate,7,4);
                     
                     // $vsttime = substr($value->vstdate,12,8);
-                    $hm = substr($value->vstdate,12,5);
+                    $hm = substr($value->vsttime,0,5);
                     // $hh = substr($value->vstdate,12,2);
                     // $mm = substr($value->vstdate,15,2);
                     // $vstdate = $year.'-'.$mo.'-'.$day;
