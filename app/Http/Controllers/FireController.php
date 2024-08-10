@@ -1253,12 +1253,12 @@ class FireController extends Controller
             if ($check_insert > 0) { 
             } else {
                 Fire_report::insert([
-                    'fire_id'     => $val->fire_id,
-                    'fire_num'    => $val->fire_num, 
-                    'check_date'  => $val->check_date,
-                    'months'      => $months,
-                    'years'       => $years,
-                    'check'       => 'Y'
+                    'fire_id'       => $val->fire_id,
+                    'fire_num'      => $val->fire_num, 
+                    'check_date'    => $val->check_date,
+                    'months'        => $months,
+                    'years'         => $years,
+                    'check_status'  => 'Y'
                 ]); 
             } 
         } 
@@ -1295,11 +1295,11 @@ class FireController extends Controller
             if ($check_insert2 > 0) { 
             } else {
                 Fire_report::insert([
-                    'fire_id'     => $val2->fire_id,
-                    'fire_num'    => $val2->fire_num,  
-                    'months'      => $months,
-                    'years'       => $years,
-                    'check'       => 'N'
+                    'fire_id'        => $val2->fire_id,
+                    'fire_num'       => $val2->fire_num,  
+                    'months'         => $months,
+                    'years'          => $years,
+                    'check_status'   => 'N'
                 ]); 
             } 
         }      

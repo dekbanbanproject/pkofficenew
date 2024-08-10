@@ -309,7 +309,7 @@
                                                         <span class="badge rounded-pill bg-success p-2">{{$Check_greenten}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(219, 243, 252)">
-                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">
+                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
                                                             {{$Checktotal_all}}
                                                         </a>
                                                     </td> 
