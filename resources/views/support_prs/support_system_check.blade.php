@@ -41,7 +41,7 @@
         <div class="row"> 
             <div class="col-md-8">
                 <h4 style="color:rgb(255, 255, 255)"> รายงานผลการตรวจสอบสภาพถังดับเพลิง โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
-                <p style="font-size: 14px"> รายการถังดับเพลิงที่เช็คไปแล้ว</p>
+                <p style="font-size: 17px"> รายการถังดับเพลิงที่เช็คไปแล้ว ในเดือน {{$month_name}}</p>
             </div>
             <div class="col"></div>
             {{-- <div class="col-md-3"> 

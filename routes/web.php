@@ -3144,7 +3144,7 @@ Route::match(['get','post'],'tb_main_detail/{id}',[App\Http\Controllers\TbContro
 Route::match(['get','post'],'support_system_excel',[App\Http\Controllers\SupportPRSController::class, 'support_system_excel'])->name('prs.support_system_excel');//
 Route::match(['get','post'],'support_system_process',[App\Http\Controllers\SupportPRSController::class, 'support_system_process'])->name('prs.support_system_process');//
 
-Route::match(['get','post'],'support_system_nocheck/{monts}/{years}',[App\Http\Controllers\SupportPRSController::class, 'support_system_nocheck'])->name('prs.support_system_nocheck');//
+
 Route::match(['get','post'],'support_system',[App\Http\Controllers\SupportPRSController::class, 'support_system'])->name('prs.support_system');//
 Route::match(['get','post'],'support_dashboard_chart',[App\Http\Controllers\SupportPRSController::class, 'support_dashboard_chart'])->name('prs.support_dashboard_chart');//
 
@@ -3194,7 +3194,7 @@ Route::match(['get','post'],'fire_report_month',[App\Http\Controllers\FireContro
 Route::match(['get','post'],'fire_stock_month',[App\Http\Controllers\FireController::class, 'fire_stock_month'])->name('prs.fire_stock_month');//
 Route::match(['get','post'],'fire_stock_month_save',[App\Http\Controllers\FireController::class, 'fire_stock_month_save'])->name('prs.fire_stock_month_save');//
 Route::match(['get','post'],'support_system_check/{monts}/{years}',[App\Http\Controllers\FireController::class, 'support_system_check'])->name('prs.support_system_check');//
-
+Route::match(['get','post'],'support_system_nocheck/{monts}/{years}',[App\Http\Controllers\FireController::class, 'support_system_nocheck'])->name('prs.support_system_nocheck');//
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
 Route::match(['get','post'],'fdh_main',[App\Http\Controllers\FdhController::class, 'fdh_main'])->name('fdh.fdh_main');// 

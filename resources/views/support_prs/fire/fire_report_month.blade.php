@@ -206,8 +206,8 @@
                                                                 (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
                                                                 (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
                                                                 (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all_old
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'" AND f.active = "N") as camroot
 
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
@@ -217,7 +217,8 @@
                                                             WHERE month(f.check_date) = "'.$itemreport->months.'"
                                                             AND year(f.check_date) = "'.$itemreport->years.'" 
             
-                                                        ');                                     
+                                                        ');  
+                                                        // ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot                                   
                                                         foreach ($dashboard_ as $key => $value) {
                                                             // $red_all               = $value->red_all;
                                                             $redten                = $value->redten;
@@ -315,14 +316,14 @@
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                                        {{-- <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)"> --}}
-                                                        <a href="" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)">
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)">
+                                                        {{-- <a href="" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)"> --}}
                                                             {{$count_nocheck}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
-                                                            {{-- {{$camroot}} --}}
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning p-2">
+                                                            {{$camroot}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
