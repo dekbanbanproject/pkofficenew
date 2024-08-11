@@ -306,6 +306,7 @@
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
                                                             {{$Check_greenten}}
+                                                            
                                                         </a> --}}
                                                         <span class="badge rounded-pill bg-success p-2">{{$Check_greenten}}</span>
                                                     </td>
