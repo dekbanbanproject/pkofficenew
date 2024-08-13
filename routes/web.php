@@ -3195,6 +3195,9 @@ Route::match(['get','post'],'fire_stock_month',[App\Http\Controllers\FireControl
 Route::match(['get','post'],'fire_stock_month_save',[App\Http\Controllers\FireController::class, 'fire_stock_month_save'])->name('prs.fire_stock_month_save');//
 Route::match(['get','post'],'support_system_check/{monts}/{years}',[App\Http\Controllers\FireController::class, 'support_system_check'])->name('prs.support_system_check');//
 Route::match(['get','post'],'support_system_nocheck/{monts}/{years}',[App\Http\Controllers\FireController::class, 'support_system_nocheck'])->name('prs.support_system_nocheck');//
+Route::match(['get','post'],'fire_insert_all',[App\Http\Controllers\FireController::class, 'fire_insert_all'])->name('prs.fire_insert_all');//
+Route::match(['get','post'],'fire_insert_stamall',[App\Http\Controllers\FireController::class, 'fire_insert_stamall'])->name('prs.fire_insert_stamall');//
+
 // ************** FDH ****************************
 Route::match(['get','post'],'fdh_dashboard',[App\Http\Controllers\FdhController::class, 'fdh_dashboard'])->name('fdh.fdh_dashboard');// 
 Route::match(['get','post'],'fdh_main',[App\Http\Controllers\FdhController::class, 'fdh_main'])->name('fdh.fdh_main');// 
@@ -3517,6 +3520,10 @@ Route::match(['get','post'],'stm_oneid_opd',[App\Http\Controllers\AccountSTMONEI
 Route::match(['get','post'],'stm_oneid_opdsave',[App\Http\Controllers\AccountSTMONEIDController::class, 'stm_oneid_opdsave'])->name('acc.stm_oneid_opdsave');//
 Route::match(['get','post'],'stm_oneid_opdsend',[App\Http\Controllers\AccountSTMONEIDController::class, 'stm_oneid_opdsend'])->name('acc.stm_oneid_opdsend');//
 
+
+
+// ************************************* Check sit All ***********************************************************
+Route::match(['get','post'],'or_mis',[App\Http\Controllers\OrController::class, 'or_mis'])->name('or.or_mis');//
 
 
 

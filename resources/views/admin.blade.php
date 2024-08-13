@@ -126,129 +126,137 @@
 
         <div class="row">
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(250, 128, 124)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('pre_audit') }}" target="_blank">
-                                                <h5 class="text-start mb-2">PRE-AUDIT</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('pre_audit') }}" target="_blank">
-                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('pre_audit') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(250, 128, 124)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('pre_audit') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">PRE-AUDIT</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('pre_audit') }}" target="_blank"> --}}
+                                                    <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
+                                                            <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             @if ($countpesmiss_per != 0)   
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('person/person_index') }}" target="_blank">
-                                                <h5 class="text-start mb-2">PERSONNEL</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('person/person_index') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25"
-                                                        style="color: rgb(234, 157, 172)"></i> --}}
-                                                        <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('person/person_index') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('person/person_index') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">PERSONNEL</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('person/person_index') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25"
+                                                            style="color: rgb(234, 157, 172)"></i> --}}
+                                                            <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
             @if ($countpermiss_ot != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('otone') }}" target="_blank">
-                                                <h5 class="text-start mb-2">OT</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('otone') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <img src="{{ asset('images/otnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    {{-- <i class="fa-solid fa-3x fa-clock-rotate-left font-size-25"
-                                                        style="color: rgb(171, 149, 223)"></i> --}}
-                                                </button>
-                                            </a>
+                <a href="{{ url('otone') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('otone') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">OT</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('otone') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/otnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        {{-- <i class="fa-solid fa-3x fa-clock-rotate-left font-size-25"
+                                                            style="color: rgb(171, 149, 223)"></i> --}}
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
             @if ($countpermiss_time != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('time_dashboard') }}" target="_blank">
-                                                <h5 class="text-start mb-2">TIME</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('time_dashboard') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <img src="{{ asset('images/time.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    {{-- <i class="fa-solid fa-3x fa-clock font-size-25 ms-2"
-                                                        style="color: rgb(119, 218, 215)"></i> --}}
-                                                </button>
-                                            </a>
+                <a href="{{ url('time_dashboard') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('time_dashboard') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">TIME</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('time_dashboard') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/time.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        {{-- <i class="fa-solid fa-3x fa-clock font-size-25 ms-2"
+                                                            style="color: rgb(119, 218, 215)"></i> --}}
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
@@ -284,34 +292,36 @@
             
             @if ($countpesmiss_plan != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('plan') }}" target="_blank">
-                                                <h5 class="text-start mb-2">PLAN</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('plan') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-clipboard font-size-25"
-                                                        style="color: rgb(248, 182, 182)"></i> --}}
-                                                        <img src="{{ asset('images/plan2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('plan') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('plan') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">PLAN</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('plan') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-clipboard font-size-25"
+                                                            style="color: rgb(248, 182, 182)"></i> --}}
+                                                            <img src="{{ asset('images/plan2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
 
@@ -411,235 +421,249 @@
     
             @if ($countpesmiss_medical != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('medical/med_calenda') }}" target="_blank">
-                                                <h5 class="text-start mb-2">MEDICAL</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href="{{ url('medical/med_calenda') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-notes-medical font-size-25"
-                                                        style="color: rgb(137, 134, 236)"></i> --}}
-                                                        <img src="{{ asset('images/medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('medical/med_calenda') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('medical/med_calenda') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">MEDICAL</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar">
+                                                {{-- <a href="{{ url('medical/med_calenda') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-notes-medical font-size-25"
+                                                            style="color: rgb(137, 134, 236)"></i> --}}
+                                                            <img src="{{ asset('images/medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
              @if ($countpesmiss_store != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
-                                                <h5 class="text-start mb-2">WAREHOUSE</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-warehouse font-size-25"
-                                                        style="color: rgb(107, 189, 202)"></i> --}}
-                                                        {{-- <img src="{{ asset('images/warehouse.png') }}" height="70px" width="70px" class="rounded-circle me-3">  --}}
-                                                        <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">WAREHOUSE</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar">
+                                                {{-- <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-warehouse font-size-25"
+                                                            style="color: rgb(107, 189, 202)"></i> --}}
+                                                            {{-- <img src="{{ asset('images/warehouse.png') }}" height="70px" width="70px" class="rounded-circle me-3">  --}}
+                                                            <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
             @if ($countpesmiss_money != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('account_info') }}" target="_blank">
-                                                <h5 class="text-start mb-2">FINANCE</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href="{{ url('account_info') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-money-check-dollar font-size-25"
-                                                        style="color: rgb(223, 136, 173)"></i> --}}
-                                                        <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('account_info') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('account_info') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">FINANCE</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar">
+                                                {{-- <a href="{{ url('account_info') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-money-check-dollar font-size-25"
+                                                            style="color: rgb(223, 136, 173)"></i> --}}
+                                                            <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
             @if ($permiss_account != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('account_pk_dash') }}" target="_blank">
-                                                <h5 class="text-start mb-2">ACCOUNT</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href="{{ url('account_pk_dash') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
-                                                        style="color: pink"></i> --}}
-                                                        <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('account_pk_dash') }}" target="_blank">
+                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('account_pk_dash') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">ACCOUNT</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar">
+                                                {{-- <a href="{{ url('account_pk_dash') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
+                                                            style="color: pink"></i> --}}
+                                                            <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
     
             @if ($countpermiss_p4p != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(235, 104, 247, 0.781)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('p4p') }}" target="_blank">
-                                                <h5 class="text-start">P4P</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('p4p') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> --}}
-                                                    <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    
-                                                </button>
-                                            </a>
+                <a href="{{ url('p4p') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill"
+                        style="background-color: rgba(235, 104, 247, 0.781)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+                                                    <h5 class="text-start">P4P</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> --}}
+                                                        <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
      
             @if ($countpermiss_env != 0)  
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('env_dashboard') }}" target="_blank">
-                                                <h5 class="text-start mb-2">ENV</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ">
-                                            <a href="{{ url('env_dashboard') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-hand-holding-droplet font-size-25"
-                                                        style="color: rgb(90, 197, 215)"></i> --}}
-                                                        <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                                </span>
-                                            </a>
+                <a href="{{ url('env_dashboard') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('env_dashboard') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">ENV</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ">
+                                                {{-- <a href="{{ url('env_dashboard') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-hand-holding-droplet font-size-25"
+                                                            style="color: rgb(90, 197, 215)"></i> --}}
+                                                            <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                    </span>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             @endif
       
             {{-- @if ($countpesmiss_per != 0)   --}}
             <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
-                                            <a href="{{ url('prenatal_care_db') }}" target="_blank">
-                                                <h5 class="text-start mb-2">PEDIATRICS</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('prenatal_care_db') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    {{-- <i class="fa-solid fa-3x fa-person-breastfeeding font-size-25"
-                                                        style="color: rgb(209, 180, 255)"></i> --}}
-                                                        <img src="{{ asset('images/pediatrics.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button>
-                                            </a>
+                <a href="{{ url('prenatal_care_db') }}" target="_blank">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
+                                                {{-- <a href="{{ url('prenatal_care_db') }}" target="_blank"> --}}
+                                                    <h5 class="text-start mb-2">PEDIATRICS</h5>
+                                                {{-- </a> --}}
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                {{-- <a href="{{ url('prenatal_care_db') }}" target="_blank"> --}}
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <i class="fa-solid fa-3x fa-person-breastfeeding font-size-25"
+                                                            style="color: rgb(209, 180, 255)"></i> --}}
+                                                            <img src="{{ asset('images/pediatrics.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    </button>
+                                                {{-- </a> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             {{-- @endif --}}
     

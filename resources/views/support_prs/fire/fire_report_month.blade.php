@@ -249,6 +249,7 @@
                                                         foreach ($count_check_ as $key => $v_check) {
                                                             $count_nocheck   = $v_check->checkfire;
                                                         }
+                                                        $m       = date('m');
                                                 ?>
                                                 <tr> 
                                                     <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
@@ -311,9 +312,14 @@
                                                         <span class="badge rounded-pill bg-success p-2">{{$Check_greenten}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(219, 243, 252)">
-                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
-                                                            {{$Checktotal_all}}
-                                                        </a>
+                                                        @if ($itemreport->months == $m)
+                                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
+                                                                {{$Checktotal_all}}
+                                                            </a>
+                                                        @else
+                                                        <span class="badge rounded-pill bg-primary p-2">{{$Checktotal_all}}</span> 
+                                                        @endif
+                                                       
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">

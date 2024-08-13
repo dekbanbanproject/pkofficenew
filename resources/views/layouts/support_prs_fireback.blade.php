@@ -284,9 +284,9 @@ use App\Models\Products_request_sub;
                     <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
                     </button>
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    {{-- <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 252, 252)"></i>
-                    </button>
+                    </button> --}}
 
                 
                     <form class="app-search d-none d-lg-block">
