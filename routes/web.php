@@ -3191,6 +3191,7 @@ Route::match(['get','post'],'fire_report_ploblems_excel',[App\Http\Controllers\F
 Route::match(['get','post'],'fire_report_building',[App\Http\Controllers\FireController::class, 'fire_report_building'])->name('prs.fire_report_building');//
 Route::match(['get','post'],'fire_report_building_excel',[App\Http\Controllers\FireController::class, 'fire_report_building_excel'])->name('prs.fire_report_building_excel');//
 Route::match(['get','post'],'fire_report_month',[App\Http\Controllers\FireController::class, 'fire_report_month'])->name('prs.fire_report_month');//
+Route::match(['get','post'],'fire_report_month_chang/{monts}/{years}',[App\Http\Controllers\FireController::class, 'fire_report_month_chang'])->name('prs.fire_report_month_chang');//
 Route::match(['get','post'],'fire_stock_month',[App\Http\Controllers\FireController::class, 'fire_stock_month'])->name('prs.fire_stock_month');//
 Route::match(['get','post'],'fire_stock_month_save',[App\Http\Controllers\FireController::class, 'fire_stock_month_save'])->name('prs.fire_stock_month_save');//
 Route::match(['get','post'],'support_system_check/{monts}/{years}',[App\Http\Controllers\FireController::class, 'support_system_check'])->name('prs.support_system_check');//

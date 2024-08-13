@@ -172,9 +172,9 @@
                                                 <th rowspan="2" class="text-center" style="background-color: rgb(228, 253, 255)">ที่ชำรุด<br> รวม(ถัง)</th> 
                                             </tr>
                                             <tr> 
-                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
-                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
-                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์/สำรอง</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์/สำรอง</th>
+                                                <th class="text-center" style="background-color: rgb(253, 210, 199)">20 ปอนด์/สำรอง</th>
                                                 <th colspan="2" class="text-center" style="background-color: rgb(218, 252, 241)">(ถังเขียว) 10 ปอนด์</th> 
                                                 <th class="text-center" style="background-color: rgb(253, 210, 199)">10 ปอนด์</th>
                                                 <th class="text-center" style="background-color: rgb(253, 210, 199)">15 ปอนด์</th>
@@ -297,8 +297,11 @@
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
                                                             {{$itemreport->total_all_qty}}
                                                         </a> --}}
-                                                        <span class="badge rounded-pill bg-info p-2">{{$itemreport->total_all_qty}}</span> /
-                                                        <span class="badge rounded-pill bg-warning p-2 text-danger">{{$chang}}</span> 
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_all_qty}}</span> /
+                                                        <a href="{{url('fire_report_month_chang/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-warning p-2 text-danger">
+                                                            {{$chang}}
+                                                        </a>
+                                                        {{-- <span class="badge rounded-pill bg-warning p-2 text-danger">{{$chang}}</span>  --}}
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">

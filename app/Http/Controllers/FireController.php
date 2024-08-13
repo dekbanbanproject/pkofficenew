@@ -1167,6 +1167,21 @@ class FireController extends Controller
             'bg_yearnow'       => $bg_yearnow, 
         ]);
     }
+     public function fire_report_month_chang(Request $request,$months,$years)
+    {  
+        $datafire = DB::select(
+            'SELECT f.fire_id,fc.fire_num,fc.fire_chang_date,f.fire_num as chang,f.fire_size,f.fire_color,f.fire_location,f.building_name,CONCAT(s.fname," ",s.lname) as ptname
+            FROM fire f
+            INNER JOIN fire_chang fc ON fc.fire_num_chang = f.fire_id
+            INNER JOIN users s ON s.id = fc.userid
+            WHERE MONTH(fc.fire_chang_date) = "'.$months.'" AND year(fc.fire_chang_date) = "'.$years.'"  
+        '); 
+        
+        return view('support_prs.fire.fire_report_month_chang',[
+            // 'datareport'     => $datareport,
+            'datafire'       => $datafire, 
+        ]);
+    }  
     public function fire_stock_month_save(Request $request)
     {   
         $date_now        = date('Y-m-d');
