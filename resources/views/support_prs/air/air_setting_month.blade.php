@@ -43,12 +43,12 @@
         @csrf
         <div class="row"> 
             <div class="col-md-6">
-                <h4 style="color:rgb(255, 255, 255)">ยกยอดจำนวนทั้งหมด(รายเดือน)</h4> 
+                <h4 style="color:rgb(255, 255, 255)">ยกยอดทั้งหมด(รายเดือน)</h4> 
             </div>
              
             <div class="col"></div>               
            
-            <div class="col-md-4 text-end">   
+            <div class="col-md-2 text-end mb-2">   
                 <button type="button" class="ladda-button btn-pill btn btn-sm btn-info bt_prs" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">   
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
                     <span>ทำรายการ</span> 
@@ -72,9 +72,9 @@
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
                                                     <th class="text-center" width="5%">ลำดับ</th>  
-                                                    <th class="text-center" width="10%">ปี พ.ศ.</th>  
+                                                    <th class="text-center" width="10%">ปี</th>  
                                                     <th class="text-center" width="10%">เดือน</th> 
-                                                    <th class="text-center" width="15%">จำนวนทั้งหมด</th>    
+                                                    <th class="text-center" width="15%">จำนวน</th>    
                                                 </tr>  
                                         </thead>
                                         <tbody>
@@ -143,7 +143,7 @@
                                     </div> 
                                     <div class="row mt-4">
                                         <div class="col"></div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 text-center">
                                             <div class="form-group"> 
                                                 <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Copydatato"> 
                                                     <i class="fa-regular fa-clone text-white me-2"></i>

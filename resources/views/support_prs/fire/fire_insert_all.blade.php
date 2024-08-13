@@ -43,7 +43,7 @@
             <div id="overlay">
                 <div class="cv-spinner">
                     {{-- <span class="spinner"></span> --}}
-                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 5px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
                 </div>
             </div> 
         </div> 
@@ -80,8 +80,7 @@
                         </div>
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="prscheckbox" name="stamp" id="stamp"> </th> 

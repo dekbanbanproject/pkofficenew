@@ -152,7 +152,7 @@
                 <h5 style="color:rgb(255, 255, 255)">รายงานการบำรุงรักษาเครื่องปรับอากาศ แยกตามประเภทการซ่อมและบำรุงรักษาประจำปี</h5>
                 {{-- <p class="card-title-desc">รายงานถังดับเพลิง</p> --}}
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-md-2 text-center mb-2">
                 <select class="form-control bt_prs" id="air_repaire_type" name="air_repaire_type" style="width: 100%">
                     <option value="" class="text-center">เลือกประเภททั้งหมด</option>
                         @foreach ($air_repaire_type as $item_t)
@@ -185,7 +185,7 @@
             </div>
         </div>  
     </form>
-<div class="row mt-4">
+<div class="row mt-3">
     <div class="col-xl-12">
         <div class="card card_prs_4">
             <div class="card-body">    

@@ -65,6 +65,7 @@
         background-attachment: fixed; 
         background-size: 100% 100%; 
         font-size: 13px;
+       
     }
     /* Logo หมุน */
     @keyframes colorShift {
@@ -103,30 +104,38 @@
         }
     }
 
-    #container_spin {
-        width: 300px;
-        height: 300px;
+    #container_spin { 
+        position: relative;
+        /* top: 0; */
+        /* left: 0; */
+        /* right: 0; */
+        /* bottom: 0; */
+        text-align: center;
+        width: 250px;
+        height: 250px;
+        /* left: 40%; */
+        /* margin-left: -4em; */
     }
 
     @keyframes animation {
-    0% {
-        stroke-dasharray: 1 98;
-        stroke-dashoffset: -105;
-    }
-    50% {
-        stroke-dasharray: 80 10;
-        stroke-dashoffset: -160;
-    }
-    100% {
-        stroke-dasharray: 1 98;
-        stroke-dashoffset: -300;
-    }
+        0% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -105;
+        }
+        50% {
+            stroke-dasharray: 80 10;
+            stroke-dashoffset: -160;
+        }
+        100% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -300;
+        }
     }
 
     #spinner {
         transform-origin: center;
         animation-name: animation;
-        animation-duration: 1.2s;
+        animation-duration: 2.5s;
         animation-timing-function: cubic-bezier;
         animation-iteration-count: infinite;
     }
@@ -183,19 +192,19 @@
      
 </style>
 <?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
 
-use App\Http\Controllers\StaticController;
-use App\Http\Controllers\UsersuppliesController;
-use App\Models\Products_request_sub;
+    use App\Http\Controllers\StaticController;
+    use App\Http\Controllers\UsersuppliesController;
+    use App\Models\Products_request_sub;
     $permiss_account         = StaticController::permiss_account($iduser);
     $permiss_setting_upstm   = StaticController::permiss_setting_upstm($iduser);
     $permiss_ucs             = StaticController::permiss_ucs($iduser);
@@ -259,7 +268,7 @@ use App\Models\Products_request_sub;
             
                     <div class="navbar-brand-box">
                       
-                        <a href="{{url('support_system_dashboard')}}" class="logo logo-dark">
+                        {{-- <a href="{{url('support_system_dashboard')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/p.png" alt="logo-sm" height="22">
                             </span>
@@ -278,12 +287,37 @@ use App\Models\Products_request_sub;
                                 <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> 
                             </span>
                             
+                        </a> --}}
+                        <a href="{{url('support_main')}}" class="logo logo-dark"> 
+                            <span class="logo-sm me-2"> 
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            </span>
                         </a>
+ 
+                        <a href="{{url('support_main')}}" class="logo logo-light">
+                            <span class="logo-sm me-2">
+                                {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
+                            </span>
+                            
+                        </a>
+                        
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    {{-- <button type="button" class="btn btn-sm font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
-                    </button>
+                    </button> --}}
                     {{-- <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 252, 252)"></i>
                     </button> --}}
@@ -351,11 +385,16 @@ use App\Models\Products_request_sub;
                         </div>
                     </div>
  
-                    <div class="dropdown d-inline-block">
+                    <button type="button" class="btn btn-sm font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
+
+                    {{-- <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
                             <i class="ri-settings-2-line"></i>
                         </button>
-                    </div>
+                    </div> --}}
+                    
         
                 </div>
             </div>

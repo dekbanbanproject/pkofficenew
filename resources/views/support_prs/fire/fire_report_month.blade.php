@@ -81,22 +81,23 @@
                 </div>
             </div>
         </div> --}}
-        <div id="preloader">
+         
+        <div id="preloader" class="center">
             <div id="status">
                 <div id="container_spin">
                     <svg viewBox="0 0 100 100">
                         <defs>
                             <filter id="shadow">
-                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            <feDropShadow dx="0" dy="0" stdDeviation="3.5" 
                                 flood-color="#fc6767"/>
                             </filter>
                         </defs>
-                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 5px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
                     </svg>
                 </div>
             </div>
         </div>
-
+    
         <div class="app-main__outer">
             <div class="app-main__inner">
                 <div class="app-page-title app-page-title-simple">

@@ -46,7 +46,7 @@
                 <h4 style="color:rgb(255, 255, 255)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ รายเดือน </h4> 
             </div> 
             <div class="col"></div>
-            <div class="col-md-2 text-end">
+            <div class="col-md-2 text-center mb-2">
                 <select name="month_id" id="month_id" class="form-control bt_prs form-control-sm" width="100%">
                     <option value="" class="text-center">--ทั้งหมด--</option>
                     @foreach ($air_plan_month as $item_m)
@@ -58,7 +58,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2"> 
+            <div class="col-md-2 text-center"> 
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
                     {{-- <input type="text" class="form-control bt_prs" name="startdate" value="{{$startdate}}" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" required/> --}}

@@ -123,7 +123,7 @@
                             @csrf --}}
                             <br>                            
                                 <div class="container"> 
-                                    <div class="row">
+                                    <div class="row text-center">
                                         <h3 class="text-center">คัดลอกข้อมูล</h3>
                                         <div class="col-md-12">
                                             <div class="form-group">  
@@ -140,7 +140,7 @@
                                     </div> 
                                     <div class="row mt-4">
                                         <div class="col"></div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 text-center">
                                             <div class="form-group"> 
                                                 <button type="button" class="ladda-button btn-pill btn btn-success bt_prs" id="Copydata"> 
                                                     <i class="fa-regular fa-clone text-white me-2"></i>
