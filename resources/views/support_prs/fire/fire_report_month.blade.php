@@ -164,7 +164,7 @@
                                             <tr> 
                                                 <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
                                                 <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
-                                                <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th> 
+                                                <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด / เปลี่ยน</th> 
                                                 <th colspan="3" class="text-center" style="background-color: rgb(255, 176, 157)">ชนิดผงเคมีแห้ง (ถังแดง)</th>
                                                 <th colspan="2" class="text-center" style="background-color: rgb(139, 247, 211)">ชนิดน้ำยาระเหย</th>
                                                 <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247)">รวมทั้งหมด</th>   
@@ -251,6 +251,15 @@
                                                             $count_nocheck   = $v_check->checkfire;
                                                         }
                                                         $m       = date('m');
+                                                        $chang_ = DB::select(
+                                                            'SELECT COUNT(DISTINCT fc.fire_id) as firechang
+                                                            FROM fire f
+                                                            INNER JOIN fire_chang fc ON fc.fire_id = f.fire_id
+                                                            WHERE MONTH(fc.fire_chang_date) = "'.$itemreport->months.'" AND year(fc.fire_chang_date) = "'.$itemreport->years.'"  
+                                                        '); 
+                                                        foreach ($chang_ as $key => $vc) {
+                                                            $chang = $vc->firechang;
+                                                        }
                                                 ?>
                                                 <tr> 
                                                     <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
@@ -261,19 +270,22 @@
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red10}}
                                                         </a> --}}
-                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red10}}</span>
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red10}}</span> /
+                                                        <span class="badge rounded-pill p-2" style="background-color: #FAACB0">{{$itemreport->total_backup_r10}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red15}}
                                                         </a> --}}
-                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red15}}</span>
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red15}}</span> /
+                                                        <span class="badge rounded-pill p-2" style="background-color: #FAACB0">{{$itemreport->total_backup_r15}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red20}}
                                                         </a> --}}
-                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red20}}</span>
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red20}}</span> /
+                                                        <span class="badge rounded-pill p-2" style="background-color: #FAACB0">{{$itemreport->total_backup_r20}}</span>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
@@ -285,7 +297,8 @@
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
                                                             {{$itemreport->total_all_qty}}
                                                         </a> --}}
-                                                        <span class="badge rounded-pill bg-info p-2">{{$itemreport->total_all_qty}}</span>
+                                                        <span class="badge rounded-pill bg-info p-2">{{$itemreport->total_all_qty}}</span> /
+                                                        <span class="badge rounded-pill bg-warning p-2 text-danger">{{$chang}}</span> 
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
                                                         {{-- <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
@@ -316,11 +329,12 @@
                                                         @if ($itemreport->months == $m)
                                                             <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
                                                                 {{$Checktotal_all}}
-                                                            </a>
+                                                            </a> 
                                                         @else
                                                         <span class="badge rounded-pill bg-primary p-2">{{$Checktotal_all}}</span> 
-                                                        @endif
                                                        
+                                                        @endif
+                                                        
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">

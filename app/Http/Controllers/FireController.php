@@ -1082,6 +1082,7 @@ class FireController extends Controller
             
             $datareport = DB::connection('mysql')->select(
                 'SELECT a.months,a.years,a.years_th as yearsthai,b.month_name
+                ,a.total_backup_r10,a.total_backup_r15,a.total_backup_r20
                 ,a.total_red10,a.total_red15,a.total_red20,a.total_green10,a.total_all_qty
                 FROM fire_stock_month a
                 LEFT JOIN months b ON b.month_id = a.months
@@ -1474,10 +1475,6 @@ class FireController extends Controller
             'status'    => '200'
         ]);
     }
-
-
-
-
     public function fire_qrcode_all๘๘๘๘(Request $request)
     {
       
@@ -1491,8 +1488,5 @@ class FireController extends Controller
         return @$pdf->stream();
     }
     
-
-    
- 
 
  }
