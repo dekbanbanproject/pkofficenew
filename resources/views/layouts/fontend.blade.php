@@ -376,19 +376,20 @@
                             
                                 <div class="container"> 
                                     <div class="row">
-                                        <div class="col-md-1"> </div>
-                                        <div class="col-md-11">
+                                        <div class="col"></div>
+                                        <div class="col-md-6">
                                             <div class="d-flex justify-content-center">
                                                 <span>
                                                     <img src="{{ asset('images/logo_350.jpg') }}" width="200" height="200" alt="IMG"><br><br> 
                                                 </span> 
                                             </div>
                                         </div> 
+                                        <div class="col"></div>
                                     </div>
                                     <div class="row mt-1">
                                         <div class="col"></div>
                                         {{-- <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-user-large text-primary"></i></div> --}}
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Username">
                                                     <input type="text" class="form-control input100" name="username" id="username" placeholder="Username" required> 
@@ -400,7 +401,7 @@
                                     <div class="row">
                                         <div class="col"></div>
                                         {{-- <div class="col-md-1 text-end mt-2"><i class="fa-solid fa-key text-danger"></i></div> --}}
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
                                                 <div class="wrap-input100 validate-input" data-validate = "กรุณาใส่ Password">
                                                     <input type="password" class="form-control input100" name="password" id="password" placeholder="Password" required>
@@ -412,7 +413,7 @@
                                     <div class="row">
                                         <div class="col"></div>
                                         {{-- <div class="col-md-1 text-end"></div> --}}
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <button type="submit" class="login100-form-btn">
                                                     <i class="fa-solid fa-fingerprint me-3"></i>

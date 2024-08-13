@@ -88,8 +88,8 @@
         }
     }
     #container_spin {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
     }
     @keyframes animation {
         0% {
@@ -108,7 +108,7 @@
     #spinner {
         transform-origin: center;
         animation-name: animation;
-        animation-duration: 1.2s;
+        animation-duration: 2.5s;
         animation-timing-function: cubic-bezier;
         animation-iteration-count: infinite;
     }
@@ -249,7 +249,31 @@
             
                     <div class="navbar-brand-box">
                       
-                        <a href="{{url('support_main')}}" class="logo logo-dark">
+                        <a href="{{url('support_main')}}" class="logo logo-dark"> 
+                            <span class="logo-sm me-2"> 
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            </span>
+                        </a>
+ 
+                        <a href="{{url('support_main')}}" class="logo logo-light">
+                            <span class="logo-sm me-2">
+                                {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
+                            </span>
+                            
+                        </a>
+                        {{-- <a href="{{url('support_main')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/p.png" alt="logo-sm" height="22">
                             </span>
@@ -268,12 +292,12 @@
                                 <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> 
                             </span>
                             
-                        </a>
+                        </a> --}}
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    {{-- <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
-                    </button>
+                    </button> --}}
                     {{-- <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 252, 252)"></i>
                     </button> --}}
@@ -343,12 +367,16 @@
                             </form>
                         </div>
                     </div>
+
+                    <button type="button" class="btn btn-sm font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
  
-                    <div class="dropdown d-inline-block">
+                    {{-- <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
                             <i class="ri-settings-2-line"></i>
                         </button>
-                    </div>
+                    </div> --}}
         
                 </div>
             </div>

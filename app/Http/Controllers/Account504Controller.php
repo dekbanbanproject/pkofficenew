@@ -211,7 +211,7 @@ class Account504Controller extends Controller
                 
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND opdipd ="IPD")
-                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND hospmain <> "") 
+                AND ipt.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND hospmain <> "") 
                 AND pt.nationality <> "99" 
                 GROUP BY i.an 
         '); 
@@ -226,9 +226,10 @@ class Account504Controller extends Controller
                         'vn'                 => $value->vn,
                         'cid'                => $value->cid,
                         'ptname'             => $value->ptname,
+                        'hospmain'           => $value->hospmain,
                         'pttype'             => $value->pttype,
                         'nationality'        => $value->nationality,
-                        'hospmain'           => $value->hospmain,
+                  
                         'vstdate'            => $value->vstdate,
                         'dchdate'            => $value->dchdate,
                         'acc_code'           => $value->acc_code,

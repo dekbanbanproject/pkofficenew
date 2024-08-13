@@ -140,22 +140,23 @@
                             flood-color="#fc6767"/>
                         </filter>
                     </defs>
-                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 5px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
                 </svg>
             </div>
         </div>
     </div>
+    
     <form action="{{ url('air_main_repaire') }}" method="GET">
         @csrf
    
         <div class="row"> 
-            <div class="col-md-3">
+            <div class="col-md-3 mb-2">
                 <h4 style="color:rgb(255, 255, 255)">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h4>
                 {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p> --}}
             </div>
             <div class="col"></div>
         
-            <div class="col-md-5 text-end"> 
+            <div class="col-md-5 text-end mb-2"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -251,7 +252,13 @@
                                         </td> 
                                         <td class="text-center" width="8%" style="font-size: 12px">{{ DateThai($item->repaire_date )}}</td>   
                                         <td class="text-center" width="5%" style="font-size: 12px">{{ $item->repaire_time }}</td> 
-                                        <td class="text-center" width="7%" style="font-size: 11px">{{ $item->air_repaire_no }}</td>   
+                                        <td class="text-center" width="7%" style="font-size: 11px">                                           
+                                            @if ($item->air_repaire_no == 'maintenance')
+                                                <span class="badge bg-success">การบำรุงรักษาประจำปี</span> 
+                                            @else
+                                                {{ $item->air_repaire_no }}
+                                            @endif
+                                        </td>   
                                         <td class="text-center" width="7%" style="font-size: 11px">
                                             {{ $item->air_list_num }}
                                         </td>  

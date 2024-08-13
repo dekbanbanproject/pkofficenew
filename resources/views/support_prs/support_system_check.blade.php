@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_fireback')
 @section('title', 'PK-OFFICE || Support-System')
 
 @section('content')
@@ -20,71 +20,28 @@
     
     ?>
 
-    <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
-
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .is-hide {
-            display: none;
-        }
-    </style>
-
+  
     <div class="tabs-animation">
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
-            </div>
-        </div>
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
                 </div>
             </div>
         </div>
+
         <div class="row"> 
             <div class="col-md-8">
-                <h4 style="color:rgb(10, 151, 85)"> รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
-                <p class="card-title-desc"> รายการถังดับเพลิงที่เช็คไปแล้ว</p>
+                <h4 style="color:rgb(255, 255, 255)"> รายงานผลการตรวจสอบสภาพถังดับเพลิง โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4>
+                <p style="font-size: 17px"> รายการถังดับเพลิงที่เช็คไปแล้ว ในเดือน {{$month_name}}</p>
             </div>
             <div class="col"></div>
             {{-- <div class="col-md-3"> 
@@ -94,14 +51,15 @@
 
         <div class="row">
             <div class="col-xl-12">
-                <div class="card card_prs_2b p-3">
+                <div class="card card_prs_4 p-3">
                     {{-- <div class="card-header">
                         <div class="card-header-title font-size-lg text-capitalize fw-normal">
                             รายละเอียดถังดับเพลิง ที่เช็คไปแล้ว
                         </div> 
                     </div> --}}
                     <div class="table-responsive mt-2">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-striped table-bordered" style="width: 100%;"> --}}
+                            <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                         {{-- <table id="example" class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                             <thead>
                                 <tr>
@@ -149,203 +107,7 @@
      $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ url('support_dashboard_chart') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas); 
-                    
-                    count_red = datas.Dataset1.map(function(e) {
-                        return e.count_red;
-                    });
-                    count_color_red_qty = datas.Dataset1.map(function(e) {
-                        return e.count_color_red_qty;
-                    });
-                    count_red_all= datas.Dataset1.map(function(e) {
-                        return e.count_red_all;
-                    });
-                    console.log(count_red_all); 
-
-                    count_green = datas.Dataset1.map(function(e) {
-                        return e.count_green;
-                    });
-                    count_green_percent= datas.Dataset1.map(function(e) {
-                        return e.count_green_percent;
-                    });
-                      
-                            // Radial 
-                            var options_red = {
-                                series: count_red,
-                                chart: {
-                                    height: 350,
-                                    type: 'radialBar',
-                                    toolbar: {
-                                        show: true
-                                    }
-                                },
-                                plotOptions: {
-                                    radialBar: {
-                                        startAngle: -135,
-                                        endAngle: 225,
-                                        hollow: {
-                                            margin: 0,
-                                            size: '70%',
-                                            background: '#fff',
-                                            image: undefined,
-                                            imageOffsetX: 0,
-                                            imageOffsetY: 0,
-                                            position: 'front',
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: 3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.24
-                                            }
-                                        },
-                                        track: {
-                                            background: '#fff',
-                                            strokeWidth: '67%',
-                                            margin: 0, // margin is in pixels
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: -3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.35
-                                            }
-                                        },
-
-                                        dataLabels: {
-                                            show: true,
-                                            name: {
-                                                offsetY: -20,
-                                                show: true,
-                                                color: '#888',
-                                                fontSize: '17px'
-                                            },
-                                            value: {
-                                                formatter: function(val) {
-                                                    return parseInt(val);
-                                                },
-                                                color: '#111',
-                                                fontSize: '50px',
-                                                show: true,
-                                            }
-                                        }
-                                    }
-                                },
-                                fill: {
-                                    type: 'gradient',
-                                    gradient: {
-                                        shade: 'dark',
-                                        type: 'horizontal',
-                                        shadeIntensity: 0.5,
-                                        gradientToColors: ['#f80707'],
-                                        inverseColors: true,
-                                        opacityFrom: 1,
-                                        opacityTo: 1,
-                                        stops: [0, 100]
-                                    }
-                                },
-                                stroke: {
-                                    lineCap: 'round'
-                                },
-                                labels: ['Percent'],
-                            };
-                            var chart = new ApexCharts(document.querySelector("#radials"), options_red);
-                            chart.render();
-
-                            // // **************************************
-
-                            var options_green = {
-                                series: count_green_percent,
-                                chart: {
-                                    height: 350,
-                                    type: 'radialBar',
-                                    toolbar: {
-                                        show: true
-                                    }
-                                },
-                                plotOptions: {
-                                    radialBar: {
-                                        startAngle: -135,
-                                        endAngle: 225,
-                                        hollow: {
-                                            margin: 0,
-                                            size: '70%',
-                                            background: '#fff',
-                                            image: undefined,
-                                            imageOffsetX: 0,
-                                            imageOffsetY: 0,
-                                            position: 'front',
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: 3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.24
-                                            }
-                                        },
-                                        track: {
-                                            background: '#fff',
-                                            strokeWidth: '67%',
-                                            margin: 0, // margin is in pixels
-                                            dropShadow: {
-                                                enabled: true,
-                                                top: -3,
-                                                left: 0,
-                                                blur: 4,
-                                                opacity: 0.35
-                                            }
-                                        },
-
-                                        dataLabels: {
-                                            show: true,
-                                            name: {
-                                                offsetY: -20,
-                                                show: true,
-                                                color: '#888',
-                                                fontSize: '17px'
-                                            },
-                                            value: {
-                                                formatter: function(val) {
-                                                    return parseInt(val);
-                                                },
-                                                color: '#111',
-                                                fontSize: '50px',
-                                                show: true,
-                                            }
-                                        }
-                                    }
-                                },
-                                fill: {
-                                    type: 'gradient',
-                                    gradient: {
-                                        shade: 'dark',
-                                        type: 'horizontal',
-                                        shadeIntensity: 0.5,
-                                        gradientToColors: ['#ABE5A1'],
-                                        inverseColors: true,
-                                        opacityFrom: 1,
-                                        opacityTo: 1,
-                                        stops: [0, 100]
-                                    }
-                                },
-                                stroke: {
-                                    lineCap: 'round'
-                                },
-                                labels: ['Percent'],
-                            };
-                            var chart = new ApexCharts(document.querySelector("#radials_green"), options_green);
-                            chart.render();
-
-                }
-             }
+ 
 
         });
     </script>

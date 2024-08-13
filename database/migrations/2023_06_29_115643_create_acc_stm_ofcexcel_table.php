@@ -24,6 +24,10 @@ return new class extends Migration
                 $table->string('cid')->nullable();//
                 $table->string('fullname')->nullable();//ชื่อ-สกุล 
                 $table->date('vstdate')->nullable();//วันที่เข้ารับบริการ  
+                $table->time('vsttime')->nullable();//
+                $table->string('hm')->nullable();//
+                $table->string('hh')->nullable();//
+                $table->string('mm')->nullable();// 
                 $table->date('dchdate')->nullable();// 
                 $table->string('PROJCODE')->nullable();// 
                 $table->string('AdjRW')->nullable();//   
@@ -39,9 +43,9 @@ return new class extends Migration
                 $table->string('pricereq_all')->nullable();//   
                 $table->string('STMdoc')->nullable();//  
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
-                // $table->timestamps();
-                $table->timestamp(column:'created_at')->useCurrent();
-                $table->timestamp(column:'updated_at')->nullable();
+                $table->timestamps();
+                // $table->timestamp(column:'created_at')->useCurrent();
+                // $table->timestamp(column:'updated_at')->nullable();
             });
         }
     }

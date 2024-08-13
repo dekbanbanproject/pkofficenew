@@ -250,7 +250,7 @@ class Account502Controller extends Controller
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select('             
                 SELECT i.vn,i.an,a.hn,pt.cid
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ipt.hospmain
                 ,pt.hcode,op.income as income_group
                 ,v.vstdate ,a.dchdate
                 ,ptt.pttype_eclaim_id
@@ -281,7 +281,7 @@ class Account502Controller extends Controller
                 
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.502" AND opdipd ="IPD")
-                            
+                AND ipt.hospmain = "10978"
                 GROUP BY i.an 
         '); 
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
@@ -296,6 +296,7 @@ class Account502Controller extends Controller
                         'cid'                => $value->cid,
                         'ptname'             => $value->ptname,
                         'pttype'             => $value->pttype,
+                        'hospmain'           => $value->hospmain,
                         'vstdate'            => $value->vstdate,
                         'dchdate'            => $value->dchdate,
                         'acc_code'           => $value->acc_code,

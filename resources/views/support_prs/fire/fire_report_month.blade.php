@@ -81,22 +81,23 @@
                 </div>
             </div>
         </div> --}}
-        <div id="preloader">
+         
+        <div id="preloader" class="center">
             <div id="status">
                 <div id="container_spin">
                     <svg viewBox="0 0 100 100">
                         <defs>
                             <filter id="shadow">
-                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            <feDropShadow dx="0" dy="0" stdDeviation="3.5" 
                                 flood-color="#fc6767"/>
                             </filter>
                         </defs>
-                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 5px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
                     </svg>
                 </div>
             </div>
         </div>
-
+    
         <div class="app-main__outer">
             <div class="app-main__inner">
                 <div class="app-page-title app-page-title-simple">
@@ -114,10 +115,10 @@
                                             <h4 style="color: rgb(255, 255, 255)">รายงานผลการตรวจสอบสภาพถังดับเพลิง  โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ</h4> 
                                     </div>
                                     <div class="col-md-2 text-end"> 
-                                            <a href="{{url('support_system_excel')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success bt_prs">
+                                            {{-- <a href="{{url('support_system_excel')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success bt_prs">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
                                                 Export To Excel
-                                            </a> 
+                                            </a>  --}}
                                     </div>
                                 </div>
                             </div>
@@ -205,18 +206,20 @@
                                                                 ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
                                                                 (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
                                                                 (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all_old
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'" AND f.active = "N") as camroot
 
-                                                                ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_backup = "Y") as backup_green
+                                                                ,(SELECT COUNT(DISTINCT fire_num) FROM fire_check WHERE month(check_date) = "'.$itemreport->months.'" AND year(check_date) = "'.$itemreport->years.'") as Checktotal_all
                                                             FROM fire_check f
                                                             WHERE month(f.check_date) = "'.$itemreport->months.'"
                                                             AND year(f.check_date) = "'.$itemreport->years.'" 
             
-                                                        ');                                     
+                                                        ');  
+                                                        // ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot                                   
                                                         foreach ($dashboard_ as $key => $value) {
                                                             // $red_all               = $value->red_all;
                                                             $redten                = $value->redten;
@@ -242,6 +245,12 @@
                                                         '); 
                                                         $trut          = 100 / $total_all * $Checktotal_all;
                                                         $chamrootcount = 100 / $total_all * $camroot;
+
+                                                        $count_check_ = DB::select('SELECT COUNT(fire_id) as checkfire FROM fire_report WHERE check_status = "N" AND months = "'.$itemreport->months.'" AND years = "'.$itemreport->years.'" '); 
+                                                        foreach ($count_check_ as $key => $v_check) {
+                                                            $count_nocheck   = $v_check->checkfire;
+                                                        }
+                                                        $m       = date('m');
                                                 ?>
                                                 <tr> 
                                                     <td class="text-center text-muted" style="width: 5%;background-color: rgb(2255, 251, 228)">{{$i}}</td>
@@ -249,64 +258,80 @@
                                                         {{$itemreport->month_name}} พ.ศ.{{$itemreport->yearsthai}}
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red10}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red10}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red15}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red15}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-danger me-2 ms-2">
                                                             {{$itemreport->total_red20}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-danger p-2">{{$itemreport->total_red20}}</span>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
                                                             {{$itemreport->total_green10}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-success p-2">{{$itemreport->total_green10}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">                                                    
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-info me-2 ms-2">
                                                             {{$itemreport->total_all_qty}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-info p-2">{{$itemreport->total_all_qty}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
-                                                            {{-- {{$Check_redten}} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{$Check_redten}}
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: rgb(252, 135, 127)">{{$Check_redten}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
-                                                            {{-- {{$Check_redfifteen}} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{$Check_redfifteen}}
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: rgb(252, 135, 127)">{{$Check_redfifteen}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
-                                                            {{-- {{$Check_redtwenty}} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(252, 135, 127)">
+                                                            {{$Check_redtwenty}}
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: rgb(252, 135, 127)">{{$Check_redtwenty}}</span>
                                                     </td>
                                                     <td colspan="2" class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
-                                                            {{-- {{$Check_greenten}} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-success me-2 ms-2">
+                                                            {{$Check_greenten}}
+                                                            
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill bg-success p-2">{{$Check_greenten}}</span>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(219, 243, 252)">
-                                                        <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary me-2 ms-2">
-                                                            {{-- {{$Checktotal_all}} --}}
-                                                        </a>
+                                                        @if ($itemreport->months == $m)
+                                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
+                                                                {{$Checktotal_all}}
+                                                            </a>
+                                                        @else
+                                                        <span class="badge rounded-pill bg-primary p-2">{{$Checktotal_all}}</span> 
+                                                        @endif
+                                                       
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill me-2 ms-2" style="background-color: rgb(253, 80, 68)">
-                                                            {{-- {{$total_all- $Checktotal_all}} --}}
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)">
+                                                        {{-- <a href="" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)"> --}}
+                                                            {{$count_nocheck}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
-                                                            {{-- {{$camroot}} --}}
+                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning p-2">
+                                                            {{$camroot}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">

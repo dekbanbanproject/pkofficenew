@@ -1545,6 +1545,11 @@ class AccountPKController extends Controller
                     $day = substr($vst,0,2);
                     $mo = substr($vst,3,2);
                     $year = substr($vst,7,4);
+                    
+                    $vsttime = substr($vst,12,8);
+                    $hm = substr($vst,12,5);
+                    $hh = substr($vst,12,2);
+                    $mm = substr($vst,15,2);
                     $vstdate = $year.'-'.$mo.'-'.$day;
  
                     $reg = $sheet->getCell( 'H' . $row )->getValue();
@@ -1582,6 +1587,12 @@ class AccountPKController extends Controller
                             'cid'                     =>$sheet->getCell( 'E' . $row )->getValue(),
                             'fullname'                =>$sheet->getCell( 'F' . $row )->getValue(),
                             'vstdate'                 =>$vstdate,
+
+                            'vsttime'                 =>$vsttime,
+                            'hm'                      =>$hm,
+                            'hh'                      =>$hh,
+                            'mm'                      =>$mm,
+
                             'dchdate'                 =>$dchdate,
                             'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(),
                             'AdjRW'                   =>$sheet->getCell( 'J' . $row )->getValue(),
@@ -1640,7 +1651,7 @@ class AccountPKController extends Controller
     }
 
 
-
+    //บันทึกข้อมูล
     public function upstm_ofcexcel_senddata(Request $request)
     {        
         // dd($type);
@@ -1658,9 +1669,12 @@ class AccountPKController extends Controller
                     if ($value->repno != 'REP%' || $value->repno != '') {
                             $check = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->count();
                             if ($check > 0) {
-                            //     $add = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->update([
-                            //         'type'     => $type
-                            //     ]); 
+                                Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->update([
+                                    'vsttime'        => $value->vsttime,
+                                    'hm'             => $value->hm,
+                                    'hh'             => $value->hh,
+                                    'mm'             => $value->mm 
+                                ]); 
                             } else {
                                 $add = new Acc_stm_ofc();
                                 $add->repno          = $value->repno;
@@ -1670,6 +1684,12 @@ class AccountPKController extends Controller
                                 $add->cid            = $value->cid;
                                 $add->fullname       = $value->fullname;
                                 $add->vstdate        = $value->vstdate;
+
+                                $add->vsttime        = $value->vsttime;
+                                $add->hm             = $value->hm;
+                                $add->hh             = $value->hh;
+                                $add->mm             = $value->mm; 
+
                                 $add->dchdate        = $value->dchdate;
                                 $add->PROJCODE       = $value->PROJCODE;
                                 $add->AdjRW          = $value->AdjRW;
@@ -1712,7 +1732,7 @@ class AccountPKController extends Controller
                 'status'    => '200',
             ]);
     }
-    // 401
+    // กระทบลูกหนี้ 401
     public function upstm_ofcexcel_sendstmdata(Request $request)
     { 
         try{
@@ -1726,6 +1746,7 @@ class AccountPKController extends Controller
                     if ($check401 > 0) {
                         Acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                         ->update([
+                            'hm'              => $value->hm,
                             'stm_rep'         => $value->price_req,
                             'stm_money'       => $value->pricereq_all,
                             'stm_rcpno'       => $value->repno.'-'.$value->no,

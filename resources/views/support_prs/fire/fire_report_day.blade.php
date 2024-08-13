@@ -85,7 +85,7 @@
                                 flood-color="#fc6767"/>
                             </filter>
                         </defs>
-                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 5px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
                     </svg>
                 </div>
             </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <form action="{{ url('fire_report_day') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
@@ -112,10 +112,16 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-primary bt_prs" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                    </form>
-                 
-                </div> 
+                    </form> 
+                {{-- </div>                 --}}
+            {{-- </div> --}}
+            {{-- <div class="col-md-2 text-start"> --}}
+                <a href="{{url('fire_insert_all')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs"> 
+                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
+                    Check
+                </a> 
             </div>
+        </div>
     </div>  
         
         <div class="row mt-3">
