@@ -151,7 +151,7 @@
                    
                                 <div class="table-responsive">
                                     {{-- <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
-                                        <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
+                                        <table id="example" class="table table-hover table-bordered table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
@@ -244,8 +244,8 @@
                                                                 WHERE month(fc.check_date) = "'.$itemreport->months.'" 
                                                                 AND year(fc.check_date) = "'.$itemreport->years.'" 
                                                         '); 
-                                                        $trut          = 100 / $total_all * $Checktotal_all;
-                                                        $chamrootcount = 100 / $total_all * $camroot;
+                                                        $trut          = 100 / $itemreport->total_all_qty * ($Check_redten+$Check_redfifteen+$Check_redtwenty+$Check_greenten);
+                                                        $chamrootcount = 100 / $itemreport->total_all_qty * $camroot;
 
                                                         $count_check_ = DB::select('SELECT COUNT(fire_id) as checkfire FROM fire_report WHERE check_status = "N" AND months = "'.$itemreport->months.'" AND years = "'.$itemreport->years.'" '); 
                                                         foreach ($count_check_ as $key => $v_check) {
@@ -342,25 +342,28 @@
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)">
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(252, 123, 114)">
                                                         {{-- <a href="" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)"> --}}
                                                             {{$count_nocheck}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning p-2">
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill p-2" style="background-color: #da0d06">
                                                             {{$camroot}}
-                                                        </a>
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: #da0d06">{{$camroot}}</span> 
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
-                                                            {{-- {{ number_format($trut, 2) }} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill p-2" style="background-color: #4becd1">
+                                                            {{ number_format($trut, 2) }}
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: #4becd1"> {{ number_format($trut, 2) }}</span> 
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">
-                                                        <a href="javascript:void(0)" class="badge rounded-pill bg-warning me-2 ms-2">
-                                                            {{-- {{ number_format($chamrootcount, 2) }} --}}
-                                                        </a>
+                                                        {{-- <a href="javascript:void(0)" class="badge rounded-pill bg-warning p-2">
+                                                            {{ number_format($chamrootcount, 2) }}
+                                                        </a> --}}
+                                                        <span class="badge rounded-pill p-2" style="background-color: #d6413c"> {{ number_format($chamrootcount, 2) }}</span> 
                                                     </td>
                                                 </tr> 
                                             @endforeach

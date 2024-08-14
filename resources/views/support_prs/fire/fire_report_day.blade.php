@@ -127,26 +127,28 @@
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card card_prs_4">
-                    <div class="card-body">    
-                        
+                    <div class="card-body"> 
+                        <div class="table-responsive">   
+                                {{-- <table id="example" class="table table-hover table-bordered table-sm" style="width: 100%;"> --}}
+                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                         {{-- <p class="mb-0"> --}}
                             {{-- <div class="table-responsive"> --}}
-                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-spacing: 0; width: 100%;"> --}}
                                     {{-- <table id="example" class="table table-striped table-bordered nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                        <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-hover table-sm" style=" border-spacing: 0; width: 100%;"> --}}
                                     {{-- <table class="table table-striped mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
-                                            <th class="text-center" width="10%">วันที่ตรวจ</th>  
-                                            <th class="text-center" width="10%">รหัสถังดับเพลิง</th>  
-                                            <th class="text-center" width="7%">สายฉีด</th>
-                                            <th class="text-center" width="7%">คันบังคับ</th> 
-                                            <th class="text-center" width="7%">ตัวถัง</th>  
-                                            <th class="text-center" width="7%">เกจความดัน</th>  
-                                            <th class="text-center" width="7%">สิ่งกีดขวาง</th> 
+                                            <th class="text-center">วันที่ตรวจ</th>  
+                                            <th class="text-center">รหัสถังดับเพลิง</th>  
+                                            <th class="text-center">สายฉีด</th>
+                                            <th class="text-center">คันบังคับ</th> 
+                                            <th class="text-center">ตัวถัง</th>  
+                                            <th class="text-center">เกจความดัน</th>  
+                                            <th class="text-center">สิ่งกีดขวาง</th> 
                                             <th class="text-center" >รายการชำรุด</th> 
                                             <th class="text-center" width="10%">ผู้ตรวจ</th> 
                                         </tr>
@@ -238,6 +240,7 @@
                                 </table>
                             {{-- </div> --}}
                         {{-- </p> --}}
+                        </div>
                     </div>
                 </div>
             </div>

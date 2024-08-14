@@ -88,6 +88,15 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+use Orchestra\Parser\Xml\Facade as XmlParser;
+use Illuminate\Container\Container;
+use Orchestra\Parser\Xml\Document;
+use Orchestra\Parser\Xml\Reader;
+
+use Saloon\XmlWrangler\XmlReader;
+use Saloon\XmlWrangler\Data\Element;
+use Saloon\XmlWrangler\XmlWriter;
+
 date_default_timezone_set("Asia/Bangkok");
 
 
@@ -3245,15 +3254,7 @@ class AccountPKController extends Controller
         ]);
     }
 
-
-
-
-
-
-
-
-
-
+ 
 
     public function upstm_ofc_ti_ipd(Request $request)
     {
@@ -4629,16 +4630,46 @@ class AccountPKController extends Controller
     }
     public function upstm_tixml_import(Request $request)
     {
+        $xml = $request->file;
+        $reader = XmlReader::fromString($xml);
+        // $xml = $request->file;
+        // $xmlString = file_get_contents(($tar_file_));
+        // $xmlObject = simplexml_load_string($xmlString);
+        // $json = json_encode($xmlObject);
+        // $result = json_decode($json, true);
+        // $xml = file_get_contents(($tar_file_));
+        // $xml = XmlParser::load($tar_file_);
+        dd($reader);
+        $xml2 = XmlParser::load($xml);
+        // $json = json_encode($xml);
+        // $result = json_decode($json, true);
+        // dd($xml);
+        // $tiofc = $xml->parse([
+        //     'stmAccountID'     => ['tiofc' => 'tiofc.stmAccountID'],
+        //     'hcode'            => ['tiofc' => 'tiofc.hcode'],
+        //     'AccPeriod'        => ['tiofc' => 'tiofc::AccPeriod'],
+        // ]);
+        // $app = new Container();
+        // $document = new Document($app);
+        // $stub = new Reader($document);
+        // $output = $stub->extract($xml);
+
+        // $this->assertInstanceOf('\Orchestra\Parser\Xml\Document', $xml);
+        dd($xml);
+
+        // ********************************************************************
+
             $tar_file_ = $request->file;
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
             $filename = pathinfo($file_, PATHINFO_FILENAME);
             $extension = pathinfo($file_, PATHINFO_EXTENSION);
             $xmlString = file_get_contents(($tar_file_));
+            // $xmlString = file_get_contents(($file_));
             $xmlObject = simplexml_load_string($xmlString);
             $json = json_encode($xmlObject);
             $result = json_decode($json, true);
 
-            // dd($result);
+            dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -4650,8 +4681,18 @@ class AccountPKController extends Controller
             @$dateIssue = $result['dateIssue'];
             @$amount = $result['amount'];
             @$thamount = $result['thamount'];
-            @$TBills = $result['TBills']['TBill'];
+            @$TBills = $result['TBills'];
+            @$TBill = $result['TBills']['TBill'];
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
+            dd(@$TBills);
+            if (@$TBills == '') {
+                // dd('0000');
+                dd(@$TBill);
+            } else {
+                // dd('1111');
+                // dd(@$TBills);
+            }
+            
             $bills_       = @$TBills;
             // dd($bills_ );
                 $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();

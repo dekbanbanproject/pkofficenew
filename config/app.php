@@ -199,6 +199,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         // Maatwebsite\Excel\ExcelServiceProvider::class,
+        Orchestra\Parser\XmlServiceProvider::class,
     ],
 
     /*
@@ -214,6 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

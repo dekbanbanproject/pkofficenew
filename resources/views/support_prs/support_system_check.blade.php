@@ -59,7 +59,7 @@
                     </div> --}}
                     <div class="table-responsive mt-2">
                         {{-- <table id="example" class="table table-striped table-bordered" style="width: 100%;"> --}}
-                            <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                            <table id="example" class="table table-hover table-bordered table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                         {{-- <table id="example" class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
                             <thead>
                                 <tr>
