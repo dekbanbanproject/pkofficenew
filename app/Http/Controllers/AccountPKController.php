@@ -4681,8 +4681,8 @@ class AccountPKController extends Controller
             @$dateIssue = $result['dateIssue'];
             @$amount = $result['amount'];
             @$thamount = $result['thamount'];
-            @$TBills = $result['TBills'];
-            @$TBill = $result['TBills']['TBill'];
+            @$TBills = $result['TBills']['TBill'];
+            // @$TBill = $result['TBills']['TBill'];
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
             // dd(@$TBills);
             // if (@$TBills == '') {
@@ -4693,7 +4693,7 @@ class AccountPKController extends Controller
             //     // dd(@$TBills);
             // }
             
-            $bills_       = @$TBill;
+            $bills_       = @$TBills;
             // dd($bills_ );
             $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
             if ($checkchead > 0) { 
@@ -4861,29 +4861,100 @@ class AccountPKController extends Controller
                     $cid          = $value['pid'];
                    
                     $tbill        = $value['TBill'];
-                    foreach ($tbill as $key => $value2) {
-                            $hcode = $value2['hreg'];
+                    // dd($tbill);
+                    foreach ($tbill as $value2) {
+                            // $hcode      = $value2['hreg'];
+                            if (isset($value2['hreg'])) {
+                                $hcode   = $value2['hreg'];
+                            } else {
+                                $hcode   = '';
+                            }
+                            if (isset($value2['station'])) {
+                                $station   = $value2['station'];
+                            } else {
+                                $station   = '';
+                            }
+                            if (isset($value2['hn'])) {
+                                $hn   = $value2['hn'];
+                            } else {
+                                $hn   = '';
+                            }
+                            if (isset($value2['invno'])) {
+                                $invno   = $value2['invno'];
+                            } else {
+                                $invno   = '';
+                            }
+                            if (isset($value2['amount'])) {
+                                $amount   = $value2['amount'];
+                            } else {
+                                $amount   = '';
+                            }
+                            if (isset($value2['paid'])) {
+                                $paid   = $value2['paid'];
+                            } else {
+                                $paid   = '';
+                            }
+                            if (isset($value2['rid'])) {
+                                $rid   = $value2['rid'];
+                            } else {
+                                $rid   = '';
+                            }
+                            if (isset($value2['hdrate'])) {
+                                $hdrate   = $value2['hdrate'];
+                            } else {
+                                $hdrate   = '';
+                            }
+                            if (isset($value2['hdcharge'])) {
+                                $hdcharge   = $value2['hdcharge'];
+                            } else {
+                                $hdrate   = '';
+                            }
+                            if (isset($value2['HDflag'])) {
+                                $HDflag   = $value2['HDflag'];
+                            } else {
+                                $HDflag   = '';
+                            }
+                            if (isset($value2['hdrate'])) {
+                                $hdrate   = $value2['hdrate'];
+                            } else {
+                                $hdrate   = '';
+                            }
+                            if (isset($value2['dttran'])) {
+                                $dttran   = $value2['dttran'];
+                                $dttranDate = explode("T",$value2['dttran']);
+                                $dttdate    = $dttranDate[0];
+                                $dtttime    = $dttranDate[1]; 
+    
+                            } else {
+                                $hdrate       = '';
+                                $dttranDate   = '';
+                                $dttdate      = '';
+                            }
+                            
+                            
                             // dd($hcode );
-                            $station    = $value2['station'];
-                            $hn         = $value2['hn'];
-                            $invno      = $value2['invno'];
-                            $amount     = $value2['amount'];
-                            $paid       = $value2['paid'];
-                            $rid        = $value2['rid'];
-                            $hdrate     = $value2['hdrate'];
-                            $hdcharge   = $value2['hdcharge'];
-                            $HDflag     = $value2['HDflag'];
-                            $dttran     = $value2['dttran'];
-                            $dttranDate = explode("T",$value2['dttran']);
-                            $dttdate    = $dttranDate[0];
-                            $dtttime    = $dttranDate[1]; 
-
+                            // $station    = $value2['station'];
+                            // $hn         = $value2['hn'];
+                            // $invno      = $value2['invno'];
+                            // $amount     = $value2['amount'];
+                            // $paid       = $value2['paid'];
+                            // dd($paid );
+                            // $rid        = $value2['rid'];
+                            // $hdrate     = $value2['hdrate'];
+                            // $hdcharge   = $value2['hdcharge'];
+                            // $HDflag     = $value2['HDflag'];
+                            // $dttran     = $value2['dttran'];
+                            // $dttranDate = explode("T",$value2['dttran']);
+                            // $dttdate    = $dttranDate[0];
+                            // $dtttime    = $dttranDate[1]; 
+                            // dd($value2['EPOpay']);
                             if (isset($value2['EPOpay'])) { 
                                 $EPO_tt = $value2['EPOpay'];
-                                $Total = $amount + $EPO_tt;
+                                // dd($EPO_tt);
+                                $Total = ((int)$amount) + ((int)$EPO_tt);
                             } elseif (isset($value2['EPOs']['EPO']['epoPay'])){
                                 $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
-                                $Total = $amount + $EPO_tt;
+                                $Total = ((int)$amount) + ((int)$EPO_tt);
                             } else { 
                                 $EPO_tt = '';
                                 $Total = $amount;

@@ -235,7 +235,7 @@
                                                     </td> 
                                                   
                                                     <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">  
-                                                        <a href="{{url('account_401_yok/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17);"> {{ number_format($sum_yokpai, 2) }}</a> 
+                                                        <a href="{{url('account_4011_yok/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17);"> {{ number_format($sum_yokpai, 2) }}</a> 
                                                     </td>
                                                 </tr>
                                             <?php
