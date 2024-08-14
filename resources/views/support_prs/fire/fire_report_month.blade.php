@@ -150,7 +150,8 @@
                             <div class="col-md-12">
                    
                                 <div class="table-responsive">
-                                    <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;">
+                                    {{-- <table class="align-middle text-truncate mb-0 table table-borderless table-hover table-bordered" style="width: 100%;"> --}}
+                                        <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th rowspan="3" class="text-center" style="background-color: rgb(255, 251, 228)">ลำดับ</th>
