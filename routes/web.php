@@ -2979,20 +2979,14 @@ Route::match(['get','post'],'acc_checksit_process',[App\Http\Controllers\ClaimCo
 Route::match(['get','post'],'ssop',[App\Http\Controllers\SsopController::class, 'ssop'])->name('claim.ssop');//
 Route::match(['get','post'],'ssop_process',[App\Http\Controllers\SsopController::class, 'ssop_process'])->name('claim.ssop_process');//
 Route::match(['get','post'],'ssop_export',[App\Http\Controllers\SsopController::class, 'ssop_export'])->name('claim.ssop_export');//
- 
-
 Route::match(['get','post'],'ssop_zipfile',[App\Http\Controllers\SsopController::class, 'ssop_zipfile'])->name('claim.ssop_zipfile');//
-
 Route::match(['get','post'],'ssop_data',[App\Http\Controllers\ClaimController::class, 'ssop_data'])->name('claim.ssop_data');//
 Route::match(['get','post'],'ssop_check',[App\Http\Controllers\ClaimController::class, 'ssop_check'])->name('claim.ssop_check');//
 Route::match(['get','post'],'ssop_send',[App\Http\Controllers\ClaimController::class, 'ssop_send'])->name('claim.ssop_send');//
 Route::match(['get','post'],'ssop_zip',[App\Http\Controllers\ClaimController::class, 'ssop_zip'])->name('claim.ssop_zip');//
-
 Route::match(['get','post'],'ssop_data_vn',[App\Http\Controllers\ClaimController::class, 'ssop_data_vn'])->name('claim.ssop_data_vn');//
-
 Route::match(['get','post'],'ssop_edit_svpid/{id}',[App\Http\Controllers\ClaimController::class, 'ssop_edit_svpid'])->name('claim.ssop_edit_svpid');//
-Route::match(['get','post'],'ssop_edit_prescb/{id}',[App\Http\Controllers\ClaimController::class, 'ssop_edit_prescb'])->name('claim.ssop_edit_prescb');//
- 
+Route::match(['get','post'],'ssop_edit_prescb/{id}',[App\Http\Controllers\ClaimController::class, 'ssop_edit_prescb'])->name('claim.ssop_edit_prescb');// 
 Route::match(['get','post'],'ssop_search',[App\Http\Controllers\ClaimController::class, 'ssop_search'])->name('claim.ssop_search');//
 Route::match(['get','post'],'ssop_save16',[App\Http\Controllers\ClaimController::class, 'ssop_save16'])->name('claim.ssop_save16');//
 Route::match(['get','post'],'ssop_detail',[App\Http\Controllers\ClaimController::class, 'ssop_detail'])->name('claim.ssop_detail');//
@@ -3000,60 +2994,41 @@ Route::match(['get','post'],'ssop_claimsixteen',[App\Http\Controllers\ClaimContr
 Route::match(['get','post'],'ssop_recheck',[App\Http\Controllers\ClaimController::class, 'ssop_recheck'])->name('claim.ssop_recheck');//
 Route::match(['get','post'],'ssop_recheck_search',[App\Http\Controllers\ClaimController::class, 'ssop_recheck_search'])->name('claim.ssop_recheck_search');//
 Route::match(['get','post'],'ssop_report',[App\Http\Controllers\ClaimController::class, 'ssop_report'])->name('claim.ssop_report');//
-
 Route::match(['get','post'],'ssop_recheck_new',[App\Http\Controllers\ClaimController::class, 'ssop_recheck_new'])->name('claim.ssop_recheck_new');//
-
 Route::match(['get','post'],'ssop_pull_delete',[App\Http\Controllers\ClaimController::class, 'ssop_pull_delete'])->name('claim.ssop_pull_delete');//ลบข้อมูล
 Route::match(['get','post'],'ssop_pull_new/{start}/{end}',[App\Http\Controllers\ClaimController::class, 'ssop_pull_new'])->name('claim.ssop_pull_new');//ดึงข้อมูลใหม่
 Route::match(['get','post'],'ssop_send_pull_new',[App\Http\Controllers\ClaimController::class, 'ssop_send_pull_new'])->name('claim.ssop_send_pull_new');//ส่งออก
 Route::match(['get','post'],'ssop_zip_pull_new',[App\Http\Controllers\ClaimController::class, 'ssop_zip_pull_new'])->name('claim.ssop_zip_pull_new');//
-
 Route::match(['get','post'],'Tranfer_stm',[App\Http\Controllers\ClaimController::class, 'Tranfer_stm'])->name('claim.Tranfer_stm');//
 Route::match(['get','post'],'Tranfer_stmsearch',[App\Http\Controllers\ClaimController::class, 'Tranfer_stmsearch'])->name('claim.Tranfer_stmsearch');//
 Route::match(['get','post'],'Tranfer_stm_save',[App\Http\Controllers\ClaimController::class, 'Tranfer_stm_save'])->name('claim.Tranfer_stm_save');//
-
 Route::match(['get','post'],'opt',[App\Http\Controllers\ClaimController::class, 'opt'])->name('claim.opt');//
-
 Route::match(['get','post'],'free_schedule',[App\Http\Controllers\FreescheduleController::class, 'free_schedule'])->name('claim.free_schedule');//
 
-
 //********************* */ Ward  ***********************************
-
 Route::match(['get','post'],'check_ward',[App\Http\Controllers\CheckwardController::class, 'check_ward'])->name('ward.check_ward');//
 Route::match(['get','post'],'check_warddetail/{id}',[App\Http\Controllers\CheckwardController::class, 'check_warddetail'])->name('ward.check_warddetail');//
 Route::match(['get','post'],'check_wardnonote/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardnonote'])->name('ward.check_wardnonote');//
 Route::match(['get','post'],'check_wardnoclaim/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardnoclaim'])->name('ward.check_wardnoclaim');//
 Route::match(['get','post'],'check_wardsss/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardsss'])->name('ward.check_wardsss');//
 
-
 //********************* */ รพสต  ***********************************
-
 Route::match(['get','post'],'home_rpst',[App\Http\Controllers\RpstController::class, 'home_rpst'])->name('rpst.home_rpst');//
-
-
-
 
 //********************* */ KTB CLAIM  ***********************************
 Route::match(['get','post'],'ktb',[App\Http\Controllers\KTBController::class, 'ktb'])->name('k.ktb');//
 Route::match(['get','post'],'ktb_search',[App\Http\Controllers\KTBController::class, 'ktb_search'])->name('k.ktb_search');//
 Route::match(['get','post'],'ktb_ancdental_search',[App\Http\Controllers\KTBController::class, 'ktb_ancdental_search'])->name('k.ktb_ancdental_search');//
-
 Route::match(['get','post'],'ktb_ferrofolic',[App\Http\Controllers\KTBController::class, 'ktb_ferrofolic'])->name('k.ktb_ferrofolic');//
 Route::match(['get','post'],'ktb_ferrofolic_search',[App\Http\Controllers\KTBController::class, 'ktb_ferrofolic_search'])->name('k.ktb_ferrofolic_search');//
-
 Route::match(['get','post'],'ktb_kids_glasses',[App\Http\Controllers\KTBController::class, 'ktb_kids_glasses'])->name('k.ktb_kids_glasses');//
 Route::match(['get','post'],'ktb_kids_glasses_search',[App\Http\Controllers\KTBController::class, 'ktb_kids_glasses_search'])->name('k.ktb_kids_glasses_search');//
-
 Route::match(['get','post'],'anc_Pregnancy_test',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test'])->name('k.anc_Pregnancy_test');//
 Route::match(['get','post'],'anc_Pregnancy_testsearch',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_testsearch'])->name('k.anc_Pregnancy_testsearch');//
 Route::match(['get','post'],'anc_Pregnancy_test_export',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test_export'])->name('k.anc_Pregnancy_test_export');//
-
-Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::class, 'ktb_spawn'])->name('k.ktb_spawn');//การตรวจหลังคลอด ANC
-
-
+Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::class, 'ktb_spawn'])->name('k.ktb_spawn');//การตรวจหลังคลอด ANC 
 Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein');//ลงเวลา
 Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
-
 
 //********************* */ DENTAL  ***********************************
 Route::match(['get','post'],'dental',[App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental');//
@@ -3070,9 +3045,7 @@ Route::match(['get','post'],'opdtoipd_sub/{vn}',[App\Http\Controllers\OpipContro
 Route::match(['get','post'],'opdtoipd_subsubclaim/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsubclaim'])->name('op.opdtoipd_subsubclaim');//
 Route::match(['get','post'],'opdtoipd_subsub/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsub'])->name('op.opdtoipd_subsub');//
 // Route::match(['get','post'],'opdtoipd_sub/{month}/{year}',[App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub');//
-
-
-
+ 
 
 //********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
@@ -3364,8 +3337,10 @@ Route::match(['get','post'],'pre_audit_chart',[App\Http\Controllers\PreauditCont
 Route::match(['get','post'],'audit_pdx',[App\Http\Controllers\PreauditController::class, 'audit_pdx'])->name('audit.audit_pdx');
 Route::match(['get','post'],'audit_pdx_detail/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail'])->name('audit.audit_pdx_detail');
 Route::match(['get','post'],'audit_pdx_detail_print/{month}/{year}',[App\Http\Controllers\PreauditController::class, 'audit_pdx_detail_print'])->name('audit.audit_pdx_detail_print');
-
 Route::match(['get','post'],'audit_only',[App\Http\Controllers\PreauditController::class, 'audit_only'])->name('audit.audit_only');
+Route::match(['get','post'],'audit_approve_codenew',[App\Http\Controllers\PreauditController::class, 'audit_approve_codenew'])->name('audit.audit_approve_codenew');
+Route::match(['get','post'],'audit_approve_codenew_process',[App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_process'])->name('audit.audit_approve_codenew_process');
+Route::match(['get','post'],'audit_approve_codenew_excel',[App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_excel'])->name('audit.audit_approve_codenew_excel');
 
 // **************************** ทาลัสซีเมีย **********************************************
 Route::match(['get','post'],'talassemaie',[App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');

@@ -40,7 +40,7 @@ use App\Models\D_apiwalkin_pat;
 use App\Models\D_apiwalkin_opd;
 use App\Models\D_walkin;
 use App\Models\D_walkin_drug;
-use App\Models\D_apiwalkin_irf;
+use App\Models\Audit_approve_code;
 
 use App\Models\Fdh_sesion;
 use App\Models\Fdh_ins;
@@ -141,7 +141,166 @@ class PreauditController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     }  
-    
+    public function audit_approve_codenew(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $yy = date('Y');
+        $m = date('m');
+        // dd($m);
+        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        
+            
+            $data['ofc_data']  = DB::connection('mysql')->select(
+                'SELECT * FROM audit_approve_code  
+            ');   
+           
+                
+        return view('audit.audit_approve_codenew',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }   
+    public function audit_approve_codenew_process(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate; 
+        $date = date('Y-m-d');
+  
+        if ($startdate == '') { 
+            return response()->json([
+                'status'    => '100'
+           ]);
+        } else {
+            Audit_approve_code::truncate();
+                $iduser = Auth::user()->id;  
+                $data_main_ = DB::connection('mysql2')->select(
+                    'SELECT concat(p.pname,p.fname," ",p.lname) as ptname,  r.*,o.vstdate,o.vsttime,t.name as pttype_name   
+                    FROM rcpt_debt r  
+                    left outer join ovst o on o.vn=r.vn  
+                    left outer join patient p on p.hn=o.hn  
+                    left outer join pttype t on t.pttype = r.pttype  
+                    where r.pt_type="OPD" and r.debt_date 
+                     BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                    AND r.pttype IN("O1","O2","O3","O4","O5")
+                    order by r.debt_id 
+                ');  
+                       
+                foreach ($data_main_ as $key => $value) {    
+                    
+                    Audit_approve_code::insert([
+                            'vn'                  => $value->vn,
+                            'hn'                  => $value->hn, 
+                            'ptname'              => $value->ptname,
+                            'staff'               => $value->staff, 
+                            'debt_date'           => $value->debt_date,
+                            'debt_time'           => $value->debt_time,
+                            'amount'              => $value->amount,
+                            'total_amount'        => $value->total_amount,
+                            'sss_approval_code'   => $value->sss_approval_code,
+                            'sss_amount'          => $value->sss_amount,
+                            
+                        ]);
+                    
+                }   
+            }   
+                     
+            return response()->json([
+                'status'    => '200'
+           ]);
+    }   
+    function audit_approve_codenew_excel(Request $request)
+    {  
+        Audit_approve_code::truncate();
+                $the_file = $request->file('files'); 
+                // $file_ = $request->file('files')->getClientOriginalName(); //ชื่อไฟล์ 
+   
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow(); 
+                $row_range    = range('1',$row_limit ); 
+                $startcount = '1';
+                $data = array();
+                foreach ($row_range as $row ) {
+                    $vst = $sheet->getCell( 'G' . $row )->getValue();  
+                    // $day = substr($vst,0,2);
+                    // $mo = substr($vst,3,2);
+                    // $year = substr($vst,6,4);
+                    // $vstdate = $year.'-'.$mo.'-'.$day;
+                  
+                    // $timestamp = strtotime($vst);
+                    // $originalDate = "2023-05-31"; 
+                    // Unix time = 1685491200
+                    // $unixTime = strtotime($originalDate);
+                    // Pass the new date format as a string and the original date in Unix time
+                    $newDate = date("Y-m-d", strtotime($vst));
+                    // echo $newDate;
+                    // date($format,strtotime($vst));
+
+                    // dd($newDate);
+                    $data[] = [
+                        'ECLAIM_NO'         =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'CID_SPSCH'         =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'PTNAME_SPSCH'      =>$sheet->getCell( 'E' . $row )->getValue(), 
+                        // 'HN_SPSCH'          =>$sheet->getCell( 'F' . $row )->getValue(), 
+                        'VSTDATE_SPSCH'     =>$newDate,
+                        'VSTTIME_SPSCH'     =>$sheet->getCell( 'H' . $row )->getValue(), 
+                        'STATUS_SPSCH'      =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'Tran_ID'           =>$sheet->getCell( 'K' . $row )->getValue(), 
+                        'CLAIM'             =>$sheet->getCell( 'L' . $row )->getValue(), 
+                        'REP'               =>$sheet->getCell( 'M' . $row )->getValue(), 
+                        'ERROR_C'           =>$sheet->getCell( 'N' . $row )->getValue(), 
+                        'Deny'              =>$sheet->getCell( 'O' . $row )->getValue(), 
+                        'Channel'           =>$sheet->getCell( 'P' . $row )->getValue()  
+                    ];
+                    $startcount++;  
+                } 
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $datasert) {
+                    Audit_approve_code::insert($datasert); 
+                } 
+                return response()->json([
+                    'status'     => '200'
+                ]);  
+    }
+    public function importplan_send(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM air_plan_excel');
+            foreach ($data_ as $key => $value) {
+              
+                    $check = Air_plan::where('air_plan_year','=',$value->air_plan_year)->where('air_list_num','=',$value->air_list_num)->where('air_plan_month_id','=',$value->air_plan_month_id)->count();
+                    if ($check > 0) {
+                    } else {
+                        $add = new Air_plan();
+                        $add->air_plan_year         = $value->air_plan_year;
+                        $add->air_list_num          = $value->air_list_num;
+                        $add->air_plan_month_id     = $value->air_plan_month_id;
+                        $add->PlanDOC               = $value->PlanDOC; 
+                        $add->save(); 
+                    } 
+                
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Air_plan_excel::truncate();
+
+            return response()->json([
+                'status'     => '200'
+            ]); 
+        // return redirect()->back();
+    }
     public function audit_approve_code(Request $request)
     {
         $startdate = $request->startdate;
@@ -237,7 +396,6 @@ class PreauditController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     } 
-
     public function audit_approve_detail(Request $request,$month,$year)
     {
         $startdate = $request->startdate;
@@ -289,14 +447,12 @@ class PreauditController extends Controller
             'year'          => $year, 
         ]);
     } 
-
     public function approve_destroy(Request $request,$id)
     {
         $del = D_fdh::find($id);   
         $del->delete();  
         return response()->json(['status' => '200']);
-    }
-    
+    }    
     public function pre_audit_process_a(Request $request)
     {
         $startdate = $request->startdate;
@@ -385,7 +541,6 @@ class PreauditController extends Controller
                 'status'    => '200'
            ]);
     } 
-
     public function pre_audit_chart(Request $request)
     {
         $date = date("Y-m-d"); 
@@ -429,8 +584,6 @@ class PreauditController extends Controller
             // 'Dataset2'                  => $Dataset2
         ]);
     }
-
-
     public function audit_pdx(Request $request)
     {
         $startdate = $request->startdate;
@@ -498,7 +651,6 @@ class PreauditController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     } 
-
     public function audit_pdx_detail(Request $request,$month,$year)
     {
         $startdate = $request->startdate;
@@ -567,8 +719,6 @@ class PreauditController extends Controller
             'year'          => $year, 
         ]);
     } 
-
-
     public function talassemaie(Request $request)
     {
         $startdate = $request->startdate;
@@ -639,7 +789,6 @@ class PreauditController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     } 
-
     public function talassemaie_detail(Request $request,$month,$year)
     {
         $startdate              = $request->startdate;

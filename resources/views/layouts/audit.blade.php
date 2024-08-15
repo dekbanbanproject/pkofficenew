@@ -507,11 +507,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>งานประกัน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('vaccine_big') }}">   
-                                        <span>วัคซีนไข้หวัดใหญ่</span> 
-                                    </a>  
-                                </li>  
-                                
+                                <li><a href="{{ url('vaccine_big') }}"> <span>วัคซีนไข้หวัดใหญ่</span></a> </li>  
+                                <li><a href="{{ url('audit_approve_codenew') }}"> <span>Approve Code ReNew</span></a> </li>  
                             </ul> 
                         </li>
 

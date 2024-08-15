@@ -352,7 +352,7 @@ class Account3099Controller extends Controller
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc 
                 from acc_1102050101_3099 U1
-                LEFT JOIN acc_stm_ti_total am on am.cid = U1.cid AND am.vstdate = U1.vstdate
+                LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = U1.cid AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 AND am.Total_amount is not null 
         ');
@@ -372,7 +372,7 @@ class Account3099Controller extends Controller
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,am.Total_amount,am.STMdoc
                 from acc_1102050101_3099 U1
-                LEFT JOIN acc_stm_ti_total am on am.cid = U1.cid AND am.vstdate = U1.vstdate
+                LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = U1.cid AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 AND am.Total_amount is null 
         ');

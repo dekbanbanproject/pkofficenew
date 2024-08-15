@@ -38,7 +38,7 @@ use App\Models\Acc_1102050101_4022;
 use App\Models\Acc_stm_lgonew;
 use App\Models\Acc_stm_lgoexcelnew;
 use App\Models\Acc_1102050102_8011;
-use App\Models\Acc_stm_ti_totalsub;
+use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
@@ -4669,7 +4669,7 @@ class AccountPKController extends Controller
             $json = json_encode($xmlObject);
             $result = json_decode($json, true);
 
-            // dd($result);
+            dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -4682,13 +4682,24 @@ class AccountPKController extends Controller
             @$amount = $result['amount'];
             @$thamount = $result['thamount'];
 
-            @$STMdat   = $result['STMdat'];   // รวมยา epo
-            // @$HDBill_ = $result['HDBill'];
-            @$HDBills  = $result['HDBills'];
-            @$TBill    = $result['HDBills']['HDBill'];
-            // @$EPO      = $result['HDBills']['HDBill'];
-            // @$TBills = $result['TBills']['TBill'];
-            @$HDBillsTBill = $result['HDBills']['HDBill'];
+            @$STMdat = $result['STMdat'];   // รวมยา epo
+            @$HDBills = $result['HDBills'];
+            @$HDBill  = $result['HDBills']['HDBill'];
+
+            @$TBills = $result['TBills']['TBill'];
+            // @$TBill = $result['TBills']['TBill'];
+            // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
+            // dd(@$TBills);
+            // if (@$TBills == '') {
+            //     // dd('0000');
+            //     dd(@$TBill);
+            // } else {
+            //     // dd('1111');
+            //     // dd(@$TBills);
+            // }
+            
+            $bills_       = @$TBills;
+            dd($bills_ );
             $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
             if ($checkchead > 0) { 
             } else {
@@ -4706,137 +4717,78 @@ class AccountPKController extends Controller
                     'thamount'        => @$thamount
                 ]);
             }
-            $data_ = DB::table('acc_stm_ti_totalhead')->where('AccPeriod','=',@$AccPeriod)->first();
-            $totalhead_id  = $data_->acc_stm_ti_totalhead_id;
-           
-            dd(@$TBill);
-            $HDBillss       = @$HDBills;
-            foreach ($HDBillss as $key => $value) {
-                // $check_data = Acc_stm_ti_total::where('HDBill_wkno', $value->wkno)->count();
-                // if ($check_data > 0) { 
-                // } else {
-                    // Acc_stm_ti_total::insert([
-                    //     'acc_stm_ti_totalhead_id'    => $totalhead_id,
-                    //     'HDBill_hreg'                => $value->hreg,
-                    //     'HDBill_hn'                  => $value->hn,
-                    //     'HDBill_name'                => $value->name,
-                    //     'HDBill_pid'                 => $value->pid,
-                    //     'HDBill_wkno'                => $value->wkno,
-                    //     'HDBill_hds'                 => $value->hds,
-                    //     'HDBill_quota'               => $value->quota,
-                    //     'HDBill_hdcharge'            => $value->hdcharge,
-                    //     'HDBill_payable'             => $value->payable, 
-                    //     'HDBill_outstanding'         => $value->outstanding,  
-                    // ]); 
 
-                    $data_2                       = $value['TBill'];
-                    dd($data_2);
-                    // $add  =  new Acc_stm_ti_total();
-                    // $add->acc_stm_ti_totalhead_id  = $totalhead_id;
-                    // $add->HDBill_hreg              = $value->hreg;
-                    // $add->HDBill_hn                = $value->hn;
-                    // $add->HDBill_name              = $value->name;
-                    // $add->HDBill_pid               = $value->pid;
-                    // $add->HDBill_wkno              = $value->wkno;
-                    // $add->HDBill_hds               = $value->hds;
-                    // $add->HDBill_quota             = $value->quota;
-                    // $add->HDBill_hdcharge          = $value->hdcharge;
-                    // $add->HDBill_payable           = $value->payable;
-                    // $add->HDBill_outstanding       = $value->outstanding;
-                    // $add->HDBill_EPO_effHDs        = $value['EPO']['effHDs'];
-                    // $add->HDBill_EPO_effHCT        = $value['EPO']['effHCT'];
-                    // $add->HDBill_EPO_epoPay        = $value['EPO']['epoPay'];
-                    // $add->HDBill_EPO_epoAdm        = $value['EPO']['epoAdm'];
+            foreach ($bills_ as $value) {
+                $hreg = $value['hreg'];
+                $station = $value['station'];
+                $invno = $value['invno'];
+                $hn = $value['hn'];
+                $amount = $value['amount'];
+                $paid = $value['paid'];
+                $rid = $value['rid'];
+                $HDflag = $value['HDflag'];
+                $dttran = $value['dttran'];
+                $dttranDate = explode("T",$value['dttran']);
+                $dttdate = $dttranDate[0];
+                $dtttime = $dttranDate[1];
+                $checkc = Acc_stm_ti_total::where('cid', $hn)->where('vstdate', $dttdate)->count();
 
+                if ( $checkc > 0) {
+                    Acc_stm_ti_total::where('cid',$hn)->where('vstdate',$dttdate)
+                        ->update([
+                            'invno'             => $invno,
+                            'hn'                => $hn,
+                            'station'           => $station,
+                            'STMdoc'            => @$STMdoc,
+                            'vstdate'           => $dttdate,
+                            'paid'              => $paid,
+                            'rid'               => $rid,
+                            'HDflag'            => $HDflag,
+                            'amount'            => $amount,
+                            'Total_amount'      => $amount
+                        ]);
+                        Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
+                        ->update([
+                            'status'            => 'Y',
+                            'stm_money'       => $amount, 
+                            'stm_trainid'     => $invno,
+                            'stm_total'       => $amount,
+                            'STMdoc'          => @$STMdoc, 
+                        ]);
 
-            
-                    // $add->HDBill_TBill_hcode       = $value['TBill']['hcode'];
-                    // $add->HDBill_TBill_station     = $value['TBill']['station'];
-                    // $add->HDBill_TBill_wkno        = $value['TBill']['wkno'];
-                    // $add->HDBill_TBill_hreg        = $value['TBill']['hreg'];
-                    // $add->HDBill_TBill_hn          = $value['TBill']['hn'];
-                    // $add->HDBill_TBill_invno       = $value['TBill']['invno'];
-                    // $add->HDBill_TBill_dttran      = $value['TBill']['hcode'];
-                    // $add->HDBill_TBill_hdrate      = $value['TBill']['hdrate'];
-                    // $add->HDBill_TBill_hdcharge    = $value['TBill']['hdcharge'];
-                    // $add->HDBill_TBill_amount      = $value['TBill']['amount'];
-                    // $add->HDBill_TBill_paid        = $value['TBill']['paid'];
-                    // $add->HDBill_TBill_rid         = $value['TBill']['rid'];
-                    // $add->HDBill_TBill_accp        = $value['TBill']['accp'];
+                } else {
+                        Acc_stm_ti_total::insert([
+                            'invno'             => $invno,
+                            'hn'                => $hn,
+                            'station'           => $station,
+                            'STMdoc'            => @$STMdoc,
+                            'vstdate'           => $dttdate,
+                            'paid'              => $paid,
+                            'rid'               => $rid,
+                            'HDflag'            => $HDflag,
+                            'amount'            => $amount,
+                            'Total_amount'      => $amount
+                        ]);
 
-                    // $add->save(); 
+                        Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
+                        ->update([
+                            'status'            => 'Y',
+                            'stm_money'       => $amount, 
+                            'stm_trainid'     => $invno,
+                            'stm_total'       => $amount,
+                            'STMdoc'          => @$STMdoc, 
+                        ]);
 
-                    // $data_2                       = $value['TBill'];
-                    // foreach ($data_2 as $v_sub) {
-                    //     // Acc_stm_ti_totalsub
-                    // }
-                // } 
+                        // Acc_1102050101_4022::where('hn',$hn)->where('vstdate',$dttdate)
+                        // ->update([
+                        //     'status'            => 'Y',
+                        //     'stm_money'       => $amount, 
+                        //     'stm_trainid'     => $invno,
+                        //     'stm_total'       => $amount,
+                        //     'STMdoc'          => @$STMdoc, 
+                        // ]);
+                }
             }
-                       
-            // $bills_       = @$TBills;
-            // dd($bills_ );
-            
-
-            // foreach ($bills_ as $value) {
-            //     $hreg = $value['hreg'];
-            //     $station = $value['station'];
-            //     $invno = $value['invno'];
-            //     $hn = $value['hn'];
-            //     $amount = $value['amount'];
-            //     $paid = $value['paid'];
-            //     $rid = $value['rid'];
-            //     $HDflag = $value['HDflag'];
-            //     $dttran = $value['dttran'];
-            //     $dttranDate = explode("T",$value['dttran']);
-            //     $dttdate = $dttranDate[0];
-            //     $dtttime = $dttranDate[1];
-            //     $checkc = Acc_stm_ti_total::where('cid', $hn)->where('vstdate', $dttdate)->count();
-
-            //     // if ( $checkc > 0) {
-            //     //         Acc_stm_ti_total::where('cid',$hn)->where('vstdate',$dttdate)
-            //     //         ->update([
-            //     //             'invno'             => $invno,
-            //     //             'hn'                => $hn,
-            //     //             'station'           => $station,
-            //     //             'STMdoc'            => @$STMdoc,
-            //     //             'vstdate'           => $dttdate,
-            //     //             'paid'              => $paid,
-            //     //             'rid'               => $rid,
-            //     //             'HDflag'            => $HDflag,
-            //     //             'amount'            => $amount,
-            //     //             'Total_amount'      => $amount
-            //     //         ]);
-            //     //         Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
-            //     //         ->update([
-            //     //             'status'            => 'Y',
-            //     //             'stm_money'       => $amount, 
-            //     //             'stm_trainid'     => $invno,
-            //     //             'stm_total'       => $amount,
-            //     //             'STMdoc'          => @$STMdoc, 
-            //     //         ]); 
-            //     // } else {
-                        // Acc_stm_ti_total::insert([
-                        //     'invno'             => $invno,
-                        //     'hn'                => $hn,
-                        //     'station'           => $station,
-                        //     'STMdoc'            => @$STMdoc,
-                        //     'vstdate'           => $dttdate,
-                        //     'paid'              => $paid,
-                        //     'rid'               => $rid,
-                        //     'HDflag'            => $HDflag,
-                        //     'amount'            => $amount,
-                        //     'Total_amount'      => $amount
-                        // ]); 
-            //     //         // Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
-            //     //         // ->update([
-            //     //         //     'status'            => 'Y',
-            //     //         //     'stm_money'       => $amount, 
-            //     //         //     'stm_trainid'     => $invno,
-            //     //         //     'stm_total'       => $amount,
-            //     //         //     'STMdoc'          => @$STMdoc, 
-            //     //         // ]); 
-            //     // }
-            // }
             // return redirect()->back();
             return response()->json([
                 'status'    => '200',

@@ -155,7 +155,7 @@
                                             $sumapprove_ = DB::select('
                                                     SELECT sum(am.Total_amount) as Total_amount,count(DISTINCT a.vn) as Countvisit
                                                         from acc_1102050101_3099 a
-                                                        LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
+                                                        LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = a.cid AND am.vstdate = a.vstdate
                                                         where month(a.vstdate) = "'.$item->months.'"
                                                         AND year(a.vstdate) = "'.$item->year.'"
                                                         AND Total_amount <> ""
@@ -169,7 +169,7 @@
                                             $yokpai_data = DB::select('
                                                     SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
                                                         from acc_1102050101_3099 a
-                                                        LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
+                                                        LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = a.cid AND am.vstdate = a.vstdate
                                                         where month(a.vstdate) = "'.$item->months.'"
                                                         AND year(a.vstdate) = "'.$item->year.'"
                                                         AND Total_amount IS NULL
@@ -336,7 +336,7 @@
                                         $sumapprove_ = DB::select('
                                                 SELECT sum(am.Total_amount) as Total_amount,count(DISTINCT a.vn) as Countvisit
                                                     from acc_1102050101_3099 a
-                                                    LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
+                                                    LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = a.cid AND am.vstdate = a.vstdate
                                                     WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                     AND am.Total_amount <> ""
                                             ');                                           
@@ -349,7 +349,7 @@
                                         $yokpai_data = DB::select('
                                                 SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
                                                     from acc_1102050101_3099 a
-                                                    LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
+                                                    LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = a.cid AND am.vstdate = a.vstdate
                                                     WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                     AND Total_amount IS NULL
                                             ');                                           

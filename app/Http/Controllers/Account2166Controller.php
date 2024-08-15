@@ -135,7 +135,7 @@ class Account2166Controller extends Controller
                     and account_code="1102050101.2166"
                     group by month(a.vstdate) 
                     
-                    order by a.vstdate desc limit 1;
+                    order by a.vstdate desc limit 3;
             '); 
             // 
             // order by month(a.vstdate),year(a.vstdate) desc limit 6;

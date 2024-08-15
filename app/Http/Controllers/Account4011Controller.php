@@ -464,9 +464,9 @@ class Account4011Controller extends Controller
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc,U1.income,U1.rcpt_money 
                 from acc_1102050101_4011 U1
-                LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
+                LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND am.Total_amount is not null AND am.HDflag IN("COC")
+                AND am.Total_amount is not null AND am.HDBill_TBill_HDflag IN("COC")
                 group by U1.vn
         ');
        

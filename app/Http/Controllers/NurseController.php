@@ -201,40 +201,42 @@ class NurseController extends Controller
                         COUNT(DISTINCT a.an) as total_an,
                         ROUND(
                             CASE
-                                WHEN w.ward = "01" THEN COUNT(DISTINCT a.an) * 1.14 / 8  # ตึกสูติ-นรีเวช
-                                            WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 1.6 / 8
-                                            WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8
-                                WHEN w.ward = "05" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8
-                                WHEN w.ward = "10" THEN COUNT(DISTINCT a.an) * 1.6 / 8
-                                            WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8
-                                            WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                            WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 1.33 / 8
-                                WHEN w.ward = "35" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "01" THEN COUNT(DISTINCT a.an) * 1.14 / 8  # ตึกสูติ-นรีเวช
+                                    WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 1.6 / 8
+                                    WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8
+                                    WHEN w.ward = "05" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8
+                                    WHEN w.ward = "10" THEN COUNT(DISTINCT a.an) * 1.6 / 8
+                                    WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8
+                                    WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "34" THEN COUNT(DISTINCT a.an) * 1.33 / 8
+                                    WHEN w.ward = "35" THEN COUNT(DISTINCT a.an) * 1.33 / 8
                                                 
                                 ELSE COUNT(DISTINCT a.an) * 1.33 / 8 #  ค่าพื้นฐานสำหรับวอร์ดที่ไม่ตรงกับเงื่อนไขใด ๆ   #  เพิ่มเงื่อนไขอื่น ๆ ที่ต้องการสำหรับค่าวอร์ดอื่น ๆ ที่นี่
                             END, 0
                         ) as soot_a,
                         ROUND(
                             CASE 
-                                    WHEN w.ward = "01" THEN COUNT(DISTINCT a.an) * 1.03 / 8  # ตึกสูติ-นรีเวช
-                                                WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 1.44 / 8
-                                                WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8
-                                                WHEN w.ward = "05" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8
-                                    WHEN w.ward = "10" THEN COUNT(DISTINCT a.an) * 1.44 / 8
-                                                WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8
-                                                WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                                WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 1.2 / 8
-                                    WHEN w.ward = "35" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "01" THEN COUNT(DISTINCT a.an) * 1.03 / 8  # ตึกสูติ-นรีเวช
+                                        WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 1.44 / 8
+                                        WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8
+                                        WHEN w.ward = "05" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8
+                                        WHEN w.ward = "10" THEN COUNT(DISTINCT a.an) * 1.44 / 8
+                                        WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8
+                                        WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "34" THEN COUNT(DISTINCT a.an) * 1.2 / 8
+                                        WHEN w.ward = "35" THEN COUNT(DISTINCT a.an) * 1.2 / 8
                                 
                                     ELSE COUNT(DISTINCT a.an) * 1.2 / 8 #  ค่าพื้นฐานสำหรับวอร์ดที่ไม่ตรงกับเงื่อนไขใด ๆ    # เพิ่มเงื่อนไขอื่น ๆ ที่ต้องการสำหรับค่าวอร์ดอื่น ๆ ที่นี่
                                 END, 0
@@ -242,18 +244,19 @@ class NurseController extends Controller
                         ROUND(
                             CASE 
                                     WHEN w.ward = "01" THEN COUNT(DISTINCT a.an) * 0.69 / 8  # ตึกสูติ-นรีเวช
-                                                WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 0.96 / 8  # ตึกอายุรกรรมชาย
-                                                WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8   # ตึกคลอด
+                                    WHEN w.ward = "03" THEN COUNT(DISTINCT a.an) * 0.96 / 8  # ตึกอายุรกรรมชาย
+                                    WHEN w.ward = "04" THEN COUNT(DISTINCT a.an) * 16 / 8   # ตึกคลอด
                                     WHEN w.ward = "05" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกศัลยกรรมชาย
-                                                WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกศัลยกรรมหญิงและศัลยกรรมเด็ก
-                                                WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกกุมารเวชกรรม
-                                                WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8   # ICU1
+                                    WHEN w.ward = "06" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกศัลยกรรมหญิงและศัลยกรรมเด็ก
+                                    WHEN w.ward = "07" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกกุมารเวชกรรม
+                                    WHEN w.ward = "08" THEN COUNT(DISTINCT a.an) * 4 / 8   # ICU1
                                     WHEN w.ward = "10" THEN COUNT(DISTINCT a.an) * 0.96 / 8  # ตึกอายุรกรรมหญิง
-                                                WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกสงฆ์อาพาธและพิเศษทั่วไป
-                                                WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกศัลยกรรมกระดูกและข้อ
-                                                WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8   # ICU 2
-                                                WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกพิเศษอายุรกรรม
-                                                WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกผู้ป่วยจิตเวช-ยาเสพติด
+                                    WHEN w.ward = "11" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกสงฆ์อาพาธและพิเศษทั่วไป
+                                    WHEN w.ward = "13" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกศัลยกรรมกระดูกและข้อ
+                                    WHEN w.ward = "14" THEN COUNT(DISTINCT a.an) * 4 / 8   # ICU 2
+                                    WHEN w.ward = "15" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกพิเศษอายุรกรรม
+                                    WHEN w.ward = "32" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกผู้ป่วยจิตเวช-ยาเสพติด
+                                    WHEN w.ward = "34" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # เคมีบำบัด
                                     WHEN w.ward = "35" THEN COUNT(DISTINCT a.an) * 0.8 / 8  # ตึกพิเศษอายุรกรรมชั้น5
                                                     
                                     ELSE COUNT(DISTINCT a.an) * 0.8 / 8 #  ค่าพื้นฐานสำหรับวอร์ดที่ไม่ตรงกับเงื่อนไขใด ๆ   ## เพิ่มเงื่อนไขอื่น ๆ ที่ต้องการสำหรับค่าวอร์ดอื่น ๆ ที่นี่
@@ -347,7 +350,7 @@ class NurseController extends Controller
                 $c        = $c_an_->soot_c;
                 $datesave = $c_an_->datesave; 
                 $m = date('H'); 
-                //  dd($datesave);
+                //  dd($m);
                 if ($m < '10') {
                     if ($datesave == $date) {  
                         if ($request->ward == '01') {
@@ -423,6 +426,12 @@ class NurseController extends Controller
                             );
                             DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
                         }else if ($request->ward == '32') {
+                            $data  = array(  
+                                'np_a'          => $request->np_a,        
+                                'soot_a_total'  => ($an1 * 1.33 * 100 )/($request->np_a * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '34') {
                             $data  = array(  
                                 'np_a'          => $request->np_a,        
                                 'soot_a_total'  => ($an1 * 1.33 * 100 )/($request->np_a * 7),
@@ -517,6 +526,12 @@ class NurseController extends Controller
                                 'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
                             );
                             DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '34') {
+                            $data  = array(  
+                                'np_b'          => $request->np_b,        
+                                'soot_b_total'  => ($an2 * 1.2 * 100 )/($request->np_b * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
                         }else if ($request->ward == '35') {
                             $data  = array(  
                                 'np_b'          => $request->np_b,        
@@ -602,6 +617,12 @@ class NurseController extends Controller
                             );
                             DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
                         }else if ($request->ward == '32') {
+                            $data  = array(  
+                                'np_c'          => $request->np_c,        
+                                'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
+                            );
+                            DB::connection('mysql')->table('nurse')->where('ward', $request->ward)->update($data);
+                        }else if ($request->ward == '34') {
                             $data  = array(  
                                 'np_c'          => $request->np_c,        
                                 'soot_c_total'  => ($an3 * 0.8 * 100 )/($request->np_c * 7),
