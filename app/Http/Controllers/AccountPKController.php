@@ -4689,6 +4689,9 @@ class AccountPKController extends Controller
             // @$EPO      = $result['HDBills']['HDBill'];
             // @$TBills = $result['TBills']['TBill'];
             @$HDBillsTBill = $result['HDBills']['HDBill'];
+            @$TBills       = $result['TBills']['TBill'];
+
+            // dd(@$HDBillsTBill);
             $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
             if ($checkchead > 0) { 
             } else {
@@ -4709,9 +4712,10 @@ class AccountPKController extends Controller
             $data_ = DB::table('acc_stm_ti_totalhead')->where('AccPeriod','=',@$AccPeriod)->first();
             $totalhead_id  = $data_->acc_stm_ti_totalhead_id;
            
-            dd(@$TBill);
-            $HDBillss       = @$HDBills;
-            foreach ($HDBillss as $key => $value) {
+            // dd(@$TBill);
+            $HDBillsTBill       = @$HDBillsTBill;
+            $HDBillss           = @$HDBills;
+            foreach ($HDBillsTBill as $key => $value) {
                 // $check_data = Acc_stm_ti_total::where('HDBill_wkno', $value->wkno)->count();
                 // if ($check_data > 0) { 
                 // } else {
@@ -4731,6 +4735,9 @@ class AccountPKController extends Controller
 
                     $data_2                       = $value['TBill'];
                     dd($data_2);
+                    foreach ($data_2 as $key => $val2) {
+                        # code...
+                    }
                     // $add  =  new Acc_stm_ti_total();
                     // $add->acc_stm_ti_totalhead_id  = $totalhead_id;
                     // $add->HDBill_hreg              = $value->hreg;
