@@ -14,7 +14,8 @@ return new class extends Migration
         if (!Schema::hasTable('acc_stm_ti_totalsub'))
         {
             Schema::connection('mysql')->create('acc_stm_ti_totalsub', function (Blueprint $table) {
-                $table->bigIncrements('acc_stm_ti_totalsub_id'); 
+                $table->bigIncrements('acc_stm_ti_totalsub_id');
+                $table->string('acc_stm_ti_total_id',100)->nullable();//  
                 $table->string('wkno',100)->nullable();//  
                 $table->string('HDBill_TBill_hcode')->nullable();// 
                 $table->string('HDBill_TBill_station')->nullable();// 

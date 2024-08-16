@@ -4660,8 +4660,8 @@ class AccountPKController extends Controller
         // ********************************************************************
 
             $tar_file_ = $request->file;
-            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-            $filename = pathinfo($file_, PATHINFO_FILENAME);
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์ + นามสกุล
+            $filename = pathinfo($file_, PATHINFO_FILENAME);  //ชื่อไฟล์ เพียวๆ
             $extension = pathinfo($file_, PATHINFO_EXTENSION);
             $xmlString = file_get_contents(($tar_file_));
             // $xmlString = file_get_contents(($file_));
@@ -4669,7 +4669,7 @@ class AccountPKController extends Controller
             $json = json_encode($xmlObject);
             $result = json_decode($json, true);
 
-            // dd($result);
+            // dd($filename);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -4712,143 +4712,191 @@ class AccountPKController extends Controller
             $data_ = DB::table('acc_stm_ti_totalhead')->where('AccPeriod','=',@$AccPeriod)->first();
             $totalhead_id  = $data_->acc_stm_ti_totalhead_id;
            
-            // dd(@$TBill);
+            // dd(@$HDBillsTBill);
             $HDBillsTBill       = @$HDBillsTBill;
             $HDBillss           = @$HDBills;
             foreach ($HDBillsTBill as $key => $value) {
                 // $check_data = Acc_stm_ti_total::where('HDBill_wkno', $value->wkno)->count();
                 // if ($check_data > 0) { 
                 // } else {
-                    // Acc_stm_ti_total::insert([
-                    //     'acc_stm_ti_totalhead_id'    => $totalhead_id,
-                    //     'HDBill_hreg'                => $value->hreg,
-                    //     'HDBill_hn'                  => $value->hn,
-                    //     'HDBill_name'                => $value->name,
-                    //     'HDBill_pid'                 => $value->pid,
-                    //     'HDBill_wkno'                => $value->wkno,
-                    //     'HDBill_hds'                 => $value->hds,
-                    //     'HDBill_quota'               => $value->quota,
-                    //     'HDBill_hdcharge'            => $value->hdcharge,
-                    //     'HDBill_payable'             => $value->payable, 
-                    //     'HDBill_outstanding'         => $value->outstanding,  
-                    // ]); 
-
-                    $data_2                       = $value['TBill'];
-                    dd($data_2);
-                    foreach ($data_2 as $key => $val2) {
-                        # code...
+                    if (isset($value['EPO']['effHDs'])) {
+                        $data_epo_hds   = $value['EPO']['effHDs'];
+                    } else {
+                        $data_epo_hds   = '';
                     }
-                    // $add  =  new Acc_stm_ti_total();
-                    // $add->acc_stm_ti_totalhead_id  = $totalhead_id;
-                    // $add->HDBill_hreg              = $value->hreg;
-                    // $add->HDBill_hn                = $value->hn;
-                    // $add->HDBill_name              = $value->name;
-                    // $add->HDBill_pid               = $value->pid;
-                    // $add->HDBill_wkno              = $value->wkno;
-                    // $add->HDBill_hds               = $value->hds;
-                    // $add->HDBill_quota             = $value->quota;
-                    // $add->HDBill_hdcharge          = $value->hdcharge;
-                    // $add->HDBill_payable           = $value->payable;
-                    // $add->HDBill_outstanding       = $value->outstanding;
-                    // $add->HDBill_EPO_effHDs        = $value['EPO']['effHDs'];
-                    // $add->HDBill_EPO_effHCT        = $value['EPO']['effHCT'];
-                    // $add->HDBill_EPO_epoPay        = $value['EPO']['epoPay'];
-                    // $add->HDBill_EPO_epoAdm        = $value['EPO']['epoAdm'];
-
-
-            
-                    // $add->HDBill_TBill_hcode       = $value['TBill']['hcode'];
-                    // $add->HDBill_TBill_station     = $value['TBill']['station'];
-                    // $add->HDBill_TBill_wkno        = $value['TBill']['wkno'];
-                    // $add->HDBill_TBill_hreg        = $value['TBill']['hreg'];
-                    // $add->HDBill_TBill_hn          = $value['TBill']['hn'];
-                    // $add->HDBill_TBill_invno       = $value['TBill']['invno'];
-                    // $add->HDBill_TBill_dttran      = $value['TBill']['hcode'];
-                    // $add->HDBill_TBill_hdrate      = $value['TBill']['hdrate'];
-                    // $add->HDBill_TBill_hdcharge    = $value['TBill']['hdcharge'];
-                    // $add->HDBill_TBill_amount      = $value['TBill']['amount'];
-                    // $add->HDBill_TBill_paid        = $value['TBill']['paid'];
-                    // $add->HDBill_TBill_rid         = $value['TBill']['rid'];
-                    // $add->HDBill_TBill_accp        = $value['TBill']['accp'];
-
-                    // $add->save(); 
-
-                    // $data_2                       = $value['TBill'];
-                    // foreach ($data_2 as $v_sub) {
-                    //     // Acc_stm_ti_totalsub
-                    // }
-                // } 
+                    if (isset($value['EPO']['effHCT'])) {
+                        $data_epo_hct   = $value['EPO']['effHCT'];
+                    } else {
+                        $data_epo_hct   = '';
+                    }
+                    if (isset($value['EPO']['epoPay'])) {
+                        $data_epo_pay   = $value['EPO']['epoPay'];
+                    } else {
+                        $data_epo_pay   = '';
+                    }
+                    if (isset($value['EPO']['epoAdm'])) {
+                        $data_epo_adm   = $value['EPO']['epoAdm'];
+                    } else {
+                        $data_epo_adm   = '';
+                    } 
+                    $check_s   =  Acc_stm_ti_total::where('HDBill_pid',$value['pid'])->where('HDBill_wkno',$value['wkno'])->count();
+                    if ($check_s < 1) { 
+                        Acc_stm_ti_total::insert([
+                            'acc_stm_ti_totalhead_id'    => $totalhead_id,
+                            'HDBill_hreg'                => $value['hreg'],
+                            'HDBill_hn'                  => $value['hn'],
+                            'HDBill_name'                => $value['name'],
+                            'HDBill_pid'                 => $value['pid'],
+                            'HDBill_wkno'                => $value['wkno'],
+                            'HDBill_hds'                 => $value['hds'],
+                            'HDBill_quota'               => $value['quota'],
+                            'HDBill_hdcharge'            => $value['hdcharge'],
+                            'HDBill_payable'             => $value['payable'], 
+                            'HDBill_outstanding'         => $value['outstanding'], 
+                            
+                            'HDBill_EPO_effHDs'          => $data_epo_hds,  
+                            'HDBill_EPO_effHCT'          => $data_epo_hct,  
+                            'HDBill_EPO_epoPay'          => $data_epo_pay,
+                            'HDBill_EPO_epoAdm'          => $data_epo_adm, 
+                            'STMdoc'                     => $filename
+                        ]); 
+                    
+                        $data_2                       = $value['TBill'];
+                        // dd($data_2);      
+                        foreach ($data_2 as $value2) {
+                                          
+                                    if (isset($value2['hcode'])) {
+                                        $hcode   = $value2['hcode'];
+                                    } else {
+                                        $hcode   = '';
+                                    }
+                                    if (isset($value2['station'])) {
+                                        $station   = $value2['station'];
+                                    } else {
+                                        $station   = '';
+                                    }
+                                    if (isset($value2['hreg'])) {
+                                        $hreg   = $value2['hreg'];
+                                    } else {
+                                        $hreg   = '';
+                                    }
+                                    if (isset($value2['wkno'])) {
+                                        $wkno   = $value2['wkno'];
+                                    } else {
+                                        $wkno   = '';
+                                    }
+                                    if (isset($value2['hn'])) {
+                                        $hn   = $value2['hn'];
+                                    } else {
+                                        $hn   = '';
+                                    }
+                                    if (isset($value2['invno'])) {
+                                        $invno   = $value2['invno'];
+                                    } else {
+                                        $invno   = '';
+                                    }
+                                    if (isset($value2['amount'])) {
+                                        $amount   = $value2['amount'];
+                                    } else {
+                                        $amount   = '';
+                                    }
+                                    if (isset($value2['paid'])) {
+                                        $paid   = $value2['paid'];
+                                    } else {
+                                        $paid   = '';
+                                    }
+                                    if (isset($value2['rid'])) {
+                                        $rid   = $value2['rid'];
+                                    } else {
+                                        $rid   = '';
+                                    }
+                                    if (isset($value2['hdrate'])) {
+                                        $hdrate   = $value2['hdrate'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['hdcharge'])) {
+                                        $hdcharge   = $value2['hdcharge'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['HDflag'])) {
+                                        $HDflag   = $value2['HDflag'];
+                                    } else {
+                                        $HDflag   = '';
+                                    }
+                                    if (isset($value2['hdrate'])) {
+                                        $hdrate   = $value2['hdrate'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['accp'])) {
+                                        $accp   = $value2['accp'];
+                                    } else {
+                                        $accp   = '';
+                                    }
+                                    if (isset($value2['HDflag'])) {
+                                        $HDflag   = $value2['HDflag'];
+                                    } else {
+                                        $HDflag   = '';
+                                    }
+                                    if (isset($value2['dttran'])) {
+                                        $dttran   = $value2['dttran'];
+                                        $dttranDate = explode("T",$value2['dttran']);
+                                        $dttdate    = $dttranDate[0];
+                                        $dtttime    = $dttranDate[1];             
+                                    } else {
+                                        $hdrate       = '';
+                                        $dttranDate   = '';
+                                        $dttdate      = '';
+                                    }
+                                
+                                    if ($wkno != '') { 
+                                        $check_sub = Acc_stm_ti_totalsub::where('HDBill_TBill_invno',$invno)->count();
+                                        if ($check_sub > 0) {
+                                            # code...
+                                        } else {
+                                            Acc_stm_ti_totalsub::insert([
+                                                // 'acc_stm_ti_total_id'        => $hcode,
+                                                'wkno'                       => $value['wkno'],
+                                                'HDBill_TBill_hcode'         => $hcode,  
+                                                'HDBill_TBill_station'       => $station,
+                                                'HDBill_TBill_wkno'          => $wkno,
+                                                'HDBill_TBill_hreg'          => $hreg,
+                                                'HDBill_TBill_hn'            => $hn,
+                                                'HDBill_TBill_invno'         => $invno,
+                                                'HDBill_TBill_dttran'        => $dttdate,
+                                                'HDBill_TBill_hdrate'        => $hdrate,
+                                                'HDBill_TBill_hdcharge'      => $hdcharge,
+                                                'HDBill_TBill_amount'        => $amount,
+                                                'HDBill_TBill_paid'          => $paid,
+                                                'HDBill_TBill_rid'           => $rid,
+                                                'HDBill_TBill_accp'          => $accp,
+                                                'HDBill_TBill_HDflag'        => $HDflag,
+                                            ]);
+                                        }
+                                        
+                                        
+                                    } else { 
+                                    }
+                        }
+                        
+                         return response()->json([
+                            'status'    => '200',
+                            'success'   => 'Successfully uploaded.'
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status'    => '100', 
+                        ]);
+                    }
+                    
             }
-                       
-            // $bills_       = @$TBills;
-            // dd($bills_ );
-            
-
-            // foreach ($bills_ as $value) {
-            //     $hreg = $value['hreg'];
-            //     $station = $value['station'];
-            //     $invno = $value['invno'];
-            //     $hn = $value['hn'];
-            //     $amount = $value['amount'];
-            //     $paid = $value['paid'];
-            //     $rid = $value['rid'];
-            //     $HDflag = $value['HDflag'];
-            //     $dttran = $value['dttran'];
-            //     $dttranDate = explode("T",$value['dttran']);
-            //     $dttdate = $dttranDate[0];
-            //     $dtttime = $dttranDate[1];
-            //     $checkc = Acc_stm_ti_total::where('cid', $hn)->where('vstdate', $dttdate)->count();
-
-            //     // if ( $checkc > 0) {
-            //     //         Acc_stm_ti_total::where('cid',$hn)->where('vstdate',$dttdate)
-            //     //         ->update([
-            //     //             'invno'             => $invno,
-            //     //             'hn'                => $hn,
-            //     //             'station'           => $station,
-            //     //             'STMdoc'            => @$STMdoc,
-            //     //             'vstdate'           => $dttdate,
-            //     //             'paid'              => $paid,
-            //     //             'rid'               => $rid,
-            //     //             'HDflag'            => $HDflag,
-            //     //             'amount'            => $amount,
-            //     //             'Total_amount'      => $amount
-            //     //         ]);
-            //     //         Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
-            //     //         ->update([
-            //     //             'status'            => 'Y',
-            //     //             'stm_money'       => $amount, 
-            //     //             'stm_trainid'     => $invno,
-            //     //             'stm_total'       => $amount,
-            //     //             'STMdoc'          => @$STMdoc, 
-            //     //         ]); 
-            //     // } else {
-                        // Acc_stm_ti_total::insert([
-                        //     'invno'             => $invno,
-                        //     'hn'                => $hn,
-                        //     'station'           => $station,
-                        //     'STMdoc'            => @$STMdoc,
-                        //     'vstdate'           => $dttdate,
-                        //     'paid'              => $paid,
-                        //     'rid'               => $rid,
-                        //     'HDflag'            => $HDflag,
-                        //     'amount'            => $amount,
-                        //     'Total_amount'      => $amount
-                        // ]); 
-            //     //         // Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
-            //     //         // ->update([
-            //     //         //     'status'            => 'Y',
-            //     //         //     'stm_money'       => $amount, 
-            //     //         //     'stm_trainid'     => $invno,
-            //     //         //     'stm_total'       => $amount,
-            //     //         //     'STMdoc'          => @$STMdoc, 
-            //     //         // ]); 
-            //     // }
-            // }
-            // return redirect()->back();
-            return response()->json([
-                'status'    => '200',
-                'success'   => 'Successfully uploaded.'
-            ]);
+           
+            // return response()->json([
+            //     'status'    => '200',
+            //     'success'   => 'Successfully uploaded.'
+            // ]);
 
     }
     public function upstm_tixml_sss(Request $request)
