@@ -4629,6 +4629,99 @@ class AccountPKController extends Controller
         ]);
     }
     public function upstm_tixml_import(Request $request)
+    {  
+            $tar_file_ = $request->file; 
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+            $filename = pathinfo($file_, PATHINFO_FILENAME);
+            $extension = pathinfo($file_, PATHINFO_EXTENSION);  
+            $xmlString = file_get_contents(($tar_file_));
+            $xmlObject = simplexml_load_string($xmlString);
+            $json = json_encode($xmlObject); 
+            $result = json_decode($json, true); 
+        
+            // dd($result);
+            @$stmAccountID = $result['stmAccountID'];
+            @$hcode = $result['hcode'];
+            @$hname = $result['hname'];
+            @$AccPeriod = $result['AccPeriod']; 
+            @$STMdoc = $result['STMdoc'];
+            @$dateStart = $result['dateStart'];
+            @$dateEnd = $result['dateEnd'];
+            @$dateData = $result['dateData'];
+            @$dateIssue = $result['dateIssue'];
+            @$acount = $result['acount'];
+            @$Total_amount = $result['amount'];
+            @$Total_thamount = $result['thamount'];
+            @$STMdat = $result['STMdat'];
+            @$TBills = $result['TBills']['TBill']; 
+            $bills_       = @$TBills;              
+                foreach ($bills_ as $value) {                     
+                    $hreg = $value['hreg'];
+                    $station = $value['station'];
+                    $invno = $value['invno'];
+                    $hn = $value['hn']; 
+                    $amount = $value['amount'];
+                    $paid = $value['paid'];
+                    $rid = $value['rid']; 
+                    $HDflag = $value['HDflag']; 
+                    $dttran = $value['dttran'];                     
+                    $dttranDate = explode("T",$value['dttran']);
+                    $dttdate = $dttranDate[0];
+                    $dtttime = $dttranDate[1];
+                    $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
+                    if ( $checkc > 0) {
+                        Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
+                            ->update([   
+                                'invno'            => $invno,
+                                'dttran'           => $dttran, 
+                                'hn'               => $hn, 
+                                'amount'           => $amount, 
+                                'paid'             => $paid,
+                                'rid'              => $rid, 
+                                'HDflag'           => $HDflag,
+                                'vstdate'          => $dttdate                                
+                            ]);
+                        Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
+                            ->update([   
+                                'invno'             => $invno, 
+                                'hn'                => $hn, 
+                                'STMdoc'            => @$STMdoc, 
+                                'vstdate'           => $dttdate,  
+                                'paid'              => $paid,
+                                'rid'               => $rid,
+                                'HDflag'            => $HDflag,
+                                'amount'            => $amount 
+                            ]); 
+                    } else {
+                            Acc_stm_ti::insert([
+                                'invno'            => $invno,
+                                'dttran'           => $dttran, 
+                                'hn'               => $hn, 
+                                'amount'           => $amount, 
+                                'paid'             => $paid,
+                                'rid'              => $rid, 
+                                'HDflag'           => $HDflag,
+                                'vstdate'          => $dttdate 
+                            ]);       
+                            
+                            Acc_stm_ti_total::insert([                
+                                'invno'             => $invno, 
+                                'hn'                => $hn, 
+                                'STMdoc'            => @$STMdoc, 
+                                'vstdate'           => $dttdate,  
+                                'paid'              => $paid,
+                                'rid'               => $rid,
+                                'HDflag'            => $HDflag,
+                                'amount'            => $amount 
+                            ]);
+                         
+                    } 
+                }
+               
+                return redirect()->back();
+         
+    }
+    public function upstm_tixml_sssimport(Request $request)
     {
         // $xml = $request->file;
         // $reader = XmlReader::fromString($xml);
@@ -4740,7 +4833,7 @@ class AccountPKController extends Controller
                         $data_epo_adm   = '';
                     } 
                     $check_s   =  Acc_stm_ti_total::where('HDBill_pid',$value['pid'])->where('HDBill_wkno',$value['wkno'])->count();
-                    // if ($check_s < 1) { 
+                    if ($check_s < 1) { 
                         Acc_stm_ti_total::insert([
                             'acc_stm_ti_totalhead_id'    => $totalhead_id,
                             'HDBill_hreg'                => $value['hreg'],
@@ -4885,11 +4978,11 @@ class AccountPKController extends Controller
                             'status'    => '200',
                             'success'   => 'Successfully uploaded.'
                         ]);
-                    // } else {
-                    //     return response()->json([
-                    //         'status'    => '100', 
-                    //     ]);
-                    // }
+                    } else {
+                        return response()->json([
+                            'status'    => '100', 
+                        ]);
+                    }
                     
             }
            
@@ -4910,7 +5003,7 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,
         ]);
     }
-    public function upstm_tixml_sssimport(Request $request)
+    public function upstm_tixml_sssimport_old_ok(Request $request)
     {
             $tar_file_ = $request->file;
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์

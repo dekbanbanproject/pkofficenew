@@ -89,7 +89,7 @@
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                               
-                                <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" id="insert_stmsssForm" enctype="multipart/form-data">
                                     @csrf
                                         <div class="col-sm-12">
                                             <div class="widget-chart widget-chart-hover">
@@ -128,7 +128,7 @@
 
     @endsection
     @section('footer')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -177,42 +177,70 @@
             //   });
             // });
 
-            // $('#insert_stmsssForm').on('submit',function(e){
-            //         e.preventDefault();
+            $('#insert_stmsssForm').on('submit',function(e){
+                    e.preventDefault();
 
-            //         var form = this;
-            //           //   alert('OJJJJOL');
-            //         $.ajax({
-            //           url:$(form).attr('action'),
-            //           method:$(form).attr('method'),
-            //           data:new FormData(form),
-            //           processData:false,
-            //           dataType:'json',
-            //           contentType:false,
-            //           beforeSend:function(){
-            //             $(form).find('span.error-text').text('');
-            //           },
-            //           success:function(data){
-            //             if (data.status == 0 ) {
+                    var form = this;
+                      //   alert('OJJJJOL');
+                    $.ajax({
+                      url:$(form).attr('action'),
+                      method:$(form).attr('method'),
+                      data:new FormData(form),
+                      processData:false,
+                      dataType:'json',
+                      contentType:false,
+                      beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                      },
+                      success:function(data){
+                    //     if (data.status == 0 ) {
 
-            //             } else {
-            //                 Swal.fire({
-            //                     title: 'บันทึกข้อมูลสำเร็จ',
-            //                     text: "You Insert data success",
-            //                     icon: 'success',
-            //                     showCancelButton: false,
-            //                     confirmButtonColor: '#06D177',
-            //                     // cancelButtonColor: '#d33',
-            //                     confirmButtonText: 'เรียบร้อย'
-            //                 }).then((result) => {
-            //                     if (result.isConfirmed) {
-            //                     window.location="{{url('upstm_tixml_sss')}}";
-            //                     }
-            //                 })
-            //             }
-            //           }
-            //         });
-            // });
+                    //     } else {
+                    //         Swal.fire({
+                    //             title: 'บันทึกข้อมูลสำเร็จ',
+                    //             text: "You Insert data success",
+                    //             icon: 'success',
+                    //             showCancelButton: false,
+                    //             confirmButtonColor: '#06D177',
+                    //             // cancelButtonColor: '#d33',
+                    //             confirmButtonText: 'เรียบร้อย'
+                    //         }).then((result) => {
+                    //             if (result.isConfirmed) {
+                    //             window.location="{{url('upstm_tixml_sss')}}";
+                    //             }
+                    //         })
+                    //     }
+                    //   }
+                      if (data.status == '200') {
+                                Swal.fire({
+                                title: 'UP STM สำเร็จ',
+                                text: "You UP STM success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location = "{{ url('upstm_tixml_sss') }}";
+                                }
+                            })
+                            } else {
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "warning",
+                                    title: "ไฟล์นี้ถูกนำเข้าไปก่อนแล้ว",
+                                    text: "This file has already been imported.", 
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+                                // window.location = "{{ url('upstm_tixml_sss') }}";
+                            }
+                      }
+                    });
+            });
 
             var bar = $('.bar');
             var percent = $('.percent');
