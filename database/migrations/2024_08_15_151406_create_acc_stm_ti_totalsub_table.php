@@ -31,6 +31,8 @@ return new class extends Migration
                 $table->string('HDBill_TBill_rid')->nullable();// 
                 $table->string('HDBill_TBill_accp')->nullable();// 
                 $table->string('HDBill_TBill_HDflag')->nullable();//  
+                $table->string('HDBill_TBill_totalamount')->nullable();// 
+                $table->string('STMdoc')->nullable();// 
                 $table->timestamps();
                  
             });

@@ -2464,7 +2464,7 @@ class FdhController extends Controller
                 AND vp.claim_code is null
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.main_dep NOT IN("011","036","107","078","020") 
-                AND v.pdx NOT IN("Z000")
+                AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
                 GROUP BY c.vn 
             ');
         } else {
@@ -2481,7 +2481,7 @@ class FdhController extends Controller
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" 
-                AND v.income > 0
+                AND v.income > 0 
                 GROUP BY o.vn 
             ');
             // AND (vs.claim_code IS NULL OR vs.claim_code ="")
@@ -2551,7 +2551,7 @@ class FdhController extends Controller
                 AND vp.claim_code is null
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND c.main_dep NOT IN("011","036","107","078","020") 
-                AND v.pdx NOT IN("Z000")
+                AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
                 GROUP BY c.vn 
             ');         
         }
