@@ -4833,7 +4833,7 @@ class AccountPKController extends Controller
                         $data_epo_adm   = '';
                     } 
                     $check_s   =  Acc_stm_ti_total::where('HDBill_pid',$value['pid'])->where('HDBill_wkno',$value['wkno'])->count();
-                    if ($check_s < 1) { 
+                    // if ($check_s < 1) { 
                         Acc_stm_ti_total::insert([
                             'acc_stm_ti_totalhead_id'    => $totalhead_id,
                             'HDBill_hreg'                => $value['hreg'],
@@ -4978,11 +4978,11 @@ class AccountPKController extends Controller
                             'status'    => '200',
                             'success'   => 'Successfully uploaded.'
                         ]);
-                    } else {
-                        return response()->json([
-                            'status'    => '100', 
-                        ]);
-                    }
+                    // } else {
+                    //     return response()->json([
+                    //         'status'    => '100', 
+                    //     ]);
+                    // }
                     
             }
            
