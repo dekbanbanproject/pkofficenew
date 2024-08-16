@@ -193,24 +193,7 @@
                         $(form).find('span.error-text').text('');
                       },
                       success:function(data){
-                    //     if (data.status == 0 ) {
-
-                    //     } else {
-                    //         Swal.fire({
-                    //             title: 'บันทึกข้อมูลสำเร็จ',
-                    //             text: "You Insert data success",
-                    //             icon: 'success',
-                    //             showCancelButton: false,
-                    //             confirmButtonColor: '#06D177',
-                    //             // cancelButtonColor: '#d33',
-                    //             confirmButtonText: 'เรียบร้อย'
-                    //         }).then((result) => {
-                    //             if (result.isConfirmed) {
-                    //             window.location="{{url('upstm_tixml_sss')}}";
-                    //             }
-                    //         })
-                    //     }
-                    //   }
+            
                       if (data.status == '200') {
                                 Swal.fire({
                                 title: 'UP STM สำเร็จ',
