@@ -2762,22 +2762,37 @@ class AirController extends Controller
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-      
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
         $iduser = Auth::user()->id;
         $datashow = DB::select(
             'SELECT a.building_id,a.building_name 
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id) as qtyall
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu < "10000" )	as less_10000
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "10001" AND "20000" )	as one_two 
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "20001" AND "30000" )	as two_tree
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "30001" AND "40000" )	as tree_four
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "40001" AND "50000" )	as four_five
-                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu > "50001" )	as more_five
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND air_year = "'.$bg_yearnow.'") as qtyall
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu < "10000" AND air_year = "'.$bg_yearnow.'")	as less_10000
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "10001" AND "20000" AND air_year = "'.$bg_yearnow.'") as one_two 
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "20001" AND "30000" AND air_year = "'.$bg_yearnow.'") as two_tree
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "30001" AND "40000" AND air_year = "'.$bg_yearnow.'") as tree_four
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "40001" AND "50000" AND air_year = "'.$bg_yearnow.'") as four_five
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu > "50001" AND air_year = "'.$bg_yearnow.'")	as more_five
             FROM air_list al 
             LEFT JOIN building_data a ON a.building_id = al.air_location_id 
+            WHERE al.air_year = "'.$bg_yearnow.'"
             GROUP BY a.building_id
             ORDER BY building_id ASC
+                       
         '); 
+    //     SELECT a.building_id,a.building_name 
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id) as qtyall
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu < "10000" )	as less_10000
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "10001" AND "20000" )	as one_two 
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "20001" AND "30000" )	as two_tree
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "30001" AND "40000" )	as tree_four
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu BETWEEN "40001" AND "50000" )	as four_five
+    //     ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND btu > "50001" )	as more_five
+    // FROM air_list al 
+    // LEFT JOIN building_data a ON a.building_id = al.air_location_id 
+    // GROUP BY a.building_id
+    // ORDER BY building_id ASC
         return view('support_prs.air.air_report_building_excel',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,

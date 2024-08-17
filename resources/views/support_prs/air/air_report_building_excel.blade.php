@@ -64,7 +64,7 @@
             <tr style="font-size:13px"> 
                 <th rowspan="2" width="3%" class="text-center" style="border: 1px solid black;background-color: rgb(255, 251, 228);width: 5%">ลำดับ</th>  
                 <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: rgb(199, 253, 237)">อาคาร</th>  
-                <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: rgb(199, 253, 237);width: 7%">เลขอาคาร</th>  
+                {{-- <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: rgb(199, 253, 237);width: 7%">เลขอาคาร</th>   --}}
                 <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: rgb(199, 253, 237);width: 7%">จำนวน</th>  
                 <th colspan="6" class="text-center" style="border: 1px solid black;background-color: rgb(239, 228, 255);width: 40%">ขนาด(btu)</th>   
             </tr> 
@@ -85,7 +85,7 @@
                 <tr> 
                     <td class="text-center" style="width: 5%;border: 1px;color:black">{{$i}}</td>
                     <td class="text-start;" style="border: 1px;color:black"> {{$item->building_name}}</td>
-                    <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->building_id}} </td>
+                    {{-- <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->building_id}} </td> --}}
                     <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->qtyall}}</td>
                     <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->less_10000}} </td>
                     <td class="text-center;" style="border: 1px solid black;width: 7%;"> {{$item->one_two}} </td>
