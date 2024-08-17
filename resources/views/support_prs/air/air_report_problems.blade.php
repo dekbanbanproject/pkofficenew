@@ -240,7 +240,40 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body text-center"> 
-            <img src="{{ asset('images/doc/document_01.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+           
+            {{-- <p style="color: rgb(255, 255, 255);font-size: 17px;">คู่มือการนำเข้าแผนการบำรุงรักษา</p> --}}
+            <br><br>
+            <img src="{{ asset('images/doc/pl1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+            <br><br><br> 
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <br><br><br> 
+            
+            <img src="{{ asset('images/doc/pl2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+
+            <img src="{{ asset('images/doc/pl3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+
+            <img src="{{ asset('images/doc/pl4.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+
+            <img src="{{ asset('images/doc/pl5.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+
+            <img src="{{ asset('images/doc/pl6.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+            <hr style="color: rgb(255, 255, 255);border: blueviolet">
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 

@@ -176,7 +176,7 @@
                                                 LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                                                 WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                 AND b.air_repaire_ploblem_id = "'.$air_repaire_ploblem_id.'"
-                                                AND a.air_list_num = "'.$item->air_list_num.'" 
+                                                AND a.air_list_num = "'.$item->air_list_num.'" AND b.air_repaire_type_code = "04"
                                             ');                                     
                                             foreach ($count_air_detail as $key => $val2) {$countair = $val2->repaire_sub_id;}
                                         ?>

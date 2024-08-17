@@ -3014,7 +3014,7 @@ class AirController extends Controller
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                     WHERE a.repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                     AND b.repaire_no > 1 AND b.air_repaire_ploblem_id IN("1","2","3","4","5")
-                    GROUP BY a.air_list_num 
+                    GROUP BY a.air_list_id
                 ');
                 foreach ($datashow_sub as $key => $value2) {
                       Air_report_ploblems_sub::insert([

@@ -54,7 +54,7 @@
        
         <div class="row"> 
             <div class="col-md-4"> 
-                <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบถังดับเพลิง</h4> 
+                <h4 style="color:rgb(255, 255, 255)">รายการถังดับเพลิงที่เปลี่ยน</h4> 
             </div>
             <div class="col"></div>
            
