@@ -5067,6 +5067,14 @@ class AccountPKController extends Controller
                         //     'STMdoc'          => $filename, 
                         // ]);
                     } 
+                    Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
+                        ->update([
+                            'status'            => 'Y', 
+                            'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
+                            'stm_trainid'       => $invno,
+                            'stm_total'         => ((int)$amount) + ((int)$EPOpay)+ ((int)$EPOadm),
+                            'STMdoc'            => $filename, 
+                        ]);
             }
            
             return response()->json([

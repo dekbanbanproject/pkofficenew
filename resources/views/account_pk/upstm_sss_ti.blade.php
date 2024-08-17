@@ -106,7 +106,8 @@
                                 <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
                                     <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab">
                                         <div class="row"> 
-                                            <div class="col-md-6">
+                                            <div class="col"></div>
+                                            <div class="col-md-8">
                                                 <div class="card p-4 card_pink">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL SSS TI 3099</h4>
                                                     <div class="table-responsive">
@@ -116,21 +117,38 @@
                                                                 <tr>
                                                                     <th class="text-center">ลำดับ</th> 
                                                                     <th class="text-center">STMDoc</th> 
-                                                                    <th class="text-center">total</th> 
+                                                                    <th class="text-center">total stm_all</th> 
+                                                                    <th class="text-center">total 3099</th> 
+                                                                    <th class="text-center">total stm</th> 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <?php $number = 0;
                                                                 $total1 = 0; ?>
                                                                 @foreach ($sss_ti as $item)
-                                                                    <?php $number++; ?>
+                                                                    <?php $number++;
+                                                                        $sum_stm_ = DB::select('SELECT SUM(HDBill_TBill_totalamount) as total
+                                                                            FROM acc_stm_ti_totalsub
+                                                                            WHERE STMdoc ="'.$item->STMDoc.'" 
+                                                                        ');                                     
+                                                                        foreach ($sum_stm_ as $key => $value) {$sum_stm = $value->total;}
+
+                                                                        $sum_stm_total_ = DB::select('SELECT SUM(HDBill_payable)+SUM(HDBill_EPO_epoPay)+SUM(HDBill_EPO_epoAdm) as Total_bill_stm
+                                                                            FROM acc_stm_ti_total
+                                                                            WHERE STMdoc ="'.$item->STMDoc.'" 
+                                                                        ');                                     
+                                                                        foreach ($sum_stm_total_ as $key => $value_m) {$sum_stm_main = $value_m->Total_bill_stm;}
+                                                                    
+                                                                    ?>
                                 
                                                                     <tr height="20">
                                                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                                                         <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px">  
                                                                             <a href="{{url('upstm_sss_ti_detail/'.$item->STMDoc)}}" target="_blank"> {{ $item->STMDoc }}</a>  
-                                                                        </td>  
-                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
+                                                                        </td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($sum_stm_main, 2) }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 111, 151);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
+                                                                        <td class="text-end" style="color:rgb(5, 124, 124);font-size:15px" width="30%">{{ number_format($sum_stm, 2) }}</td>
                                                                     </tr>
                                                                 @endforeach
                                 
@@ -191,6 +209,7 @@
                                                     </div>
                                                 </div> 
                                             </div> --}}
+                                            <div class="col"></div>
                                         </div> 
                                     </div>
                                                                         
