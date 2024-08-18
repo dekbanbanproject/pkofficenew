@@ -4842,6 +4842,12 @@ class AccountPKController extends Controller
                     } else {
                         $data_epo_adm   = '';
                     } 
+
+                    if (isset($value['pid'])) {
+                        $data_cid   = $value['pid'];
+                    } else {
+                        $data_cid   = '';
+                    } 
                     $check_s   =  Acc_stm_ti_total::where('HDBill_pid',$value['pid'])->where('HDBill_wkno',$value['wkno'])->count();
                     if ($check_s < 1) { 
                         // Acc_stm_ti_total::insert([
@@ -5007,7 +5013,7 @@ class AccountPKController extends Controller
                                     } else { 
                                     }
 
-                                    Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
+                                    Acc_1102050101_3099::where('cid',$data_cid)->where('vstdate',$dttdate)
                                     ->update([
                                         'status'            => 'Y', 
                                         'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
@@ -5058,7 +5064,7 @@ class AccountPKController extends Controller
                             $dataepoadm   = '';
                         }
 
-                        Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
+                        Acc_1102050101_3099::where('cid',$data_cid)->where('vstdate',$dttdate)
                         ->update([
                             'status'            => 'Y', 
                             'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
@@ -5078,6 +5084,15 @@ class AccountPKController extends Controller
                         //     'STMdoc'          => $filename, 
                         // ]);
                     } 
+
+                    Acc_1102050101_3099::where('cid',$data_cid)->where('vstdate',$dttdate)
+                    ->update([
+                        'status'            => 'Y', 
+                        'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
+                        'stm_trainid'       => $invno,
+                        'stm_total'         => ((int)$amount) + ((int)$EPOpay)+ ((int)$EPOadm),
+                        'STMdoc'            => $filename, 
+                    ]);
                    
             }
            
