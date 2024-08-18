@@ -5074,25 +5074,123 @@ class AccountPKController extends Controller
                         ]);
  
                     } else {
-                        // Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
-                        // ->update([
-                        //     'status'            => 'Y', 
-                        //     'stm_money'       => $value['payable'] + $data_epo_pay + $data_epo_adm, 
-                        //     // 'stm_trainid'     => $invno,
-                        //     'stm_trainid'     => $value['TBill']['invno'],
-                        //     'stm_total'       => $value['payable'] + $data_epo_pay + $data_epo_adm, 
-                        //     'STMdoc'          => $filename, 
-                        // ]);
+                        $data_2                       = $value['TBill'];
+                        // dd($data_2);      
+                        foreach ($data_2 as $value2) {
+                                          
+                                    if (isset($value2['hcode'])) {
+                                        $hcode   = $value2['hcode'];
+                                    } else {
+                                        $hcode   = '';
+                                    }
+                                    if (isset($value2['station'])) {
+                                        $station   = $value2['station'];
+                                    } else {
+                                        $station   = '';
+                                    }
+                                    if (isset($value2['hreg'])) {
+                                        $hreg   = $value2['hreg'];
+                                    } else {
+                                        $hreg   = '';
+                                    }
+                                    if (isset($value2['wkno'])) {
+                                        $wkno   = $value2['wkno'];
+                                    } else {
+                                        $wkno   = '';
+                                    }
+                                    if (isset($value2['hn'])) {
+                                        $hn   = $value2['hn'];
+                                    } else {
+                                        $hn   = '';
+                                    }
+                                    if (isset($value2['invno'])) {
+                                        $invno   = $value2['invno'];
+                                    } else {
+                                        $invno   = '';
+                                    }
+                                    if (isset($value2['amount'])) {
+                                        $amount   = $value2['amount'];
+                                    } else {
+                                        $amount   = '';
+                                    }
+                                    if (isset($value2['paid'])) {
+                                        $paid   = $value2['paid'];
+                                    } else {
+                                        $paid   = '';
+                                    }
+                                    if (isset($value2['rid'])) {
+                                        $rid   = $value2['rid'];
+                                    } else {
+                                        $rid   = '';
+                                    }
+                                    if (isset($value2['hdrate'])) {
+                                        $hdrate   = $value2['hdrate'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['hdcharge'])) {
+                                        $hdcharge   = $value2['hdcharge'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['HDflag'])) {
+                                        $HDflag   = $value2['HDflag'];
+                                    } else {
+                                        $HDflag   = '';
+                                    }
+                                    if (isset($value2['hdrate'])) {
+                                        $hdrate   = $value2['hdrate'];
+                                    } else {
+                                        $hdrate   = '';
+                                    }
+                                    if (isset($value2['accp'])) {
+                                        $accp   = $value2['accp'];
+                                    } else {
+                                        $accp   = '';
+                                    }
+                                    if (isset($value2['HDflag'])) {
+                                        $HDflag   = $value2['HDflag'];
+                                    } else {
+                                        $HDflag   = '';
+                                    }
+                                    if (isset($value2['dttran'])) {
+                                        $dttran   = $value2['dttran'];
+                                        $dttranDate = explode("T",$value2['dttran']);
+                                        $dttdate    = $dttranDate[0];
+                                        $dtttime    = $dttranDate[1];             
+                                    } else {
+                                        $hdrate       = '';
+                                        $dttranDate   = '';
+                                        $dttdate      = '';
+                                    }
+
+
+                                    if (isset($value2['EPOs']['EPOpay'])) {
+                                        $EPOpay   = $value2['EPOs']['EPOpay'];
+                                    } else {
+                                        $EPOpay   = '';
+                                    }
+                                    if (isset($value2['EPOs']['EPOadm'])) {
+                                        $EPOadm   = $value2['EPOs']['EPOadm'];
+                                    } else {
+                                        $EPOadm   = '';
+                                    }
+                                      
+                                    Acc_1102050101_3099::where('cid',$data_cid)->where('vstdate',$dttdate)
+                                    ->update([
+                                        'status'            => 'Y', 
+                                        'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
+                                        'stm_trainid'       => $invno,
+                                        'stm_total'         => ((int)$amount) + ((int)$EPOpay)+ ((int)$EPOadm),
+                                        'STMdoc'            => $filename, 
+                                    ]);
+
+
+                        }
+                       
                     } 
 
-                    Acc_1102050101_3099::where('cid',$data_cid)->where('vstdate',$dttdate)
-                    ->update([
-                        'status'            => 'Y', 
-                        'stm_money'         => ((int)$amount) + ((int)$EPOpay) + ((int)$EPOadm),
-                        'stm_trainid'       => $invno,
-                        'stm_total'         => ((int)$amount) + ((int)$EPOpay)+ ((int)$EPOadm),
-                        'STMdoc'            => $filename, 
-                    ]);
+                    
                    
             }
            
