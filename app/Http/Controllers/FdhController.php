@@ -194,6 +194,7 @@ class FdhController extends Controller
             foreach ($data_main_opd as $key => $value) {
                 $check_opd = D_fdh::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
+                    
                 } else {
                     D_fdh::insert([
                         'vn'           => $value->vn,
