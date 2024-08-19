@@ -117,9 +117,9 @@
                                                                 <tr>
                                                                     <th class="text-center">ลำดับ</th> 
                                                                     <th class="text-center">STMDoc</th> 
-                                                                    <th class="text-center">total stm_all</th> 
-                                                                    <th class="text-center">total 3099</th> 
                                                                     <th class="text-center">total stm</th> 
+                                                                    <th class="text-center">ลูกหนี้ 3099</th> 
+                                                                    <th class="text-center">stm</th> 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

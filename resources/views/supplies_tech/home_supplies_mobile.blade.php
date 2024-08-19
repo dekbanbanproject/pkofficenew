@@ -160,12 +160,12 @@
                         
                       
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" style="width: 100%;"> 
+                                <table id="example" class="table table-striped table-bordered" style="width: 100%;"> 
                                     <thead>
                                         <tr style="font-size:13px">
                                           
                                             {{-- <th width="5%" class="text-center">ลำดับ</th>    --}}
-                                            <th class="text-center" width="10%">วันที่</th>  
+                                            <th class="text-center" width="15%">วันที่</th>  
                                             <th class="text-center" width="10%">เวลา</th>
                                             <th class="text-center" width="10%">เลขที่</th>
                                             <th class="text-center">รหัส</th>   
@@ -180,7 +180,7 @@
                                         @foreach ($datashow as $item) 
                                             <tr id="tr_{{$item->air_repaire_id}}" style="font-size:13px">                                                  
                                                 {{-- <td class="text-center" width="5%">{{ $i++ }}</td>    --}}
-                                                <td class="text-center">{{ DateThai($item->repaire_date )}}</td>  
+                                                <td class="text-center" width="15%">{{ DateThai($item->repaire_date )}}</td>  
                                                 <td class="text-center">{{ $item->repaire_time }}</td> 
                                                 <td class="text-center">{{ $item->air_repaire_no }}</td> 
                                                 <td class="text-start">

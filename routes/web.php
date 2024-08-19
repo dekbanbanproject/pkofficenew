@@ -536,6 +536,7 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'admin_profile_edit/{id}',[App\Http\Controllers\ProfileController::class, 'admin_profile_edit'])->name('pro.admin_profile_edit');//
   Route::match(['get','post'],'admin_profile_update',[App\Http\Controllers\ProfileController::class, 'admin_profile_update'])->name('pro.admin_profile_update');//
   Route::match(['get','post'],'admin_password_update',[App\Http\Controllers\ProfileController::class, 'admin_password_update'])->name('pro.admin_password_update');//
+  Route::match(['get','post'],'profile_password_update',[App\Http\Controllers\ProfileController::class, 'profile_password_update'])->name('pro.profile_password_update');//
  
   // ******************** USERS Sote ***********************
 

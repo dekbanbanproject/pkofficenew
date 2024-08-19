@@ -593,8 +593,9 @@
             });
             $('#SaveChang').click(function() {
                 var password = $('#password').val();  
+                // alert(password);
                 $.ajax({
-                    url: "{{ route('user.password_update') }}",
+                    url: "{{ route('pro.profile_password_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: { 

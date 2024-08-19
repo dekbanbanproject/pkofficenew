@@ -164,7 +164,7 @@
                                     <thead>
                                         <tr>  
                                             <th class="text-center">STMDoc</th> 
-                                            <th class="text-center">total</th> 
+                                            <th class="text-center">ลูกหนี้ 3099</th> 
                                         </tr>
                                     </thead>
                                     <tbody>

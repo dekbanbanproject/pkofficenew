@@ -147,17 +147,30 @@ class ProfileController extends Controller
         $idper =  Auth::user()->id;
         
         $update = User::find($idper);
+        $pas = $request->password;
 
-        $update->password = Hash::make($request->password);
-        $update->passapp = $request->password;
+        $update->password = Hash::make($pas);
+        $update->passapp = $pas;
         $update->save();
 
         return response()->json([
             'status'     => '200'
-        ]);
-        
-    
-        
+        ]); 
     }
+    public function profile_password_update(Request $request)
+    {
+        $idper =  Auth::user()->id;
+        
+        $update = User::find($idper);
+        $pas = $request->password;
 
+        $update->password = Hash::make($pas);
+        $update->passapp = $pas;
+        $update->save();
+
+        return response()->json([
+            'status'     => '200'
+        ]); 
+    }
+    
 }
