@@ -92,7 +92,6 @@ use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Container\Container;
 use Orchestra\Parser\Xml\Document;
 use Orchestra\Parser\Xml\Reader;
-
 use Saloon\XmlWrangler\XmlReader;
 use Saloon\XmlWrangler\Data\Element;
 use Saloon\XmlWrangler\XmlWriter;
@@ -1535,106 +1534,111 @@ class AccountPKController extends Controller
             $the_file = $request->file('file');
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
 
-            try{
-                $spreadsheet = IOFactory::load($the_file->getRealPath());
-                // $sheet        = $spreadsheet->getActiveSheet();
-                $sheet        = $spreadsheet->setActiveSheetIndex(0);
-                $row_limit    = $sheet->getHighestDataRow();
-                $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( '12', $row_limit );
-                // $row_range    = range( "!", $row_limit );
-                $column_range = range( 'T', $column_limit );
-                $startcount = '12';
-                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
-                $data = array();
-                foreach ($row_range as $row ) {
-
-                    $vst = $sheet->getCell( 'G' . $row )->getValue();
-                    // $starttime = substr($vst, 0, 5);
-                    $day = substr($vst,0,2);
-                    $mo = substr($vst,3,2);
-                    $year = substr($vst,7,4);
+                    try{
+                        $spreadsheet = IOFactory::load($the_file->getRealPath());
+                        // $sheet        = $spreadsheet->getActiveSheet();
+                        $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                        $row_limit    = $sheet->getHighestDataRow();
+                        $column_limit = $sheet->getHighestDataColumn();
+                        $row_range    = range( '12', $row_limit );
+                        // $row_range    = range( "!", $row_limit );
+                        $column_range = range( 'T', $column_limit );
+                        $startcount = '12';
+                        // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                     
-                    $vsttime = substr($vst,12,8);
-                    $hm = substr($vst,12,5);
-                    $hh = substr($vst,12,2);
-                    $mm = substr($vst,15,2);
-                    $vstdate = $year.'-'.$mo.'-'.$day;
- 
-                    $reg = $sheet->getCell( 'H' . $row )->getValue();
-                    // $starttime = substr($reg, 0, 5);
-                    $regday = substr($reg, 0, 2);
-                    $regmo = substr($reg, 3, 2);
-                    $regyear = substr($reg, 7, 4);
-                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+                        $data = array();
+                        foreach ($row_range as $row ) {
 
-                    $k = $sheet->getCell( 'K' . $row )->getValue();
-                    $del_k = str_replace(",","",$k);
-                    $l = $sheet->getCell( 'L' . $row )->getValue();
-                    $del_l = str_replace(",","",$l);
-                    $m = $sheet->getCell( 'M' . $row )->getValue();
-                    $del_m = str_replace(",","",$m);
-                    $n = $sheet->getCell( 'N' . $row )->getValue();
-                    $del_n = str_replace(",","",$n);
-                    $o = $sheet->getCell( 'O' . $row )->getValue();
-                    $del_o = str_replace(",","",$o);
-                    $p = $sheet->getCell( 'P' . $row )->getValue();
-                    $del_p = str_replace(",","",$p);
-                    $q = $sheet->getCell( 'Q' . $row )->getValue();
-                    $del_q = str_replace(",","",$q);
-                    $r = $sheet->getCell( 'R' . $row )->getValue();
-                    $del_r = str_replace(",","",$r);
-                    $s = $sheet->getCell( 'S' . $row )->getValue();
-                    $del_s = str_replace(",","",$s);
-                    $t = $sheet->getCell( 'T' . $row )->getValue();
-                    $del_t = str_replace(",","",$t);
-                        $data[] = [
-                            'repno'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                            'no'                      =>$sheet->getCell( 'B' . $row )->getValue(),
-                            'hn'                      =>$sheet->getCell( 'C' . $row )->getValue(),
-                            'an'                      =>$sheet->getCell( 'D' . $row )->getValue(),
-                            'cid'                     =>$sheet->getCell( 'E' . $row )->getValue(),
-                            'fullname'                =>$sheet->getCell( 'F' . $row )->getValue(),
-                            'vstdate'                 =>$vstdate,
+                            $vst = $sheet->getCell( 'G' . $row )->getValue();
+                            // $starttime = substr($vst, 0, 5);
+                            $day = substr($vst,0,2);
+                            $mo = substr($vst,3,2);
+                            $year = substr($vst,7,4);
+                            
+                            $vsttime = substr($vst,12,8);
+                            $hm = substr($vst,12,5);
+                            $hh = substr($vst,12,2);
+                            $mm = substr($vst,15,2);
+                            $vstdate = $year.'-'.$mo.'-'.$day;
+        
+                            $reg = $sheet->getCell( 'H' . $row )->getValue();
+                            // $starttime = substr($reg, 0, 5);
+                            $regday = substr($reg, 0, 2);
+                            $regmo = substr($reg, 3, 2);
+                            $regyear = substr($reg, 7, 4);
+                            $dchdate = $regyear.'-'.$regmo.'-'.$regday;
 
-                            'vsttime'                 =>$vsttime,
-                            'hm'                      =>$hm,
-                            'hh'                      =>$hh,
-                            'mm'                      =>$mm,
+                            $k = $sheet->getCell( 'K' . $row )->getValue();
+                            $del_k = str_replace(",","",$k);
 
-                            'dchdate'                 =>$dchdate,
-                            'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(),
-                            'AdjRW'                   =>$sheet->getCell( 'J' . $row )->getValue(),
-                            'price_req'               =>$del_k,
-                            'prb'                     =>$del_l,
-                            'room'                    =>$del_m,
-                            'inst'                    =>$del_n,
-                            'drug'                    =>$del_o,
-                            'income'                  =>$del_p,
-                            'refer'                   =>$del_q,
-                            'waitdch'                 =>$del_r,
-                            'service'                 =>$del_s,
-                            'pricereq_all'            =>$del_t,
-                            'STMdoc'                  =>$file_
-                        ]; 
-                    $startcount++;
-                    
-                }
+                            $l = $sheet->getCell( 'L' . $row )->getValue();
+                            $del_l = str_replace(",","",$l);
+                            $m = $sheet->getCell( 'M' . $row )->getValue();
+                            $del_m = str_replace(",","",$m);
+                            $n = $sheet->getCell( 'N' . $row )->getValue();
+                            $del_n = str_replace(",","",$n);
+                            $o = $sheet->getCell( 'O' . $row )->getValue();
+                            $del_o = str_replace(",","",$o);
+                            $p = $sheet->getCell( 'P' . $row )->getValue();
+                            $del_p = str_replace(",","",$p);
+                            $q = $sheet->getCell( 'Q' . $row )->getValue();
+                            $del_q = str_replace(",","",$q);
+                            $r = $sheet->getCell( 'R' . $row )->getValue();
+                            $del_r = str_replace(",","",$r);
+                            $s = $sheet->getCell( 'S' . $row )->getValue();
+                            $del_s = str_replace(",","",$s);
+                            $t = $sheet->getCell( 'T' . $row )->getValue();
+                            $del_t = str_replace(",","",$t);
+                                
+                            $data[] = [
+                                    'repno'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                                    'no'                      =>$sheet->getCell( 'B' . $row )->getValue(),
+                                    'hn'                      =>$sheet->getCell( 'C' . $row )->getValue(),
+                                    'an'                      =>$sheet->getCell( 'D' . $row )->getValue(),
+                                    'cid'                     =>$sheet->getCell( 'E' . $row )->getValue(),
+                                    'fullname'                =>$sheet->getCell( 'F' . $row )->getValue(),
+                                    'vstdate'                 =>$vstdate,
 
-                $for_insert = array_chunk($data, length:1000);
-                foreach ($for_insert as $key => $data_) {
-                   
-                        Acc_stm_ofcexcel::insert($data_); 
-                   
-                    
-                    
-                }
-                // DB::table('acc_stm_ofcexcel')->insert($data);
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-               return response()->json([
+                                    'vsttime'                 =>$vsttime,
+                                    'hm'                      =>$hm,
+                                    'hh'                      =>$hh,
+                                    'mm'                      =>$mm,
+
+                                    'dchdate'                 =>$dchdate,
+                                    'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(),
+                                    'AdjRW'                   =>$sheet->getCell( 'J' . $row )->getValue(),
+                                    'price_req'               =>$del_k,
+                                    'prb'                     =>$del_l,
+                                    'room'                    =>$del_m,
+                                    'inst'                    =>$del_n,
+                                    'drug'                    =>$del_o,
+                                    'income'                  =>$del_p,
+                                    'refer'                   =>$del_q,
+                                    'waitdch'                 =>$del_r,
+                                    'service'                 =>$del_s,
+                                    'pricereq_all'            =>$del_t,
+                                    'STMdoc'                  =>$file_
+                            ]; 
+                            
+                            $startcount++;
+                            
+                        }
+                        $for_insert = array_chunk($data, length:1000);
+                        foreach ($for_insert as $key => $data_) {                   
+                                Acc_stm_ofcexcel::insert($data_);  
+                        }
+
+
+                        
+
+
+                        // DB::table('acc_stm_ofcexcel')->insert($data);
+                    } catch (Exception $e) {
+                        $error_code = $e->errorInfo[1];
+                        return back()->withErrors('There was a problem uploading the data!');
+                    }
+               
+            return response()->json([
                 'status'    => '200',
             ]);
     }
@@ -1769,13 +1773,15 @@ class AccountPKController extends Controller
                         //     'stm_rcpno'       => $value->repno.'-'.$value->no,
                         //     'STMdoc'          => $value->STMdoc,
                         // ]);
-                    }                   
+                    }                  
                    
                 }
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
         }
+
+
         Acc_stm_ofcexcel::truncate(); 
             
         return response()->json([
@@ -4754,16 +4760,19 @@ class AccountPKController extends Controller
         // ********************************************************************
 
             $tar_file_ = $request->file;
+           
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์ + นามสกุล
             $filename = pathinfo($file_, PATHINFO_FILENAME);  //ชื่อไฟล์ เพียวๆ
             $extension = pathinfo($file_, PATHINFO_EXTENSION);
             $xmlString = file_get_contents(($tar_file_));
             // $xmlString = file_get_contents(($file_));
+
             $xmlObject = simplexml_load_string($xmlString);
             $json = json_encode($xmlObject);
             $result = json_decode($json, true);
 
-            // dd($filename);
+            dd($result);
+
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
