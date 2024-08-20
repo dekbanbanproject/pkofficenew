@@ -93,13 +93,15 @@
                 <div class="card-body">  
                         <div class="row">
                             <div class="col text-start">
-                                @if ( $data_detail_->fire_imgname == Null )
+                                {{-- @if ( $data_detail_->fire_imgname == Null )
                                 <img src="{{asset('assets/images/defailt_img.jpg')}}" height="120px" width="90px" alt="Image" class="img-thumbnail"> 
                                 @else
                                 <img src="{{asset('storage/fire/'.$data_detail_->fire_imgname)}}" height="120px" width="90px" alt="Image" class="img-thumbnail">                                
-                                @endif
+                                @endif --}}
+                                {{-- <img src="data:image/png;base64,{{ $data_detail_->fire_img_base }}" alt="" height="120px" width="90px" class="img-thumbnail"> --}}
+                                <img src="{{ $signat }}" alt="" height="170px" width="90px" class="img-thumbnail">
                             </div> 
-                            <div class="col-9">
+                            <div class="col-8">
                                 <p>รหัส : {{$data_detail_->fire_num}}</p> 
                                 <p>ชื่อ  : {{$data_detail_->fire_name}}</p> 
                                 <p>วันหมดอายุ  : {{DateThai($data_detail_->fire_date_exp)}}</p> 
@@ -112,6 +114,7 @@
                             </div>
                         </div>
                        
+                        <hr>
                         @foreach ($data_detail as $item) 
                                 @if ($item->active == 'Y')
                                         <div class="row">
@@ -217,7 +220,7 @@
                                 </div>
                                     
                                 @endif
-                       
+                       <hr>
                         {{-- <div class="row"> 
                             <div class="col text-start">  
                                 <p>วันที่ตรวจ : {{dateThaifromFull($item->check_date)}}</p>  
@@ -266,6 +269,15 @@
                 </div>
             @endforeach --}}
            
+        </div> 
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row text-center mt-3 mb-3">
+        <div class="col"> 
+            <script>
+                document.write(new Date().getFullYear())
+            </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ <i class="mdi mdi-heart text-danger"></i> PK-OFFICER
         </div> 
     </div>
 </div>

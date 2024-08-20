@@ -271,18 +271,31 @@ class FireController extends Controller
                 'pic_fire'     => $pic_fire
             ]);
         } else {
-            $data_detail = Fire_check::leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
-            ->leftJoin('fire', 'fire.fire_num', '=', 'fire_check.fire_num') 
-            ->where('fire_check.fire_num', '=', $id)
-            ->get();
-
+            // $data_detail = Fire_check::leftJoin('users', 'fire_check.user_id', '=', 'users.id') 
+            // ->leftJoin('fire', 'fire.fire_num', '=', 'fire_check.fire_num') 
+            // ->where('fire_check.fire_num', '=', $id)
+            // ->get();
+            $data['data_detail'] = DB::connection('mysql')->select(
+                'SELECT * from fire_check fc
+                LEFT JOIN fire f ON f.fire_num = fc.fire_num
+                LEFT JOIN users s ON s.id = fc.user_id 
+                WHERE fc.fire_num ="'.$id.'" ORDER BY fire_check_id DESC LIMIT 5
+                ');
+            // dd($id);
             $data_detail_ = Fire::where('fire_num', '=', $id)->first();
-            $signat = $data_detail_->fire_img_base;
-            $pic_fire = base64_encode(file_get_contents($signat));  
-            // dd($data_detail);
-            return view('support_prs.fire.fire_detail', [
+            $data['signat'] = $data_detail_->fire_img_base;
+            // $pic_fire = base64_encode(file_get_contents($signat));  
+            // dd($signat);
+            if ($data_detail_->fire_img_base != '') {
+                $pic_fire            = base64_encode(file_get_contents($data_detail_->fire_img_base));
+            }else {
+                $pic_fire            = '';
+            }
+
+            // dd($pic_fire);
+            return view('support_prs.fire.fire_detail',$data, [
                 // 'dataprint'    => $dataprint,
-                'data_detail'   => $data_detail,
+                // 'data_detail'   => $data_detail,
                 'data_detail_'  => $data_detail_,
                 'pic_fire'      => $pic_fire,
                 'id'            => $id
@@ -1391,6 +1404,75 @@ class FireController extends Controller
             $datashow                   = DB::select('SELECT * from fire_pramuan ORDER BY fire_pramuan_id ASC'); 
             $data['product_brand']      = DB::table('product_brand')->get();
             $data['medical_typecat']    = DB::table('medical_typecat')->get();
+            // dd($months);
+            Fire_countcheck::truncate();
+            $check_d = DB::connection('mysql')->select('SELECT COUNT(DISTINCT fire_num) as fire_num FROM fire_report WHERE months = "'.$months.'" AND years = "'.$years.'"');
+            foreach ($check_d as $key => $va_re) {
+                $ddt  = $va_re->fire_num;
+            }
+
+            if ($ddt > 0) {
+                # code...
+            } else {         
+                $datareport = DB::connection('mysql')->select('SELECT fire_id,fire_num,fire_name,check_date FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'"');      
+                foreach ($datareport as $key => $value) {    
+                        Fire_countcheck::insert([
+                            'fire_id'     => $value->fire_id,
+                            'fire_num'    => $value->fire_num,
+                            'fire_name'   => $value->fire_name,
+                            'check_date'  => $value->check_date,
+                            'months'      => $months,
+                            'years'       => $years
+                        ]); 
+                    // } 
+                }             
+                $insert_1 = Fire_countcheck::get();
+                foreach ($insert_1 as $key => $val) {
+                    $check_insert = Fire_report::where('fire_id',$val->fire_id)->where('check_date',$val->check_date)->count();
+                    if ($check_insert > 0) { 
+                    } else {
+                        Fire_report::insert([
+                            'fire_id'       => $val->fire_id,
+                            'fire_num'      => $val->fire_num, 
+                            'check_date'    => $val->check_date,
+                            'months'        => $months,
+                            'years'         => $years,
+                            'check_status'  => 'Y'
+                        ]); 
+                    } 
+                }     
+                Fire_count_nocheck::truncate();
+                $datanocheck = DB::select(
+                    'SELECT f.fire_id,f.fire_num,f.fire_name,f.fire_size,f.fire_color,f.fire_location 
+                        FROM fire f 
+                        LEFT JOIN fire_countcheck fcc ON fcc.fire_num = f.fire_num 
+                        WHERE fcc.fire_num IS NULL AND f.active = "Y"
+                        GROUP BY f.fire_num 
+                    '); 
+                foreach ($datanocheck as $key => $value2) {   
+                        Fire_count_nocheck::insert([
+                            'fire_id'     => $value2->fire_id,
+                            'fire_num'    => $value2->fire_num,
+                            'months'      => $months,
+                            'years'       => $years
+                        ]);  
+                } 
+                $insert_2 = Fire_count_nocheck::get();
+                foreach ($insert_2 as $key => $val2) {
+                    $check_insert2 = Fire_report::where('fire_id',$val2->fire_id)->where('months',$months)->where('years',$years)->count();
+                    if ($check_insert2 > 0) { 
+                    } else {
+                        Fire_report::insert([
+                            'fire_id'        => $val2->fire_id,
+                            'fire_num'       => $val2->fire_num,  
+                            'months'         => $months,
+                            'years'          => $years,
+                            'check_status'   => 'N'
+                        ]); 
+                    } 
+                }      
+            
+            }
             // $data['data_show']          = DB::select('SELECT * from fire_check WHERE MONTH(check_date) = "'.$months.'"'); 
             // $check_d = DB::connection('mysql')->select('SELECT COUNT(DISTINCT fire_num) as fire_num FROM fire_report WHERE months = "'.$months.'" AND years = "'.$years.'"');
             // foreach ($check_d as $key => $va_re) {
@@ -1423,7 +1505,7 @@ class FireController extends Controller
                 AND r.years = "'.$years.'" 
                 GROUP BY r.fire_id ORDER BY r.fire_num ASC
             ');    
-
+            // f.active = "N"
         return view('support_prs.fire.fire_insert_all',$data, [
             // 'dataprint_main'  =>  $dataprint_main, 
             'datashow'        =>  $datashow, 

@@ -127,7 +127,7 @@
                         <div class="input-group-text">
                             <span class="">@Password</span>
                         </div>
-                        <input type="text" class="form-control" id="password" name="password">
+                        <input type="text" class="form-control" id="editpassword" name="password">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -164,7 +164,7 @@
             });
             $('#AuthSave').click(function() {
                 var username = $('#username').val();
-                var password = $('#password').val();
+                var password = $('#editpassword').val();
                 // alert(datepicker2);
 
 

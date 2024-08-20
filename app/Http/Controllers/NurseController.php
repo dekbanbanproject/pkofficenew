@@ -262,7 +262,7 @@ class NurseController extends Controller
                                     ELSE COUNT(DISTINCT a.an) * 0.8 / 8 #  ค่าพื้นฐานสำหรับวอร์ดที่ไม่ตรงกับเงื่อนไขใด ๆ   ## เพิ่มเงื่อนไขอื่น ๆ ที่ต้องการสำหรับค่าวอร์ดอื่น ๆ ที่นี่
                                 END, 0
                         ) as soot_c 
-                FROM an_stat a
+                FROM ipt a
                 LEFT OUTER JOIN ward w on w.ward = a.ward
                 WHERE a.dchdate is null AND w.ward is not null AND w.ward not in ("33")
                 GROUP BY a.ward
