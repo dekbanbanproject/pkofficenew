@@ -111,6 +111,11 @@
                                             <div class="col text-start">
                                                 <p style="color:rgb(6, 184, 160)">ส่วนที่ 2 : แผนการบำรุงรักษาประจำปี</p>
                                             </div>
+                                            <div class="col-1 text-start me-4">
+                                                <div class="input-group">    
+                                                    <p style="color:rgb(253, 253, 253)">  <span class="badge bg-success">5</span></p> 
+                                                </div> 
+                                            </div>
                                         </div>
                                         <div class="row"> 
                                             @foreach ($plan as $item_plan)
@@ -134,24 +139,48 @@
                                                 $plan_count5 = DB::select('SELECT COUNT(air_list_num) as air_list_num FROM air_repaire_sub WHERE air_list_num = "'.$item_plan->air_list_num.'" AND air_repaire_type_code = "01" AND air_repaire_ploblem_id IN("5")');
                                                 foreach ($plan_count5 as $key => $val_5) {
                                                     $plan_s5   = $val_5->air_list_num;
-                                                }       
+                                                } 
+
+                                                $plan_maint = DB::select(
+                                                    'SELECT COUNT(a.air_list_num) as air_list_num 
+                                                        FROM air_repaire_sub a
+                                                        LEFT JOIN air_plan b ON b.air_list_num = a.air_list_num
+                                                        LEFT JOIN air_plan_month c ON c.air_plan_month_id = b.air_plan_month_id
+                                                        LEFT JOIN air_repaire_type d ON d.air_repaire_type_id = c.air_repaire_type_id
+                                                    WHERE a.air_list_num = "'.$item_plan->air_list_num.'" 
+                                                        AND a.air_repaire_type_code = "'.$item_plan->air_repaire_type_code.'"
+                                                        AND b.air_plan_year = "'.$item_plan->years_en.'" 
+                                                        AND c.air_plan_month = "'.$item_plan->air_plan_month.'"
+                                                        AND c.years = "'.$item_plan->years.'"
+                                                ');
+                                                foreach ($plan_maint as $key => $val_ma) {
+                                                    $plan_maint_count   = $val_ma->air_list_num;
+                                                }     
                                             ?>
-                                                <div class="col-8 text-start">
+                                                <div class="col-6 text-start">
                                                     <div class="input-group"> 
-                                                        @if ($plan_s1 > 0 && $plan_s2 > 0 && $plan_s3 > 0 && $plan_s4 > 0 && $plan_s5 > 0 )
+                                                        {{-- @if ($plan_s1 > 0 && $plan_s2 > 0 && $plan_s3 > 0 && $plan_s4 > 0 && $plan_s5 > 0 )
                                                             <img src="{{ asset('images/true.png') }}" width="30px" height="30px">
                                                         @else
                                                         <img src="{{ asset('images/false.png') }}" width="30px" height="30px">
-                                                        @endif  
-                                                        <p class="mt-2 ms-2" style="color:rgb(9, 119, 209)"> {{ $item_plan->air_repaire_typename }}</p>
+                                                        @endif   --}}
+                                                        <p class="mt-2" style="color:rgb(9, 119, 209)"> {{ $item_plan->air_repaire_typename }}</p>
+                                                       
                                                     </div> 
                                                 </div> 
-                                                <div class="col text-end">
+                                                <div class="col text-start">
+                                                    <div class="input-group">    
+                                                        <p class="mt-2" style="color:rgb(243, 65, 21)"> {{ $item_plan->air_plan_name }} {{$item_plan->years_en}}</p> 
+                                                    </div> 
+                                                </div> 
+                                                <div class="col-1 text-start me-4">
                                                     <div class="input-group">   
-                                                        {{-- <img src="{{ asset('images/true.png') }}" width="30px" height="30px">  --}}
+                                                        @if ($plan_maint_count < '5')
+                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-danger">{{$plan_maint_count}}</span></p> 
+                                                        @else
+                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-success">{{$plan_maint_count}}</span></p> 
+                                                        @endif 
                                                        
-                                                        <p class="mt-2 ms-2" style="color:rgb(243, 65, 21)"> {{ $item_plan->air_plan_name }} {{$item_plan->air_plan_year}}</p>
-                                                        {{-- <p class="mt-2 ms-2" style="color:rgb(247, 135, 61)"> {{ Datethai($item_mai->repaire_date) }}</p> --}}
                                                     </div> 
                                                 </div> 
                                             @endforeach 
@@ -166,11 +195,17 @@
                                         </div>
                                         <div class="row"> 
                                             @foreach ($data_detail_sub_mai as $item_mai)
-                                                <div class="col-11 text-start">
+                                                <div class="col-8 text-start">
                                                     <div class="input-group">   
-                                                        <img src="{{ asset('images/true.png') }}" width="30px" height="30px"> 
-                                                        <p class="mt-2 ms-2" style="color:rgb(9, 119, 209)"> {{ $item_mai->repaire_sub_name }}ครั้งที่ {{ $item_mai->repaire_no }}</p>
-                                                        <p class="mt-2 ms-2" style="color:rgb(247, 135, 61)"> {{ Datethai($item_mai->repaire_date) }}</p>
+                                                        <img src="{{ asset('images/true.png') }}" width="20px" height="20px"> 
+                                                        <p class="ms-2" style="color:rgb(9, 119, 209)"> {{ $item_mai->maintenance_list_name }}ครั้งที่{{ $item_mai->repaire_no }}</p>
+                                                        {{-- <p class="mt-2" style="color:rgb(247, 135, 61)"> {{ Datethai($item_mai->repaire_date) }}</p> --}}
+                                                        {{-- maintenance_list_name  repaire_sub_name--}}
+                                                    </div> 
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="input-group">   
+                                                        <p style="color:rgb(247, 135, 61)"> {{ Datethai($item_mai->repaire_date) }}</p>
                                                     </div> 
                                                 </div>
                                           
@@ -193,14 +228,14 @@
                                             @foreach ($data_detail_sub_plo as $item_plo)
                                                 <div class="col-7 text-start">
                                                     <div class="input-group">   
-                                                        <img src="{{ asset('images/true.png') }}" width="30px" height="30px"> 
-                                                        &nbsp;&nbsp;<p class="mt-2" style="color:rgb(9, 119, 209)"> {{ $item_plo->repaire_sub_name }}</p>
+                                                        <img src="{{ asset('images/true.png') }}" width="20px" height="20px"> 
+                                                        &nbsp;&nbsp;<p class="mt-1" style="color:rgb(9, 119, 209)"> {{ $item_plo->repaire_sub_name }}</p>
                                                     </div> 
                                                 </div>
                                                 {{-- <div class="col"></div> --}}
                                                 <div class="col-4 text-end">
                                                     <div class="input-group">  
-                                                        <p class="mt-2" style="color:rgb(247, 135, 61)"> {{ Datethai($item_plo->repaire_date) }} </p>
+                                                        <p class="mt-1" style="color:rgb(247, 135, 61)"> {{ Datethai($item_plo->repaire_date) }} </p>
                                                     </div> 
                                                 </div>
                                             @endforeach 

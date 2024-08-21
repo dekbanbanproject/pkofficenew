@@ -219,9 +219,11 @@
                                     <tr id="tr_{{$item->air_list_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
-                                            @if ($item->active == 'Y') 
+                                            @if ($item->active == 'Y')
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">พร้อมใช้งาน</span>  --}}
                                                 <span class="badge bg-success">พร้อมใช้งาน</span> 
-                                            @else 
+                                            @else
+                                                {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ไม่พร้อมใช้งาน</span> --}}
                                                 <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
@@ -232,7 +234,9 @@
                                         <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="30px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
                                         @endif
 
-                                        <td class="text-center" width="5%">  
+                                        <td class="text-center" width="5%"> 
+                                          
+                                            {{-- {!!QrCode::size(30)->generate(" $item->air_list_id ")!!}   --}}
                                             {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
 
                                         </td> 
@@ -242,9 +246,39 @@
                                         <td class="text-center" width="5%" style="font-size: 12px">{{ $item->btu }}</td>    
                                         <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>  
                                         <td class="p-2" width="20%">{{ $item->detail }}</td> 
-                                        <td class="text-center" width="5%">{{ $item->air_room_class }}</td>  
+                                        <td class="text-center" width="5%">{{ $item->air_room_class }}</td> 
+                                        {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_pdd) }}</td>  --}}
+                                        {{-- <td class="text-center" width="7%">{{ DateThai($item->air_date_exp) }}</td>  --}}
                                         <td class="text-center" width="5%">
- 
+
+                                            {{-- <div class="dropdown d-inline-block">
+                                                <button type="button" aria-haspopup="true" aria-expanded="false"
+                                                    data-bs-toggle="dropdown"
+                                                    class="dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                    ทำรายการ
+                                                </button>
+                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
+                                                    <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"> 
+                                                        <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
+                                                        <span>Print QR</span>
+                                                    </a> 
+                                                    
+                                                  
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="blank">
+                                                        <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                        <span>แก้ไข</span>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_destroy({{ $item->air_list_id }})"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can me-2 mb-1"></i>
+                                                        <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                    </a>
+                                                </div>
+                                            </div> --}}
+
                                             <div class="btn-group me-1">
                                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     ทำรายการ <i class="mdi mdi-chevron-down"></i>

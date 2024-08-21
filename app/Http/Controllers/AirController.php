@@ -650,7 +650,7 @@ class AirController extends Controller
         $enddate = $request->enddate;
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
-        $datashow = DB::select('SELECT * FROM air_list WHERE air_year = "'.$bg_yearnow.'" ORDER BY air_list_id DESC'); 
+        $datashow = DB::select('SELECT air_list_id,active,air_imgname,air_list_num,air_list_name,btu,air_location_id,air_location_name,detail,air_room_class FROM air_list WHERE air_year = "'.$bg_yearnow.'" ORDER BY air_list_id DESC'); 
         // WHERE active="Y"
         return view('support_prs.air.air_main',[
             'startdate'     => $startdate,
@@ -1398,19 +1398,30 @@ class AirController extends Controller
         $bg_yearnow    = $bgs_year->leave_year_id;
         $data_detail_                    = Air_list::where('air_list_num', '=', $id)->first();
         $data['data_detail_sub_mai']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
+                                            ->leftjoin('air_maintenance_list','air_maintenance_list.maintenance_list_id','=','air_repaire_sub.air_repaire_ploblem_id')
                                             ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['01','02','03'])
                                             ->get();
         // $data['data_detail_sub_plo']     = DB::connection('mysql')->select('SELECT * from air_repaire_sub WHERE air_repaire_type_code ="04" AND air_list_num ="'.$id.'"');
         $data['data_detail_sub_plo']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
                                             ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['04'])
                                             ->get();
+        // $data['plan']                       = DB::select(
+        //     'SELECT a.air_plan_year,a.air_list_num,b.air_plan_name,b.air_repaire_type_id,c.air_repaire_typename
+        //     FROM air_plan a
+        //     LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+        //     LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+        //     WHERE a.air_list_num = "'.$id.'" AND a.air_plan_year ="'.$bg_yearnow.'"'); 
         $data['plan']                       = DB::select(
-            'SELECT a.air_plan_year,a.air_list_num,b.air_plan_name,b.air_repaire_type_id,c.air_repaire_typename
-            FROM air_plan a
-            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-            LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
-            WHERE a.air_list_num = "'.$id.'" AND a.air_plan_year ="'.$bg_yearnow.'"'); 
+            'SELECT a.air_plan_year,a.air_list_num,b.air_plan_month,b.air_plan_name,d.maintenance_list_id
+            ,d.maintenance_list_name,b.air_repaire_type_id,c.air_repaire_type_code,c.air_repaire_typename,((b.air_plan_year)+543) as years_en,b.years,d.maintenance_list_name
+                FROM air_plan a
+                LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                LEFT JOIN air_maintenance_list d On d.maintenance_list_num = c.air_repaire_type_id
+            WHERE a.air_list_num = "'.$id.'"
             
+            GROUP BY b.air_plan_month ORDER BY b.air_plan_month_id ASC'); 
+            // AND a.air_plan_year ="2568"
         return view('support_prs.air.air_detail',$data,[  
             'data_detail_'  => $data_detail_,
         ]);  
