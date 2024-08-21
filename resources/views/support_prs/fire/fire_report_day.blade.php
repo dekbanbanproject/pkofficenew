@@ -143,6 +143,7 @@
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
                                             <th class="text-center">วันที่ตรวจ</th>  
+                                            <th class="text-center">เวลา</th> 
                                             <th class="text-center">รหัสถังดับเพลิง</th>  
                                             <th class="text-center">สายฉีด</th>
                                             <th class="text-center">คันบังคับ</th> 
@@ -159,6 +160,7 @@
                                             <tr id="tr_{{$item->fire_num}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ Datethai($item->check_date) }}</td> 
+                                                <td class="text-center" width="7%" style="font-size: 12px">{{ $item->check_time }}</td> 
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ $item->fire_num }}</td>  
                                                 <td class="text-center" width="9%"> 
                                                     @if ($item->fire_check_injection == '0')

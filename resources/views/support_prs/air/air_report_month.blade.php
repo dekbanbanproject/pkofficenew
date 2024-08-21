@@ -134,7 +134,9 @@
                                                     $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
                                                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                                                     WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.air_repaire_type_code IN("01","02","03")');                                     
-                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {$airproblems_plan = $rep_air_plan->air_problems_plan;}
+                                                    foreach ($repaire_air_plan as $key => $rep_air_plan) {
+                                                        $airproblems_plan = $rep_air_plan->air_problems_plan;
+                                                    }
 
                                                     // แผนการบำรุงรักษา
                                                     if ($plan_s < 1) {
@@ -225,7 +227,7 @@
                                                         WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
                                                     foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
                                                     
-                                                    $repaire_air_plan = DB::select('SELECT COUNT(b.repaire_sub_id) as air_problems_plan FROM air_repaire a 
+                                                    $repaire_air_plan = DB::select('SELECT COUNT(DISTINCT a.air_list_num) as air_problems_plan FROM air_repaire a 
                                                         LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
                                                         WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")
                                                         AND a.air_list_num IN(SELECT a.air_list_num FROM air_plan a

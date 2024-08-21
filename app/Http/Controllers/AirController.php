@@ -1394,6 +1394,8 @@ class AirController extends Controller
     }    
     public function air_detail(Request $request, $id)
     {  
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
         $data_detail_                    = Air_list::where('air_list_num', '=', $id)->first();
         $data['data_detail_sub_mai']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
                                             ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['01','02','03'])
@@ -1402,12 +1404,16 @@ class AirController extends Controller
         $data['data_detail_sub_plo']     = Air_repaire_sub::leftjoin('air_repaire','air_repaire.air_repaire_id','=','air_repaire_sub.air_repaire_id')
                                             ->where('air_repaire_sub.air_list_num', '=', $id)->whereIn('air_repaire_sub.air_repaire_type_code',['04'])
                                             ->get();
-            return view('support_prs.air.air_detail',$data,[  
-                'data_detail_'  => $data_detail_,
-            ]); 
- 
+        $data['plan']                       = DB::select(
+            'SELECT a.air_plan_year,a.air_list_num,b.air_plan_name,b.air_repaire_type_id,c.air_repaire_typename
+            FROM air_plan a
+            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+            LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+            WHERE a.air_list_num = "'.$id.'" AND a.air_plan_year ="'.$bg_yearnow.'"'); 
             
-            
+        return view('support_prs.air.air_detail',$data,[  
+            'data_detail_'  => $data_detail_,
+        ]);  
     }     
     public function air_main_repaire_destroy(Request $request,$id)
     {

@@ -552,7 +552,7 @@ class FireController extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $datashow = DB::select(
-                'SELECT c.fire_num,c.fire_name,c.fire_check_color,c.fire_check_location,c.check_date,c.fire_check_injection,c.fire_check_joystick,c.fire_check_body,c.fire_check_gauge,c.fire_check_drawback,concat(s.fname," ",s.lname) ptname 
+                'SELECT c.fire_num,c.check_time,c.fire_name,c.fire_check_color,c.fire_check_location,c.check_date,c.fire_check_injection,c.fire_check_joystick,c.fire_check_body,c.fire_check_gauge,c.fire_check_drawback,concat(s.fname," ",s.lname) ptname 
                 FROM fire_check c
                 LEFT JOIN users s ON s.id = c.user_id
                 WHERE c.check_date BETWEEN "'.$newDate.'" AND "'.$date.'"
@@ -1521,6 +1521,9 @@ class FireController extends Controller
                 $datetime                   = date('Y-m-d H:m:s');
                 $years                      = date('Y');
                 $months                     = date('m'); 
+                $m = date('H');
+                $mm = date('H:m:s');
+                $datefull = date('Y-m-d H:m:s');
                 $monthsnew                  = substr($months,1,2); 
                 // $fires_                     = Fire_report::where('fire_report_id',$id)->first();
                 // $fireids                    = $fires_->fire_id;
@@ -1548,6 +1551,7 @@ class FireController extends Controller
                             'fire_check_color'           => $fire_color,
                             'fire_check_location'        => $fire_location,
                             'check_date'                 => $date,
+                            'check_time'                 => $mm,
                             'fire_check_injection'       => '0',
                             'fire_check_injection_name'  => 'ปกติ',
                             'fire_check_joystick'        => '0',
