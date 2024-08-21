@@ -83,14 +83,14 @@ $pos = strrpos($url, '/') + 1;
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Detail</h4>
-
+                    
+                    <h4 class="card-title" style="color:green">Detail 1102050101.3099 </h4> 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Detail </a></li>
                             <li class="breadcrumb-item active">1102050101.3099</li>
                         </ol>
-                    </div>
+                    </div> 
 
                 </div>
             </div>
@@ -100,7 +100,7 @@ $pos = strrpos($url, '/') + 1;
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card cardacc">
+            <div class="card card_audit_4c">
                    
                     <div class="card-body">
                         {{-- <input type="hidden" name="months" id="months" value="{{$months}}"> --}}
@@ -141,7 +141,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="10%">{{ $item->pttype }}</td>  
                                             <td class="text-center" style="color:rgb(73, 147, 231)" width="10%">{{ number_format($item->income, 2) }}</td> 
                                             <td class="text-center" style="color:rgb(250, 160, 58)" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                            <td class="text-end" style="color:rgb(12, 161, 12)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                            <td class="text-end" style="color:rgb(7, 156, 107)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         <?php
                                         $total1 = $total1 + $item->income;
@@ -157,7 +157,7 @@ $pos = strrpos($url, '/') + 1;
                                 <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #11c220"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td class="text-end" style="background-color: #0ac4ab"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
                             </tr> 
                         </table>
                     </div>
