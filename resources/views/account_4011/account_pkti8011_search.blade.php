@@ -82,13 +82,13 @@ $pos = strrpos($url, '/') + 1;
         </div>
         <div class="container-fluid">
             <!-- start page title -->
-            <form action="{{ route('acc.account_801_search') }}" method="GET">
+            <form action="{{ route('acc.account_pkti8011_search') }}" method="GET">
                 @csrf
             <div class="row">
                 {{-- <div class="col-12"> --}}
                     {{-- <div class="page-title-box d-sm-flex align-items-center justify-content-between"> --}}
                         <div class="col-md-4">
-                            <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050102.801</h4>
+                            <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050102.8011</h4>
                             <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                         </div>
                         <div class="col"></div>
@@ -133,7 +133,7 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">stm_rcpno</th>  
+                                    <th class="text-center">repno</th>  
                                     <th class="text-center" >vn</th> 
                                     <th class="text-center" >hn</th> 
                                     <th class="text-center">ptname</th>  
@@ -160,7 +160,7 @@ $pos = strrpos($url, '/') + 1;
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                        <td class="text-center" width="5%">{{ $item->stm_rcpno }}</td>  
+                                        <td class="text-center" width="5%">{{ $item->repno }}</td>  
                                         <td class="text-center" width="7%">{{ $item->vn }}</td>
                                         <td class="text-center" width="4%">{{ $item->hn }}</td>   
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>    
@@ -173,10 +173,10 @@ $pos = strrpos($url, '/') + 1;
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
 
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(3, 128, 107)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->pay_amount),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(3, 128, 107)" width="6%">{{ number_format($item->pay_amount,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}}
-                                        <td class="p-2" width="9%">{{ $item->STMDoc }}</td>  
+                                        <td class="p-2" width="9%">{{ $item->STMdoc }}</td>  
                                     
                                     </tr>
                                         <?php
@@ -187,8 +187,8 @@ $pos = strrpos($url, '/') + 1;
                                             // $total5 = $total5 + $item->debit_ucep;
 
                                             $total6 = $total6 + $item->debit_total;
-                                            $total7 = $total7 + ($item->debit_total-$item->stm_money); 
-                                            $total8 = $total8 + $item->stm_money;
+                                            $total7 = $total7 + ($item->debit_total-$item->pay_amount); 
+                                            $total8 = $total8 + $item->pay_amount;
                                             // $total9 = $total9 + $item->stm_total;
                                         ?>                                 
                                 @endforeach  

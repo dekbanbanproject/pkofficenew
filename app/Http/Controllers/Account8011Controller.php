@@ -89,7 +89,7 @@ date_default_timezone_set("Asia/Bangkok");
 class Account8011Controller extends Controller
  { 
     
-    public function account_pkti8011_dash(Request $request)
+    public function account_pkti8011_dash_old(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -163,6 +163,67 @@ class Account8011Controller extends Controller
             'data_trimart'     =>  $data_trimart,
             'datashow'         =>  $datashow,
         ]);
+    }
+    public function account_pkti8011_dash(Request $request)
+    {
+        $budget_year        = $request->budget_year;
+        $acc_trimart_id = $request->acc_trimart_id;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.8011"
+                    group by month(a.vstdate)                     
+                    order by a.vstdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.8011" 
+                    group by month(a.vstdate)                    
+                    order by a.vstdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_8011.account_pkti8011_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y, 
+        ]); 
     }
     public function account_pkti8011_pull(Request $request)
     {
@@ -366,6 +427,62 @@ class Account8011Controller extends Controller
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
+        ]);
+    }
+    public function account_pkti8011_yok(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pay_amount,U2.STMdoc,U1.income,U1.rcpt_money
+                from acc_1102050102_8011 U1
+                LEFT JOIN acc_stm_lgoti U2 on U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                AND U2.pay_amount is null 
+                group by U1.vn
+        ');
+       
+        return view('account_8011.account_pkti8011_yok', $data, [ 
+            'data'          =>     $data,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
+    public function account_pkti8011_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(
+            'SELECT U1.*,U2.STMdoc,U2.pay_amount ,U2.repno
+                FROM acc_1102050102_8011 U1 
+                LEFT JOIN acc_stm_lgoti U2 on U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                WHERE U1.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+                GROUP BY U1.vn 
+           ');
+     
+        } else {
+           $datashow = DB::select(
+            'SELECT U1.*,U2.STMdoc ,U2.pay_amount,U2.repno
+                FROM acc_1102050102_8011 U1
+                LEFT JOIN acc_stm_lgoti U2 on U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+                GROUP BY U1.vn 
+           ');
+        } 
+             
+        return view('account_8011.account_pkti8011_search ', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
         ]);
     }
     public function account_pkti8011_stmnull(Request $request,$months,$year)

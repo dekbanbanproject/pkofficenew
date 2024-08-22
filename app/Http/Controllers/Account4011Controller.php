@@ -494,6 +494,42 @@ class Account4011Controller extends Controller
             'year'          =>     $year
         ]);
     }
+    public function account_pkti4011_search(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+
+        if ($startdate =='') {           
+            $datashow = DB::select('SELECT * FROM acc_1102050101_4011 WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" GROUP BY vn');  
+            //  LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate   
+            // AND am.HDBill_TBill_HDflag IN("COC")
+         } else {
+            $datashow = DB::select('SELECT * FROM acc_1102050101_4011 WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" GROUP BY vn');  
+            
+             
+         } 
+        //  1531559173 กสิกร 1162
+        // $data = DB::select('
+        //     SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc,U1.income,U1.rcpt_money 
+        //         from acc_1102050101_4011 U1
+        //         LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
+        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+        //         AND am.HDBill_TBill_HDflag IN("COC")
+        //         group by U1.vn
+        // ');
+        // AND am.Total_amount is not null 
+        return view('account_4011.account_pkti4011_search', $data, [ 
+            'datashow'         => $datashow,
+            'startdate'        => $startdate,
+            'enddate'          =>  $enddate
+        ]);
+    }
     public function account_pkti4011_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');

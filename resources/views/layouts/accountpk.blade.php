@@ -764,15 +764,17 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">4011-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง.OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkti4011_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkti4011_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkti4011_dash') }}">dashboard</a> </li>
+                                            <li><a href="{{ url('account_pkti4011_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_pkti4011_search') }}">ค้นหาลูกหนี้</a></li>
+                                        
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">4022-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง.IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkti4022_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_pkti4022_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_pkti4022_search') }}">ค้นหาลูกหนี้</a></li>
                                             
                                         </ul>
                                     </li>
@@ -780,6 +782,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkti8011_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_pkti8011_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_pkti8011_search') }}">ค้นหาลูกหนี้</a></li>
                                             
                                         </ul>
                                     </li>
@@ -787,6 +790,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkti2166_dash') }}">dashboard</a></li>
                                             <li><a href="{{ url('account_pkti2166_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_pkti2166_search') }}">ค้นหาลูกหนี้</a></li>
                                            
                                         </ul>
                                     </li>
@@ -794,7 +798,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkti3099_dash') }}">dashboard</a> </li>
                                             <li><a href="{{ url('account_pkti3099_pull') }}">ดึงลูกหนี้</a> </li>
-                                           
+                                            <li><a href="{{ url('account_pkti3099_search') }}">ค้นหาลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                 </ul>

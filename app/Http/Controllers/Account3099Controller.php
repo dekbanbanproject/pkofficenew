@@ -442,6 +442,44 @@ class Account3099Controller extends Controller
             'year'          =>     $year
         ]);
     }
+    public function account_pkti3099_search (Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {           
+           $datashow = DB::select(
+                'SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U1.stm_total,U1.STMdoc 
+                    ,s.HDBill_TBill_totalamount
+                    FROM acc_1102050101_3099 U1
+                    LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
+                    LEFT JOIN acc_stm_ti_totalsub s ON s.HDBill_TBill_wkno = am.HDBill_wkno
+                    WHERE U1.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+                    GROUP BY U1.vn 
+            ');     
+        } else {
+            $datashow = DB::select(
+                'SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U1.stm_total,U1.STMdoc 
+                    ,s.HDBill_TBill_totalamount
+                    FROM acc_1102050101_3099 U1
+                    LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
+                    LEFT JOIN acc_stm_ti_totalsub s ON s.HDBill_TBill_wkno = am.HDBill_wkno
+                    WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+                    GROUP BY U1.vn 
+            '); 
+        } 
+             
+        return view('account_3099.account_pkti3099_search', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
+        ]);
+    }
     public function account_pkti3099_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');

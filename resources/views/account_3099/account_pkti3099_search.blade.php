@@ -17,7 +17,6 @@ if (Auth::check()) {
 $url = Request::url();
 $pos = strrpos($url, '/') + 1;
 ?>
-
     <style>
         #button {
             display: block;
@@ -81,35 +80,57 @@ $pos = strrpos($url, '/') + 1;
     </div>
     <div class="container-fluid">
         <!-- start page title -->
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="card-title" style="color:green">Detail STM 1102050102.8011 </h4> 
+                    <h4 class="card-title" style="color:green">Detail 1102050101.3099 STM</h4> 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
-                            <li class="breadcrumb-item active">1102050102.8011</li>
+                            <li class="breadcrumb-item active">1102050101.3099</li>
                         </ol>
                     </div> 
 
-                   
-
                 </div>
             </div>
+        </div> --}}
+        <!-- end page title -->
+         <!-- start page title -->
+         <form action="{{ route('acc.account_pkti3099_search') }}" method="GET">
+            @csrf
+        <div class="row">
+        
+                    <div class="col-md-4">
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.3099</h4>
+                        <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col-md-4"> 
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $enddate }}" required/>
+                                    
+                                <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                                    <span class="ladda-spinner"></span>
+                                </button> 
+                            </div> 
+                  
+                    </div>
+ 
         </div>
         <!-- end page title -->
     </div> <!-- container-fluid -->
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card_audit_4c">
-                
-                    <div class="card-body">
-                        {{-- <input type="hidden" name="months" id="months" value="{{$months}}"> --}}
-                        {{-- <input type="hidden" name="year" id="year" value="{{$year}}"> --}}
-                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card_audit_4c">
+                    <div class="card-body"> 
+                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -126,44 +147,42 @@ $pos = strrpos($url, '/') + 1;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 1;
+                                <?php $number = 1; 
                                  $total1 = 0;
                                 $total2 = 0;
                                 $total3 = 0;
-                                $total4 = 0;
-                                 ?>
-                                @foreach ($data as $item) 
+                                $total4 = 0;?>
+                                @foreach ($datashow as $item) 
 
-                                    <tr>
+                                    <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
                                         <td class="text-center" width="8%">{{ $item->vn }}</td>
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
                                         <td class="text-center" width="8%">{{ $item->vstdate }}</td>
-                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
+                                        <td class="text-center" width="8%">{{ $item->pttype }}</td>
                                         
-                                        <td class="text-end" style="color:rgb(31, 127, 236)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                        
-                                        @if ($item->pay_amount < $item->debit_total)
-                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->pay_amount, 2) }}</td>
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
+                                        @if ($item->stm_total < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->stm_total, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(7, 156, 107)" width="7%"> {{ number_format($item->pay_amount, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(6, 175, 124)" width="7%"> {{ number_format($item->stm_total, 2) }}</td>
                                         @endif
-                                        <td class="text-center" width="14%">{{ $item->STMdoc }}</td>
+                                        <td class="text-start" width="15%">{{ $item->STMdoc }}</td>
                                     </tr>
                                     <?php
-                                                $total1 = $total1 + $item->debit_total;
-                                                $total2 = $total2 + $item->pay_amount; 
-                                        ?>
+                                    $total1 = $total1 + $item->debit_total;
+                                    $total2 = $total2 + $item->stm_total; 
+                            ?>
                                 @endforeach
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #0ac4ab" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
-                                <td class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #0ac4ab" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #fca1a1"></td> 
                             </tr> 
                         </table>
                     </div>
