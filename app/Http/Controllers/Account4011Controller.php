@@ -496,14 +496,13 @@ class Account4011Controller extends Controller
     }
     public function account_pkti4011_search(Request $request)
     {
-        $datenow = date('Y-m-d');
-        
+        $datenow = date('Y-m-d');        
         $data['users'] = User::get();
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $date = date('Y-m-d'); 
-        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 5 วัน
 
         if ($startdate =='') {           
             $datashow = DB::select('SELECT * FROM acc_1102050101_4011 WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" GROUP BY vn');  

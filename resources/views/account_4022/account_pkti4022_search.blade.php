@@ -1,6 +1,22 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
     <style>
         #button {
             display: block;
@@ -31,8 +47,8 @@
         .spinner {
             width: 250px;
             height: 250px;
-            border: 10px #ddd solid;
-            border-top: 10px #1fdab1 solid;
+            border: 15px #ddd solid;
+            border-top: 10px rgb(250, 128, 124) solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }
@@ -63,73 +79,107 @@
         </div>
     </div>
     <div class="container-fluid">
-        <!-- start page title -->
+         <!-- start page title -->
+         <form action="{{ route('acc.account_pkti4022_search') }}" method="GET">
+            @csrf
         <div class="row">
+            {{-- <div class="col-12"> --}}
+                {{-- <div class="page-title-box d-sm-flex align-items-center justify-content-between"> --}}
+                    <div class="col-md-4">
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.4011</h4>
+                        <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col-md-4"> 
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $enddate }}" required/>
+                                    
+                                <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                    <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                                    <span class="ladda-spinner"></span>
+                                </button> 
+                            </div> 
+                  
+                    </div>
+
+                {{-- </div> --}}
+            {{-- </div> --}}
+        </div>
+        <!-- end page title -->
+        <!-- start page title -->
+        {{-- <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">ACCOUNT ผัง 1102050101.4022 STM</h4>
-
+                    <h4 class="card-title" style="color:green">Detail 1102050101.4011 STM</h4> 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
-                            <li class="breadcrumb-item active">1102050101.4022</li>
+                            <li class="breadcrumb-item active">1102050101.4011</li>
                         </ol>
-                    </div>
+                    </div> 
+                    
 
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- end page title -->
     </div> <!-- container-fluid -->
 
         <div class="row">
             <div class="col-md-12">
                 <div class="card card_audit_4c">
-                     
-                    <div class="card-body">
-                  
+                    
+                    <div class="card-body"> 
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>  
+                                    <th class="text-center">ลำดับ</th> 
+                                    {{-- <th class="text-center">trainid</th> --}}
                                     <th class="text-center">an</th>
                                     <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>                                
+                                    <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th> 
-                                    <th class="text-center">rxdate</th>                                   
-                                    <th class="text-center">dchdate</th>
+                                    <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th>   
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">STM</th>  
-                                    <th class="text-center">STMdoc</th> 
+                                    <th class="text-center">STMdoc</th>  
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 1;$total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0;?>
-                                @foreach ($data as $item) 
+                                <?php $number = 1; 
+                                 $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                ?>
+                                @foreach ($datashow as $item) 
 
                                     <tr>
-                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td>  
-                                        <td class="text-center" width="10%">{{ $item->an }}</td>
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
+                                        {{-- <td class="text-center" width="8%">{{ $item->stm_trainid }}</td> --}}
+                                        <td class="text-center" width="8%">{{ $item->an }}</td>
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                        <td class="text-center" width="7%">{{ $item->rxdate }}</td>
-                                        <td class="text-center" width="7%">{{ $item->dchdate }}</td>
+                                        <td class="text-center" width="8%">{{ $item->dchdate }}</td>
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
-                                        <td class="text-end" style="color:rgb(12, 103, 207)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
                                         @if ($item->Total_amount < $item->debit_total)
                                             <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(8, 126, 67)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(6, 187, 157)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @endif
                                         <td class="text-center" width="14%">{{ $item->STMdoc }}</td>
                                     </tr>
-                                    <?php
+                                        <?php
                                                 $total1 = $total1 + $item->debit_total;
                                                 $total2 = $total2 + $item->Total_amount; 
                                         ?>
@@ -137,61 +187,11 @@
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #068a57" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #06b9a2" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #fca1a1"></td> 
                             </tr> 
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card_audit_4c">
-                     
-                    <div class="card-body"> 
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th>  
-                                    <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>    
-                                    <th class="text-center">vstdate</th>    
-                                    <th class="text-center">STM</th>  
-                                    <th class="text-center">STMdoc</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $number2 = 1;$total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0;?>
-                                @foreach ($data_stm as $item_stm) 
-
-                                    <tr>
-                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number2++ }} </td>   
-                                        <td class="text-center" width="5%">{{ $item_stm->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item_stm->cid }}</td>   
-                                        <td class="text-center" width="10%">{{ $item_stm->vstdate }}</td> 
-                                        <td class="text-end" style="color:rgb(12, 103, 207)" width="7%"> {{ number_format($item_stm->Total_amount, 2) }}</td>  
-                                        <td class="text-center" width="14%">{{ $item_stm->STMdoc }}</td>
-                                    </tr>
-                                    <?php
-                                                // $total1 = $total1 + $item->debit_total;
-                                                // $total2 = $total2 + $item->Total_amount; 
-                                        ?>
-                                @endforeach
-
-                            </tbody>
-                            {{-- <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #068a57" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #fca1a1"></td>
-                            </tr>  --}}
                         </table>
                     </div>
                 </div>
