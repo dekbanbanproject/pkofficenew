@@ -76,7 +76,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function home()
     {
         $data['product_data'] = Products::get();
         $product = array();
@@ -88,7 +88,7 @@ class HomeController extends Controller
                 'productname' => $item->product_name 
             ];
         }
-        return view('admin',$data,[
+        return view('welcome',$data,[
             'products'  =>  $product
         ]);
     }

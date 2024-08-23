@@ -307,19 +307,15 @@ Route::match(['get','post'],'uprep_money_updatefile',[App\Http\Controllers\Upstm
 Route::match(['get','post'],'uprep_sss_304',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304'])->name('acc.uprep_sss_304');//
 Route::match(['get','post'],'uprep_sss_304edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304edit'])->name('acc.uprep_sss_304edit');//
 Route::match(['get','post'],'uprep_sss_304_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304_update'])->name('acc.uprep_sss_304_update');//
-
 Route::match(['get','post'],'uprep_sss_307',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307'])->name('acc.uprep_sss_307');//
 Route::match(['get','post'],'uprep_sss_307edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307edit'])->name('acc.uprep_sss_307edit');//
 Route::match(['get','post'],'uprep_sss_307_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307_update'])->name('acc.uprep_sss_307_update');//
-
 Route::match(['get','post'],'uprep_sss_308',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308'])->name('acc.uprep_sss_308');//
 Route::match(['get','post'],'uprep_sss_308edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308edit'])->name('acc.uprep_sss_308edit');//
 Route::match(['get','post'],'uprep_sss_308_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308_update'])->name('acc.uprep_sss_308_update');//
-
 Route::match(['get','post'],'uprep_sss_309',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309'])->name('acc.uprep_sss_309');//
 Route::match(['get','post'],'uprep_sss_309edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309edit'])->name('acc.uprep_sss_309edit');//
 Route::match(['get','post'],'uprep_sss_309_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309_update'])->name('acc.uprep_sss_309_update');//
-
 Route::match(['get','post'],'uprep_sss_all',[App\Http\Controllers\UpstmController::class, 'uprep_sss_all'])->name('acc.uprep_sss_all');//
 Route::match(['get','post'],'uprep_sss_syncall',[App\Http\Controllers\UpstmController::class, 'uprep_sss_syncall'])->name('acc.uprep_sss_syncall');//
 // Route::match(['get','post'],'uprep_sss_alledit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_alledit'])->name('acc.uprep_sss_alledit');//
@@ -333,16 +329,10 @@ Route::match(['get','post'],'uprep_money_plbop_allupdate',[App\Http\Controllers\
 Route::match(['get','post'],'uprep_money_plbop',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbop'])->name('acc.uprep_money_plbop');//
 Route::match(['get','post'],'uprep_money_plbip',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbip'])->name('acc.uprep_money_plbip');//
 Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbhn'])->name('acc.uprep_money_plbhn');//
-
 Route::match(['get','post'],'report_zero',[App\Http\Controllers\ReportZeroController::class, 'report_zero'])->name('claim.report_zero');//
-
-
-
 // *******************Vaccein *******************
 Route::match(['get','post'],'hpv_report',[App\Http\Controllers\VaccineController::class, 'hpv_report'])->name('claim.hpv_report');//
 Route::match(['get','post'],'hpv_report_pull',[App\Http\Controllers\VaccineController::class, 'hpv_report_pull'])->name('claim.hpv_report_pull');//
-
-
 // *******************CRRT *******************
 Route::match(['get','post'],'crrt',[App\Http\Controllers\CrrtController::class, 'crrt'])->name('claim.crrt');//
 Route::match(['get','post'],'crrt_process',[App\Http\Controllers\CrrtController::class, 'crrt_process'])->name('claim.crrt_process');//
@@ -350,7 +340,6 @@ Route::match(['get','post'],'crrt_export',[App\Http\Controllers\CrrtController::
 Route::match(['get','post'],'crrt_exportapi',[App\Http\Controllers\CrrtController::class, 'crrt_exportapi'])->name('claim.crrt_exportapi');//
 Route::match(['get','post'],'crrt_sendapi',[App\Http\Controllers\CrrtController::class, 'crrt_sendapi'])->name('claim.crrt_sendapi');//
 Route::match(['get','post'],'crrt_report',[App\Http\Controllers\CrrtController::class, 'crrt_report'])->name('claim.crrt_report');//
-
 // *******************OFC *******************
 Route::match(['get','post'],'ofc_401_main',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_main'])->name('claim.ofc_401_main');//
 Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//
@@ -361,17 +350,13 @@ Route::match(['get','post'],'ofc_401_repsave',[App\Http\Controllers\Ofc401Contro
 Route::match(['get','post'],'ofc_401_repsend',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_repsend'])->name('claim.ofc_401_repsend');//
 Route::match(['get','post'],'ofc_401_check',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_check'])->name('claim.ofc_401_check');//
 // Route::match(['get','post'],'ofc_401_sendapi',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_sendapi'])->name('claim.ofc_401_sendapi');//
-
 Route::match(['get','post'],'ofc_401_exportapi',[App\Http\Controllers\Ofc401_apiController::class, 'ofc_401_exportapi'])->name('claim.ofc_401_exportapi');//
 Route::match(['get','post'],'ofc_401_sendapi',[App\Http\Controllers\Ofc401_apiController::class, 'ofc_401_sendapi'])->name('claim.ofc_401_sendapi');//
-
-
 Route::match(['get','post'],'ofc_402',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402'])->name('claim.ofc_402');//
 Route::match(['get','post'],'ofc_402_process',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_process'])->name('claim.ofc_402_process');//
 Route::match(['get','post'],'ofc_402_export',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_export'])->name('claim.ofc_402_export');//
 Route::match(['get','post'],'ofc_402_exportapi',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_exportapi'])->name('claim.ofc_402_exportapi');//
 Route::match(['get','post'],'ofc_402_sendapi',[App\Http\Controllers\Ofc402Controller::class, 'ofc_402_sendapi'])->name('claim.ofc_402_sendapi');//
-
 // ******************* LGO *******************
 Route::match(['get','post'],'lgo_801',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801'])->name('claim.lgo_801');//
 Route::match(['get','post'],'lgo_801_process',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_process'])->name('claim.lgo_801_process');//
@@ -381,13 +366,11 @@ Route::match(['get','post'],'lgo_801_send_api',[App\Http\Controllers\Lgo801Contr
 Route::match(['get','post'],'lgo_801_main',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_main'])->name('claim.lgo_801_main');//
 Route::match(['get','post'],'lgo_801_rep',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_rep'])->name('claim.lgo_801_rep');//
 Route::match(['get','post'],'lgo_801_check',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_check'])->name('claim.lgo_801_check');//
-
 Route::match(['get','post'],'home_ward',[App\Http\Controllers\HomewardController::class, 'home_ward'])->name('claim.home_ward');//
 Route::match(['get','post'],'home_ward_process',[App\Http\Controllers\HomewardController::class, 'home_ward_process'])->name('claim.home_ward_process');//
 Route::match(['get','post'],'home_ward_export',[App\Http\Controllers\HomewardController::class, 'home_ward_export'])->name('claim.home_ward_export');//
 Route::match(['get','post'],'home_ward_exportapi',[App\Http\Controllers\HomewardController::class, 'home_ward_exportapi'])->name('claim.home_ward_exportapi');//
 Route::match(['get','post'],'home_ward_sendapi',[App\Http\Controllers\HomewardController::class, 'home_ward_sendapi'])->name('claim.home_ward_sendapi');//
-
 // Route::match(['get','post'],'thalassemia_opd_process',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_process'])->name('claim.thalassemia_opd_process');//
 // Route::match(['get','post'],'thalassemia_opd_export',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_export'])->name('claim.thalassemia_opd_export');//
 
@@ -492,34 +475,36 @@ Route::match(['get','post'],'fdh_mini_dataset_pulljongauto',[App\Http\Controller
 
 Route::get('/', function () {
 
-
-if (Auth::check()) {
-    return view('welcome');
-}else{
-      return view('auth.login');
-}
-})->name('index');
-
-
+    if (Auth::check()) {
+        if (Auth::user()->type = 'ADMIN') {
+                return view('welcome');
+            }elseif (Auth::user()->type = 'SUPPLIES') {
+                return view('home_supplies');
+            } else {
+                return view('welcome');
+            }  
+        }else{
+              return view('auth.login');
+        }
+    })->name('index');
 
 Auth::routes();
 
-
 // ฺbackup Database
 
-Route::get('backups', [App\Http\Controllers\BackupController::class, 'index']);
+Route::get('backups', [App\Http\Controllers\BackupController::class, 'backups']);
 Route::get('backupnow', [App\Http\Controllers\BackupController::class, 'backupnow'])->name('backupnow');
 Route::get('backups/getbody', [App\Http\Controllers\BackupController::class, 'listbody'])->name('listbody');
 Route::get('backups/total-unit', [App\Http\Controllers\BackupController::class, 'totalUnit'])->name('totalUnit');
 Route::get('backup/download/{name}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download');
 Route::delete('backup/delete', [App\Http\Controllers\BackupController::class, 'delete'])->name('backup.delete');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
 Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome'])->name('staff.home')->middleware('type');
 Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
-Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
+// Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 Route::get('home_supplies', [App\Http\Controllers\AirController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
 Route::get('home_supplies_mobile', [App\Http\Controllers\AirController::class, 'home_supplies_mobile'])->name('manage.home_supplies_mobile')->middleware('type');
 Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'home_supplies_excel'])->name('manage.home_supplies_excel')->middleware('type');
