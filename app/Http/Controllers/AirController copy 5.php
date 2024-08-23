@@ -500,7 +500,7 @@ class AirController extends Controller
                 $maintenance_1 = DB::select(
                     'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
                     ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
-                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE air_year = "'.$edit_yeardb.'")*COUNT(DISTINCT a.air_list_num)) as percent
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                     LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id 
@@ -514,7 +514,7 @@ class AirController extends Controller
                 $maintenance_2 = DB::select(
                     'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
                     ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
-                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE air_year = "'.$edit_yeardb.'")*COUNT(DISTINCT a.air_list_num)) as percent
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                     LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
@@ -525,10 +525,7 @@ class AirController extends Controller
                     $data['main_qty']      = $value2->air_qty;
                     $data['main_percent']  = $value2->percent;
                 } 
-                $data['count_air_all']     = Air_list::where('air_year',$edit_yeardb)->count();
-                $data['count_air_yes']     = Air_list::where('active','Y')->where('air_year',$edit_yeardb)->count();
-                $data['count_air_no']      = Air_list::where('active','N')->where('air_year',$edit_yeardb)->count();
-                // $data['count_air'] = Air_list::where('active','Y')->where('air_year',$edit_yeardb)->count();
+                $data['count_air'] = Air_list::where('active','Y')->where('air_year',$edit_yeardb)->count();
                 $years_now = $edit_yeardb;
         } else {
                 $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
@@ -546,7 +543,7 @@ class AirController extends Controller
                 $maintenance_1 = DB::select(
                     'SELECT COUNT(DISTINCT a.air_list_num) as air_qty 
                     ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
-                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE air_year = "'.$bg_yearnow.'")*COUNT(DISTINCT a.air_list_num)) as percent
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                     LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
@@ -560,7 +557,7 @@ class AirController extends Controller
                 $maintenance_2 = DB::select(
                     'SELECT COUNT(DISTINCT a.air_list_num) as main_qty 
                     ,(SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y") as Count_air
-                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE air_year = "'.$bg_yearnow.'")*COUNT(DISTINCT a.air_list_num)) as percent
+                    ,(100 / (SELECT COUNT(DISTINCT air_list_num) air_list_num FROM air_list WHERE active = "Y")*COUNT(DISTINCT a.air_list_num)) as percent
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id 
                     LEFT JOIN air_maintenance_list c ON c.maintenance_list_id = b.air_repaire_ploblem_id  
@@ -571,9 +568,7 @@ class AirController extends Controller
                     $data['main_qty']      = $value2->main_qty;
                     $data['main_percent']  = $value2->percent;
                 } 
-                $data['count_air_all']     = Air_list::where('air_year',$bg_yearnow)->count();
-                $data['count_air_yes']     = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
-                $data['count_air_no']      = Air_list::where('active','N')->where('air_year',$bg_yearnow)->count();
+                $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
                 $years_now = $bg_yearnow;
         }        
         return view('support_prs.air.air_dashboard',$data,[
@@ -695,7 +690,11 @@ class AirController extends Controller
                     $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
                     $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
                     $data_detail_ = Air_list::where('air_list_id', '=', $id)->first();
-                   
+                    // $signat = $data_detail_->air_img_base;
+                    // $pic_fire = base64_encode(file_get_contents($signat)); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');  
                     $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
                     // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
                     return view('support_prs.air.air_repaire',$data, [ 
@@ -708,16 +707,47 @@ class AirController extends Controller
                 return view('support_prs.air.air_repaire_null'); 
             }
 
-         
+            
+        
+            // return view('support_prs.air.air_repaire',$data, [ 
+            //     'data_detail'   => $data_detail,
+            //     'data_detail_'  => $data_detail_,
+            //     'air_no'        => $air_no,
+            //     'id'            => $id
+            // ]); 
+
         } else {
             // echo "<body onload=\"TypeAdmin()\"></body>";
             // exit();
                       return view('support_prs.air.air_repaire_null'); 
         }
-             
+            // if ($idsup == '1' || $idsup == '2') {
+                // return view('support_prs.air.air_repaire',$data, [ 
+                //     'data_detail'   => $data_detail,
+                //     'data_detail_'  => $data_detail_,
+                //     'air_no'        => $air_no,
+                //     'id'            => $id
+                // ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null',$data, [ 
+            //         'data_detail'   => $data_detail,
+            //         'data_detail_'  => $data_detail_,
+            //         'air_no'        => $air_no,
+            //         'id'            => $id
+            //     ]); 
+            // }
+            
+            
     }
     public function air_repaire(Request $request, $id)
-    {   
+    {  
+        // if (Auth::check()) {
+        //     $type      = Auth::user()->type;
+        //     $iduser    = Auth::user()->id;
+        //     $iddep     = Auth::user()->dep_subsubtrueid;
+        //     $idsup     = Auth::user()->air_supplies_id; 
+
+        //       if ($idsup == '1' || $idsup == '2' || $idsup == 'on') {
                     $datenow   = date('Y-m-d');
                     $months    = date('m');
                     $year      = date('Y'); 
@@ -731,14 +761,21 @@ class AirController extends Controller
                     ->leftJoin('air_list', 'air_list.air_list_id', '=', 'air_repaire.air_list_id') 
                     ->where('air_list.air_list_id', '=', $id)
                     ->get();
-   
+
+                    // $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
+                    // $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
+                    // $data['users_tech_out_id']       = $users_tech_out_->id;   
                     $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
                     $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
                     $data['users']                   = DB::table('users')->get();
                     $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
                     $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
                     $data_detail_                    = Air_list::where('air_list_id', '=', $id)->first();
-                    
+                    // $signat = $data_detail_->air_img_base;
+                    // $pic_fire = base64_encode(file_get_contents($signat)); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_STATUS ="RECEIVE" AND TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_NAME LIKE "%แอร์%" ORDER BY REPAIR_ID ASC');  
                     $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
                     // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
                     return view('support_prs.air.air_repaire',$data, [ 
@@ -747,7 +784,39 @@ class AirController extends Controller
                     'air_no'        => $air_no,
                     'id'            => $id
                 ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null'); 
+            // }
+
             
+        
+            // return view('support_prs.air.air_repaire',$data, [ 
+            //     'data_detail'   => $data_detail,
+            //     'data_detail_'  => $data_detail_,
+            //     'air_no'        => $air_no,
+            //     'id'            => $id
+            // ]); 
+
+        // } else {
+            // echo "<body onload=\"TypeAdmin()\"></body>";
+            // exit();
+                    //   return view('support_prs.air.air_repaire_null'); 
+        // }
+            // if ($idsup == '1' || $idsup == '2') {
+                // return view('support_prs.air.air_repaire',$data, [ 
+                //     'data_detail'   => $data_detail,
+                //     'data_detail_'  => $data_detail_,
+                //     'air_no'        => $air_no,
+                //     'id'            => $id
+                // ]); 
+            // } else {
+            //     return view('support_prs.air.air_repaire_null',$data, [ 
+            //         'data_detail'   => $data_detail,
+            //         'data_detail_'  => $data_detail_,
+            //         'air_no'        => $air_no,
+            //         'id'            => $id
+            //     ]); 
+            // }
             
             
     }
@@ -946,9 +1015,15 @@ class AirController extends Controller
             $update->air_problems_20     = $request->air_problems_20;
             $update->air_problems_orther     = $request->air_problems_orther;
             $update->air_problems_orthersub  = $request->air_problems_orthersub;
-            $update->signature           = $add_img;  
-            // $update->air_status_techout  = $request->air_status_techout; 
-            $update->air_techout_name    = $request->air_techout_name;   
+            $update->signature           = $add_img;
+            // $update->signature2          = $add_img2;
+            // $update->signature3          = $add_img3;
+
+            $update->air_status_techout  = $request->air_status_techout; 
+            $update->air_techout_name    = $request->air_techout_name;  
+            // $update->air_status_staff    = $request->air_status_staff;   
+            // $update->air_staff_id        = $request->air_staff_id; 
+            // $update->air_status_tech     = $request->air_status_tech; 
             $update->air_supplies_id      = $tech_sup_out; 
 
             $update->save();   
@@ -1083,9 +1158,6 @@ class AirController extends Controller
                 $update->air_problems_orthersub  = $request->air_problems_orthersub;
                 // $update->signature               = $add_img;  
                 $update->air_status_techout      = $request->air_status_techout; 
-                // $update->air_status_staff        = $request->air_status_staff;  
-                // $update->air_status_tech         = $request->air_status_tech; 
-
                 $update->air_techout_name        = $request->air_techout_name;   
                 $update->air_supplies_id         = $tech_sup_out; 
                 $update->save();   
@@ -1129,7 +1201,7 @@ class AirController extends Controller
                     }
                 }
 
-                if ($request->air_status_techout == 'N') {
+                if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
                     Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
                 } else {
                     Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
@@ -1159,7 +1231,7 @@ class AirController extends Controller
                 $update->air_problems_orther     = $request->air_problems_orther;
                 $update->air_problems_orthersub  = $request->air_problems_orthersub;
                 $update->signature               = $add_img;  
-                // $update->air_status_techout      = $request->air_status_techout; 
+                $update->air_status_techout      = $request->air_status_techout; 
                 $update->air_techout_name        = $request->air_techout_name;   
                 $update->air_supplies_id         = $tech_sup_out; 
                 $update->save();   
@@ -1252,13 +1324,11 @@ class AirController extends Controller
                 $update->signature               = $add_img;  
                 $update->signature2              = $add_img2;
                 $update->signature3              = $add_img3; 
-
                 $update->air_status_techout      = $request->air_status_techout; 
-                $update->air_status_staff        = $request->air_status_staff;  
-                $update->air_status_tech         = $request->air_status_tech; 
-
-                $update->air_techout_name        = $request->air_techout_name; 
+                $update->air_techout_name        = $request->air_techout_name;  
+                $update->air_status_staff        = $request->air_status_staff;   
                 $update->air_staff_id            = $request->air_staff_id; 
+                $update->air_status_tech         = $request->air_status_tech; 
                 $update->air_tech_id             = $request->air_tech_id; 
                 $update->air_supplies_id         = $tech_sup_out;   
                 $update->save(); 
@@ -1314,7 +1384,6 @@ class AirController extends Controller
                     'status'      =>'EDIT',
                     'detail'      =>'air_repaire_id'.'-'.$id
                 ]);
-
                 return response()->json([
                     'status'     => '200'
                 ]);
@@ -1496,7 +1565,14 @@ class AirController extends Controller
                         $strMonthThai = $strMonthCut[$strMonth];
                         return "$strDay $strMonthThai $strYear";
                     }
-  
+
+                    // $header = "ซ่อมเครื่องปรับอากาศ";
+                    // $linegroup = DB::table('line_token')->where('line_token_id', '=', 6)->first();
+                    // $line = $linegroup->line_token_code;
+
+                    // $link = DB::table('orginfo')->where('orginfo_id', '=', 1)->first();
+                    // $link_line = $link->orginfo_link;
+
                     $datesend = date('Y-m-d');
                     $sendate = DateThailine($datesend);
                     $data_users = DB::table('users')->where('id', '=', $request->air_techout_name)->first();
@@ -1507,9 +1583,74 @@ class AirController extends Controller
 
                     $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
                     $techname = $data_tech->fname.' '.$data_tech->lname;
-     
+
+                    // function formatetime($strtime)
+                    // {
+                    //     $H = substr($strtime, 0, 5);
+                    //     return $H;
+                    // }
+
+                    // $message = $header .               
+                    //     "\n" . "วันที่ซ่อม: " . $sendate.
+                    //     "\n" . "รหัส : " . $request->air_list_num ."". 
+                    //     "\n" . "ชื่อ  : " . $request->air_list_name . "".
+                    //     "\n" . "Btu  : " . $request->btu ."". 
+                    //     "\n" . "serial_no  : " . $request->serial_no ."".
+                    //     "\n" . "ที่ตั้ง : " .$request->air_location_name."".
+                    //     "\n" . "หน่วยงาน : " . $request->detail;
+                    // $linesend = $line;
+                    // $linesend = "ibZC2tCju5YgpiTBMRqFw3j8U0Dx4br9odv5lSXsXBe";
+                    // if ($linesend == null) {
+                    //     $test = '';
+                    // } else {
+                    //     $test = $linesend;
+                    // }
+
+                    // if ($test !== '' && $test !== null) {
+                    //     $chOne = curl_init();
+                    //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    //     curl_setopt($chOne, CURLOPT_POST, 1);
+                    //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                    //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                    //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                    //     $result = curl_exec($chOne);
+                    //     if (curl_error($chOne)) {
+                    //         echo 'error:' . curl_error($chOne);
+                    //     } else {
+                    //         $result_ = json_decode($result, true);                        
+                    //     }
+                    //     curl_close($chOne);
+
+                    //     // $chOne = curl_init();
+                    //     // curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    //     // curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    //     // curl_setopt( $chOne, CURLOPT_POST, 1);
+                    //     // // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                    //     // curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    //     // curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    //     // $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
+                    //     // curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    //     // curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                    //     // $result = curl_exec($chOne);
+                    //     // if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
+                    //     //     echo "status : " . $result_['status'];
+                    //     //     echo "message : " . $result_['message'];}
+                    //     // curl_close($chOne);
+                    // }
+
                     // *************************************
+
                     $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
+                    // $name = User::where('id','=',$iduser)->first();
+                    // $data_users = User::where('id','=',$request->trash_user)->first();
+                    // $name = $data_users->fname.' '.$data_users->lname;
+
                     $mMessage = array();
                     foreach ($data_loob as $key => $value) { 
 
@@ -1558,6 +1699,8 @@ class AirController extends Controller
                                     // "\n"."หน่วย : "   . $unit_mesage;
                                     
                     } 
+                    // $message.="\n"."รายการซ่อม  : " . $list_mesage; 
+                    //token ห้องช่าง
                     $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr";
                     if ($linesend == null) {
                         $test = '';
@@ -1586,12 +1729,6 @@ class AirController extends Controller
                         curl_close($chOne); 
                     }
 
-                    if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
-                        Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'N']); 
-                    } else {
-                        Air_list::where('air_list_id', '=', $request->air_list_id)->update(['active' => 'Y']); 
-                    }
-                    
                     Air_edit_log::insert([
                         'user_id'     =>$iduser,
                         'user_name'   =>$name_edit,
