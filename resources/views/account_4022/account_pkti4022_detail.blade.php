@@ -116,6 +116,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
+                                    <th class="text-center">rxdate</th> 
                                     <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
                                     <th class="text-center">income</th> 
@@ -141,6 +142,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="8%">{{ $item->cid }}</td>  
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
+                                            <td class="text-center" width="8%">{{ $item->rxdate }}</td>   
                                             <td class="text-center" width="8%">{{ $item->dchdate }}</td>  
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>  
                                             <td class="text-center" style="color:rgb(13, 113, 228)" width="8%">{{ number_format($item->income, 2) }}</td> 
@@ -158,7 +160,7 @@ $pos = strrpos($url, '/') + 1;
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-center" style="background-color: #116dc4"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #f89411" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #05770f"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 

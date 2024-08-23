@@ -108,7 +108,7 @@
                             </thead>
                             <tbody>
                                 <?php $number = 1;$total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0;?>
-                                @foreach ($data as $item) 
+                                @foreach ($datashow as $item) 
 
                                     <tr>
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td>  
@@ -131,7 +131,8 @@
                                     </tr>
                                     <?php
                                                 $total1 = $total1 + $item->debit_total;
-                                                $total2 = $total2 + $item->Total_amount; 
+                                                // $total2 = $total2 + $item->Total_amount; 
+                                                // $data_data_stm = DB::select('SELECT * FROM acc_stm_ti_total WHERE HDBill_hn IN("'.$item->hn.'") AND month(vstdate) = "'.$months.'" AND HDBill_TBill_HDflag = "CIC"');
                                         ?>
                                 @endforeach
 
@@ -150,7 +151,7 @@
         </div>
 
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12">
                 <div class="card card_audit_4c">
                      
@@ -173,31 +174,23 @@
 
                                     <tr>
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number2++ }} </td>   
-                                        <td class="text-center" width="5%">{{ $item_stm->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item_stm->cid }}</td>   
+                                        <td class="text-center" width="5%">{{ $item_stm->HDBill_hn }}</td>
+                                        <td class="text-center" width="10%">{{ $item_stm->HDBill_pid }}</td>   
                                         <td class="text-center" width="10%">{{ $item_stm->vstdate }}</td> 
                                         <td class="text-end" style="color:rgb(12, 103, 207)" width="7%"> {{ number_format($item_stm->Total_amount, 2) }}</td>  
                                         <td class="text-center" width="14%">{{ $item_stm->STMdoc }}</td>
                                     </tr>
-                                    <?php
-                                                // $total1 = $total1 + $item->debit_total;
-                                                // $total2 = $total2 + $item->Total_amount; 
-                                        ?>
+                                  
                                 @endforeach
 
                             </tbody>
-                            {{-- <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #068a57" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #fca1a1"></td>
-                            </tr>  --}}
+                           
                         </table>
                     </div>
                 </div>
             </div>
 
-        </div>
+        </div> --}}
     </div>
 
 

@@ -5459,14 +5459,7 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,
         ]);
     }
-
-
-
-
-
-
-
-
+ 
 
     public function acc_setting(Request $request)
     {

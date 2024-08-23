@@ -1763,6 +1763,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkti2166_stmnull_date/{months}/{year}',[App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_stmnull_date'])->name('acc.account_pkti2166_stmnull_date');//
     Route::match(['get','post'],'account_2166_destroy',[App\Http\Controllers\Account2166Controller::class, 'account_2166_destroy'])->name('acc.account_2166_destroy');//
     Route::match(['get','post'],'account_pkti2166_search',[App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_search'])->name('acc.account_pkti2166_search');//
+    Route::match(['get','post'],'account_pkti2166_yok/{months}/{year}',[App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_yok'])->name('acc.account_pkti2166_yok');//
 
     Route::match(['get','post'],'ti2166_send/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_send'])->name('acc.ti2166_send');//
     Route::match(['get','post'],'ti2166_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_detail'])->name('acc.ti2166_detail');//

@@ -46,7 +46,7 @@ use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_1102050101_302;
-use App\Models\Acc_1102050101_309;
+use App\Models\Acc_stm_temp;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -518,7 +518,8 @@ class Account4022Controller extends Controller
         $data = DB::select('
             SELECT *
             from acc_1102050101_4022 U1            
-            WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
+            WHERE month(U1.rxdate) = "'.$months.'" AND year(U1.rxdate) = "'.$year.'"
+            GROUP BY hn,rxdate
           
         ');
         // GROUP BY U1.an
@@ -541,16 +542,51 @@ class Account4022Controller extends Controller
         //         AND U1.Total_amount is not null 
         //         AND U1.HDBill_TBill_HDflag IN("CIC")  
         // ');
-        $data = DB::select(
+        
+        // LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate 
+        // $data['datashow'] = DB::select(
+        //     'SELECT *
+        //         FROM acc_stm_ti_total U1                                                      
+        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+        //         AND U1.Total_amount is not null 
+        //         AND U1.HDBill_TBill_HDflag IN("CIC") 
+        // ');  
+        // U1.hn
+        // $datainsert = DB::select(
+        //     'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
+        //         FROM acc_1102050101_4022 U1   
+        //         LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate                                                   
+        //         WHERE month(U1.rxdate) = "'.$months.'" AND year(U1.rxdate) = "'.$year.'"  
+        //         AND U2.HDBill_TBill_HDflag IN("CIC")  
+        //         GROUP BY U1.hn
+        // ');
+        // $datainsert = DB::select(
+        //     'SELECT U2.HDBill_hn FROM acc_stm_ti_total U2    
+        //         WHERE month(U2.vstdate) = "'.$months.'" AND year(U2.vstdate) = "'.$year.'"  
+        //         AND U2.HDBill_TBill_HDflag IN("CIC")  
+        //         GROUP BY U2.HDBill_hn
+        // ');
+        
+        
+        // Acc_stm_temp::truncate();
+        // foreach ($datainsert as $key => $value) {
+        //     Acc_stm_temp::insert([
+        //         'hn'  => $value->HDBill_hn
+        //     ]);
+        // }
+        // Acc_stm_temp
+        // $data['data_stm'] = DB::select('SELECT * FROM acc_stm_ti_total WHERE month(vstdate) = "'.$months.'" AND year(vstdate) = "'.$year.'" AND HDBill_hn IN(select hn from acc_stm_temp) AND HDBill_TBill_HDflag IN("CIC")');
+           
+        $data['datashow'] = DB::select(
             'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 FROM acc_1102050101_4022 U1   
-                LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate                                                   
+                LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate                                    
                 WHERE month(U1.rxdate) = "'.$months.'" AND year(U1.rxdate) = "'.$year.'"  
-                AND U2.HDBill_TBill_HDflag IN("CIC")  
-                GROUP BY U2.vstdate
+                GROUP BY U1.hn,U1.rxdate 
         ');
-        $data['data_stm'] = DB::select('SELECT * FROM acc_stm_ti_total WHERE month(vstdate) = "'.$months.'" AND year(vstdate) = "'.$year.'"');
-            // AND U2.Total_amount is not null 
+        // AND U1.hn IN(select hn from acc_stm_temp)
+
+        // AND U2.Total_amount is not null 
         // AND U2.Total_amount is not null 
         // SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
         // from acc_1102050101_4022 U1
@@ -581,28 +617,36 @@ class Account4022Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $date = date('Y-m-d'); 
-        $new_day = date('Y-m-d', strtotime($date . ' -60 day')); //ย้อนหลัง 5 วัน
+        $new_day = date('Y-m-d', strtotime($date . ' -90 day')); //ย้อนหลัง 5 วัน
 
         if ($startdate =='') {           
             $datashow = DB::select(
                 'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate
-                WHERE U1.dchdate BETWEEN "'.$new_day.'" AND "'.$date.'" 
-                AND U2.HDBill_TBill_HDflag IN("CIC")
-                GROUP BY U1.an 
+                WHERE U1.rxdate BETWEEN "'.$new_day.'" AND "'.$date.'" 
+             
+                GROUP BY U1.hn,U1.rxdate 
             ');   
          } else {
             $datashow = DB::select(
                 'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate
-                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND U2.HDBill_TBill_HDflag IN("CIC")
-                GROUP BY U1.an 
+                WHERE U1.rxdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+              
+                GROUP BY U1.hn,U1.rxdate 
             ');  
          } 
-
+        //  AND U2.HDBill_TBill_HDflag IN("CIC")
+        //  $data['datashow'] = DB::select(
+        //     'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
+        //         FROM acc_1102050101_4022 U1   
+        //         LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate                                    
+        //         WHERE month(U1.rxdate) = "'.$months.'" AND year(U1.rxdate) = "'.$year.'"  
+        //         GROUP BY U1.hn,U1.rxdate 
+        // ');
+         
         // $data = DB::select('
         //     SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
         //     from acc_1102050101_4022 U1

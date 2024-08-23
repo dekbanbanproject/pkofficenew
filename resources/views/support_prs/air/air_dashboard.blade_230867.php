@@ -107,7 +107,7 @@
             </div>             
             <div class="col"></div>
         </div>   
-        {{-- <div class="row">
+        <div class="row">
             <div class="col"></div>
             <div class="col-xl-6 col-md-6">
                 <div class="card widget-chart widget-chart-hover" style="height: 235px">
@@ -136,7 +136,7 @@
                 <hr style="color:#ffffff">  
             </div>  
             <div class="col"></div>
-        </div>  --}}
+        </div> 
     </form>
         {{-- <div class="row">
             <div class="col"></div>
@@ -153,33 +153,7 @@
             <div class="col-xl-5 col-md-6"></div> 
         </div>  --}}
         <div class="row"> 
-            {{-- <div class="col"></div>  --}}
-            <div class="col-xl-4 col-md-6">
-                <div class="card widget-chart widget-chart-hover" style="height: 200px">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="flex-grow-1"> 
-                                <p class="text-start font-size-18 mb-2">เครื่องปรับอากาศ(ทั้งหมด)</p>
-                                <h1 class="text-start mb-2">{{$count_air}}</h1> 
-                            </div> 
-                            <div class="avatar-sm" style="width: 110px;height:100px">
-                                <span class="avatar-title bg-light text-success rounded-3"> 
-                                    <img src="{{ asset('images/air_conditioner_g.png') }}" height="80px" width="100px" class="text-danger"> 
-                                </span>
-                                
-                            </div>
-                        </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-4">
-                            <p class="text-muted mb-0">
-                                <span class="text-info fw-bold font-size-20 me-2">
-                                    <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span> 
-                            </p>
-                        </div> 
-                    </div> 
-                </div> 
-           
-            </div>  
+            <div class="col"></div> 
             <div class="col-xl-4 col-md-6">
                 <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
@@ -206,7 +180,7 @@
                         </div> 
                     </div> 
                 </div> 
-             
+                {{-- <hr style="color:#ffffff"> --}}
             </div> 
             {{-- <div class="col-xl-2 col-md-6">
                 <div class="vl"></div> 
@@ -238,7 +212,7 @@
                     </div> 
                 </div>  
             </div> 
-            {{-- <div class="col"></div>  --}}
+            <div class="col"></div> 
         </div> 
         <hr style="color:#ffffff"> 
                 <?php 
