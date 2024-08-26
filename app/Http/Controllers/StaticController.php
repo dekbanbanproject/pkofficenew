@@ -223,6 +223,16 @@ class StaticController extends Controller
     $per_aircount =  User::where('id','=',$iduser)->where('per_air','=','on')->count();   
     return $per_aircount;
   }
+  public static function per_nurse($iduser)
+  {
+    $per_nurse =  User::where('id','=',$iduser)->where('per_nurse','=','on')->count();   
+    return $per_nurse;
+  }
+  public static function per_config($iduser)
+  {
+    $per_config =  User::where('id','=',$iduser)->where('per_config','=','on')->count();   
+    return $per_config;
+  }
 
 
 

@@ -225,6 +225,25 @@
 
 </style>
 
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+
+use App\Http\Controllers\UsersuppliesController;
+use App\Http\Controllers\StaticController;
+use App\Models\Products_request_sub;
+
+
+$per_config               = StaticController::per_config($iduser);
+?>
+
  <body data-topbar="dark">
 
     <!-- Begin page -->
@@ -300,9 +319,17 @@
                         </div>
                       
                         <div class="header-btn-lg"> 
+                        
+                            @if ($per_config != 0)
                             <a href="{{url("setting/setting_index")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
                                 <i class="fa fa-cog fa-w-16 fa-spin fa-2x" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Setting"></i>
-                            </a>  
+                            </a>
+                            @else
+                            <a id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
+                                <i class="fa fa-cog fa-w-16 fa-spin fa-2x" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Setting"></i>
+                            </a>
+                            @endif
+                              
                         </div>
                         <div class="header-btn-lg">
                             <div class="dropdown">
