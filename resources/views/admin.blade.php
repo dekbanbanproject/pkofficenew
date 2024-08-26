@@ -1412,7 +1412,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                 </a>
             </div>
 
-
+            @if (per_nurse != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('nurse_index') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -1440,6 +1440,36 @@ $per_nurse                = StaticController::per_nurse($iduser);
                     </div> 
                 </a> 
             </div>
+            @else
+            <div class="col-xl-3 col-md-3">
+                {{-- <a href="{{ url('nurse_index') }}" target="_blank"> --}}
+                    <div class="main-card mb-3 card shadow-lg rounded-pill"
+                        style="background-color: rgba(242, 205, 252, 0.871)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
+                                                    <h5 class="text-start mb-2">NURSE</h5> 
+                                            </div>
+                                            <div class="avatar ms-2"> 
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                                            <img src="{{ asset('images/nurse.png') }}" height="40px" width="40px" class="rounded-circle"> 
+                                                    </button> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                {{-- </a>  --}}
+            </div>
+            @endif
+            
  
 
 
