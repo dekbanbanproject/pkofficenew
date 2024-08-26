@@ -1442,7 +1442,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             </div>
             @else
             <div class="col-xl-3 col-md-3">
-                {{-- <a href="{{ url('nurse_index') }}" target="_blank"> --}}
+                <a href="{{ url('nurse_index') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
                         style="background-color: rgba(242, 205, 252, 0.871)">
                         <div class="grid-menu-col">
@@ -1466,7 +1466,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                             </div>
                         </div>
                     </div> 
-                {{-- </a>  --}}
+                </a> 
             </div>
             @endif
             
