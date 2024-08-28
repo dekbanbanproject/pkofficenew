@@ -2913,8 +2913,8 @@ class AccountPKController extends Controller
         $data['ucs_ti']     = DB::connection('mysql')->select('
             SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
             FROM acc_1102050101_2166 a 
-            LEFT JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
-            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDflag IN("UCS","WEL")
+            LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
             GROUP BY b.STMDoc ORDER BY STMDoc DESC
         ');
         
@@ -2931,14 +2931,14 @@ class AccountPKController extends Controller
         $data['ucs_ti']     = DB::connection('mysql')->select('
             SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
             FROM acc_1102050101_2166 a 
-            LEFT JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
-            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDflag IN("UCS","WEL")
+            LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
             GROUP BY b.STMDoc ORDER BY STMDoc DESC
         ');
         $data['datashow']     = DB::connection('mysql')->select('
             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
             FROM acc_1102050101_2166 a 
-            LEFT OUTER JOIN acc_stm_ti_total b ON b.cid = a.cid AND b.vstdate = a.vstdate
+            LEFT OUTER JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
                 WHERE b.STMdoc = "'.$id.'"
                
         ');
