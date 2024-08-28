@@ -100,7 +100,7 @@
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
                     <div class="card-body">    
-                        <div class="row mb-2">
+                        <div class="row mb-3">
                            
                             <div class="col"></div>
                             <div class="col-md-7 text-end">
@@ -130,7 +130,58 @@
                                 </button> 
                             </div>
                         </div>
- 
+
+                        {{-- <p class="mb-0">
+                            <div class="table-responsive">
+                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                style=" border-spacing: 0; width: 100%;">
+                                    <thead>
+                                        <tr>
+                                          
+                                            <th width="5%" class="text-center">ลำดับ</th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
+                                            <th class="text-center" width="5%">vn</th>  
+                                            <th class="text-center" >hn</th>
+                                            <th class="text-center" >cid</th>
+                                            <th class="text-center">ptname</th>
+                                            <th class="text-center">vstdate</th>  
+                                            <th class="text-center">pttype</th> 
+                                            <th class="text-center">spsch</th>  
+                                            <th class="text-center">pdx</th> 
+                                            <th class="text-center">approval_code</th> 
+                                            <th class="text-center">ลูกหนี้</th>   
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1; ?>
+                                        @foreach ($acc_debtor as $item) 
+                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
+                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                @if ($item->debit_total == '')
+                                                    <td class="text-center" width="5%">
+                                                        <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                    </td> 
+                                                @else
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                @endif 
+                                                <td class="text-center" width="5%">{{ $item->vn }}</td>  
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
+                                                <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                <td class="p-2" >{{ $item->ptname }}</td> 
+                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
+                                                <td class="text-start" width="5%">{{ $item->icd10 }}</td> 
+                                                <td class="text-center" width="7%">{{ $item->approval_code }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td>  
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </p> --}}
+
+                   
                         <div class="row">
                             <div class="col-md-12">
                                     <!-- Nav tabs -->
