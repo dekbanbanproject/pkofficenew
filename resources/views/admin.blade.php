@@ -1412,7 +1412,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                 </a>
             </div>
 
-            @if (per_nurse != 0)
+            @if ($per_nurse != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('nurse_index') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
