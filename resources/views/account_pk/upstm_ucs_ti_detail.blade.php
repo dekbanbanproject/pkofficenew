@@ -123,7 +123,7 @@
                                     <thead>
                                         <tr> 
                                             <th class="text-center">STMDoc</th>
-                                            <th class="text-center">total</th>   
+                                            {{-- <th class="text-center">total</th>    --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -133,9 +133,9 @@
                                             <?php $number++; ?> 
                                             <tr height="20"> 
                                                 <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> 
-                                                    <a href="{{url('upstm_ucs_ti_detail/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>  
-                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td>
-                                                </td>   
+                                                    <a href="{{url('upstm_ucs_ti_detail/'.$item_1->STMDoc)}}"> {{ $item_1->STMDoc }}</a>   </td> 
+                                                {{-- <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_1->total, 2) }}</td> --}}
+                                                 
                                             </tr>
                                         @endforeach 
                                     </tbody> 

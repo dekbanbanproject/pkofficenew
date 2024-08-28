@@ -2910,13 +2910,21 @@ class AccountPKController extends Controller
         $startdate           = $request->startdate;
         $enddate             = $request->enddate;
         // $data['ucs_ti']       = DB::connection('mysql')->select('SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc ORDER BY STMDoc DESC');
+        // $data['ucs_ti']     = DB::connection('mysql')->select('
+        //     SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+        //     FROM acc_1102050101_2166 a 
+        //     LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
+        //     WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
+        //     GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        // ');
+
         $data['ucs_ti']     = DB::connection('mysql')->select('
-            SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
-            FROM acc_1102050101_2166 a 
-            LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
-            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
-            GROUP BY b.STMDoc ORDER BY STMDoc DESC
-        ');
+        SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+        FROM acc_stm_ti_total b 
+        
+        WHERE b.STMDoc LIKE "10978_DCKD%" AND b.HDBill_TBill_HDflag IN("UCS","WEL")
+        GROUP BY b.STMDoc ORDER BY STMDoc DESC
+    ');
         
         return view('account_pk.upstm_ucs_ti',$data,[
             'startdate'     =>     $startdate,
@@ -2930,11 +2938,18 @@ class AccountPKController extends Controller
         $enddate             = $request->enddate; 
         $data['ucs_ti']     = DB::connection('mysql')->select('
             SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
-            FROM acc_1102050101_2166 a 
-            LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
-            WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
+            FROM acc_stm_ti_total b 
+            
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND b.HDBill_TBill_HDflag IN("UCS","WEL")
             GROUP BY b.STMDoc ORDER BY STMDoc DESC
         ');
+    //     $data['ucs_ti']     = DB::connection('mysql')->select('
+    //     SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+    //     FROM acc_1102050101_2166 a 
+    //     LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
+    //     WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
+    //     GROUP BY b.STMDoc ORDER BY STMDoc DESC
+    // ');
         $data['datashow']     = DB::connection('mysql')->select('
             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
             FROM acc_1102050101_2166 a 
