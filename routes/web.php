@@ -2184,6 +2184,8 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'account_401_stam', [App\Http\Controllers\Account401Controller::class, 'account_401_stam'])->name('acc.account_401_stam'); //  stamp OPD
   Route::match(['get', 'post'], 'account_401_destroy_all', [App\Http\Controllers\Account401Controller::class, 'account_401_destroy_all'])->name('acc.account_401_destroy_all'); //
   Route::match(['get', 'post'], 'account_401_yok/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401_yok'])->name('acc.account_401_yok'); //
+  Route::match(['get', 'post'], 'account_401_export_api', [App\Http\Controllers\Account401Controller::class, 'account_401_export_api'])->name('acc.account_401_export_api'); //
+  Route::match(['get', 'post'], 'account_401_send_api', [App\Http\Controllers\Account401Controller::class, 'account_401_send_api'])->name('acc.account_401_send_api'); //
 
   Route::match(['get', 'post'], 'account_402_dash', [App\Http\Controllers\Account402Controller::class, 'account_402_dash'])->name('acc.account_402_dash'); //
   Route::match(['get', 'post'], 'account_402_pull', [App\Http\Controllers\Account402Controller::class, 'account_402_pull'])->name('acc.account_402_pull'); //

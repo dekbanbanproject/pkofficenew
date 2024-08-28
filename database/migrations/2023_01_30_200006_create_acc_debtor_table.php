@@ -23,6 +23,10 @@ return new class extends Migration
                 $table->string('hn')->nullable();// 
                 $table->string('cid')->nullable();//  
                 $table->string('ptname')->nullable();// 
+
+                $table->enum('active_looknee', ['N','Y','E'])->default('N'); 
+                $table->enum('active_claim', ['N','Y','E'])->default('N'); 
+
                 $table->date('vstdate')->nullable();//
                 $table->Time('vsttime')->nullable();// 
                 $table->string('hm')->nullable();//

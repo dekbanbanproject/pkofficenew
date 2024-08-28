@@ -71,13 +71,14 @@
                         </div>
                     </div>
                     <div class="card-body">
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="example" class="table table-striped" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" >Username</th>
-                                    <th class="text-center" >Password</th>
-                                    <th class="text-center" >Token</th>
+                                    <th class="text-center">Username</th>
+                                    <th class="text-center">Password</th>
+                                    <th class="text-center">Token fdh/new-eclaim</th>
+                                    {{-- <th class="text-center">Token new-eclaim</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,12 +88,16 @@
 
                                         <tr height="20" >
                                             <td class="text-center" width="4%">{{ $number}}</td>
-                                            <td class="text-center" width="8%">{{ $item->api_neweclaim_user }}</td>
+                                            <td class="text-center">{{ $item->api_neweclaim_user }}</td>
                                             <td class="text-center" width="8%">
                                                 <input type="password" class="form-control form-control-sm" value="{{ $item->api_neweclaim_pass }}">
                                                 {{-- {{ $item->api_neweclaim_pass }} --}}
                                             </td>
-                                            <td class="p-2" style="font-size: 11px;">{{ $item->api_neweclaim_token }}</td>
+                                            <td class="p-2" style="font-size: 11px;" width="30%">
+                                                {{ $item->api_neweclaim_token }}<br>
+                                                <p style="font-size: 11px;color:#1fdab1">{{ $item->new_eclaim_token }}</p>
+                                            </td>
+                                            {{-- <td class="p-2" style="font-size: 11px;" width="30%">{{ $item->new_eclaim_token }}</td> --}}
                                         </tr>
 
                                 @endforeach
