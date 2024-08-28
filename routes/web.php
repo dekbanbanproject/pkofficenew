@@ -471,13 +471,13 @@ Route::match(['get', 'post'], 'fdh_mini_dataset_pulljongauto', [App\Http\Control
 
 Route::get('/', function () {
     if (Auth::check()) {
-        if (Auth::user()->type = 'ADMIN') {
+        // if (Auth::user()->type = 'ADMIN') {
+        //   return view('welcome');
+        // } elseif (Auth::user()->type = 'SUPPLIES') {
+        //   return view('home_supplies');
+        // } else {
           return view('welcome');
-        } elseif (Auth::user()->type = 'SUPPLIES') {
-          return view('home_supplies');
-        } else {
-          return view('welcome');
-        }
+        // }
     } else {
       return view('auth.login');
     }
