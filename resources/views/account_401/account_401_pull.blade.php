@@ -110,7 +110,7 @@
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
                                      <i class="fa-solid fa-sack-dollar me-2"></i>
-                                    Process
+                                    ประมวลผล
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
                                     <i class="fa-solid fa-upload me-2"></i>
@@ -1244,7 +1244,7 @@
                 } else {
                     Swal.fire({ position: "top-end",
                         title: 'Are you Want Process sure?',
-                        text: "คุณต้องการ Process รายการนี้ใช่ไหม!",
+                        text: "คุณต้องการ ประมวลผล รายการนี้ใช่ไหม!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

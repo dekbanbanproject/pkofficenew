@@ -195,8 +195,7 @@ class NeweclaimController extends Controller
        
             $token = $response->json('token');
             // dd($token); 
-            $check = Api_neweclaim::where('api_neweclaim_user',$username)
-            ->where('active_mini','E')->count();
+            $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('active_mini','E')->count();
             if ($check > 0) { 
                 Api_neweclaim::where('api_neweclaim_user',$username)->where('active_mini','E')->update([ 
                     'new_eclaim_pass'           => $password,

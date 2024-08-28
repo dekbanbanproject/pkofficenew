@@ -2144,7 +2144,7 @@ class Account401Controller extends Controller
     public function account_401_send_api(Request $request)
     {  
         $iduser = Auth::user()->id;
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
         foreach ($data_token_ as $key => $val_to) {
             // $username     = $val_to->api_neweclaim_user;
             // $password     = $val_to->api_neweclaim_pass;
@@ -2308,7 +2308,7 @@ class Account401Controller extends Controller
             
             $content = $server_output;
             $result = json_decode($content, true);
-            
+            // dd($result);
             #echo "<BR>";
             @$status = $result['status'];
             #echo "<BR>";
