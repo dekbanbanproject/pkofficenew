@@ -2463,11 +2463,12 @@ class FdhController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" 
                 AND vp.claim_code is null
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND c.main_dep NOT IN("011","036","107","078","020") 
+                AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                
                 AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
                 GROUP BY c.vn 
             ');
+            // AND c.main_dep NOT IN("011","036","107","078","020") 
         } else {
             $data_vn_1 = DB::connection('mysql10')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -2480,11 +2481,12 @@ class FdhController extends Controller
                 LEFT JOIN pttype pt on pt.pttype=v.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" 
                 AND v.income > 0 
                 GROUP BY o.vn 
             ');
+            // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             // AND (vs.claim_code IS NULL OR vs.claim_code ="")
             foreach ($data_vn_1 as $key => $value_1) {                
                 $check = Check_sit_auto::where('vn', $value_1->vn)->count();
