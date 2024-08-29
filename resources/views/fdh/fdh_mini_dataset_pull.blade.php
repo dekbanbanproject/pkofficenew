@@ -119,6 +119,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่ง Minidataset
                     </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('fdh_mini_dataset_endpoint')}}">
+                        <i class="fa-solid fa-spinner text-danger me-2"></i>
+                        ส่ง End Point
+                    </button>
                    
                   
                 </div> 
@@ -153,18 +157,22 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th width="5%" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
+                                    <th width="auto" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
+                                    <th class="text-center" width="5%">FDH</th>
+                                    <th class="text-center" width="5%">NHSO</th>
                                     <th class="text-center" width="7%">vstdate</th>
-                                    <th class="text-center" width="10%">service_date_time</th>
+                                    <th class="text-center" width="10%">service_date</th>
                                     <th class="text-center" width="7%">cid</th>
                                     <th class="text-center" width="7%">vn</th>
                                     <th class="text-center" width="5%">hn</th>
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center" width="5%">hcode</th>
-                                    <th class="text-center" width="7%">total_amout</th>
-                                    <th class="text-center" width="7%">invoice_number</th>
-                                   
+                                    <th class="text-center" width="5%">amout</th>
+                                    <th class="text-center" width="7%">invoice</th>
+                                    <th class="text-center" width="5%">paidAmount</th>
+                                    {{-- <th class="text-center" width="5%">privilege</th> --}}
+                                    {{-- <th class="text-center" width="5%">mainInscl</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -174,13 +182,27 @@ $pos = strrpos($url, '/') + 1;
 
                                         <tr height="20" >
                                             <td class="text-center" width="5%">{{ $number}}</td>
-                                            @if ($item->invoice_number == '')
+                                            @if ($item->invoice_number == '' )
                                             <td class="text-center" width="5%">
                                                 <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                             </td> 
                                             @else
                                                 <td class="text-center" width="5%"><input type="checkbox" class="fdhcheckbox sub_chk" data-id="{{$item->fdh_mini_dataset_id}}"> </td> 
                                             @endif 
+                                            <td class="text-center" width="5%"> 
+                                                @if ($item->active == 'Y')
+                                                    <span class="bg-success badge">{{ $item->active }}</span> 
+                                                @else
+                                                    <span class="bg-danger badge">{{ $item->active }}</span> 
+                                                @endif                                               
+                                            </td>
+                                            <td class="text-center" width="5%"> 
+                                                @if ($item->active_nhso == 'Y')
+                                                    <span class="bg-success badge">{{ $item->active_nhso }}</span> 
+                                                @else
+                                                    <span class="bg-danger badge">{{ $item->active_nhso }}</span> 
+                                                @endif 
+                                            </td>
                                            <td class="text-center" width="7%">{{ $item->vstdate }}</td>
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
@@ -191,6 +213,10 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="5%">{{ $item->hcode }}</td>
                                             <td class="text-center" width="7%">{{ $item->total_amout }}</td>
                                             <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
+
+                                            <td class="text-center" width="5%">{{ $item->rcpt_money }}</td>
+                                            {{-- <td class="text-center" width="5%">{{ $item->uc_money }}</td> --}}
+                                            {{-- <td class="text-center" width="5%">{{ $item->mainInsclCode}}</td> --}}
                                            
                                         </tr>
 
@@ -279,7 +305,140 @@ $pos = strrpos($url, '/') + 1;
         });
         $("#spinner-div").hide(); //Request is complete so hide spinner
        
-            $('.Claim').on('click', function(e) {
+        $('.Claim').on('click', function(e) {
+            // alert('oo');
+            var allValls = [];
+            // $(".sub_destroy:checked").each(function () {
+            $(".sub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) {
+                // alert("SSSS");
+                Swal.fire({
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
+                    
+                    })
+            } else {
+                Swal.fire({
+                    title: 'Are you Want Send sure?',
+                    text: "คุณต้องการ Send รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Send it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+
+                                $.ajax({
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
+                                               
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    position: "top-end",
+                                                    title: 'ส่งข้อมูลสำเร็จ',
+                                                    text: "You Send data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            } else if (data.status == 100) {
+                                                Swal.fire({
+                                                    title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
+                                                    text: "Found duplicate claim booking information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else if (data.status == 400) {
+                                                Swal.fire({
+                                                    title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
+                                                    text: "Found duplicate claim booking information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else if (data.status == 900) {
+                                                Swal.fire({
+                                                    title: 'ข้อมูลในระบบไม่เจอ',
+                                                    text: "Found information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            } 
+                                        } 
+                                    
+                                });
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                });
+                            }
+                        }
+                    }) 
+                // var check = confirm("Are you want ?");  
+            }
+        });
+
+        // Claim_endpoint
+        $('.Claim_endpoint').on('click', function(e) {
             // alert('oo');
             var allValls = [];
             // $(".sub_destroy:checked").each(function () {

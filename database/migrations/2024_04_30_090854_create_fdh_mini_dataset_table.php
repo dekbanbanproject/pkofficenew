@@ -33,12 +33,22 @@ return new class extends Migration
                 $table->date('datesave')->nullable();//  วั่นที่ส่ง 
                 $table->string('user_id')->nullable();//  ผู้ส่ง
                 $table->enum('active', ['N','Y'])->default('N')->nullable();
+                $table->enum('active_nhso', ['N','Y'])->default('N')->nullable();
                 $table->longText('transaction_uid')->nullable();// 
                 $table->string('id_booking')->nullable();// 
                 $table->string('uuid_booking')->nullable();// 
-                $table->string('claimcode')->nullable();// 
-                $table->string('claimtype')->nullable();// 
+                $table->string('claimcode')->nullable();//   
+                $table->string('claimtype')->nullable();//   claimServiceCode
                 $table->string('servicename')->nullable();// 
+
+                $table->string('rcpt_money')->nullable();//   paidAmount
+                $table->string('uc_money')->nullable();//     privilegeAmount
+                $table->string('mainInsclCode')->nullable();// mainInscl
+                // $table->string('claimServiceCode')->nullable();// PG0060001
+                $table->string('sourceId')->nullable();//  PKOFFICE
+                $table->string('computerName')->nullable();//
+                $table->string('recorderPid')->nullable();//   cid authคนที่ ใช้เครื่อง
+
                 $table->timestamps();
             }); 
         }

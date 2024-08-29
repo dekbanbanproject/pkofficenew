@@ -112,14 +112,14 @@
                                      <i class="fa-solid fa-sack-dollar me-2"></i>
                                     ประมวลผล
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
                                     <i class="fa-solid fa-upload me-2"></i>
                                     ส่ง New Eclaim
-                                </button>
-                                {{-- <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                </button> --}}
+                                <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
-                                </a>    --}}
+                                </a>   
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้

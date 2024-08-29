@@ -4511,16 +4511,16 @@ class AccountPKController extends Controller
                     ]); 
 
                 $add = new Acc_stm_ti_total();
-                $add->repno              = $value->repno;
-                $add->hn                 = $value->hn;
-                $add->cid                = $value->cid;
-                $add->fullname           = $value->fullname;
-                $add->vstdate            = $value->vstdate;
-                $add->amount             = $value->pay_amount;
-                $add->sum_price_approve  = $value->total_pay;
-                $add->Total_amount       = $value->total_pay;
-                $add->STMdoc             = $value->filename;
-                $add->HDflag             = $value->hipdata_code;
+                // $add->repno                  = $value->repno;
+                $add->HDBill_hn               = $value->hn;
+                $add->HDBill_pid              = $value->cid;
+                $add->HDBill_name             = $value->fullname;
+                $add->vstdate                 = $value->vstdate;
+                $add->HDBill_TBill_amount     = $value->pay_amount;
+                $add->sum_price_approve       = $value->total_pay;
+                $add->Total_amount            = $value->total_pay;
+                $add->STMdoc                  = $value->filename;
+                $add->HDBill_TBill_HDflag     = $value->hipdata_code;
                 $add->save();
              
 
