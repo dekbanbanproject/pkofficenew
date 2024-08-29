@@ -126,6 +126,7 @@ use Http;
 use SoapClient;
 use Arr;
 use GuzzleHttp\Client;
+ 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
@@ -1928,13 +1929,11 @@ class FdhController extends Controller
     //    dd($data_vn_1);
         foreach ($data_vn_1 as $key => $val) {
             $service_date_time_   = $val->service_date_time;
-            $service_date_time    = substr($service_date_time_,0,16);
-          
+            $service_date_time    = substr($service_date_time_,0,16);          
             $hcode                = $val->hcode;
             $vn                   = $val->vn;
             $cid                  = $val->cid;
             $transactionld        = $val->transaction_uid;
-
             $mainInsclCode        = $val->mainInsclCode;
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
@@ -1942,10 +1941,33 @@ class FdhController extends Controller
             $uc_money             = $val->uc_money; 
             $claimtype            = $val->claimtype; 
 
-                $response = Http::withHeaders([ 
-                    'User-Agent:<platform>/<version> <10978>',
-                    'Accept' => 'application/json',
-                ])->post('https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail', [
+                // $response = Http::withHeaders([ 
+                //     'User-Agent:<platform>/<version> <10978>',
+                //     'Accept' => 'application/json',
+                // ])->post('https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail', [
+                //     "hcode"              => $hcode,
+                //     "visitNumber"        => $vn,
+                //     "pid"                => $cid,
+                //     "transactionId"      => $transactionld,
+                //     "serviceDateTime"    => $service_date_time,
+                //     "invoiceDateTime"    => $service_date_time,
+                //     "mainInsclCode"      => $mainInsclCode,
+                //     "totalAmount"        => $total_amout,
+                //     "paidAmount"         => $rcpt_money,
+                //     "privilegeAmount"    => $uc_money,
+                //     "claimServiceCode"   => $claimtype,
+                //     "sourceId"           => 'PKOFFICE',
+                //     // "computerName"       => $vn,
+                //     "recorderPid"        => $cid_auth
+                // ]);     
+                // $token = $response->json('token');
+                // dd($token);
+                $headers_send  = [    
+                    'User-Agent:<platform>/<version> <10978>',        
+                    'Content-Type: application/json'  
+                ];
+                $postData_send = [ 
+                    // "service_date_time"  => $service_date_time,                    
                     "hcode"              => $hcode,
                     "visitNumber"        => $vn,
                     "pid"                => $cid,
@@ -1959,11 +1981,26 @@ class FdhController extends Controller
                     "claimServiceCode"   => $claimtype,
                     "sourceId"           => 'PKOFFICE',
                     // "computerName"       => $vn,
-                    "recorderPid"        => $cid_auth
-                ]);        
-        
-                $token = $response->json('token');
-                dd($token);
+                    "recorderPid"        => $cid_auth, 
+                ];
+                // $ch = curl_init();                
+                // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail");
+                // curl_setopt($ch, CURLOPT_POST, 1);
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+                // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
+                // $response     = curl_exec ($ch);
+                // $statusCode        = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                // // dd($statusCode);  
+                // $content           = $response; 
+                // $response     = curl_exec ($ch); 
+                // $contents    = $response; 
+                // $result   = json_decode($contents, true);
+                // dd($result); 
+                // @$content = $result['content']; 
+                // @$status  = $result['status'];
+                // @$message = $result['message'];
+                // $token    = $result['token']; 
 
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
@@ -1980,16 +2017,12 @@ class FdhController extends Controller
                     'Cookie: TS01304219=013bd252cbab02c3c6ba79ba47acbe2ce609e3ec7ce5b0563916b947d2b2ea01d317dd23a3de79511752a4ad3de7a03220659fa9c1'
                 ),
                 ));
-
                 $response = curl_exec($curl);
                 $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
                 $content = $response;
                 $result = json_decode($content, true);
-
-                // curl_close($curl);
-                // echo $response;
-
                 dd($result);
+
                 $curl = curl_init();
                 $postData_send = [ 
                     // "service_date_time"  => $service_date_time,                    
