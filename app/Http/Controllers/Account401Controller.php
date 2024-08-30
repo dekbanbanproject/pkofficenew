@@ -2381,22 +2381,22 @@ class Account401Controller extends Controller
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd_pat, $opd_head_pat);
         $pat = DB::connection('mysql')->select('SELECT * from d_pat where d_anaconda_id = "OFC_401"');
-        foreach ($pat as $key => $value9) {
-            $i1 = $value9->HCODE;
-            $i2 = $value9->HN;
-            $i3 = $value9->CHANGWAT;
-            $i4 = $value9->AMPHUR;
-            $i5 = $value9->DOB;
-            $i6 = $value9->SEX;
-            $i7 = $value9->MARRIAGE;
-            $i8 = $value9->OCCUPA;
-            $i9 = $value9->NATION;
-            $i10 = $value9->PERSON_ID;
-            $i11 = $value9->NAMEPAT;
-            $i12 = $value9->TITLE;
-            $i13 = $value9->FNAME;
-            $i14 = $value9->LNAME;
-            $i15 = $value9->IDTYPE;      
+        foreach ($pat as $key => $value2) {
+            $i1 = $value2->HCODE;
+            $i2 = $value2->HN;
+            $i3 = $value2->CHANGWAT;
+            $i4 = $value2->AMPHUR;
+            $i5 = $value2->DOB;
+            $i6 = $value2->SEX;
+            $i7 = $value2->MARRIAGE;
+            $i8 = $value2->OCCUPA;
+            $i9 = $value2->NATION;
+            $i10 = $value2->PERSON_ID;
+            $i11 = $value2->NAMEPAT;
+            $i12 = $value2->TITLE;
+            $i13 = $value2->FNAME;
+            $i14 = $value2->LNAME;
+            $i15 = $value2->IDTYPE;      
             $strText_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
             $ansitxt_pat_pat = iconv('UTF-8', 'TIS-620', $strText_pat);
             fwrite($objFopen_opd_pat, $ansitxt_pat_pat);
@@ -2409,13 +2409,13 @@ class Account401Controller extends Controller
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('SELECT * from d_opd where d_anaconda_id = "OFC_401"');
-        foreach ($opd as $key => $value15) {
-            $o1 = $value15->HN;
-            $o2 = $value15->CLINIC;
-            $o3 = $value15->DATEOPD; 
-            $o4 = $value15->TIMEOPD; 
-            $o5 = $value15->SEQ; 
-            $o6 = $value15->UUC;  
+        foreach ($opd as $key => $value3) {
+            $o1 = $value3->HN;
+            $o2 = $value3->CLINIC;
+            $o3 = $value3->DATEOPD; 
+            $o4 = $value3->TIMEOPD; 
+            $o5 = $value3->SEQ; 
+            $o6 = $value3->UUC;  
             $strText_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
             $ansitxt_pat_opd = iconv('UTF-8', 'TIS-620', $strText_opd);
             fwrite($objFopen_opd_opd, $ansitxt_pat_opd);
@@ -2428,13 +2428,13 @@ class Account401Controller extends Controller
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd_orf, $opd_head_orf);
         $orf = DB::connection('mysql')->select('SELECT * from d_orf where d_anaconda_id = "OFC_401"');
-        foreach ($orf as $key => $value16) {
-            $p1 = $value16->HN;
-            $p2 = $value16->DATEOPD;
-            $p3 = $value16->CLINIC; 
-            $p4 = $value16->REFER; 
-            $p5 = $value16->REFERTYPE; 
-            $p6 = $value16->SEQ;  
+        foreach ($orf as $key => $value4) {
+            $p1 = $value4->HN;
+            $p2 = $value4->DATEOPD;
+            $p3 = $value4->CLINIC; 
+            $p4 = $value4->REFER; 
+            $p5 = $value4->REFERTYPE; 
+            $p6 = $value4->SEQ;  
             $strText_orf ="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
             $ansitxt_pat_orf = iconv('UTF-8', 'TIS-620', $strText_orf);
             fwrite($objFopen_opd_orf, $ansitxt_pat_orf);
@@ -2447,15 +2447,15 @@ class Account401Controller extends Controller
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd_odx, $opd_head_odx);
         $odx = DB::connection('mysql')->select('SELECT * from d_odx where d_anaconda_id = "OFC_401"');
-        foreach ($odx as $key => $value13) {
-            $m1 = $value13->HN;
-            $m2 = $value13->DATEDX;
-            $m3 = $value13->CLINIC; 
-            $m4 = $value13->DIAG; 
-            $m5 = $value13->DXTYPE; 
-            $m6 = $value13->DRDX; 
-            $m7 = $value13->PERSON_ID; 
-            $m8 = $value13->SEQ; 
+        foreach ($odx as $key => $value5) {
+            $m1 = $value5->HN;
+            $m2 = $value5->DATEDX;
+            $m3 = $value5->CLINIC; 
+            $m4 = $value5->DIAG; 
+            $m5 = $value5->DXTYPE; 
+            $m6 = $value5->DRDX; 
+            $m7 = $value5->PERSON_ID; 
+            $m8 = $value5->SEQ; 
             $strText_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
             $ansitxt_pat_odx = iconv('UTF-8', 'TIS-620', $strText_odx);
             fwrite($objFopen_opd_odx, $ansitxt_pat_odx);
@@ -2468,14 +2468,14 @@ class Account401Controller extends Controller
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd_oop, $opd_head_oop);
         $oop = DB::connection('mysql')->select('SELECT * from d_oop where d_anaconda_id = "OFC_401"');
-        foreach ($oop as $key => $value14) {
-            $n1 = $value14->HN;
-            $n2 = $value14->DATEOPD;
-            $n3 = $value14->CLINIC; 
-            $n4 = $value14->OPER; 
-            $n5 = $value14->DROPID; 
-            $n6 = $value14->PERSON_ID; 
-            $n7 = $value14->SEQ;  
+        foreach ($oop as $key => $value6) {
+            $n1 = $value6->HN;
+            $n2 = $value6->DATEOPD;
+            $n3 = $value6->CLINIC; 
+            $n4 = $value6->OPER; 
+            $n5 = $value6->DROPID; 
+            $n6 = $value6->PERSON_ID; 
+            $n7 = $value6->SEQ;  
             $strText_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
             $ansitxt_pat_oop = iconv('UTF-8', 'TIS-620', $strText_oop);
             fwrite($objFopen_opd_oop, $ansitxt_pat_oop);
@@ -2488,20 +2488,20 @@ class Account401Controller extends Controller
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd_ipd, $opd_head_ipd);
         $ipd = DB::connection('mysql')->select('SELECT * from d_ipd where d_anaconda_id = "OFC_401"');
-        foreach ($ipd as $key => $value10) {
-            $j1 = $value10->HN;
-            $j2 = $value10->AN;
-            $j3 = $value10->DATEADM;
-            $j4 = $value10->TIMEADM;
-            $j5 = $value10->DATEDSC;
-            $j6 = $value10->TIMEDSC;
-            $j7 = $value10->DISCHS;
-            $j8 = $value10->DISCHT;
-            $j9 = $value10->WARDDSC;
-            $j10 = $value10->DEPT;
-            $j11 = $value10->ADM_W;
-            $j12 = $value10->UUC;
-            $j13 = $value10->SVCTYPE;    
+        foreach ($ipd as $key => $value7) {
+            $j1 = $value7->HN;
+            $j2 = $value7->AN;
+            $j3 = $value7->DATEADM;
+            $j4 = $value7->TIMEADM;
+            $j5 = $value7->DATEDSC;
+            $j6 = $value7->TIMEDSC;
+            $j7 = $value7->DISCHS;
+            $j8 = $value7->DISCHT;
+            $j9 = $value7->WARDDSC;
+            $j10 = $value7->DEPT;
+            $j11 = $value7->ADM_W;
+            $j12 = $value7->UUC;
+            $j13 = $value7->SVCTYPE;    
             $strText_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
             $ansitxt_pat_ipd = iconv('UTF-8', 'TIS-620', $strText_ipd);
             fwrite($objFopen_opd_ipd, $ansitxt_pat_ipd);
@@ -2514,10 +2514,10 @@ class Account401Controller extends Controller
          $opd_head_irf = 'AN|REFER|REFERTYPE';
          fwrite($objFopen_opd_irf, $opd_head_irf);
          $irf = DB::connection('mysql')->select('SELECT * from d_irf where d_anaconda_id = "OFC_401"');
-         foreach ($irf as $key => $value11) {
-             $k1 = $value11->AN;
-             $k2 = $value11->REFER;
-             $k3 = $value11->REFERTYPE; 
+         foreach ($irf as $key => $value8) {
+             $k1 = $value8->AN;
+             $k2 = $value8->REFER;
+             $k3 = $value8->REFERTYPE; 
              $strText_irf="\n".$k1."|".$k2."|".$k3;
              $ansitxt_pat_irf = iconv('UTF-8', 'TIS-620', $strText_irf);
              fwrite($objFopen_opd_irf, $ansitxt_pat_irf);
@@ -2530,11 +2530,11 @@ class Account401Controller extends Controller
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd_idx, $opd_head_idx);
         $idx = DB::connection('mysql')->select('SELECT * from d_idx where d_anaconda_id = "OFC_401"');
-        foreach ($idx as $key => $value8) {
-            $h1 = $value8->AN;
-            $h2 = $value8->DIAG;
-            $h3 = $value8->DXTYPE;
-            $h4 = $value8->DRDX; 
+        foreach ($idx as $key => $value9) {
+            $h1 = $value9->AN;
+            $h2 = $value9->DIAG;
+            $h3 = $value9->DXTYPE;
+            $h4 = $value9->DRDX; 
             $strText_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
             $ansitxt_pat_idx = iconv('UTF-8', 'TIS-620', $strText_idx);
             fwrite($objFopen_opd_idx, $ansitxt_pat_idx);
@@ -2547,15 +2547,15 @@ class Account401Controller extends Controller
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd_iop, $opd_head_iop);
         $iop = DB::connection('mysql')->select('SELECT * from d_iop where d_anaconda_id = "OFC_401"');
-        foreach ($iop as $key => $value2) {
-            $b1 = $value2->AN;
-            $b2 = $value2->OPER;
-            $b3 = $value2->OPTYPE;
-            $b4 = $value2->DROPID;
-            $b5 = $value2->DATEIN;
-            $b6 = $value2->TIMEIN;
-            $b7 = $value2->DATEOUT;
-            $b8 = $value2->TIMEOUT;           
+        foreach ($iop as $key => $value10) {
+            $b1 = $value10->AN;
+            $b2 = $value10->OPER;
+            $b3 = $value10->OPTYPE;
+            $b4 = $value10->DROPID;
+            $b5 = $value10->DATEIN;
+            $b6 = $value10->TIMEIN;
+            $b7 = $value10->DATEOUT;
+            $b8 = $value10->TIMEOUT;           
             $strText_iop ="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
             $ansitxt_pat_iop = iconv('UTF-8', 'TIS-620', $strText_iop);
             fwrite($objFopen_opd_iop, $ansitxt_pat_iop);
@@ -2568,15 +2568,15 @@ class Account401Controller extends Controller
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd_cht, $opd_head_cht);
         $cht = DB::connection('mysql')->select('SELECT * from d_cht where d_anaconda_id = "OFC_401"');
-        foreach ($cht as $key => $value6) {
-            $f1 = $value6->HN;
-            $f2 = $value6->AN;
-            $f3 = $value6->DATE;
-            $f4 = $value6->TOTAL;
-            $f5 = $value6->PAID;
-            $f6 = $value6->PTTYPE;
-            $f7 = $value6->PERSON_ID; 
-            $f8 = $value6->SEQ;
+        foreach ($cht as $key => $value11) {
+            $f1 = $value11->HN;
+            $f2 = $value11->AN;
+            $f3 = $value11->DATE;
+            $f4 = $value11->TOTAL;
+            $f5 = $value11->PAID;
+            $f6 = $value11->PTTYPE;
+            $f7 = $value11->PERSON_ID; 
+            $f8 = $value11->SEQ;
             $strText_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
             $ansitxt_pat_cht = iconv('UTF-8', 'TIS-620', $strText_cht);
             fwrite($objFopen_opd_cht, $ansitxt_pat_cht);
@@ -2589,14 +2589,14 @@ class Account401Controller extends Controller
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd_cha, $opd_head_cha);
         $cha = DB::connection('mysql')->select('SELECT * from d_cha where d_anaconda_id = "OFC_401"');
-        foreach ($cha as $key => $value5) {
-            $e1 = $value5->HN;
-            $e2 = $value5->AN;
-            $e3 = $value5->DATE;
-            $e4 = $value5->CHRGITEM;
-            $e5 = $value5->AMOUNT;
-            $e6 = $value5->PERSON_ID;
-            $e7 = $value5->SEQ; 
+        foreach ($cha as $key => $value12) {
+            $e1 = $value12->HN;
+            $e2 = $value12->AN;
+            $e3 = $value12->DATE;
+            $e4 = $value12->CHRGITEM;
+            $e5 = $value12->AMOUNT;
+            $e6 = $value12->PERSON_ID;
+            $e7 = $value12->SEQ; 
             $strText_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
             $ansitxt_pat_cha = iconv('UTF-8', 'TIS-620', $strText_cha);
             fwrite($objFopen_opd_cha, $ansitxt_pat_cha);
@@ -2609,25 +2609,25 @@ class Account401Controller extends Controller
         $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd_aer, $opd_head_aer);
         $aer = DB::connection('mysql')->select('SELECT * from d_aer where d_anaconda_id = "OFC_401"');
-        foreach ($aer as $key => $value4) {
-            $d1 = $value4->HN;
-            $d2 = $value4->AN;
-            $d3 = $value4->DATEOPD;
-            $d4 = $value4->AUTHAE;
-            $d5 = $value4->AEDATE;
-            $d6 = $value4->AETIME;
-            $d7 = $value4->AETYPE;
-            $d8 = $value4->REFER_NO;
-            $d9 = $value4->REFMAINI;
-            $d10 = $value4->IREFTYPE;
-            $d11 = $value4->REFMAINO;
-            $d12 = $value4->OREFTYPE;
-            $d13 = $value4->UCAE;
-            $d14 = $value4->EMTYPE;
-            $d15 = $value4->SEQ;
-            $d16 = $value4->AESTATUS;
-            $d17 = $value4->DALERT;
-            $d18 = $value4->TALERT;        
+        foreach ($aer as $key => $value13) {
+            $d1 = $value13->HN;
+            $d2 = $value13->AN;
+            $d3 = $value13->DATEOPD;
+            $d4 = $value13->AUTHAE;
+            $d5 = $value13->AEDATE;
+            $d6 = $value13->AETIME;
+            $d7 = $value13->AETYPE;
+            $d8 = $value13->REFER_NO;
+            $d9 = $value13->REFMAINI;
+            $d10 = $value13->IREFTYPE;
+            $d11 = $value13->REFMAINO;
+            $d12 = $value13->OREFTYPE;
+            $d13 = $value13->UCAE;
+            $d14 = $value13->EMTYPE;
+            $d15 = $value13->SEQ;
+            $d16 = $value13->AESTATUS;
+            $d17 = $value13->DALERT;
+            $d18 = $value13->TALERT;        
             $strText_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
             $ansitxt_pat_aer = iconv('UTF-8', 'TIS-620', $strText_aer);
             fwrite($objFopen_opd_aer, $ansitxt_pat_aer);
@@ -2640,34 +2640,34 @@ class Account401Controller extends Controller
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd_adp, $opd_head_adp);
         $adp = DB::connection('mysql')->select('SELECT * from d_adp where d_anaconda_id = "OFC_401"');
-        foreach ($adp as $key => $value3) {
-            $c1 = $value3->HN;
-            $c2 = $value3->AN;
-            $c3 = $value3->DATEOPD;
-            $c4 = $value3->TYPE;
-            $c5 = $value3->CODE;
-            $c6 = $value3->QTY;
-            $c7 = $value3->RATE;
-            $c8 = $value3->SEQ;
-            $c9 = $value3->CAGCODE;
-            $c10 = $value3->DOSE;
-            $c11 = $value3->CA_TYPE;
-            $c12 = $value3->SERIALNO;
-            $c13 = $value3->TOTCOPAY;
-            $c14 = $value3->USE_STATUS;
-            $c15 = $value3->TOTAL;
-            $c16 = $value3->QTYDAY;
-            $c17 = $value3->TMLTCODE;
-            $c18 = $value3->STATUS1;
-            $c19 = $value3->BI;
-            $c20 = $value3->CLINIC;
-            $c21 = $value3->ITEMSRC;
-            $c22 = $value3->PROVIDER;
-            $c23 = $value3->GRAVIDA;
-            $c24 = $value3->GA_WEEK;
-            $c25 = $value3->DCIP;
-            $c26 = $value3->LMP;
-            $c27 = $value3->SP_ITEM;           
+        foreach ($adp as $key => $value14) {
+            $c1 = $value14->HN;
+            $c2 = $value14->AN;
+            $c3 = $value14->DATEOPD;
+            $c4 = $value14->TYPE;
+            $c5 = $value14->CODE;
+            $c6 = $value14->QTY;
+            $c7 = $value14->RATE;
+            $c8 = $value14->SEQ;
+            $c9 = $value14->CAGCODE;
+            $c10 = $value14->DOSE;
+            $c11 = $value14->CA_TYPE;
+            $c12 = $value14->SERIALNO;
+            $c13 = $value14->TOTCOPAY;
+            $c14 = $value14->USE_STATUS;
+            $c15 = $value14->TOTAL;
+            $c16 = $value14->QTYDAY;
+            $c17 = $value14->TMLTCODE;
+            $c18 = $value14->STATUS1;
+            $c19 = $value14->BI;
+            $c20 = $value14->CLINIC;
+            $c21 = $value14->ITEMSRC;
+            $c22 = $value14->PROVIDER;
+            $c23 = $value14->GRAVIDA;
+            $c24 = $value14->GA_WEEK;
+            $c25 = $value14->DCIP;
+            $c26 = $value14->LMP;
+            $c27 = $value14->SP_ITEM;           
             $strText_adp ="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
             $ansitxt_pat_adp = iconv('UTF-8', 'TIS-620', $strText_adp);
             fwrite($objFopen_opd_adp, $ansitxt_pat_adp);
@@ -2680,30 +2680,30 @@ class Account401Controller extends Controller
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd_dru, $opd_head_dru);
         $dru = DB::connection('mysql')->select('SELECT * from d_dru where d_anaconda_id = "OFC_401"');
-        foreach ($dru as $key => $value7) {
-            $g1 = $value7->HCODE;
-            $g2 = $value7->HN;
-            $g3 = $value7->AN;
-            $g4 = $value7->CLINIC;
-            $g5 = $value7->PERSON_ID;
-            $g6 = $value7->DATE_SERV;
-            $g7 = $value7->DID;
-            $g8 = $value7->DIDNAME;
-            $g9 = $value7->AMOUNT;
-            $g10 = $value7->DRUGPRIC;
-            $g11 = $value7->DRUGCOST;
-            $g12 = $value7->DIDSTD;
-            $g13 = $value7->UNIT;
-            $g14 = $value7->UNIT_PACK;
-            $g15 = $value7->SEQ;
-            $g16 = $value7->DRUGREMARK;
-            $g17 = $value7->PA_NO;
-            $g18 = $value7->TOTCOPAY;
-            $g19 = $value7->USE_STATUS;
-            $g20 = $value7->TOTAL;
-            $g21 = $value7->SIGCODE;
-            $g22 = $value7->SIGTEXT;  
-            $g23 = $value7->SIGTEXT;      
+        foreach ($dru as $key => $value15) {
+            $g1 = $value15->HCODE;
+            $g2 = $value15->HN;
+            $g3 = $value15->AN;
+            $g4 = $value15->CLINIC;
+            $g5 = $value15->PERSON_ID;
+            $g6 = $value15->DATE_SERV;
+            $g7 = $value15->DID;
+            $g8 = $value15->DIDNAME;
+            $g9 = $value15->AMOUNT;
+            $g10 = $value15->DRUGPRIC;
+            $g11 = $value15->DRUGCOST;
+            $g12 = $value15->DIDSTD;
+            $g13 = $value15->UNIT;
+            $g14 = $value15->UNIT_PACK;
+            $g15 = $value15->SEQ;
+            $g16 = $value15->DRUGREMARK;
+            $g17 = $value15->PA_NO;
+            $g18 = $value15->TOTCOPAY;
+            $g19 = $value15->USE_STATUS;
+            $g20 = $value15->TOTAL;
+            $g21 = $value15->SIGCODE;
+            $g22 = $value15->SIGTEXT;  
+            $g23 = $value15->SIGTEXT;      
             $strText_dru ="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
             $ansitxt_pat_dru = iconv('UTF-8', 'TIS-620', $strText_dru);
             fwrite($objFopen_opd_dru, $ansitxt_pat_dru);
@@ -2716,14 +2716,14 @@ class Account401Controller extends Controller
         $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd_lvd, $opd_head_lvd);
         $lvd = DB::connection('mysql')->select('SELECT * from d_lvd where d_anaconda_id = "OFC_401"');
-        foreach ($lvd as $key => $value12) {
-            $L1 = $value12->SEQLVD;
-            $L2 = $value12->AN;
-            $L3 = $value12->DATEOUT; 
-            $L4 = $value12->TIMEOUT; 
-            $L5 = $value12->DATEIN; 
-            $L6 = $value12->TIMEIN; 
-            $L7 = $value12->QTYDAY; 
+        foreach ($lvd as $key => $value16) {
+            $L1 = $value16->SEQLVD;
+            $L2 = $value16->AN;
+            $L3 = $value16->DATEOUT; 
+            $L4 = $value16->TIMEOUT; 
+            $L5 = $value16->DATEIN; 
+            $L6 = $value16->TIMEIN; 
+            $L7 = $value16->QTYDAY; 
             $strText_lvd ="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
             $ansitxt_pat_lvd = iconv('UTF-8', 'TIS-620', $strText_lvd);
             fwrite($objFopen_opd_lvd, $ansitxt_pat_lvd);
