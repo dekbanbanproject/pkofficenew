@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_cctv')
 @section('title', 'PK-OFFICE || CCTV')
 
 <style>
@@ -51,7 +51,7 @@ $loter = $date.''.$time
     ?>
 
 <div class="tabs-animation">
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div id="overlay">
             <div class="cv-spinner">
                 <span class="spinner"></span>
@@ -63,6 +63,22 @@ $loter = $date.''.$time
             <div class="spinner"> 
             </div>
         </div>
+    </div> --}}
+
+    <div id="preloader">
+        <div id="status">
+            <div id="container_spin">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="shadow">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                            flood-color="#fc6767"/>
+                        </filter>
+                    </defs>
+                    <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                </svg>
+            </div>
+        </div>
     </div>
    
     <div class="row"> 
@@ -72,7 +88,7 @@ $loter = $date.''.$time
         </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
-            <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" id="Pulldata"> 
+            <button type="button" class="adda-button me-2 btn-pill btn btn-sm btn-primary bt_prs" id="Pulldata"> 
                 <i class="fa-solid fa-floppy-disk text-white me-2"></i>
                 บันทึกข้อมูล
             </button> 

@@ -147,28 +147,30 @@
                 </a>
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card widget-chart widget-chart-hover" style="height: 200px">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">กล้อง CCTV(ทั้งหมด)</p>
-                                <h2 class="text-start mb-2">{{$cctv_list}}</h2> 
-                            </div>
-                            <div class="avatar-sm" style="width: 100px;height:100px">
-                                <span class="avatar-title bg-light text-primary rounded-3">
-                                    <img src="{{ asset('images/cctv_p.png') }}" height="80px" width="80px" class="text-danger"> 
-                                </span>
-                            </div>
-                        </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-4">
-                            <p class="text-muted mb-0">
-                                <span class="text-warning fw-bold font-size-20 me-2">
-                                    <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
-                                </span>from previous 
-                            </p>
-                        </div>                                                
+                <a href="{{url('cctv_dashboard')}}" target="_blank">
+                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-start font-size-14 mb-2">กล้อง CCTV(ทั้งหมด)</p>
+                                    <h2 class="text-start mb-2">{{$cctv_list}}</h2> 
+                                </div>
+                                <div class="avatar-sm" style="width: 100px;height:100px">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <img src="{{ asset('images/cctv_p.png') }}" height="80px" width="80px" class="text-danger"> 
+                                    </span>
+                                </div>
+                            </div>  
+                            <div class="d-flex align-content-center flex-wrap mt-4">
+                                <p class="text-muted mb-0">
+                                    <span class="text-warning fw-bold font-size-20 me-2">
+                                        <i class="ri-arrow-right-down-line me-1 align-middle"></i>0.00 %
+                                    </span>from previous 
+                                </p>
+                            </div>                                                
+                        </div> 
                     </div> 
-                </div> 
+                </a>
             </div> 
 
             <div class="col-xl-3 col-md-6">

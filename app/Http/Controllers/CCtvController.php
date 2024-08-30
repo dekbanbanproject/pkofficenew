@@ -89,6 +89,45 @@ date_default_timezone_set("Asia/Bangkok");
 
 class CCtvController extends Controller
  { 
+    public function cctv_dashboard(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y');
+        // dd($year);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl 
+                from acc_debtor a
+                left join checksit_hos c on c.an = a.an
+                WHERE a.account_code="1102050101.217"
+                AND a.stamp = "N" AND a.debit_total > 0
+                AND a.dchdate IS NOT NULL
+                group by a.an
+                order by a.dchdate desc;
+            ');
+            
+        } else {
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left join checksit_hos c on c.an = a.an
+                WHERE a.account_code="1102050101.217"
+                AND a.stamp = "N"
+                AND a.dchdate IS NOT NULL
+                group by a.an
+                order by a.dchdate desc;
+            ');
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+        }
+        return view('support_prs.cctv.cctv_dashboard',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
     public function cctv(Request $request)
     {
         $datenow = date('Y-m-d');

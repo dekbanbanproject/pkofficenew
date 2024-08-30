@@ -1,4 +1,4 @@
-@extends('layouts.support_prs')
+@extends('layouts.support_prs_cctv')
 @section('title', 'PK-OFFICE || CCTV')
  
 @section('content')
@@ -57,7 +57,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <style>
+    {{-- <style>
         #button{
                display:block;
                margin:20px auto;
@@ -97,10 +97,10 @@
                .is-hide{
                display:none;
                }
-    </style>
+    </style> --}}
     
     <div class="tabs-animation">
-        <div class="row text-center">
+        {{-- <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
@@ -110,6 +110,21 @@
         <div id="preloader">
             <div id="status">
                 <div class="spinner"> 
+                </div>
+            </div>
+        </div> --}}
+        <div id="preloader">
+            <div id="status">
+                <div id="container_spin">
+                    <svg viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="shadow">
+                            <feDropShadow dx="0" dy="0" stdDeviation="2.5" 
+                                flood-color="#fc6767"/>
+                            </filter>
+                        </defs>
+                        <circle id="spinner" style="fill:transparent;stroke:#dd2476;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -122,7 +137,7 @@
             <div class="col"></div>
           
             <div class="col-md-4 text-end">
-                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-primary cardacc" target="_blank"> 
+                <a href="{{url('cctv_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs" target="_blank"> 
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
                    เพิ่มรายการ
                 </a>  
@@ -144,7 +159,8 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                     <thead>
                                         <tr>
@@ -177,9 +193,9 @@
                                                 </td>
                                               
                                                 @if ( $item->cctv_img == Null )
-                                                <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail"></td> 
+                                                <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs"></td> 
                                                 @else
-                                                <td class="text-center" width="3%"><img src="{{asset('storage/cctv/'.$item->cctv_img)}}" height="20px" width="20px" alt="Image" class="img-thumbnail">  </td>                                
+                                                <td class="text-center" width="3%"><img src="{{asset('storage/cctv/'.$item->cctv_img)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">  </td>                                
                                                 @endif
 
                                                 <td class="text-center" width="5%"> 

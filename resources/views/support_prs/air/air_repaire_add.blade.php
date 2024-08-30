@@ -158,7 +158,13 @@
 
                                         <div class="row">
                                             <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- รายการซ่อม(ตามปัญหา) </p>
+                                                <p style="color:rgb(9, 119, 209)">* รายการซ่อม(ตามปัญหา) </p>
+                                            </div>
+                                            <div class="col-5 text-start">
+                                                <div class="input-group">
+                                                    <input type="checkbox" class="discheckbox" id="air_pro_edit" name="air_pro_edit">
+                                                    &nbsp;&nbsp;<p style="color:rgb(248, 61, 14)">แก้ไขงานเดิม</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -222,7 +228,7 @@
                                         <hr style="color:rgb(7, 114, 141)">
                                         <div class="row">
                                             <div class="col text-start">
-                                                <p style="color:rgb(9, 119, 209)">- การบำรุงรักษา ประจำปี </p>
+                                                <p style="color:rgb(9, 119, 209)">* การบำรุงรักษา ประจำปี </p>
                                             </div>
                                         </div>
                                         <div class="row">

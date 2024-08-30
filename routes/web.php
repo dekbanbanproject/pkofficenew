@@ -3061,6 +3061,7 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'techservice', [App\Http\Controllers\CCtvController::class, 'techservice'])->name('tec.techservice'); //
 
   // ************** CCTV-Service ****************************
+  Route::match(['get', 'post'], 'cctv_dashboard', [App\Http\Controllers\CCtvController::class, 'cctv_dashboard'])->name('tec.cctv_dashboard'); //
   Route::match(['get', 'post'], 'cctv', [App\Http\Controllers\CCtvController::class, 'cctv'])->name('tec.cctv'); //
   Route::match(['get', 'post'], 'cctv_list', [App\Http\Controllers\CCtvController::class, 'cctv_list'])->name('tec.cctv_list'); //
   Route::match(['get', 'post'], 'cctv_list_check', [App\Http\Controllers\CCtvController::class, 'cctv_list_check'])->name('tec.cctv_list_check'); //
