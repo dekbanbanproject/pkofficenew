@@ -252,15 +252,19 @@
                                                             <th width="5%" class="text-center">ลำดับ</th> 
                                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                                             <th class="text-center">
-                                                                <span class="bg-success badge">{{ $count_no }}</span> 
                                                                 Approve
+                                                                <span class="bg-success badge">{{ $count_no }}</span>                                                                 
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
                                                             <th class="text-center" >hn</th>
                                                             <th class="text-center" >cid</th>
                                                             <th class="text-center">ptname</th>
                                                             <th class="text-center">ตั้งลูกหนี้</th>
-                                                            <th class="text-center">เคลม</th>
+                                                            <th class="text-center"> 
+                                                                เคลม
+                                                                <span class="bg-success badge">{{ $count_claim }}</span> 
+                                                                <span class="bg-danger badge">{{ $count_noclaim }}</span>  
+                                                            </th>
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
                                                             <th class="text-center">spsch</th>  
@@ -1008,8 +1012,8 @@
     
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
+            $('#example7').DataTable();
+            $('#example8').DataTable();
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });

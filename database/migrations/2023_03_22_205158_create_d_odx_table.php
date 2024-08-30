@@ -18,7 +18,8 @@ return new class extends Migration
             Schema::connection('mysql')->create('d_odx', function (Blueprint $table) {
                 $table->bigIncrements('d_odx_id');
                 $table->string('HN',length: 15)->nullable();// 
-                $table->date('DATEDX')->nullable();//                  
+                // $table->date('DATEDX')->nullable();//
+                $table->string('DATEDX',length: 8)->nullable();//                   
                 $table->string('CLINIC',length: 5)->nullable();//  
                 $table->string('DIAG',length: 7)->nullable(); //             
                 $table->string('DXTYPE',length: 1)->nullable(); //  
