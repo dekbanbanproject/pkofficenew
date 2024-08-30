@@ -1940,8 +1940,9 @@ class FdhController extends Controller
             $rcpt_money           = $val->rcpt_money;   
             $uc_money             = $val->uc_money; 
             $claimtype            = $val->claimtype; 
-
+             
                 // $response = Http::withHeaders([ 
+                //     'Authorization : Bearer '.$token,
                 //     'User-Agent:<platform>/<version> <10978>',
                 //     'Accept' => 'application/json',
                 // ])->post('https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail', [
@@ -1961,28 +1962,33 @@ class FdhController extends Controller
                 //     "recorderPid"        => $cid_auth
                 // ]);     
                 // $token = $response->json('token');
+                // $body = $response->body();
+                // dd($body);
                 // dd($token);
-                $headers_send  = [    
-                    'User-Agent:<platform>/<version> <10978>',        
-                    'Content-Type: application/json'  
-                ];
-                $postData_send = [ 
-                    // "service_date_time"  => $service_date_time,                    
-                    "hcode"              => $hcode,
-                    "visitNumber"        => $vn,
-                    "pid"                => $cid,
-                    "transactionId"      => $transactionld,
-                    "serviceDateTime"    => $service_date_time,
-                    "invoiceDateTime"    => $service_date_time,
-                    "mainInsclCode"      => $mainInsclCode,
-                    "totalAmount"        => $total_amout,
-                    "paidAmount"         => $rcpt_money,
-                    "privilegeAmount"    => $uc_money,
-                    "claimServiceCode"   => $claimtype,
-                    "sourceId"           => 'PKOFFICE',
-                    // "computerName"       => $vn,
-                    "recorderPid"        => $cid_auth, 
-                ];
+
+
+
+                // $headers_send  = [    
+                //     'User-Agent:<platform>/<version> <10978>',        
+                //     'Content-Type: application/json'  
+                // ];
+                // $postData_send = [ 
+                //     // "service_date_time"  => $service_date_time,                    
+                //     "hcode"              => $hcode,
+                //     "visitNumber"        => $vn,
+                //     "pid"                => $cid,
+                //     "transactionId"      => $transactionld,
+                //     "serviceDateTime"    => $service_date_time,
+                //     "invoiceDateTime"    => $service_date_time,
+                //     "mainInsclCode"      => $mainInsclCode,
+                //     "totalAmount"        => $total_amout,
+                //     "paidAmount"         => $rcpt_money,
+                //     "privilegeAmount"    => $uc_money,
+                //     "claimServiceCode"   => $claimtype,
+                //     "sourceId"           => 'PKOFFICE',
+                //     // "computerName"       => $vn,
+                //     "recorderPid"        => $cid_auth, 
+                // ];
                 // $ch = curl_init();                
                 // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail");
                 // curl_setopt($ch, CURLOPT_POST, 1);
@@ -2002,28 +2008,30 @@ class FdhController extends Controller
                 // @$message = $result['message'];
                 // $token    = $result['token']; 
 
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail?hcode=10978&visitNumber=670829073424&pid=3361000239995&transactionId=1c352ba2-5afe-4b61-a432-765dc2fb5bb6&serviceDateTime=2024-08-29%2007%3A34%3A24&invoiceDateTime=2024-08-29%2007%3A34%3A24&mainInsclCode=UCS&totalAmount=990&paidAmount=0&privilegeAmount=990&claimServiceCode=PG0060001',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer b4df8b7c-c8c2-445a-a904-960aa4a1a1c9',
-                    'Cookie: TS01304219=013bd252cbab02c3c6ba79ba47acbe2ce609e3ec7ce5b0563916b947d2b2ea01d317dd23a3de79511752a4ad3de7a03220659fa9c1'
-                ),
-                ));
-                $response = curl_exec($curl);
-                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
-                $content = $response;
-                $result = json_decode($content, true);
-                dd($result);
+                // $curl = curl_init();
+                // curl_setopt_array($curl, array(
+                // CURLOPT_URL => 'https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail?hcode=10978&visitNumber=670829073424&pid=3361000239995&transactionId=1c352ba2-5afe-4b61-a432-765dc2fb5bb6&serviceDateTime=2024-08-29%2007%3A34%3A24&invoiceDateTime=2024-08-29%2007%3A34%3A24&mainInsclCode=UCS&totalAmount=990&paidAmount=0&privilegeAmount=990&claimServiceCode=PG0060001',
+                // CURLOPT_RETURNTRANSFER => true,
+                // CURLOPT_ENCODING => '',
+                // CURLOPT_MAXREDIRS => 10,
+                // CURLOPT_TIMEOUT => 0,
+                // CURLOPT_FOLLOWLOCATION => true,
+                // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                // CURLOPT_CUSTOMREQUEST => 'POST',
+                // CURLOPT_HTTPHEADER => array(
+                //     'Authorization: Bearer b4df8b7c-c8c2-445a-a904-960aa4a1a1c9',
+                //     'Cookie: TS01304219=013bd252cbab02c3c6ba79ba47acbe2ce609e3ec7ce5b0563916b947d2b2ea01d317dd23a3de79511752a4ad3de7a03220659fa9c1'
+                // ),
+                // ));
+                // $response = curl_exec($curl);
+                // $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                // $content = $response;
+                // $result = json_decode($content, true);
+                // dd($result);
 
-                $curl = curl_init();
+                
+
+                
                 $postData_send = [ 
                     // "service_date_time"  => $service_date_time,                    
                     "hcode"              => $hcode,
@@ -2041,21 +2049,29 @@ class FdhController extends Controller
                     // "computerName"       => $vn,
                     "recorderPid"        => $cid_auth, 
                 ];
+                $headers_send  = [
+                    'Authorization : Bearer '.$token,
+                    'Content-Type: application/json',            
+                    'User-Agent:<platform>/<version><10978>' 
+                ];
+                
+                $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL,"https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail");
                 curl_setopt($curl, CURLOPT_POST, 1);
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$token,
-                    'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                ));  
+                curl_setopt($curl, CURLOPT_HTTPHEADER, $headers_send);
+                // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                //     'Content-Type: application/json',
+                //     'Authorization: Bearer '.$token,
+                //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+                // ));  
                 $server_output     = curl_exec ($curl);
                 $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
                 $content = $server_output;
                 $result = json_decode($content, true);
 
-                dd($result);
+                dd($content);
 
                 @$status = $result['status'];
                 @$message = $result['message'];
