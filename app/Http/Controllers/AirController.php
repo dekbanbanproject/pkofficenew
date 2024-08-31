@@ -4428,24 +4428,24 @@ class AirController extends Controller
             $data_months        = $data_searchs->air_plan_month;
             $data_years         = $data_searchs->air_plan_year;
             $datashow  = DB::select(
-                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years
-                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,b.air_repaire_type_id,c.air_repaire_typename 
+                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years,a.supplies_id
+                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,a.air_repaire_type_id,c.air_repaire_typename 
                 FROM air_plan a
                 LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = a.air_repaire_type_id
                 WHERE b.air_plan_month = "'.$data_months.'" AND b.air_plan_year = "'.$data_years.'" 
-            ');
-             
+            ');             
         } else {
             $datashow  = DB::select(
-                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years
-                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,b.air_repaire_type_id,c.air_repaire_typename 
+                'SELECT a.air_plan_id,a.air_list_num,a.air_plan_month_id,a.active,b.years,a.supplies_id
+                ,b.air_plan_month,b.air_plan_year,b.air_plan_name,b.start_date,b.end_date,a.air_repaire_type_id,c.air_repaire_typename 
                 FROM air_plan a
                 LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = a.air_repaire_type_id
                 WHERE b.air_plan_month = "'.$monthsnew.'" AND b.air_plan_year = "'.$yearnew.'"
             ');
-            
+            $data_months        = $monthsnew;
+            $data_years         = $yearnew;            
         }
         $data['air_plan_excel'] = DB::connection('mysql')->select(
             'SELECT a.*,b.air_plan_name,c.air_repaire_typename 
@@ -4455,9 +4455,11 @@ class AirController extends Controller
             ');
 
         return view('support_prs.air.air_setting',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow,  
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+            'data_months'   => $data_months,
+            'data_years'    => $data_years, 
         ]);
     }
     function importplan_excel(Request $request)

@@ -17,9 +17,12 @@ return new class extends Migration
                 $table->bigIncrements('air_plan_id');  
                 $table->string('air_plan_year')->nullable();//  
                 $table->string('air_list_num')->nullable();// 
-                $table->string('air_plan_month_id')->nullable();//   
+                $table->string('air_plan_month_id')->nullable();// 
+                $table->string('air_repaire_type_id')->nullable();// 
+                $table->string('supplies_id')->nullable();//   
+                $table->string('PlanDOC')->nullable();//  
                 $table->enum('active', ['Y', 'N'])->default('N'); 
-                $table->string('PlanDOC')->nullable();//
+            
                 $table->timestamps();
             });
         }

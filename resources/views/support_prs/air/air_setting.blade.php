@@ -50,7 +50,11 @@
             <div class="col-md-2"> 
                 <select name="air_plan_month_id" id="air_plan_month_id" class="form-control form-control-sm inputmedsalt text-center bt_prs" style="width: 100%;font-size:13px">
                     @foreach ($years_show as $item_y) 
-                            <option value="{{$item_y->air_plan_month_id}}">{{$item_y->air_plan_name}} {{$item_y->air_plan_year}} ปีงบประมาณ {{$item_y->years}}</option> 
+                        @if ($data_months == $item_y->air_plan_month && $data_years == $item_y->air_plan_year)
+                            <option value="{{$item_y->air_plan_month_id}}" selected>{{$item_y->air_plan_name}} {{$item_y->air_plan_year}} ปีงบประมาณ {{$item_y->years}}</option>
+                        @else
+                            <option value="{{$item_y->air_plan_month_id}}">{{$item_y->air_plan_name}} {{$item_y->air_plan_year}} ปีงบประมาณ {{$item_y->years}}</option>
+                        @endif                         
                     @endforeach
                 </select>
             </div>                     
