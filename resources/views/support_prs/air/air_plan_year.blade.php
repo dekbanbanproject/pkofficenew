@@ -121,25 +121,24 @@
                             <thead>                             
                                     <tr style="font-size:13px"> 
                                         {{-- <th rowspan="2" width="3%" class="text-center" style="background-color: rgb(228, 255, 255);">ลำดับ</th>   --}}
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255)" width= "12%">อาคาร</th>  
+                                        <th rowspan="2" class="text-center" style="background-color: rgb(255, 156, 110);color:#FFFFFF" width= "12%">อาคาร</th>  
                                         {{-- <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);width: 7%">อาคาร</th>   --}}
-                                        <th rowspan="2" class="text-center" style="background-color: rgb(228, 255, 255);" width= "5%">จำนวน</th>  
-                                        <th colspan="12" class="text-center" style="background-color: rgb(239, 228, 255);">ระยะเวลาการดำเนินงาน</th>   
+                                        <th rowspan="2" class="text-center" style="background-color: #06b78b;color:#FFFFFF;" width= "5%">จำนวน</th>  
+                                        <th colspan="12" class="text-center" style="background-color: rgb(154, 86, 255);color:#FFFFFF">ระยะเวลาการดำเนินงาน</th>   
                                     </tr> 
                                     <tr style="font-size:11px">  
-                                        <th class="text-center" width="5%">ต.ค</th> 
-                                        <th class="text-center" width="5%">พ.ย</th>   
-                                        <th class="text-center" width="5%">ธ.ค</th> 
-                                        <th class="text-center" width="5%">ม.ค</th>
-                                        <th class="text-center" width="5%">ก.พ</th>
-                                        <th class="text-center" width="5%">มี.ค</th>
-
-                                        <th class="text-center" width="5%">เม.ย</th>
-                                        <th class="text-center" width="5%">พ.ค</th>
-                                        <th class="text-center" width="5%">มิ.ย</th>
-                                        <th class="text-center" width="5%">ก.ค</th>
-                                        <th class="text-center" width="5%">ส.ค</th>
-                                        <th class="text-center" width="5%">ก.ย</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">ต.ค</th> 
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">พ.ย</th>   
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">ธ.ค</th> 
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">ม.ค</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">ก.พ</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">มี.ค</th> 
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">เม.ย</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">พ.ค</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">มิ.ย</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">ก.ค</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(185, 140, 253);color:#FFFFFF">ส.ค</th>
+                                        <th class="text-center" width="5%" style="background-color: rgb(209, 178, 255);color:#FFFFFF">ก.ย</th>
                                     </tr> 
                             </thead>
                             <tbody>
