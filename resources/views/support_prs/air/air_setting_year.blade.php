@@ -77,7 +77,7 @@
                                                     <th class="text-center" width="10%">รหัส</th> 
                                                     <th class="text-center" width="15%">รายการ</th>   
                                                     <th class="text-center" >ที่ตั้ง</th>   
-                                                    <th class="text-center" width="8%">เปิดใช้งาน</th>  
+                                                    {{-- <th class="text-center" width="8%">เปิดใช้งาน</th>   --}}
                                                 </tr>  
                                         </thead>
                                         <tbody>
@@ -90,7 +90,7 @@
                                                     <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->air_list_num}}</td>  
                                                     <td class="text-start" style="font-size:13px;color: rgb(253, 65, 81)" width="15%">{{$item->air_list_name}} </td>
                                                     <td class="text-start" style="font-size:13px;color: rgb(112, 5, 98)"> {{$item->detail}}</td>                                                   
-                                                    <td class="text-center" style="font-size:17px;color: rgb(252, 90, 203)" width="8%">
+                                                    {{-- <td class="text-center" style="font-size:17px;color: rgb(252, 90, 203)" width="8%">
                                                         <div class="form-check form-switch">
                                                             @if ($item->active == 'Y')
                                                                 <input type="checkbox" class="form-check-input" id="{{ $item->air_list_id }}" name="{{ $item->air_list_id }}" onchange="switch_air_active({{ $item->air_list_id }});" checked>
@@ -99,7 +99,7 @@
                                                             @endif 
                                                             <label class="form-check-label" for="{{ $item->air_list_id }}"></label>
                                                         </div> 
-                                                    </td> 
+                                                    </td>  --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
