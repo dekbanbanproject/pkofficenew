@@ -42,8 +42,8 @@
     <form action="{{ url('air_report_month') }}" method="GET">
         @csrf
         <div class="row"> 
-            <div class="col-md-4">
-                <h4 style="color:rgb(255, 255, 255)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศ รายเดือน </h4> 
+            <div class="col-md-6">
+                <h4 style="color:rgb(255, 255, 255)">รายงานปัญหาที่มีการแจ้งซ่อมเครื่องปรับอากาศรายเดือน </h4> 
             </div> 
             <div class="col"></div>
             <div class="col-md-2 text-center mb-2">

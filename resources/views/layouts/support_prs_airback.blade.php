@@ -596,35 +596,67 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_type') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามประเภท  
                                 </a>
-                            </li>
-                            {{-- <i class="fa-solid fa-chart-line"></i> --}}
-                            <li class="nav-item dropdown">
+                            </li> --}}
+                    
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_building') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามอาคาร 
-                                    {{-- <span class="badge bg-danger me-2 ms-2">{{$count_building}}</span> --}}
+                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามอาคาร  
                                 </a>
-                            </li>
+                            </li> --}}
 
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_problems') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-chart-line me-2"></i>รายงานแยกตามปัญหา  
                                 </a>
-                            </li>
-
+                            </li> --}}
+                        
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_report_month') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i>รายงานประจำเดือน  
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_plan_year') }}" id="topnav-more" role="button">
+                                    <i class="fa-solid fa-diagram-project me-2"></i>แผนการบำรุงรักษา  
                                 </a>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fas fa-tools me-2"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>
-                              
+                                    <i class="fa-solid fa-chart-line me-2"></i><span key="t-layouts">รายงาน</span> <div class="arrow-down"></div> 
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_type')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานแยกตามประเภท</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_building')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานแยกตามอาคาร</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_problems')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานแยกตามปัญหา</span>  
+                                        </a> 
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_month')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานประจำเดือน</span>  
+                                        </a> 
+                                    </div>
+                                </div>
+                                
+                            </li>
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <i class="fas fa-tools me-2"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>                              
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
