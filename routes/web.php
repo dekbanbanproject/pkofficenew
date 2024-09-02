@@ -3380,6 +3380,22 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'detail_moreModal', [App\Http\Controllers\AirController::class, 'detail_moreModal'])->name('prs.detail_moreModal'); //
   Route::match(['get', 'post'], 'detail_repaire_sup', [App\Http\Controllers\AirController::class, 'detail_repaire_sup'])->name('prs.detail_repaire_sup'); //
 
+  //***************************** ก๊าซทางการแพทย์ **************************/ 
+  Route::match(['get', 'post'], 'medicalgas_db', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_db'])->name('prs.medicalgas_db'); //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Route::match(['get', 'post'], 'document', [App\Http\Controllers\DocumentController::class, 'document'])->name('d.document'); //
   Route::match(['get', 'post'], 'document_save', [App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save'); //
   Route::match(['get', 'post'], 'documentsub/{id}', [App\Http\Controllers\DocumentController::class, 'documentsub'])->name('d.documentsub'); //

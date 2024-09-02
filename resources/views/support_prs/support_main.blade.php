@@ -323,28 +323,30 @@
                 </div> 
             </div> 
             <div class="col-xl-3 col-md-6">
-                <div class="card widget-chart widget-chart-hover" style="height: 200px">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
-                                <h2 class="text-start mb-2">0</h2> 
+                <a href="{{url('medicalgas_db')}}" target="_blank">
+                    <div class="card widget-chart widget-chart-hover" style="height: 200px">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-start font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
+                                    <h2 class="text-start mb-2">0</h2> 
+                                </div> 
+                                <div class="avatar-sm" style="width: 100px;height:100px">
+                                    <span class="avatar-title bg-light text-success rounded-3">
+                                        <img src="{{ asset('images/gas_circle.png') }}" height="80px" width="80px" class="text-danger"> 
+                                    </span>
+                                </div>
+                            </div>  
+                            <div class="d-flex align-content-center flex-wrap mt-4">
+                                <p class="text-muted mb-0">
+                                    <span class="text-info fw-bold font-size-20 me-2">
+                                        <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
+                                    </span>from previous 
+                                </p>
                             </div> 
-                            <div class="avatar-sm" style="width: 100px;height:100px">
-                                <span class="avatar-title bg-light text-success rounded-3">
-                                    <img src="{{ asset('images/gas_circle.png') }}" height="80px" width="80px" class="text-danger"> 
-                                </span>
-                            </div>
-                        </div>  
-                        <div class="d-flex align-content-center flex-wrap mt-4">
-                            <p class="text-muted mb-0">
-                                <span class="text-info fw-bold font-size-20 me-2">
-                                    <i class="ri-arrow-right-up-line me-1 align-middle"></i>0.00 %
-                                </span>from previous 
-                            </p>
                         </div> 
                     </div> 
-                </div> 
+                </a>
             </div> 
         </div> 
  

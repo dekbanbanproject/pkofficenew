@@ -145,6 +145,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
+                                    <th class="text-center">rxdate</th> 
                                     <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th>   
                                     <th class="text-center">ลูกหนี้</th> 
@@ -168,6 +169,7 @@ $pos = strrpos($url, '/') + 1;
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
+                                        <td class="text-center" width="8%">{{ $item->rxdate }}</td>
                                         <td class="text-center" width="8%">{{ $item->dchdate }}</td>
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
@@ -187,7 +189,7 @@ $pos = strrpos($url, '/') + 1;
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-end" style="background-color: #06b9a2" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #fca1a1"></td> 

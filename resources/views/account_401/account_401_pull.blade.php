@@ -296,10 +296,10 @@
                                                                 <td class="p-2" >{{ $item->ptname }}</td> 
 
                                                                 <td class="text-center" width="5%">
-                                                                    @if ($item->active_looknee =='N')
-                                                                        <span class="bg-danger badge me-2">{{ $item->active_looknee }}</span> 
+                                                                    @if ($item->stamp =='N')
+                                                                        <span class="bg-danger badge me-2">{{ $item->stamp }}</span> 
                                                                     @else
-                                                                        <span class="bg-success badge me-2">{{ $item->active_looknee }}</span> 
+                                                                        <span class="bg-success badge me-2">{{ $item->stamp }}</span> 
                                                                     @endif
                                                                 </td>  
                                                                 <td class="text-center" width="5%">

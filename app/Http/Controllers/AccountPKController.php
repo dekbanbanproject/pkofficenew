@@ -3286,8 +3286,8 @@ class AccountPKController extends Controller
         $data['ofc_ti_ipd']     = DB::connection('mysql')->select('
             SELECT b.STMDoc,SUM(b.Total_amount) as total 
             FROM acc_1102050101_4022 a 
-            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
-            WHERE b.HDflag IN("CIC")
+            LEFT JOIN acc_stm_ti_total b ON b.HDBill_hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.HDBill_TBill_HDflag IN("CIC")
             GROUP BY b.STMDoc 
             ORDER BY STMDoc DESC
         ');        
@@ -3304,18 +3304,20 @@ class AccountPKController extends Controller
         $data['ofc_ti_ipd']     = DB::connection('mysql')->select('
             SELECT b.STMDoc,SUM(b.Total_amount) as total 
             FROM acc_1102050101_4022 a 
-            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
-            WHERE b.HDflag IN("CIC")
+            LEFT JOIN acc_stm_ti_total b ON b.HDBill_hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.HDBill_TBill_HDflag IN("CIC")
             GROUP BY b.STMDoc 
             ORDER BY STMDoc DESC
         ');   
         $data['datashow']     = DB::connection('mysql')->select('
-            SELECT a.vn,a.an,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.Total_amount
+            SELECT a.vn,a.an,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit_total,b.STMdoc,b.Total_amount,a.rxdate
             FROM acc_1102050101_4022 a 
-            LEFT JOIN acc_stm_ti_total b ON b.hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
-            WHERE b.STMdoc = "'.$id.'" AND b.HDflag IN("CIC")
-               
+            LEFT JOIN acc_stm_ti_total b ON b.HDBill_hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+            WHERE b.STMdoc = "'.$id.'" AND b.HDBill_TBill_HDflag IN("CIC")
+           
         ');
+        // HAVING COUNT(a.rxdate) >1;
+        // GROUP BY a.hn,a.rxdate
         // AND b.Total_amount IS NOT NULL 
         return view('account_pk.upstm_ofc_ti_ipd_detail',$data,[
             'startdate'     =>     $startdate,
@@ -4676,6 +4678,7 @@ class AccountPKController extends Controller
             @$Total_thamount = $result['thamount'];
             @$STMdat = $result['STMdat'];
             @$TBills = $result['TBills']['TBill']; 
+            // TBills
             $bills_       = @$TBills;              
                 foreach ($bills_ as $value) {                     
                     $hreg = $value['hreg'];
@@ -4692,28 +4695,28 @@ class AccountPKController extends Controller
                     $dtttime = $dttranDate[1];
                     $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
                     if ( $checkc > 0) {
-                        Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
-                            ->update([   
-                                'invno'            => $invno,
-                                'dttran'           => $dttran, 
-                                'hn'               => $hn, 
-                                'amount'           => $amount, 
-                                'paid'             => $paid,
-                                'rid'              => $rid, 
-                                'HDflag'           => $HDflag,
-                                'vstdate'          => $dttdate                                
-                            ]);
-                        Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
-                            ->update([   
-                                'invno'             => $invno, 
-                                'hn'                => $hn, 
-                                'STMdoc'            => @$STMdoc, 
-                                'vstdate'           => $dttdate,  
-                                'paid'              => $paid,
-                                'rid'               => $rid,
-                                'HDflag'            => $HDflag,
-                                'amount'            => $amount 
-                            ]); 
+                        // Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
+                        //     ->update([   
+                        //         'invno'            => $invno,
+                        //         'dttran'           => $dttran, 
+                        //         'hn'               => $hn, 
+                        //         'amount'           => $amount, 
+                        //         'paid'             => $paid,
+                        //         'rid'              => $rid, 
+                        //         'HDflag'           => $HDflag,
+                        //         'vstdate'          => $dttdate                                
+                        //     ]);
+                        // Acc_stm_ti_total::where('HDBill_hn',$hn)->where('vstdate',$dttdate)
+                        //     ->update([   
+                        //         'invno'                => $invno, 
+                        //         'HDBill_hn'            => $hn, 
+                        //         'STMdoc'               => @$STMdoc, 
+                        //         'vstdate'              => $dttdate,  
+                        //         'HDBill_TBill_paid'    => $paid,
+                        //         'HDBill_TBill_rid'     => $rid,
+                        //         'HDBill_TBill_HDflag'  => $HDflag,
+                        //         'HDBill_TBill_amount'  => $amount 
+                        //     ]); 
                     } else {
                             Acc_stm_ti::insert([
                                 'invno'            => $invno,
@@ -4724,24 +4727,21 @@ class AccountPKController extends Controller
                                 'rid'              => $rid, 
                                 'HDflag'           => $HDflag,
                                 'vstdate'          => $dttdate 
-                            ]);       
-                            
+                            ]);                                   
                             Acc_stm_ti_total::insert([                
-                                'invno'             => $invno, 
-                                'hn'                => $hn, 
-                                'STMdoc'            => @$STMdoc, 
-                                'vstdate'           => $dttdate,  
-                                'paid'              => $paid,
-                                'rid'               => $rid,
-                                'HDflag'            => $HDflag,
-                                'amount'            => $amount 
-                            ]);
-                         
+                                'invno'                => $invno, 
+                                'HDBill_hn'            => $hn, 
+                                'STMdoc'               => @$STMdoc, 
+                                'vstdate'              => $dttdate,  
+                                'HDBill_TBill_paid'    => $paid,
+                                'HDBill_TBill_rid'     => $rid,
+                                'HDBill_TBill_HDflag'  => $HDflag,
+                                'HDBill_TBill_amount'  => $amount,
+                                'Total_amount'         => $amount 
+                            ]);                         
                     } 
-                }
-               
+                }               
                 return redirect()->back();
-         
     }
     public function upstm_tixml_sssimport(Request $request)
     {

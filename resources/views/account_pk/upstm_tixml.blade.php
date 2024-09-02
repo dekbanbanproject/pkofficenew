@@ -100,7 +100,8 @@
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
-                            <form action="{{ route('acc.upstm_tixml_import') }}" method="POST" id="insert_stmForm" enctype="multipart/form-data">
+                            <form action="{{ route('acc.upstm_tixml_import') }}" method="POST" enctype="multipart/form-data">
+                                {{-- id="insert_stmForm" --}}
                                 @csrf
                                 <div class="col-sm-12">
                                     <div class="widget-chart widget-chart-hover">

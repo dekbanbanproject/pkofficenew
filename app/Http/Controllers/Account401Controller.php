@@ -333,7 +333,7 @@ class Account401Controller extends Controller
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
-        $newday = date('Y-m-d', strtotime($datenow . ' -5 Day')); //ย้อนหลัง 1 สัปดาห์
+        $newday = date('Y-m-d', strtotime($datenow . ' -7 Day')); //ย้อนหลัง 1 สัปดาห์
         $startdate_ = $request->startdate;
         $enddate_   = $request->enddate;
         if ($startdate_ == '') {
@@ -484,10 +484,13 @@ class Account401Controller extends Controller
                     // $vstdate = $year.'-'.$mo.'-'.$day;
 
                     if ($check > 0) {
-                        // Acc_1102050101_401::where('vn', $value->vn)->update([
-                        //     // 'vsttime' => $value->vsttime,
-                        //     'hm'      => $hm
-                        // ]);
+                        Acc_1102050101_401::where('vn', $value->vn)->update([
+                            'pdx'                => $value->pdx,
+                            'icd10'              => $value->icd10,
+                            // 'cc'                 => $value->cc,
+                            'approval_code'      => $value->approval_code,
+                            'price_ofc'          => $value->price_ofc,
+                        ]);
                     }else{
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -707,7 +710,7 @@ class Account401Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $date = date('Y-m-d'); 
-        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $new_day = date('Y-m-d', strtotime($date . ' -7 day')); //ย้อนหลัง 1 วัน
         $data['users'] = User::get();
         if ($startdate =='') {
            $datashow = DB::select(' 

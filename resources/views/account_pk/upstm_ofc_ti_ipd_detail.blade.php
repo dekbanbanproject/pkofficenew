@@ -203,6 +203,7 @@
                                                         <th class="text-center">an</th> 
                                                         <th class="text-center">hn</th>
                                                         <th class="text-center">cid</th> 
+                                                        <th class="text-center">rxdate</th> 
                                                         <th class="text-center">dchdate</th> 
                                                         <th class="text-center">ptname</th> 
                                                         <th class="text-center">income</th> 
@@ -213,12 +214,31 @@
                                                 <tbody>
                                                     <?php $number = 0; $total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0; ?>
                                                     @foreach ($datashow as $item)
-                                                        <?php $number++; ?>                    
+                                                        <?php $number++; 
+                                                            $count_rxdate_ = DB::select(
+                                                                'SELECT count(a.an) as Countvi
+                                                                 FROM acc_1102050101_4022 a 
+                                                                LEFT JOIN acc_stm_ti_total b ON b.HDBill_hn = a.hn AND (b.vstdate BETWEEN a.vstdate AND a.dchdate)
+                                                                WHERE b.STMdoc = "'.$item->STMdoc.'" AND b.HDBill_TBill_HDflag IN("CIC")
+                                                                AND a.an = "'.$item->an.'" AND a.rxdate = "'.$item->rxdate.'" 
+                                                            ');  
+                                                            foreach ($count_rxdate_ as $key => $value) {
+                                                                $count_rxdate = $value->Countvi;
+                                                            }        
+                                                        ?>                    
                                                         <tr height="20">
                                                             <td class="text-center" width="4%">{{ $number }}</td>
                                                             <td class="text-center" width="7%">{{ $item->an }}</td>
                                                             <td class="text-center" width="7%">{{ $item->hn }}</td>
                                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
+                                                            <td class="text-center" width="7%">
+                                                             
+                                                                @if ($count_rxdate > 1)
+                                                                    <span class="badge bg-danger"> {{$item->rxdate}}</span>
+                                                                @else
+                                                                    {{$item->rxdate}}
+                                                                @endif
+                                                            </td>
                                                             <td class="text-center" width="7%">{{ $item->dchdate }}</td>
                                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->ptname }}</td>  
                                                             <td class="text-center" style="color:rgb(233, 83, 14);font-size:15px" width="10%">{{ number_format($item->income, 2) }}</td>
@@ -233,7 +253,7 @@
                                                     @endforeach                    
                                                 </tbody> 
                                                 <tr style="background-color: #f3fca1">
-                                                    <td colspan="6" class="text-end" style="background-color: #ffdede"></td>
+                                                    <td colspan="7" class="text-end" style="background-color: #ffdede"></td>
                                                     <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                                     <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                                     <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>  

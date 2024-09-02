@@ -306,6 +306,19 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xl-1">
+        <div class="card"> 
+            <span class="badge bg-info me-2 p-2"> บริษัทสหรัตน์แอร์</span> 
+        </div>
+    </div>
+    <div class="col-xl-1">
+        <div class="card">
+            <span class="badge p-2" style="background: #ba0890">บริษัทบีทีแอร์</span> 
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
 
 </div>
 </div>
