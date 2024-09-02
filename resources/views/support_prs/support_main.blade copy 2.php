@@ -70,13 +70,13 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2 ">เครื่องปรับอากาศ</p>
+                                    <p class="text-start font-size-14 mb-2 ">เครื่องปรับอากาศ(ทั้งหมด)</p>
                                     <h2 class="text-start mb-2">{{$count_air}}</h2>  
                                     {{-- <p class="text-start font-size-14">เครื่อง</p> --}}
                                 </div>
-                                <div class="avatar-sm" style="width: 100px;height:100px">
+                                <div class="avatar-sm" style="width: 50px;height:50px">
                                     <span class="avatar-title bg-light text-primary rounded-3"> 
-                                        <img src="{{ asset('images/air_conditioner_g.png') }}" height="80px" width="80px" class="text-danger"> 
+                                        <img src="{{ asset('images/air_conditioner_g.png') }}" height="50px" width="50px" class="text-danger"> 
                                     </span>
                                 </div>
                             </div>  
@@ -89,7 +89,33 @@
                             </div>                                           
                         </div> 
 
-                     
+                        {{-- <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgba(147, 204, 248, 0.871)">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover rounded-pill">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <a href="{{ url('support_main') }}" target="_blank"> 
+                                                        <h5 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h5> 
+                                                    </a>
+                                                </div>
+                                                <div class="avatar ms-2">
+                                                    <a href="{{ url('support_main') }}" target="_blank">
+                                                        <button
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
+                                                                <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  --}}
+
                     </div> 
                 </a>
             </div> 
@@ -100,7 +126,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2">ถังดับเพลิง</p>
+                                    <p class="text-start font-size-14 mb-2">ถังดับเพลิง(ทั้งหมด)</p>
                                     <h2 class="text-start mb-2">{{$fire}}</h2> 
                                 </div>
                                 <div class="avatar-sm" style="width: 100px;height:100px">
@@ -126,7 +152,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2">กล้อง CCTV</p>
+                                    <p class="text-start font-size-14 mb-2">กล้อง CCTV(ทั้งหมด)</p>
                                     <h2 class="text-start mb-2">{{$cctv_list}}</h2> 
                                 </div>
                                 <div class="avatar-sm" style="width: 100px;height:100px">
@@ -152,7 +178,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">น้ำใช้สำรอง</p>
+                                <p class="text-start font-size-14 mb-2">ระบบน้ำใช้สำรอง</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -179,7 +205,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">น้ำบริโภค</p>
+                                <p class="text-start font-size-14 mb-2">ระบบน้ำบริโภค</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -203,7 +229,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">เครื่องกำเนิดไฟฟ้า</p>
+                                <p class="text-start font-size-14 mb-2">ระบบเครื่องกำเนิดไฟฟ้า</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -227,7 +253,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">หม้อแปลงไฟฟ้า</p>
+                                <p class="text-start font-size-14 mb-2">ระบบหม้อแปลงไฟฟ้า</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -251,7 +277,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">ลิฟต์โดยสาร</p>
+                                <p class="text-start font-size-14 mb-2">ระบบลิฟต์โดยสาร</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -277,7 +303,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-start font-size-14 mb-2">ห้องน้ำ/ห้องส้วม</p>
+                                <p class="text-start font-size-14 mb-2">ระบบห้องน้ำ/ห้องส้วม</p>
                                 <h2 class="text-start mb-2">0</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
@@ -302,7 +328,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-start font-size-14 mb-2">ก๊าซทางการแพทย์</p>
+                                    <p class="text-start font-size-14 mb-2">ระบบก๊าซทางการแพทย์</p>
                                     <h2 class="text-start mb-2">0</h2> 
                                 </div> 
                                 <div class="avatar-sm" style="width: 100px;height:100px">
