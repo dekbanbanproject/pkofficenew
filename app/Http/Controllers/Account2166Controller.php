@@ -416,7 +416,7 @@ class Account2166Controller extends Controller
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc 
                 from acc_1102050101_2166 U1
-                LEFT JOIN acc_stm_ti_total am on am.cid = U1.cid AND am.vstdate = U1.vstdate
+                LEFT JOIN acc_stm_ti_total am on am.HDBill_pid = U1.cid AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 AND am.Total_amount is not null 
                 group by U1.vn
@@ -442,6 +442,27 @@ class Account2166Controller extends Controller
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
+        ]);
+    }
+    public function account_pkti2166_search(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datenow = date('Y-m-d');  
+        $data['users'] = User::get();  
+        $datashow = DB::select('
+            SELECT U1.*,U2.Total_amount,U2.STMdoc,U2.repno
+            FROM acc_1102050101_2166 U1
+            LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_pid = U1.cid AND U2.vstdate = U1.vstdate            
+            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            
+            GROUP BY U1.vn
+        ');
+      
+        return view('account_2166.account_pkti2166_search', $data, [ 
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
         ]);
     }
 
