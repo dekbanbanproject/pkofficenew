@@ -263,7 +263,7 @@
                                             {{ $item->air_list_num }}
                                         </td>  
                                         <td class="p-2">{{ $item->air_list_name }}</td>   
-                                        <td class="p-2" width="20%">{{ $item->air_location_name }}</td>  
+                                        <td class="p-2" width="20%">{{ $item->air_location_name }} ห้อง {{ $item->detail }}</td>  
                                         <td class="p-2" width="10%">{{ $item->air_techout_name }}</td> 
                                         <td class="p-2" width="10%">{{ $item->ptname }}</td>  
                                         <td class="p-2" width="10%">{{ $item->tectname }}</td>  

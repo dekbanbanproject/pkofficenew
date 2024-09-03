@@ -198,106 +198,185 @@
 
                                             $total2 = $total2 + $item->tula_saha;
                                             $total14 = $total14 + $item->tula_bt;
-
                                             $total3 = $total3 + $item->plusji_saha; 
                                             $total15 = $total15 + $item->plusji_bt; 
-
                                             $total4 = $total4 + $item->tanwa_saha; 
                                             $total16 = $total16 + $item->tanwa_bt; 
-
                                             $total5 = $total5 + $item->makkara_saha; 
                                             $total17 = $total17 + $item->makkara_bt; 
-
                                             $total6 = $total6 + $item->gumpa_saha; 
                                             $total18 = $total18 + $item->gumpa_bt; 
-
                                             $total7 = $total7 + $item->mena_saha; 
                                             $total19 = $total19 + $item->mena_bt; 
-
                                             $total8 = $total8 + $item->mesa_saha; 
                                             $total20 = $total20 + $item->mesa_bt;
-
                                             $total9 = $total9 + $item->plussapa_saha; 
                                             $total21 = $total21 + $item->plussapa_bt; 
-
                                             $total10 = $total10 + $item->mituna_saha; 
                                             $total22 = $total22 + $item->mituna_bt;
-
                                             $total11 = $total11 + $item->karakada_saha; 
                                             $total23 = $total23 + $item->karakada_bt; 
-
                                             $total12 = $total12 + $item->singha_saha; 
-                                            $total24 = $total24 + $item->singha_bt;
-                                            
+                                            $total24 = $total24 + $item->singha_bt;                                            
                                             $total13 = $total13 + $item->kanya_saha; 
                                             $total25 = $total25 + $item->kanya_bt;
+                                            $Total_saha = $total2+$total3+$total4+$total5+$total6+$total7+$total8+$total9+$total10+$total11+$total12+$total13;
+                                            $Total_bt   = $total14+$total15+$total16+$total17+$total18+$total19+$total20+$total21+$total22+$total23+$total24+$total25;
                                     ?>
                                 @endforeach
                             </tbody>
-                            <tr style="background-color: #f3fca1">
-                                <td colspan="1" class="text-end" style="background-color: #fabcd7"></td>
-                                <td class="text-center" style="background-color: #06b78b"><label for="" style="color: #FFFFFF">{{$total1 }}</label></td>
+                            <tr>
+                                <td colspan="1" class="text-end" style="background-color: #fabcd7;font-size:16px">รวม</td>
+                                <td class="text-center" style="background-color: #fcd3e5"><label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha+$Total_bt }}</label></td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total2}}</span> <span class="badge" style="background: #ba0890"> {{$total14}}</span>
-                                    </label>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total2+$total14}}</span> 
+                                    </label>  
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total3}}</span> <span class="badge" style="background: #ba0890"> {{$total15}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total3+$total15}}</span>  
                                     </label></td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total4}}</span> <span class="badge" style="background: #ba0890"> {{$total16}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total4+$total16}}</span>   
                                     </label>
                                     </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total5}}</span> <span class="badge" style="background: #ba0890"> {{$total17}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total5+$total17}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total6}}</span> <span class="badge" style="background: #ba0890"> {{$total18}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total6+$total18}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total7}}</span> <span class="badge" style="background: #ba0890"> {{$total19}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total7+$total19}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total8}}</span> <span class="badge" style="background: #ba0890"> {{$total20}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total8+$total20}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total9}}</span> <span class="badge" style="background: #ba0890"> {{$total21}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total9+$total21}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total10}}</span> <span class="badge" style="background: #ba0890"> {{$total22}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total10+$total22}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total11}}</span> <span class="badge" style="background: #ba0890"> {{$total23}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total11+$total23}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total12}}</span> <span class="badge" style="background: #ba0890"> {{$total24}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total12+$total24}}</span>  
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF">
-                                        <span class="badge bg-info me-2"> {{$total13}}</span> <span class="badge" style="background: #ba0890"> {{$total25}}</span>
+                                    <label for="" style="color: #FFFFFF;font-size:16px">
+                                        <span class="badge bg-primary me-2"> {{$total13+$total25}}</span>  
                                     </label>
                                 </td>
                                 
                             </tr>  
+                            <tr>
+                                <td colspan="1" class="text-end" style="background-color: #fc2783;color:#FFFFFF;font-size:16px"> 
+                                    บริษัทบีทีแอร์
+                                </td>
+                                <td class="text-center" style="background-color: #fc85b9"> 
+                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total14}}</label>  
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total15}}</label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total16}}</label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total17}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total18}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total19}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total20}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total21}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total22}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total23}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total24}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #fc2783" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total25}} </label>
+                                </td> 
+                            </tr> 
+                            <tr>
+                                <td colspan="1" class="text-end" style="background-color: #06b78b;color:#FFFFFF;font-size:16px"> 
+                                    บริษัทสหรัตน์แอร์
+                                </td>  
+                                <td class="text-center" style="background-color: #68eecc">
+                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha }}</label>  
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total2}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total3}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total4}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total5}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total6}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total7}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total8}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total9}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total10}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total11}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total12}} </label>
+                                </td>
+                                <td class="text-center" style="background-color: #06b78b" >
+                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total13}} </label>
+                                </td> 
+                            </tr> 
                         </table>
                     </div>
                 </p>
@@ -306,7 +385,7 @@
     </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-xl-1">
         <div class="card"> 
             <span class="badge bg-info me-2 p-2"> บริษัทสหรัตน์แอร์</span> 
@@ -318,7 +397,7 @@
         </div>
     </div>
     <div class="col"></div>
-</div>
+</div> --}}
 
 </div>
 </div>

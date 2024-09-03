@@ -1842,7 +1842,7 @@ class AirController extends Controller
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
         if ($startdate =='') {
             $datashow = DB::select(
-                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname,al.air_room_class
                 ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 FROM air_repaire a
                 LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
@@ -1852,7 +1852,7 @@ class AirController extends Controller
             '); 
         } else {
             $datashow = DB::select(
-                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname
+                'SELECT a.* ,al.air_imgname,al.active,al.detail,concat(p.fname," ",p.lname) as ptname,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tectname,al.air_room_class
                 ,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
                 FROM air_repaire a
                 LEFT JOIN air_list al ON al.air_list_id = a.air_list_id
