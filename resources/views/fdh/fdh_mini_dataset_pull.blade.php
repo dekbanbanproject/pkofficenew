@@ -113,13 +113,13 @@ $pos = strrpos($url, '/') + 1;
                    
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
-                        ค้นหา
+                        ประมวลผล
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่ง Minidataset
                     </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('fdh_mini_dataset_endpoint')}}">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('nhso_endpoint')}}">
                         <i class="fa-solid fa-spinner text-danger me-2"></i>
                         ส่ง End Point
                     </button>
@@ -595,8 +595,8 @@ $pos = strrpos($url, '/') + 1;
                                         if (data.status == 200) { 
                                             Swal.fire({
                                                 position: "top-end",
-                                                title: 'ดึงข้อมูลสำเร็จ',
-                                                text: "You Pull data success",
+                                                title: 'ประมวลผลสำเร็จ',
+                                                text: "You Process data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',
