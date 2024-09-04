@@ -1965,6 +1965,92 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         $datenow     = date('Y-m-d');
         // dd($id);
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();        
+       
+        // dd($data_vn_1);
+            foreach ($data_vn_1 as $key => $val) {
+                $dateString = $val->vstdate." ".$val->vsttime;
+                $dateTime = new DateTime($dateString);
+                $timestampInSeconds = $dateTime->getTimestamp();
+                $timestampInMilliseconds = $timestampInSeconds * 1000;                
+                $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
+
+                $service_date_time_   = $val->service_date_time;
+                $service_date_time    = substr($service_date_time_,0,16);          
+                $hcode                = $val->hcode;
+                $vn                   = $val->vn;
+                $cid                  = $val->cid;
+                $transactionld        = $val->transaction_uid;
+                $mainInsclCode        = $val->mainInsclCode;
+                $total_amout          = $val->total_amout;
+                $invoice_number       = $val->invoice_number;
+                $paidAmount           = number_format($val->rcpt_money, 2, '.', '');  
+                $privilegeAmount      = number_format($val->uc_money, 2, '.', '');
+                $totalAmount          = number_format($val->totalAmount, 2, '.', '');
+                $claimtype            = $val->claimtype; 
+                $transactionId        = $val->transactionId;
+                $recorderPid          = $val->recorderPid;
+            
+                $fdh_jwt = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
+                // $fdh_jwt = "3045bba2-3cac-4a74-ad7d-ac6f7b187479";
+                // 'Authorization: Bearer '.$fdh_jwt
+                $curl = curl_init();
+                $postData_send = [
+                    "hcode"      => "$hcode",
+                    "department" => array(
+                    "code"     => "",
+                    "name"     => ""
+                    ),
+                    "mainInsclCode"    => "$mainInsclCode",
+                    "serviceDateTime"  => $timestampInMilliseconds,
+                    "invoiceDateTime"  => $invoiceDateTime,
+                    "transactionId"    => "$transactionId",
+                    "totalAmount"      => $totalAmount,
+                    "paidAmount"       => $paidAmount,
+                    "privilegeAmount"  => $privilegeAmount,
+                    "claimServiceCode" => $claimtype,
+                    "pid"              => "$cid",
+                    "sourceId"         => "9999",
+                    "visitNumber"      => "$vn",
+                    "recorderPid"      => $recorderPid
+                ]; 
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode($postData_send, JSON_UNESCAPED_SLASHES),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',                
+                    'Authorization: Bearer b4df8b7c-c8c2-445a-a904-960aa4a1a1c9'
+                ),
+                ));
+                $response = curl_exec($curl);
+                $result = json_decode($response, true);
+                #echo $message_th = $result['message_th'];
+                #@$transaction_uid = $result['data']["transaction_uid"];
+                @$seq = $result['seq'];
+                @$authenCode = $result['authenCode'];
+                #echo $transaction_uid;
+                dd($result);
+                
+            }
+
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
+    }
+    public function nhso_endpoint___(Request $request)
+    {
+        $id          = $request->ids;
+        $iduser      = Auth::user()->id;
+        $cid_auth    = Auth::user()->cid;
+        $datenow     = date('Y-m-d');
+        // dd($id);
         $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
         // ->where('invoice_number','<>',NULL)
         // $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
