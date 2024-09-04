@@ -1965,7 +1965,13 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         $datenow     = date('Y-m-d');
         // dd($id);
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();        
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();    
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->new_eclaim_token;
+        }     
        
         // dd($data_vn_1);
             foreach ($data_vn_1 as $key => $val) {
@@ -1991,9 +1997,12 @@ class FdhController extends Controller
                 $transactionId        = $val->transactionId;
                 $recorderPid          = $val->recorderPid;
             
-                $fdh_jwt = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
-                // $fdh_jwt = "3045bba2-3cac-4a74-ad7d-ac6f7b187479";
+                $token_end = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
+               
                 // 'Authorization: Bearer '.$fdh_jwt
+
+                //  'Content-Type: application/json',                
+                //     'Authorization: Bearer b4df8b7c-c8c2-445a-a904-960aa4a1a1c9'
                 $curl = curl_init();
                 $postData_send = [
                     "hcode"      => "$hcode",
@@ -2024,9 +2033,9 @@ class FdhController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode($postData_send, JSON_UNESCAPED_SLASHES),
-                CURLOPT_HTTPHEADER => array(
+                CURLOPT_HTTPHEADER => array(   
                     'Content-Type: application/json',                
-                    'Authorization: Bearer b4df8b7c-c8c2-445a-a904-960aa4a1a1c9'
+                    'Authorization: Bearer '.$token_end
                 ),
                 ));
                 $response = curl_exec($curl);
