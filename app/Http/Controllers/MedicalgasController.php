@@ -128,7 +128,7 @@ class MedicalgasController extends Controller
             'datashow'      => $datashow,
         ]);
     }
-    public function air_main(Request $request)
+    public function medicalgas_list(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -139,7 +139,7 @@ class MedicalgasController extends Controller
         $bg_yearnow    = $bgs_year->leave_year_id;
         $datashow = DB::select('SELECT air_list_id,active,air_imgname,air_list_num,air_list_name,btu,air_location_id,air_location_name,detail,air_room_class FROM air_list WHERE air_year = "'.$bg_yearnow.'" ORDER BY air_list_id DESC'); 
         // WHERE active="Y"
-        return view('support_prs.air.air_main',[
+        return view('support_prs.gas.medicalgas_list',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,

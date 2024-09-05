@@ -2590,8 +2590,17 @@ class FdhController extends Controller
            $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
            foreach ($sum_total_authen_ as $key => $value9) {
                 $sum_total_authen = $value9->sumtotal_amout;
-           }    
-            
+           }  
+           
+           $pidsit_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');      
+           foreach ($pidsit_success_ as $key => $value_p) {
+                $pidsit_success = $value_p->Cvn;
+           } 
+           $pidsit_sum_ = DB::connection('mysql')->select('SELECT sum(totalAmount) as totalAmount FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');      
+           foreach ($pidsit_sum_ as $key => $value_su) {
+                $pidsit_total = $value_su->totalAmount;
+           } 
+        //    privilegeAmount
            //แจ้งเตือน 
             function DateThailine($strDate)
             {
@@ -2624,12 +2633,14 @@ class FdhController extends Controller
             $message = $header .               
                 "\n" . "วันที่ส่ง: " . $sendate.
                 "\n" . "Visit All: " . $count_visit_all ." คน". 
-                "\n" . "ยอดจอง : " . number_format($sum_total_amount, 2) . " บาท".
+                 "\n" . "FDH-สำเร็จ : " . $jong_success ." คน".
+                "\n" . "FDH-ไม่สำเร็จ : " .$jong_nosuccess ." คน".
+                "\n" . "ยอดจอง-FDH : " . number_format($sum_total_amount, 2) . " บาท".
                 "\n" . "มีเลข Invoice : " . $count_invoice ." คน". 
-                "\n" . "จองสำเร็จ : " . $jong_success ." คน".
-                "\n" . "จองไม่สำเร็จ : " .$jong_nosuccess ." คน".
-                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull." คน".
-                "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
+                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull." คน".               
+                "\n" . "NHSO-สำเร็จ : " .$pidsit_success. " คน".
+                 "\n" . "ยอดจอง-NHSO : " . number_format($pidsit_total, 2) . " บาท".
+                  "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
                 "\n" . "ยอด Authen: " .number_format($sum_total_authen, 2) ." บาท";
 
             // $linesend = $line;

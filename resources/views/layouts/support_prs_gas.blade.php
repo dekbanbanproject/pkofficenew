@@ -414,7 +414,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_main') }}" id="topnav-more" role="button">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('medicalgas_list') }}" id="topnav-more" role="button">
                                     <i class="fa-solid fa-fire-extinguisher me-2"></i>ทะเบียนก๊าซทางการแพทย์ 
                                 </a>
                                 

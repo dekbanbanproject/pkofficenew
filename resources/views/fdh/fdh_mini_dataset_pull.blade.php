@@ -168,7 +168,7 @@ $pos = strrpos($url, '/') + 1;
                                     {{-- <th class="text-center" width="7%">vstdate</th> --}}
                                     <th class="text-center" width="10%">service_date</th>
                                     <th class="text-center" width="7%">cid</th>
-                                    <th class="text-center" width="7%">uid</th>
+                                    {{-- <th class="text-center" width="7%">uid</th> --}}
                                     <th class="text-center" width="5%">hn</th>
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
@@ -176,8 +176,8 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">amout</th>
                                     <th class="text-center" width="7%">invoice</th>
                                     <th class="text-center" width="5%">paidAmount</th>
-                                    {{-- <th class="text-center" width="5%">privilege</th> --}}
-                                    {{-- <th class="text-center" width="5%">mainInscl</th> --}}
+                                    <th class="text-center" width="5%">totalAmount</th>
+                                    <th class="text-center" width="5%">uc_money</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,17 +212,16 @@ $pos = strrpos($url, '/') + 1;
                                            {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
-                                            <td class="text-center" width="7%">{{ $item->transaction_uid }}</td>
+                                            {{-- <td class="text-center" width="7%">{{ $item->transaction_uid }}</td> --}}
                                             <td class="text-center" width="5%">{{ $item->hn }}</td>
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                             <td class="p-2">{{ $item->ptname }}</td>
                                             {{-- <td class="text-center" width="5%">{{ $item->hcode }}</td> --}}
                                             <td class="text-center" width="7%">{{ $item->total_amout }}</td>
                                             <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
-
                                             <td class="text-center" width="5%">{{ $item->rcpt_money }}</td>
-                                            {{-- <td class="text-center" width="5%">{{ $item->uc_money }}</td> --}}
-                                            {{-- <td class="text-center" width="5%">{{ $item->mainInsclCode}}</td> --}}
+                                            <td class="text-center" width="5%">{{ $item->totalAmount }}</td>
+                                            <td class="text-center" width="5%">{{ $item->mainInsclCode}}</td>
                                            
                                         </tr>
 

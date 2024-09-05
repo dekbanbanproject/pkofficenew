@@ -87,8 +87,8 @@
             </div>
         </div>
     </div>
-    <form action="{{ url('air_report_building') }}" method="GET">
-        @csrf
+    {{-- <form action="{{ url('air_report_building') }}" method="GET">
+        @csrf --}}
         <div class="row"> 
             <div class="col-md-10">
                 <h4 style="color:rgb(255, 255, 255)">แผนการบำรุงรักษาเครื่องปรับอากาศโรงพยาบาลภูเขียวเฉลิมพะเกียรติ ปีงบประมาณ {{$bg_yearnow}} </h4>
@@ -98,13 +98,13 @@
             {{-- <div class="col"></div> --}}
             <div class="col-md-2 text-end"> 
                 
-                {{-- <a href="{{url('air_report_building_excel')}}" class="ladda-button btn-pill btn btn-sm btn-success bt_prs">
+                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-sm btn-success bt_prs">
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
-                </a> --}}
+                </a>
             
             </div>
         </div>  
-    </form>
+    {{-- </form> --}}
  
 <div class="row mt-2">
     <div class="col-xl-12">

@@ -3344,6 +3344,7 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'air_report_month', [App\Http\Controllers\AirController::class, 'air_report_month'])->name('prs.air_report_month'); //
   Route::match(['get', 'post'], 'air_report_monthpdf', [App\Http\Controllers\AirController::class, 'air_report_monthpdf'])->name('prs.air_report_monthpdf'); //
   Route::match(['get', 'post'], 'air_plan_year', [App\Http\Controllers\AirController::class, 'air_plan_year'])->name('prs.air_plan_year'); //
+  Route::match(['get', 'post'], 'air_plan_yearexcel', [App\Http\Controllers\AirController::class, 'air_plan_yearexcel'])->name('prs.air_plan_yearexcel'); //
 
   Route::match(['get', 'post'], 'air_setting', [App\Http\Controllers\AirController::class, 'air_setting'])->name('prs.air_setting'); //
   Route::match(['get', 'post'], 'importplan_excel', [App\Http\Controllers\AirController::class, 'importplan_excel'])->name('prs.importplan_excel'); //
@@ -3386,7 +3387,7 @@ Route::middleware(['type'])->group(function () {
 
   //***************************** ก๊าซทางการแพทย์ **************************/ 
   Route::match(['get', 'post'], 'medicalgas_db', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_db'])->name('prs.medicalgas_db'); //
-
+  Route::match(['get', 'post'], 'medicalgas_list', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_list'])->name('prs.medicalgas_list'); //
 
 
 

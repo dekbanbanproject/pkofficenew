@@ -3858,6 +3858,163 @@ class AirController extends Controller
             'bg_yearnow'    => $bg_yearnow,
         ]);
     }
+
+    public function air_plan_yearexcel(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $months = date('m');
+   
+        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $iduser = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT a.building_id,a.building_name,al.air_year
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND air_year = "'.$bg_yearnow.'" AND active ="Y") as qtyall
+                ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND air_year = "'.$bg_yearnow.'" AND active ="N") as qty_noall
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "10" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"  
+                ) as tula_saha
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "10" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2" 
+                ) as tula_bt
+
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "11" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as plusji_saha
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "11" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as plusji_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "12" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as tanwa_saha
+                  ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "12" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as tanwa_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "1" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as makkara_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "1" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as makkara_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "2" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as gumpa_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "2" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as gumpa_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "3" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as mena_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "3" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as mena_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "4" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as mesa_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "4" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as mesa_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "5" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as plussapa_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "5" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as plussapa_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "6" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as mituna_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "6" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as mituna_bt 
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "7" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as karakada_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "7" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as karakada_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "8" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as singha_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "8" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as singha_bt
+                ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "9" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "1"
+                ) as kanya_saha
+                 ,(SELECT COUNT(DISTINCT aa.air_list_num) FROM air_plan aa
+                    LEFT JOIN air_list bb ON bb.air_list_num = aa.air_list_num  
+                    LEFT JOIN air_plan_month cc ON cc.air_plan_month_id = aa.air_plan_month_id
+                    WHERE bb.air_location_id = a.building_id AND cc.air_plan_month = "9" AND cc.years = "'.$bg_yearnow.'" AND bb.air_year = "'.$bg_yearnow.'" AND aa.supplies_id = "2"
+                ) as kanya_bt
+                
+            FROM air_list al 
+            LEFT JOIN building_data a ON a.building_id = al.air_location_id 
+            WHERE al.air_year = "'.$bg_yearnow.'"
+            GROUP BY a.building_id
+            ORDER BY building_id ASC
+        ');
+        
+         
+        return view('support_prs.air.air_plan_yearexcel',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow, 
+            'bg_yearnow'    => $bg_yearnow,
+        ]);
+    }
    
     // ***************** Detail Dashboard *************************
     public function detail_companyall(Request $request)
