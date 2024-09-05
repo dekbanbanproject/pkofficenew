@@ -2329,9 +2329,9 @@ class FdhController extends Controller
             $invoiceDateTime      = $val->invoiceDateTime;   
             // $transactionld        = $val->transaction_uid;
             $mainInsclCode        = $val->mainInsclCode;
-            $paidAmount           = number_format($val->paidAmount, 2);  
-            $privilegeAmount      = number_format($val->privilegeAmount, 2);
-            $totalAmount          = number_format($val->totalAmount, 2); 
+            $paidAmount           = $val->paidAmount;  
+            $privilegeAmount      = $val->privilegeAmount;
+            $totalAmount          = $val->totalAmount; 
             $claimServiceCode     = $val->claimServiceCode; 
             $transactionId        = $val->transactionId;
             $sourceId             = $val->sourceId;
@@ -2430,19 +2430,20 @@ class FdhController extends Controller
                 @$seq         = $results['seq'];
                 @$authenCode  = $results['authenCode'];
                 @$dataError         = $results['dataError'];
+                if (@$seq !='') {
+                    Fdh_mini_dataset::where('vn',$vn)->update([
+                        'authenCode'   => @$authenCode,
+                        'seq'          => @$seq,
+                        'active_nhso'  => 'Y'
+                    ]); 
+              }
                 if (@$dataError == 'พบข้อมูลซ้ำในระบบ') {
                     Fdh_mini_dataset::where('vn',$vn)->update([
                         'dataError'   => @$dataError,
                         'active_nhso'  => 'Y'
                     ]); 
                 } else {
-                    if (@$seq !='') {
-                        Fdh_mini_dataset::where('vn',$vn)->update([
-                            'authenCode'   => @$authenCode,
-                            'seq'          => @$seq,
-                            'active_nhso'  => 'Y'
-                        ]); 
-                  }
+                    
                 }
                 
               
