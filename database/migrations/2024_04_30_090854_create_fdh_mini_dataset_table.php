@@ -49,6 +49,21 @@ return new class extends Migration
                 $table->string('computerName')->nullable();//
                 $table->string('recorderPid')->nullable();//   cid authคนที่ ใช้เครื่อง
 
+                $table->string('serviceDateTime')->nullable();//
+                $table->string('invoiceDateTime')->nullable();//
+                $table->string('transactionId')->nullable();//
+                $table->string('totalAmount')->nullable();//
+
+                $table->string('visitNumber')->nullable();//
+                $table->string('paidAmount')->nullable();//
+                $table->string('privilegeAmount')->nullable();//
+                $table->string('claimServiceCode')->nullable();//
+                $table->string('code')->nullable();//
+                $table->string('name')->nullable();//
+                $table->string('seq')->nullable();//
+                $table->string('authenCode')->nullable();//
+                $table->string('dataError')->nullable();//
+
                 $table->timestamps();
             }); 
         }

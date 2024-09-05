@@ -649,6 +649,12 @@
                                             <span key="t-vertical">รายงานประจำเดือน</span>  
                                         </a> 
                                     </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_company')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานบริษัท</span>  
+                                        </a> 
+                                    </div>
                                 </div>
                                 
                             </li>

@@ -117,12 +117,16 @@ $pos = strrpos($url, '/') + 1;
                     </button>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ส่ง Minidataset
+                        ปิดสิทธิ์
                     </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('nhso_endpoint')}}">
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
+                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        ส่ง Minidataset
+                    </button> --}}
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('nhso_endpoint')}}">
                         <i class="fa-solid fa-spinner text-danger me-2"></i>
                         ส่ง End Point
-                    </button>
+                    </button> --}}
                    
                   
                 </div> 
@@ -160,7 +164,8 @@ $pos = strrpos($url, '/') + 1;
                                     <th width="auto" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
                                     <th class="text-center" width="5%">FDH</th>
                                     <th class="text-center" width="5%">NHSO</th>
-                                    <th class="text-center" width="7%">vstdate</th>
+                                    <th class="text-center" width="7%">สถานะ NHSO</th>
+                                    {{-- <th class="text-center" width="7%">vstdate</th> --}}
                                     <th class="text-center" width="10%">service_date</th>
                                     <th class="text-center" width="7%">cid</th>
                                     <th class="text-center" width="7%">uid</th>
@@ -203,7 +208,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="bg-danger badge">{{ $item->active_nhso }}</span> 
                                                 @endif 
                                             </td>
-                                           <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                            <td class="text-center" width="7%">{{ $item->dataError }}</td>
+                                           {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
                                             <td class="text-center" width="7%">{{ $item->transaction_uid }}</td>

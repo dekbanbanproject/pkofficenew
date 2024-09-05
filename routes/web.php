@@ -3326,6 +3326,10 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'air_report_type', [App\Http\Controllers\AirController::class, 'air_report_type'])->name('prs.air_report_type'); //
   Route::match(['get', 'post'], 'air_report_type_excel', [App\Http\Controllers\AirController::class, 'air_report_type_excel'])->name('prs.air_report_type_excel'); //
   Route::match(['get', 'post'], 'air_report_typesub/{id}/{air_repaire_type}/{startdate}/{enddate}', [App\Http\Controllers\AirController::class, 'air_report_typesub'])->name('prs.air_report_typesub'); //
+
+  Route::match(['get', 'post'], 'air_report_company', [App\Http\Controllers\AirController::class, 'air_report_company'])->name('prs.air_report_company'); //
+  Route::match(['get', 'post'], 'air_report_company_excel', [App\Http\Controllers\AirController::class, 'air_report_company_excel'])->name('prs.air_report_company_excel'); //
+
   Route::match(['get', 'post'], 'air_report_building', [App\Http\Controllers\AirController::class, 'air_report_building'])->name('prs.air_report_building'); //
   Route::match(['get', 'post'], 'air_report_building_sub/{id}', [App\Http\Controllers\AirController::class, 'air_report_building_sub'])->name('prs.air_report_building_sub'); //
   Route::match(['get', 'post'], 'air_report_building_excel', [App\Http\Controllers\AirController::class, 'air_report_building_excel'])->name('prs.air_report_building_excel'); //
