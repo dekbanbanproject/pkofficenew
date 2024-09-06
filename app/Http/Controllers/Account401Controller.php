@@ -350,7 +350,7 @@ class Account401Controller extends Controller
                         AND vstdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
                         AND a.debit_total > 0
                         GROUP BY a.vn
-                        order by a.vstdate asc; 
+                        order by a.vn DESC; 
                 '); 
                 
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
@@ -385,7 +385,7 @@ class Account401Controller extends Controller
                         AND vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         AND a.debit_total > 0
                         GROUP BY a.vn
-                        order by a.vstdate asc; 
+                        order by a.vn DESC; 
                 '); 
                 
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
@@ -468,71 +468,71 @@ class Account401Controller extends Controller
         // ,e.ar_opd as account_code
         // ,e.name as account_name
 
-        foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.401')->count();
-                    // ->whereBetween('vstdate', [$startdate, $enddate])
-                   
-                    // $starttime = substr($vst, 0, 5);
-                    // $day = substr($value->vstdate,0,2);
-                    // $mo = substr($value->vstdate,3,2);
-                    // $year = substr($value->vstdate,7,4);
+            foreach ($acc_debtor as $key => $value) {
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.401')->count();
+                        // ->whereBetween('vstdate', [$startdate, $enddate])
                     
-                    // $vsttime = substr($value->vstdate,12,8);
-                    $hm = substr($value->vsttime,0,5);
-                    // $hh = substr($value->vstdate,12,2);
-                    // $mm = substr($value->vstdate,15,2);
-                    // $vstdate = $year.'-'.$mo.'-'.$day;
-
-                    if ($check > 0) {
-                        Acc_1102050101_401::where('vn', $value->vn)->update([
-                            'pdx'                => $value->pdx,
-                            'icd10'              => $value->icd10,
-                            // 'cc'                 => $value->cc,
-                            'approval_code'      => $value->approval_code,
-                            'price_ofc'          => $value->price_ofc,
-                        ]);
-                    }else{
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'vsttime'            => $value->vsttime,
-                            'hm'                 => $hm,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
-                            'pdx'                => $value->pdx,
-                            'icd10'              => $value->icd10,
-                            'cc'                 => $value->cc,
-                            'approval_code'      => $value->approval_code,
-                            'price_ofc'          => $value->price_ofc,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
-
+                        // $starttime = substr($vst, 0, 5);
+                        // $day = substr($value->vstdate,0,2);
+                        // $mo = substr($value->vstdate,3,2);
+                        // $year = substr($value->vstdate,7,4);
                         
-                    } 
-        }
-        Acc_ofc_dateconfig::insert([
-            'startdate'   => $startdate,
-            'enddate'     => $enddate,
-        ]);
+                        // $vsttime = substr($value->vstdate,12,8);
+                        $hm = substr($value->vsttime,0,5);
+                        // $hh = substr($value->vstdate,12,2);
+                        // $mm = substr($value->vstdate,15,2);
+                        // $vstdate = $year.'-'.$mo.'-'.$day;
+
+                        if ($check > 0) {
+                            Acc_debtor::where('vn', $value->vn)->update([
+                                'pdx'                => $value->pdx,
+                                'icd10'              => $value->icd10,
+                                // 'cc'                 => $value->cc,
+                                'approval_code'      => $value->approval_code,
+                                'price_ofc'          => $value->price_ofc,
+                            ]);
+                        }else{
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'vsttime'            => $value->vsttime,
+                                'hm'                 => $hm,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name,
+                                'income_group'       => $value->income_group,
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->paid_money,
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'debit_total'        => $value->debit,
+                                'max_debt_amount'    => $value->max_debt_money,
+                                'pdx'                => $value->pdx,
+                                'icd10'              => $value->icd10,
+                                'cc'                 => $value->cc,
+                                'approval_code'      => $value->approval_code,
+                                'price_ofc'          => $value->price_ofc,
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+
+                            
+                        } 
+            }
+            Acc_ofc_dateconfig::insert([
+                'startdate'   => $startdate,
+                'enddate'     => $enddate,
+            ]);
 
             return response()->json([
 

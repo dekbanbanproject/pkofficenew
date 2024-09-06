@@ -88,8 +88,8 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-    {{-- <form action="{{ url('fdh_mini_dataset_pull') }}" method="POST">
-        @csrf --}}
+    <form action="{{ url('fdh_mini_dataset_pull') }}" method="GET">
+        @csrf
     <div class="row"> 
             <div class="col-md-3">
                 <h4 class="card-title" style="color:rgba(21, 177, 164, 0.871)">Detail Financial Data Hub</h4>
@@ -105,11 +105,11 @@ $pos = strrpos($url, '/') + 1;
                 <input type="text" class="form-control card_fdh_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                     data-date-language="th-th" value="{{ $enddate }}"/>  
     
-                {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                    ค้นหา(มีเลข invoice_number)
+                    ค้นหา 
                 </button>  
-                    </form>  --}}
+                    </form> 
                    
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary card_fdh_4" id="Pulldata">
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
@@ -162,8 +162,14 @@ $pos = strrpos($url, '/') + 1;
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     <th width="auto" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
-                                    <th class="text-center" width="5%">FDH</th>
-                                    <th class="text-center" width="5%">NHSO</th>
+                                    <th class="text-center" width="5%">
+                                        <span class="bg-success badge">{{ $count_fdh_y }}</span> FDH
+                                        <span class="bg-danger badge">{{ $count_fdh_n }}</span> 
+                                    </th>
+                                    <th class="text-center" width="5%">
+                                        <span class="bg-success badge">{{ $count_nhso_y }}</span> NHSO
+                                        <span class="bg-danger badge">{{ $count_nhso_n }}</span> 
+                                    </th>
                                     {{-- <th class="text-center" width="7%">สถานะ NHSO</th> --}}
                                     {{-- <th class="text-center" width="7%">vstdate</th> --}}
                                     <th class="text-center" width="10%">service_date</th>
@@ -173,9 +179,9 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">pttype</th>
                                     <th class="text-center">ptname</th>
                                     {{-- <th class="text-center" width="5%">hcode</th> --}}
-                                    <th class="text-center" width="5%">amout</th>
-                                    <th class="text-center" width="7%">invoice</th>
-                                    <th class="text-center" width="5%">paidAmount</th>
+                                    {{-- <th class="text-center" width="5%">amout</th> --}}
+                                    {{-- <th class="text-center" width="7%">invoice</th> --}}
+                                    {{-- <th class="text-center" width="5%">paidAmount</th> --}}
                                     <th class="text-center" width="5%">totalAmount</th>
                                     <th class="text-center" width="5%">uc_money</th>
                                     <th class="text-center" width="5%">สถานะ</th>
@@ -202,14 +208,14 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="bg-danger badge">{{ $item->active }}</span> 
                                                 @endif                                               
                                             </td>
-                                            {{-- <td class="text-center" width="5%"> 
+                                            <td class="text-center" width="5%"> 
                                                 @if ($item->active_nhso == 'Y')
                                                     <span class="bg-success badge">{{ $item->active_nhso }}</span> 
                                                 @else
                                                     <span class="bg-danger badge">{{ $item->active_nhso }}</span> 
                                                 @endif 
-                                            </td> --}}
-                                            <td class="text-center" width="7%">{{ $item->dataError }}</td>
+                                            </td>
+                                            {{-- <td class="text-center" width="7%">{{ $item->dataError }}</td> --}}
                                            {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
                                             <td class="text-center" width="7%">{{ $item->cid }}</td>
@@ -218,9 +224,9 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                             <td class="p-2">{{ $item->ptname }}</td>
                                             {{-- <td class="text-center" width="5%">{{ $item->hcode }}</td> --}}
-                                            <td class="text-center" width="7%">{{ $item->total_amout }}</td>
-                                            <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
-                                            <td class="text-center" width="5%">{{ $item->rcpt_money }}</td>
+                                            {{-- <td class="text-center" width="7%">{{ $item->total_amout }}</td> --}}
+                                            {{-- <td class="text-center" width="7%">{{ $item->invoice_number }}</td> --}}
+                                            {{-- <td class="text-center" width="5%">{{ $item->rcpt_money }}</td> --}}
                                             <td class="text-center" width="5%">{{ $item->totalAmount }}</td>
                                             <td class="text-center" width="5%">{{ $item->uc_money}}</td>
                                             <td class="text-center" width="5%">{{ $item->ovstost}}</td>

@@ -240,9 +240,9 @@
                                                  $stm_4022 = DB::select(
                                                     'SELECT sum(U2.Total_amount) as Total_amount,count(DISTINCT U1.an) as Countvisit 
                                                         from acc_1102050101_4022 U1
-                                                        LEFT JOIN acc_stm_ti_total U2 on U2.hn = U1.hn AND U2.vstdate = U1.rxdate
+                                                        LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate
                                                         WHERE month(U1.dchdate) = "'.$item->months.'" AND year(U1.dchdate) = "'.$item->year.'" 
-                                                        AND U2.Total_amount is not null AND U2.HDflag IN("CIC")
+                                                        AND U2.Total_amount is not null AND U2.HDBill_TBill_HDflag IN("CIC")
                                                       
                                                 ');   
                                                 // group by U1.an,U1.rxdate 

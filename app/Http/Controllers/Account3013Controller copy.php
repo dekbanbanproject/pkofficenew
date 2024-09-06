@@ -213,13 +213,6 @@ class Account3013Controller extends Controller
             ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
             ELSE "0.00" 
             END as debit_drug150
-            ,(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE EXISTS (SELECT icode FROM xray_items WHERE icode = ot.icode AND xray_items_group ="3") AND vn =v.vn) as debit_ct_sss
-            ,CASE
-                WHEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> ""))) < 700 
-                THEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "")))
-                WHEN v.uc_money < 700 then v.uc_money
-                ELSE "700"
-            END as toklong
 
             FROM ovst o
             LEFT JOIN vn_stat v on v.vn=o.vn
@@ -240,18 +233,17 @@ class Account3013Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->count(); 
                     if ($check > 0) {
-                        // Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->update([
-                        //     'hospmain'           => $value->hospmain, 
-                        //     'pdx'                => $value->pdx, 
-                        //     'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
-                        //     'debit_ins_sss'      => $value->debit_ins_sss,
-                        //     'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
-                        // ]);                     
+                        Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->update([
+                            'hospmain'           => $value->hospmain, 
+                            'pdx'                => $value->pdx, 
+                            'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
+                            'debit_ins_sss'      => $value->debit_ins_sss,
+                            'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
+                        ]);                     
                                                                     
                     } else {
                         // if ($value->cid !='') {
-                            // if ($value->ct_chest_with > 0 || $value->debit_ct > 0 || $value->debit_drug100_50 > 0 || $value->debit_drug150 > 0) { 
-                            if ($value->debit_ct_sss > 0) { 
+                            if ($value->ct_chest_with > 0 || $value->debit_ct > 0 || $value->debit_drug100_50 > 0 || $value->debit_drug150 > 0) { 
                                 Acc_debtor::insert([
                                     'hn'                 => $value->hn,
                                     // 'an'                 => $value->an,
@@ -275,10 +267,9 @@ class Account3013Controller extends Controller
                                     'debit_toa'          => $value->debit_toa,
                                     'debit_refer'        => $value->debit_refer, 
                                     'fokliad'            => $value->fokliad, 
-                                    'debit_total'        => $value->debit_ct_sss,
+                                    'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
                                     'debit_ins_sss'      => $value->debit_ins_sss,
-                                    'debit_ct_sss'       => $value->debit_ct_sss, 
-                                    'toklong'            => $value->toklong,
+                                    'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);  
                             }
@@ -300,31 +291,127 @@ class Account3013Controller extends Controller
         
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
-            $acc_debtor = DB::connection('mysql2')->select(
-                'SELECT v.vn,ifnull(o.an,"") as an,o.hn,v.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group ,ptt.pttype_eclaim_id ,vp.pttype,ptt.max_debt_money
-                ,e.code as acc_code ,e.ar_opd as account_code,e.name as account_name ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money ,v.rcpno_list as rcpno
-                ,v.income-v.discount_money-v.rcpt_money as debit
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,(SELECT SUM(o.sum_price) FROM opitemrece o LEFT JOIN nondrugitems n on n.icode = o.icode WHERE o.vn=v.vn AND o.pttype="A7" AND (n.billcode like "8%" OR n.billcode ="2509") and n.billcode not in ("8608","8307") and o.an is null) as debit_ins_sss
-                ,(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE EXISTS (SELECT icode FROM xray_items WHERE icode = ot.icode AND xray_items_group ="3") AND vn =v.vn) as debit_ct_sss
-                            from ovst o
-                            left join vn_stat v on v.vn=o.vn
-                            LEFT JOIN visit_pttype vp on vp.vn = v.vn
-                            left join patient pt on pt.hn=o.hn
-                            LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-                            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                            LEFT JOIN opitemrece op ON op.vn = o.vn
-                            WHERE v.vstdate BETWEEN "2024-09-01" and "2024-09-05" 
-                            AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.3013" AND pttype IS NOT NULL)             
-                            AND v.income-v.discount_money-v.rcpt_money <> 0 
-                            AND (v.cid IS NOT NULL or v.cid <>"")
-                            and (o.an="" or o.an is null)
-                            GROUP BY v.vn
+            $acc_debtor = DB::connection('mysql2')->select(' 
+                    SELECT * FROM
+                    (
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
+                        ,"07" as acc_code,"1102050101.3013" as account_code,"ลูกหนี้ค่ารักษาประกันสังคม - OP CT" as account_name,v.pdx,v.dx0
+                        ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
+                        ,ov.name as active_status 
+
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
+                        ELSE "0.00" 
+                        END as debit_without
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009148" AND vn = v.vn) THEN "1200" 
+                        ELSE "0.00" 
+                        END as debit_with
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3010860" AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as debit_upper
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009187" AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as debit_lower
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
+                        ELSE "0.00" 
+                        END as debit_multiphase
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
+                        ELSE "0.00" 
+                        END as debit_drug100
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
+                        ELSE "0.00" 
+                        END as debit_drug150
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as ct_cwith_bwith
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
+                        ,case
+                        when v.uc_money < 1000 then v.uc_money
+                        else "1000"
+                        end as toklong
+                        from vn_stat v
+                        left outer join ipt i on i.vn = v.vn
+                        left outer join patient p on p.hn = v.hn
+                        left outer join pttype pt on pt.pttype =v.pttype 
+                        left outer join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
+                        left outer join opdscreen d on d.vn = v.vn
+                        left outer join hospcode h on h.hospcode = v.hospmain 
+                        left outer join referin ro on ro.vn = v.vn 
+                        left outer join opitemrece om on om.vn = v.vn  
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
+                        LEFT OUTER JOIN xray_report x on x.vn = v.vn 
+			            LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
+                        where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                        and i.an is null AND v.uc_money <> 0 AND p.nationality = "99"   
+                        and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.3013" AND opdipd ="OPD")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
+                        group by v.vn
+                
+                        UNION
+                
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,i.dchdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
+                        ,"07" as acc_code,"1102050101.3013" as account_code,"ลูกหนี้ค่ารักษาประกันสังคม - OP CT" as account_name,v.pdx,v.dx0
+                        ,v.income,v.uc_money ,v.discount_money,v.rcpt_money,v.paid_money  
+                        ,ov.name as active_status 
+                        
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009147" AND vn = v.vn) THEN "1200" 
+                        ELSE "0.00" 
+                        END as debit_without
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009148" AND vn = v.vn) THEN "1200" 
+                        ELSE "0.00" 
+                        END as debit_with
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3010860" AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as debit_upper
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009187" AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as debit_lower
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3009143" AND vn = v.vn) THEN "1000" 
+                        ELSE "0.00" 
+                        END as debit_multiphase
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011265" AND vn = v.vn) THEN "1100" 
+                        ELSE "0.00" 
+                        END as debit_drug100
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
+                        ELSE "0.00" 
+                        END as debit_drug150
+                        ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009178","3009148") AND vn = v.vn) THEN "2500" 
+                        ELSE "0.00" 
+                        END as ct_cwith_bwith
+                        
+                        ,(SELECT SUM(rcptamt) sumprice FROM incoth WHERE income <> "08" AND vn = v.vn) AS price_noct
+                        ,case
+                        when v.uc_money < 700 then v.uc_money
+                        else "700"
+                        end as toklong
+                        from vn_stat v
+                        left outer join ipt i on i.vn = v.vn
+                        left outer join patient p on p.hn = v.hn
+                        left outer join pttype pt on pt.pttype =v.pttype 
+                        left outer join ovstdiag oo on oo.vn = v.vn
+                        left outer join opdscreen d on d.vn = v.vn
+                        left outer join hospcode h on h.hospcode = v.hospmain 
+                        left outer join referin ro on ro.vn = v.vn 
+                        left outer join opitemrece om on om.vn = v.vn 
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ov on ov.ovstost = ot.ovstost
+                        LEFT OUTER JOIN xray_report x on x.vn = v.vn 
+			            LEFT OUTER JOIN xray_items xi on xi.xray_items_code = x.xray_items_code 
+                        where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                        and i.an is null AND v.uc_money <> 0  AND p.nationality = "99"  
+                        and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.3013" AND opdipd ="OPD")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
+                        AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx2 NOT BETWEEN "E110" AND "E149" AND v.dx2 NOT BETWEEN "J440" AND "J449" AND v.dx2 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx3 NOT BETWEEN "E110" AND "E149" AND v.dx3 NOT BETWEEN "J440" AND "J449" AND v.dx3 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx4 NOT BETWEEN "E110" AND "E149" AND v.dx4 NOT BETWEEN "J440" AND "J449" AND v.dx4 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159"
+                        group by v.vn
+                    ) As Refer 
             ');         
             // ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode NOT IN("3009147","3009148","3010860","3009187","3009143","3011265","3011266") AND vn = v.vn) as pricenoct           
             foreach ($acc_debtor as $key => $value) { 
@@ -332,38 +419,79 @@ class Account3013Controller extends Controller
 
                 if ($check > 0 ) { 
                 } else {
-                    if ($value->debit_ct_sss > 0 ) {
-                            Acc_debtor::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->ptname,
-                                'pttype'             => $value->pttype,
-                                'vstdate'            => $value->vstdate, 
-                                'account_code'       => "1102050101.3013", 
-                                'account_name'       => $value->account_name, 
-                                'income'             => $value->income,
-                                'uc_money'           => $value->uc_money,
-                                'discount_money'     => $value->discount_money,
-                                'paid_money'         => $value->paid_money,
-                                'rcpt_money'         => $value->rcpt_money,
-                                'debit'              => $value->debit,
-                                'debit_drug'         => $value->debit_drug,
-                                'debit_instument'    => $value->debit_instument,
-                                'debit_toa'          => $value->debit_toa,
-                                'debit_refer'        => $value->debit_refer, 
-                                'fokliad'            => $value->fokliad, 
-                                'debit_total'        => $value->debit_ct_sss, 
-                                'debit_ins_sss'      => $value->debit_ins_sss,
-                                'debit_ct_sss'       => $value->debit_ct_sss, 
-                                'max_debt_amount'    => $value->max_debt_money,
-                                'acc_debtor_userid'  => Auth::user()->id
-                            ]); 
-                    } 
+                    if ($value->debit_without > 0 || $value->debit_with > 0 || $value->debit_upper > 0 || $value->debit_lower > 0 || $value->debit_multiphase > 0 || $value->debit_drug100 > 0 || $value->debit_drug150 > 0 || $value->ct_cwith_bwith > 0) {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'dchdate'            => $value->dchdate,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name, 
+                            'hospcode'           => $value->hospcode,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->uc_money, 
+                            'debit_total'        => $value->price_noct, 
+                            'referin_no'         => $value->referin_no, 
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
+                            'cc'                 => $value->cc, 
+                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
+                            'ct_sumprice'        => '100',  
+                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
+                            'acc_debtor_userid'  => Auth::user()->id,
+                            'date_pull'          => $datetimenow,
+                            'active_status'      => $value->active_status,
+                            'referin_no'         => $value->referin_no,
+                        ]);
+                    }else{
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'dchdate'            => $value->dchdate,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name, 
+                            'hospcode'           => $value->hospcode,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->uc_money, 
+                            'debit_total'        => $value->toklong, 
+                            'referin_no'         => $value->referin_no, 
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
+                            'cc'                 => $value->cc, 
+                            'ct_price'           => ($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith), 
+                            'ct_sumprice'        => '100',  
+                            'sauntang'           => ($value->uc_money)-($value->debit_without+$value->debit_with+$value->debit_upper+$value->debit_lower+$value->debit_multiphase+$value->debit_drug100+$value->debit_drug150+$value->ct_cwith_bwith)-('100'), 
+                            'acc_debtor_userid'  => Auth::user()->id,
+                            'date_pull'          => $datetimenow,
+                            'active_status'      => $value->active_status,
+                            'referin_no'         => $value->referin_no,
+                        ]);
+                     
+                    }
+              
                 }                
             }      
-            return response()->json([ 
+            return response()->json([
+
                 'status'    => '200'
             ]);
     }       
@@ -410,7 +538,6 @@ class Account3013Controller extends Controller
                         'debit_ins_sss'     => $value->debit_ins_sss,
                         'debit_ct_sss'      => $value->debit_ct_sss,  
                         'max_debt_amount'   => $value->max_debt_amount,
-                        'toklong'           => $value->toklong,
                         'acc_debtor_userid' => $iduser
                     ]);
                 }
@@ -476,92 +603,6 @@ class Account3013Controller extends Controller
             'startdate'     => $startdate,
             'enddate'       => $enddate
         ]);
-    }
-
-    public function account_3013_checksit(Request $request)
-    {
-        $datestart = $request->datestart;
-        $dateend = $request->dateend;
-        $date = date('Y-m-d');
-        
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.3013" AND stamp = "N" GROUP BY vn');
-       //  AND subinscl IS NULL
-           //  LIMIT 30
-        // WHERE vstdate = CURDATE()
-        // BETWEEN "2024-02-03" AND "2024-02-15"
-        // $token_data = DB::connection('mysql')->select('SELECT cid,token FROM ssop_token');
-        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
-            $cid_    = $value->cid;
-            $token_  = $value->token;
-        }
-        foreach ($data_sitss as $key => $item) {
-            $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
-                // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
-                // foreach ($token_data as $key => $value) { 
-                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
-                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
-                        );
-                        $params = array(
-                            'sequence' => array(
-                                "user_person_id"   => "$cid_",
-                                "smctoken"         => "$token_",
-                                // "user_person_id" => "$value->cid",
-                                // "smctoken"       => "$value->token",
-                                "person_id"        => "$pids"
-                        )
-                    );
-                    $contents = $client->__soapCall('searchCurrentByPID',$params);
-                    foreach ($contents as $v) {
-                        @$status = $v->status ;
-                        @$maininscl = $v->maininscl;
-                        @$startdate = $v->startdate;
-                        @$hmain = $v->hmain ;
-                        @$subinscl = $v->subinscl ;
-                        @$person_id_nhso = $v->person_id;
-
-                        @$hmain_op = $v->hmain_op;  //"10978"
-                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                        @$hsub = $v->hsub;    //"04047"
-                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
-
-                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                            $date = date("Y-m-d");
-                          
-                            Acc_debtor::where('vn', $vn)
-                            ->update([
-                                'status'         => 'จำหน่าย/เสียชีวิต',
-                                'maininscl'      => @$maininscl,
-                                'pttype_spsch'   => @$subinscl,
-                                'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
-                            ]);
-                            
-                        }elseif(@$maininscl !="" || @$subinscl !=""){
-                           Acc_debtor::where('vn', $vn)
-                           ->update([
-                               'status'         => @$status,
-                               'maininscl'      => @$maininscl,
-                               'pttype_spsch'   => @$subinscl,
-                               'hmain'          => @$hmain,
-                               'subinscl'       => @$subinscl,
-                           
-                           ]); 
-                                    
-                        }
-
-                    }
-           
-        }
-
-        return response()->json([
-
-           'status'    => '200'
-       ]);
-
     }
 
 

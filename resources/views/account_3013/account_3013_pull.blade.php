@@ -82,7 +82,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end"> 
+            <div class="col-md-4 text-end"> 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                      data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
@@ -133,7 +133,7 @@
                                             <th class="text-center">hospmain</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
-                                            {{-- <th class="text-center">income</th>  --}}
+                                            <th class="text-center">income</th> 
                                             {{-- <th class="text-center">rcpt_money</th> --}}
                                             <th class="text-center">ลูกหนี้</th>
                                             <th class="text-center">เรียกเก็บตามข้อตกลง</th>  
@@ -168,7 +168,7 @@
                                                 <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->debit_ct_sss, 2) }}</td>  --}}
+                                                <td class="text-center" width="10%">{{ number_format($item->toklong, 2) }}</td> 
                                                 {{-- @if ($item->debit_ct_sss > '0')
                                                     <td class="text-center" width="5%"> 
                                                         <span class="bg-success badge me-2">{{ $item->debit_ct_sss }}</span> 
