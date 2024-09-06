@@ -1683,7 +1683,8 @@ class FdhController extends Controller
         if ($startdate == '') {
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
                 'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate = "' . $date . '" AND (active = "N" OR active_nhso = "N")
+                    WHERE vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
+                    AND (active = "N" OR active_nhso = "N")
                     ORDER BY total_amout DESC'); 
                     // AND active = "N" AND active_nhso = "N" 
                     // (active = "N" OR active_nhso = "N") 
@@ -1713,7 +1714,7 @@ class FdhController extends Controller
                 'SELECT o.vstdate,o.vsttime,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,pt.cid,"10978" as hcode,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number_mini,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
-                    ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode
+                    ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode,ov.name as ovstost
                         
                     ,CONCAT(o.vstdate," ",DATE_FORMAT(o.vsttime,"%H:%i")) AS service_date_time,v.income as totalAmount
                     ,v.uc_money AS privilegeAmount,v.paid_money AS paidAmount,rd.finance_number as invoice_number
@@ -1722,6 +1723,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
                     LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
                     WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
                     GROUP BY o.vn
@@ -1752,6 +1754,7 @@ class FdhController extends Controller
                         'rcpt_money'          => $value->rcpt_money,
                         'uc_money'            => $value->uc_money,
                         'mainInsclCode'       => $value->mainInsclCode, 
+                        'ovstost'             => $value->ovstost,
                         'sourceId'            => '9999', 
                         // 'computerName'        => 'PKOFFICE',
                         'recorderPid'         => $cid_auth, 
@@ -1774,6 +1777,7 @@ class FdhController extends Controller
                         'rcpt_money'          => $value->rcpt_money,
                         'uc_money'            => $value->uc_money,
                         'mainInsclCode'       => $value->mainInsclCode, 
+                        'ovstost'             => $value->ovstost,
                         'sourceId'            => '9999', 
                         // 'computerName'        => 'PKOFFICE',
                         'recorderPid'         => $cid_auth, 

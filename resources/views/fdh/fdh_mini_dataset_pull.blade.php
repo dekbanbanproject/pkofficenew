@@ -164,7 +164,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th width="auto" class="text-center"><input type="checkbox" class="fdhcheckbox" name="stamp" id="stamp"> </th> 
                                     <th class="text-center" width="5%">FDH</th>
                                     <th class="text-center" width="5%">NHSO</th>
-                                    <th class="text-center" width="7%">สถานะ NHSO</th>
+                                    {{-- <th class="text-center" width="7%">สถานะ NHSO</th> --}}
                                     {{-- <th class="text-center" width="7%">vstdate</th> --}}
                                     <th class="text-center" width="10%">service_date</th>
                                     <th class="text-center" width="7%">cid</th>
@@ -178,6 +178,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">paidAmount</th>
                                     <th class="text-center" width="5%">totalAmount</th>
                                     <th class="text-center" width="5%">uc_money</th>
+                                    <th class="text-center" width="5%">สถานะ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -201,13 +202,13 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="bg-danger badge">{{ $item->active }}</span> 
                                                 @endif                                               
                                             </td>
-                                            <td class="text-center" width="5%"> 
+                                            {{-- <td class="text-center" width="5%"> 
                                                 @if ($item->active_nhso == 'Y')
                                                     <span class="bg-success badge">{{ $item->active_nhso }}</span> 
                                                 @else
                                                     <span class="bg-danger badge">{{ $item->active_nhso }}</span> 
                                                 @endif 
-                                            </td>
+                                            </td> --}}
                                             <td class="text-center" width="7%">{{ $item->dataError }}</td>
                                            {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
                                             <td class="text-center" width="10%">{{ $item->service_date_time }}</td>
@@ -221,8 +222,8 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="7%">{{ $item->invoice_number }}</td>
                                             <td class="text-center" width="5%">{{ $item->rcpt_money }}</td>
                                             <td class="text-center" width="5%">{{ $item->totalAmount }}</td>
-                                            <td class="text-center" width="5%">{{ $item->mainInsclCode}}</td>
-                                           
+                                            <td class="text-center" width="5%">{{ $item->uc_money}}</td>
+                                            <td class="text-center" width="5%">{{ $item->ovstost}}</td>
                                         </tr>
 
                                 @endforeach
