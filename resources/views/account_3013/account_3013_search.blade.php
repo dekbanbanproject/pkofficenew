@@ -156,13 +156,17 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="6%">drug</th> 
                                     <th class="text-center" width="6%">inst</th> 
                                     <th class="text-center" width="6%">toa</th> 
-                                    <th class="text-center" width="6%">refer</th>  
-                                    <th class="text-center" width="6%">income</th> 
+                                    <th class="text-center" width="6%">refer</th> 
+
+                                    {{-- <th class="text-center" width="6%">income</th> 
                                     <th class="text-center" width="6%">ลูกหนี้</th>  
-                                    <th class="text-center" width="6%">เรียกเก็บตามตกลง</th>  
-                                    {{-- <th class="text-center">ส่วนต่าง</th>  --}}
-                                    {{-- <th class="text-center">Stm</th>   --}}
-                                    {{-- <th class="text-center">STMdoc</th>  --}}
+                                    <th class="text-center" width="6%">เรียกเก็บตามตกลง</th>   --}}
+
+                                    {{-- <th class="text-center">สปสช</th>   --}}
+                                    <th class="text-center">income</th> 
+                                    <th class="text-center">ยา CT</th>
+                                    <th class="text-center">ลูกหนี้</th>
+                                    <th class="text-center">เรียกเก็บ</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -182,13 +186,15 @@ $pos = strrpos($url, '/') + 1;
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td>  
+                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
+
+                                        {{-- <td class="text-center" width="6%">{{ $item->subinscl}}</td> --}}
+
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->income,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(113, 17, 151)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
-                                        {{-- <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td>  --}}
+                                        <td class="text-end" style="color:rgb(113, 17, 151)" width="6%">{{ number_format($item->debit_drug_ct,2)}}</td>  
+                                        <td class="text-end" style="color:rgb(113, 17, 151)" width="6%">{{ number_format($item->debit_total,2)}}</td>  
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->toklong,2)}}</td>  
-                                        {{-- <td class="p-2" width="9%">{{ $item->STMdoc }}</td>   --}}
-                                    
+                                         
                                     </tr>
                                         <?php
                                             $total1 = $total1 + $item->debit_drug;
@@ -197,10 +203,9 @@ $pos = strrpos($url, '/') + 1;
                                             $total4 = $total4 + $item->debit_refer;
                                             // $total5 = $total5 + $item->debit_ucep;
                                             $total5 = $total5 + $item->income;
-                                            $total6 = $total6 + $item->debit_total;
-                                            // $total7 = $total7 + ($item->debit_total-$item->stm_money); 
-                                            // $total8 = $total8 + $item->stm_money;
-                                            $total7 = $total9 + $item->toklong;
+                                            $total6 = $total6 + $item->debit_drug_ct;
+                                            $total7 = $total7 + $item->debit_total; 
+                                            $total8 = $total8 + $item->toklong;
                                         ?>                                 
                                 @endforeach  
                                
@@ -214,7 +219,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-end" style="background-color: #ace5fc;color:white">{{ number_format($total5,2)}}</td> 
                                             <td class="text-end" style="background-color: #e09be9;color:white">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #a20dcf;color:white">{{ number_format($total7,2)}}</td> 
-                                            {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>   --}}
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             {{-- <td class="text-end" style="background-color: #ff9d9d"></td>  --}}
                                         </tr>  

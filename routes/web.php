@@ -62,7 +62,6 @@ Route::match(['get', 'post'], 'connectdb_save', [App\Http\Controllers\ConfigData
 // Route::match(['get','post'],'authen_auth_tinew',[App\Http\Controllers\Auto_authenController::class, 'authen_auth_tinew'])->name('auto.authen_auth_tinew');//
 Route::match(['get', 'post'], 'pullauthen_spschnew', [App\Http\Controllers\Auto_authenController::class, 'pullauthen_spschnew'])->name('auto.pullauthen_spschnew'); //
 
-
 // Route::match(['get','post'],'fdh_mini_dataset_rep',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
 // Route::match(['get','post'],'fdh_mini_dataset_pulljong',[App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
 

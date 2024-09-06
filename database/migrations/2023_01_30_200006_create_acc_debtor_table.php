@@ -98,8 +98,11 @@ return new class extends Migration
                 $table->string('price_ofc')->nullable();// 
                 $table->dateTime('date_pull')->nullable();//
                 $table->string('active_status')->nullable();// 
-                $table->string('referin_no')->nullable();// 
+                // $table->string('referin_no')->nullable();// 
                 $table->text('nonpay')->nullable();// 
+                $table->string('projectcode')->nullable();// 
+                $table->string('debit_drug_ct')->nullable();// 
+
                 $table->timestamps();
             });
         }

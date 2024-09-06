@@ -183,36 +183,36 @@ class Account3013Controller extends Controller
             ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
             ,(SELECT SUM(o.sum_price) FROM opitemrece o LEFT JOIN nondrugitems n on n.icode = o.icode WHERE o.vn=v.vn AND o.pttype="A7" AND (n.billcode like "8%" OR n.billcode ="2509") and n.billcode not in ("8608","8307") and o.an is null) as debit_ins_sss
             
-            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009147","3009148") AND vn = v.vn) THEN "1200" 
-            ELSE "0.00" 
-            END as ct_chest_with
-
             ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009142") AND vn = v.vn) as ct_Addi3d
             ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009143") AND vn = v.vn) as ct_Addi
             
-            ,CASE WHEN (SELECT COUNT(oi.icode) as ovn FROM opitemrece oi 
-                LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
-                WHERE oi.icode NOT IN("3011265","3011266","3009819","3009820","3009182","3009152","3009147","3009148","3009142","3009143","1670055","1670047") AND nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) 
-                THEN (SELECT COUNT(oi.icode) as ovn FROM opitemrece oi 
-                LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
-                WHERE oi.icode NOT IN("3011265","3011266","3009819","3009820","3009182","3009152","3009147","3009148","3009142","3009143","1670055","1670047") AND nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) * 2500
-                ELSE "0.00" 
-                END as debit_ct
+            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3009148","3009147") AND vn = v.vn) THEN "1200" 
+            ELSE "0.00" 
+            END as ct_brain
+
+            ,CASE WHEN (SELECT SUM(ot.sum_price) as sum_price FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "") AND icode NOT IN("3009148","3009147")) THEN "2500" 
+            ELSE "0.00" 
+            END as ct_orther
+
+            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3011265","3009197","3011266") AND vn = v.vn) THEN "1100" 
+            ELSE "0.00" 
+            END as debit_drug_ct 
 
             ,CASE WHEN (SELECT COUNT(DISTINCT oi.vn) as ovn FROM opitemrece oi 
-                        LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
-                        WHERE nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) 
-                        THEN SUM(sum_price)
+            LEFT JOIN s_drugitems nd ON nd.icode = oi.icode 
+            WHERE nd.name LIKE "%CT%" AND oi.income = "08" AND oi.vn = v.vn) 
+            THEN SUM(sum_price)
             ELSE "0.00" 
             END as debit_ct_price
 
-            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3011265","3009197") AND vn = v.vn) THEN "1100" 
-            ELSE "0.00" 
-            END as debit_drug100_50
+            -- ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode IN("3011265","3011266","3009197") AND vn = v.vn) THEN "1100" 
+            -- ELSE "0.00" 
+            -- END as debit_drug100_50
 
-            ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
-            ELSE "0.00" 
-            END as debit_drug150
+            -- ,CASE WHEN (SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode = "3011266" AND vn = v.vn) THEN "1100" 
+            -- ELSE "0.00" 
+            -- END as debit_drug150
+
             ,(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE EXISTS (SELECT icode FROM xray_items WHERE icode = ot.icode AND xray_items_group ="3") AND vn =v.vn) as debit_ct_sss
             ,CASE
                 WHEN (v.uc_money-(SELECT SUM(ot.sum_price) FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> ""))) < 700 
@@ -278,7 +278,10 @@ class Account3013Controller extends Controller
                                     'debit_total'        => $value->debit_ct_sss,
                                     'debit_ins_sss'      => $value->debit_ins_sss,
                                     'debit_ct_sss'       => $value->debit_ct_sss, 
-                                    'toklong'            => $value->toklong,
+
+                                    'debit_drug_ct'      => $value->debit_drug_ct, 
+                                    'toklong'            => $value->ct_brain + $value->debit_drug_ct + $value->ct_orther,
+
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);  
                             }
@@ -411,6 +414,7 @@ class Account3013Controller extends Controller
                         'debit_ct_sss'      => $value->debit_ct_sss,  
                         'max_debt_amount'   => $value->max_debt_amount,
                         'toklong'           => $value->toklong,
+                        'debit_drug_ct'     => $value->debit_drug_ct,
                         'acc_debtor_userid' => $iduser
                     ]);
                 }

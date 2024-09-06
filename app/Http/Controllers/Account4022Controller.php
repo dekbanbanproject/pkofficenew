@@ -581,7 +581,7 @@ class Account4022Controller extends Controller
             'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 FROM acc_1102050101_4022 U1   
                 LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate                                    
-                WHERE month(U1.rxdate) = "'.$months.'" AND year(U1.rxdate) = "'.$year.'"  
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"  
                 GROUP BY U1.hn,U1.rxdate 
         ');
         // AND U1.hn IN(select hn from acc_stm_temp)
@@ -624,7 +624,7 @@ class Account4022Controller extends Controller
                 'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate
-                WHERE U1.rxdate BETWEEN "'.$new_day.'" AND "'.$date.'" 
+                WHERE U1.dchdate BETWEEN "'.$new_day.'" AND "'.$date.'" 
              
                 GROUP BY U1.hn,U1.rxdate 
             ');   
@@ -633,7 +633,7 @@ class Account4022Controller extends Controller
                 'SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.rxdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount ,U2.STMdoc,U2.invno 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total U2 on U2.HDBill_hn = U1.hn AND U2.vstdate = U1.rxdate
-                WHERE U1.rxdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
               
                 GROUP BY U1.hn,U1.rxdate 
             ');  

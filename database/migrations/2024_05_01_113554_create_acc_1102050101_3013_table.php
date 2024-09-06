@@ -72,6 +72,7 @@ return new class extends Migration
                 $table->string('comment')->nullable();// 
                 $table->date('date_req')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
+                $table->string('debit_drug_ct')->nullable();// 
                 $table->timestamps();
             });
         }
