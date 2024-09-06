@@ -190,7 +190,8 @@ class Account3013Controller extends Controller
             ELSE "0.00" 
             END as ct_brain
 
-            ,CASE WHEN (SELECT SUM(ot.sum_price) as sum_price FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "") AND icode NOT IN("3009148","3009147")) THEN "2500" 
+            ,CASE WHEN (SELECT SUM(ot.sum_price) as sum_price FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "") AND icode NOT IN("3009148","3009147","3009143")) THEN 
+            (SELECT COUNT(ot.icode) as ovn FROM opitemrece ot WHERE ot.vn =v.vn AND ot.icode IN(SELECT icode FROM xray_items WHERE xray_items_group ="3" AND icode <> "") AND icode NOT IN("3009148","3009147","3009143","3011265","3009197","3011266")) * 2500 
             ELSE "0.00" 
             END as ct_orther
 
@@ -240,17 +241,9 @@ class Account3013Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->count(); 
                     if ($check > 0) {
-                        // Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3013')->update([
-                        //     'hospmain'           => $value->hospmain, 
-                        //     'pdx'                => $value->pdx, 
-                        //     'debit_total'        => $value->ct_chest_with+$value->debit_ct+$value->debit_drug100_50+$value->debit_drug150,
-                        //     'debit_ins_sss'      => $value->debit_ins_sss,
-                        //     'debit_ct_sss'       => $value->debit_drug100_50+$value->debit_drug150+$value->debit_ct_price, 
-                        // ]);                     
-                                                                    
+                                                          
                     } else {
-                        // if ($value->cid !='') {
-                            // if ($value->ct_chest_with > 0 || $value->debit_ct > 0 || $value->debit_drug100_50 > 0 || $value->debit_drug150 > 0) { 
+                        
                             if ($value->debit_ct_sss > 0) { 
                                 Acc_debtor::insert([
                                     'hn'                 => $value->hn,
@@ -284,8 +277,7 @@ class Account3013Controller extends Controller
 
                                     'acc_debtor_userid'  => Auth::user()->id
                                 ]);  
-                            }
-                        // }   
+                            } 
                     }  
                     
                   
