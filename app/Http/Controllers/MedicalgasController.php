@@ -137,9 +137,53 @@ class MedicalgasController extends Controller
         $enddate = $request->enddate;
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
-        $datashow = DB::select('SELECT air_list_id,active,air_imgname,air_list_num,air_list_name,btu,air_location_id,air_location_name,detail,air_room_class FROM air_list WHERE air_year = "'.$bg_yearnow.'" ORDER BY air_list_id DESC'); 
+        $datashow = DB::select('SELECT * FROM gas_list WHERE gas_year = "'.$bg_yearnow.'" AND active ="Ready" ORDER BY gas_list_id DESC'); 
         // WHERE active="Y"
         return view('support_prs.gas.medicalgas_list',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function gas_check_list(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                ORDER BY b.gas_check_id DESC 
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ORDER BY b.gas_check_id DESC  
+            '); 
+        }
+        
+       
+        // WHERE active="Y"
+        return view('support_prs.gas.gas_check_list',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,

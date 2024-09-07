@@ -19,7 +19,8 @@ return new class extends Migration
                 $table->string('fire_name')->nullable(); 
                 $table->string('fire_check_color')->nullable(); // 
                 $table->string('fire_check_location')->nullable(); // 
-                $table->date('check_date')->nullable();  //          
+                $table->date('check_date')->nullable();  //  
+                $table->time('check_time')->nullable();  //         
                 $table->text('fire_check_injection')->nullable(); // 1.สายฉีด
                 $table->text('fire_check_injection_name')->nullable(); //
                 $table->text('fire_check_joystick')->nullable(); // 2.คันบังคับ

@@ -3387,7 +3387,9 @@ Route::middleware(['type'])->group(function () {
   //***************************** ก๊าซทางการแพทย์ **************************/ 
   Route::match(['get', 'post'], 'medicalgas_db', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_db'])->name('prs.medicalgas_db'); //
   Route::match(['get', 'post'], 'medicalgas_list', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_list'])->name('prs.medicalgas_list'); //
-
+  Route::match(['get', 'post'], 'gas_add', [App\Http\Controllers\MedicalgasController::class, 'gas_add'])->name('prs.gas_add'); //
+  Route::match(['get', 'post'], 'gas_check_list', [App\Http\Controllers\MedicalgasController::class, 'gas_check_list'])->name('prs.gas_check_list'); //
+  Route::match(['get', 'post'], 'gas_check/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
 
 
 

@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->string('gas_list_num', length: 255)->nullable();  //           
                 $table->string('gas_list_name', length: 255)->nullable(); //  
                 $table->string('detail', length: 255)->nullable(); //  
+                $table->string('size', length: 255)->nullable(); //  
                 $table->decimal('gas_price',total: 12, places: 2)->nullable(); //  
                 $table->string('gas_year', length: 200)->nullable(); //                
                 $table->enum('active', ['NotReady','Ready','Borrow','Back'])->default('Ready'); 

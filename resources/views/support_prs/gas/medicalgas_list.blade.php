@@ -105,10 +105,10 @@
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Repaire All</span> 
             </a>  --}}
-            {{-- <a href="{{url('air_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
+            <a href="{{url('gas_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
-            </a>   --}}
+            </a>  
 
             {{-- <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                 <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
@@ -142,42 +142,42 @@
                                     <th class="text-center" width="5%">QRcode</th>  
                                     <th class="text-center" width="5%">รหัส</th>  
                                     <th class="text-center" >รายการ</th> 
-                                    <th class="text-center">ขนาด(BTU)</th> 
-                                    <th class="text-center" >สถานที่ตั้ง</th>  
-                                    <th class="text-center" >หน่วยงาน</th> 
-                                    <th class="text-center" >ชั้น</th>  
+                                    <th class="text-center">size(Q)</th> 
+                                    {{-- <th class="text-center" >สถานที่ตั้ง</th>   --}}
+                                    {{-- <th class="text-center" >หน่วยงาน</th>  --}}
+                                    {{-- <th class="text-center" >ชั้น</th>   --}}
                                     {{-- <th class="text-center">จัดการ</th>  --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                {{-- @foreach ($datashow as $item) 
-                                    <tr id="tr_{{$item->air_list_id}}">                                                  
+                                @foreach ($datashow as $item) 
+                                    <tr id="tr_{{$item->gas_list_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
-                                            @if ($item->active == 'Y') 
+                                            @if ($item->active == 'Ready') 
                                                 <span class="badge bg-success">พร้อมใช้งาน</span> 
                                             @else 
                                                 <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
-                                        @if ( $item->air_imgname == Null )
+                                        @if ( $item->gas_imgname == Null )
                                         <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/air/'.$item->air_imgname)}}" height="20px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/gas/'.$item->gas_imgname)}}" height="20px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%">  
-                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!} 
+                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/gas_check/' . $item->gas_list_id) !!} 
                                         </td>  
-                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->air_list_num }}</td>  
-                                        <td class="p-2">{{ $item->air_list_name }}</td>  
-                                        <td class="text-center" width="5%" style="font-size: 12px">{{ $item->btu }}</td>    
-                                        <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>  
-                                        <td class="p-2" width="20%">{{ $item->detail }}</td> 
-                                        <td class="text-center" width="5%">{{ $item->air_room_class }}</td>  
-                                        <td class="text-center" width="5%">
+                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
+                                        <td class="p-2">{{ $item->gas_list_name }}</td>  
+                                        <td class="text-center" width="5%" style="font-size: 12px">{{ $item->size }}</td>    
+                                        {{-- <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>   --}}
+                                        {{-- <td class="p-2" width="20%">{{ $item->detail }}</td>  --}}
+                                        {{-- <td class="text-center" width="5%">{{ $item->air_room_class }}</td>   --}}
+                                        {{-- <td class="text-center" width="5%">
  
                                             <div class="btn-group me-1">
                                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -204,10 +204,10 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
 
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

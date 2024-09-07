@@ -421,12 +421,12 @@
                             </li>
 
  
-{{-- 
+
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_day') }}" id="topnav-more" role="button">
-                                    <i class="fa-regular fa-pen-to-square me-2 me-2"></i>บันทึกการตรวจสอบ  
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('gas_check_list') }}" id="topnav-more" role="button">
+                                   <i class="fa-solid fa-fire-flame-simple me-2"></i> บันทึกการตรวจสอบ
                                 </a>
-                            </li> --}}
+                            </li>
 
                             {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_ploblems') }}" id="topnav-more" role="button">

@@ -424,7 +424,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('fire_report_day') }}" id="topnav-more" role="button">
-                                    <i class="fa-regular fa-pen-to-square me-2 me-2"></i>บันทึกการตรวจสอบ  
+                                    <i class="fa-regular fa-pen-to-square me-2"></i>บันทึกการตรวจสอบ  
                                 </a>
                             </li>
 

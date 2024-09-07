@@ -64,7 +64,7 @@
     
     ?>
 
-    <style>
+    {{-- <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -109,7 +109,7 @@
         .is-hide {
             display: none;
         }
-    </style>
+    </style> --}}
 
     <?php
         $ynow = date('Y') + 543;
@@ -150,7 +150,7 @@
         @csrf
    
         <div class="row"> 
-            <div class="col-md-3 mb-2">
+            <div class="col-md-4 mb-2">
                 <h4 style="color:rgb(255, 255, 255)">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</h4>
                 {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนแจ้งซ่อม-เครื่องปรับอากาศ</p> --}}
             </div>
