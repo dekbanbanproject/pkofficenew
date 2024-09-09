@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->string('check_year')->nullable(); //  
                 $table->date('check_date')->nullable();  //  
                 $table->time('check_time')->nullable();  // 
+                $table->string('gas_type')->nullable(); 
 
                 $table->string('gas_list_id')->nullable(); 
                 $table->string('gas_list_num')->nullable();  //เลขครุภัณฑ์ รหัส : OUT CO1
@@ -36,6 +37,8 @@ return new class extends Migration
                 $table->text('standard_value')->nullable(); // ค่ามาตรฐาน
                 $table->text('standard_value_min')->nullable(); // ค่าต่ำ
                 $table->text('standard_value_max')->nullable(); //ค่ามากสุด
+                $table->text('pressure_value')->nullable(); //แรงดัน
+                $table->text('pariman_value')->nullable(); //ระดับปริมาณ
 
                 $table->string('user_id')->nullable(); // ผู้ตรวจ
                 

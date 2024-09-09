@@ -1715,7 +1715,62 @@ class FdhController extends Controller
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
                     GROUP BY o.vn
             ');
-             
+            
+            // foreach ($datashow_ as $key => $value) {
+            //     $dateString = $value->vstdate." ".$value->vsttime;
+            //     $dateTime = new DateTime($dateString);
+            //     $timestampInSeconds = $dateTime->getTimestamp();
+            //     $timestampInMilliseconds = $timestampInSeconds * 1000;
+                
+            //     $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
+
+            //     $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
+            //     if ($check_opd > 0) {
+            //         Fdh_mini_dataset::where('vn', $value->vn)->update([  
+            //             'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+            //             'cid'                 => $value->cid,
+            //             'hcode'               => $value->hcode,
+            //             'total_amout'         => $value->total_amout,
+            //             'invoice_number'      => $value->invoice_number_mini, 
+            //             'pttype'              => $value->pttype,
+            //             'ptname'              => $value->ptname,
+            //             'hn'                  => $value->hn,
+            //             'vstdate'             => $value->vstdate,
+            //             'vsttime'             => $value->vsttime,
+            //             'rcpt_money'          => $value->rcpt_money,
+            //             'uc_money'            => $value->uc_money,
+            //             'mainInsclCode'       => $value->mainInsclCode, 
+            //             'ovstost'             => $value->ovstost,
+            //             'sourceId'            => '9999', 
+            //             // 'computerName'        => 'PKOFFICE',
+            //             'recorderPid'         => $cid_auth, 
+            //         ]);
+            //     } else {
+            //         Fdh_mini_dataset::insert([
+            //             'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
+            //             'cid'                 => $value->cid,
+            //             'hcode'               => $value->hcode,
+            //             'total_amout'         => $value->total_amout,
+            //             'invoice_number'      => $value->invoice_number_mini,
+            //             'vn'                  => $value->vn,
+            //             'pttype'              => $value->pttype,
+            //             'ptname'              => $value->ptname,
+            //             'hn'                  => $value->hn,
+            //             'vstdate'             => $value->vstdate,
+            //             'vsttime'             => $value->vsttime,
+            //             'datesave'            => $date,
+            //             'user_id'             => $iduser,
+            //             'rcpt_money'          => $value->rcpt_money,
+            //             'uc_money'            => $value->uc_money,
+            //             'mainInsclCode'       => $value->mainInsclCode, 
+            //             'ovstost'             => $value->ovstost,
+            //             'sourceId'            => '9999', 
+            //             // 'computerName'        => 'PKOFFICE',
+            //             'recorderPid'         => $cid_auth, 
+            //         ]);
+            //     }
+            // }
+            
             // foreach ($datashow_ as $key => $value) {
             //     $dateString = $value->vstdate." ".$value->vsttime;
             //     $dateTime = new DateTime($dateString);
@@ -1883,26 +1938,26 @@ class FdhController extends Controller
                         // 'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
                         // 'cid'                 => $value->cid,
                         // 'hcode'               => $value->hcode,
-                        // 'total_amout'         => $value->total_amout,
-                        // 'invoice_number'      => $value->invoice_number, 
+                        'total_amout'         => $value->total_amout,
+                        'invoice_number'      => $value->invoice_number, 
                         'pttype'              => $value->pttype, 
-                        // 'rcpt_money'          => $value->rcpt_money,
-                        // 'uc_money'            => $value->privilegeAmount,
-                        // 'paid_money'          => $value->paidAmount,
-                        'ovstost'             => $value->ovstost,   
-                        // 'mainInsclCode'       => $value->mainInsclCode, 
-                        // 'serviceDateTime'     => $timestampInMilliseconds,
-                        // 'invoiceDateTime'     => $invoiceDateTime,
-                        // 'transactionId'       => '10978'.$value->vn,
+                        'rcpt_money'          => $value->rcpt_money,
+                        'uc_money'            => $value->privilegeAmount,
+                        'paid_money'          => $value->paidAmount,
+                        'ovstost'             => $value->ovstost,
+                        'mainInsclCode'       => $value->mainInsclCode, 
+                        'serviceDateTime'     => $timestampInMilliseconds,
+                        'invoiceDateTime'     => $invoiceDateTime,
+                        'transactionId'       => '10978'.$value->vn,
                         'totalAmount'         => $value->totalAmount,
                         'paidAmount'          => $value->paidAmount,
                         'privilegeAmount'     => $value->privilegeAmount,
-                        // 'claimServiceCode'    => $claimServiceCode,
-                        // 'sourceId'            => 'PK9999',
-                        // 'code'                => $value->main_dep,
-                        // 'name'                => $value->department,
-                        // 'visitNumber'         => $value->vn, 
-                        // 'recorderPid'         => $cid_auth,                        
+                        'claimServiceCode'    => $claimServiceCode,
+                        'sourceId'            => 'PK9999',
+                        'code'                => $value->main_dep,
+                        'name'                => $value->department,
+                        'visitNumber'         => $value->vn, 
+                        'recorderPid'         => $cid_auth,                        
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([
@@ -1939,21 +1994,21 @@ class FdhController extends Controller
                     ]);
                 }
                
-                // $check_opdsit = Check_sit_auto::where('vn', $value->vn)->count();
-                // if ( $check_opdsit > 0) { 
-                // } else {
-                //     Check_sit_auto::insert([
-                //         'cid'                 => $value->cid,
-                //         'hospmain'            => $value->hcode,
-                //         'debit'               => $value->total_amout, 
-                //         'vn'                  => $value->vn,
-                //         'pttype'              => $value->pttype,
-                //         'fullname'            => $value->ptname,
-                //         'hn'                  => $value->hn,
-                //         'vstdate'             => $value->vstdate, 
-                //         'vsttime'             => $value->vsttime,  
-                //     ]);
-                // }
+                $check_opdsit = Check_sit_auto::where('vn', $value->vn)->count();
+                if ( $check_opdsit > 0) { 
+                } else {
+                    Check_sit_auto::insert([
+                        'cid'                 => $value->cid,
+                        'hospmain'            => $value->hcode,
+                        'debit'               => $value->total_amout, 
+                        'vn'                  => $value->vn,
+                        'pttype'              => $value->pttype,
+                        'fullname'            => $value->ptname,
+                        'hn'                  => $value->hn,
+                        'vstdate'             => $value->vstdate, 
+                        'vsttime'             => $value->vsttime,  
+                    ]);
+                }
                 
             }
         }
@@ -1964,78 +2019,7 @@ class FdhController extends Controller
     }
 
     // ************************** จองเคลม ****************************
-    //Mini Dataset
-    public function mini_dataset(Request $request)
-    {
-        $id = $request->ids;
-        $iduser = Auth::user()->id; 
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
-        $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
-        foreach ($data_token_ as $key => $val_to) {
-            $token_   = $val_to->api_neweclaim_token;
-        }
-        $token = $token_;
-     
-        foreach ($data_vn_1 as $key => $val) {
-            $dateString = $val->vstdate." ".$val->vsttime;
-            $dateTime = new DateTime($dateString); 
-            $service_date_time_      = $val->service_date_time;
-            $service_date_time    = substr($service_date_time_,0,16);
-            $cid                  = $val->cid;
-            $hcode                = $val->hcode;
-            $total_amout          = $val->total_amout;
-            $invoice_number       = $val->invoice_number;
-            $vn                   = $val->vn;  
-             
-                // *************** mini dataset **********
-                $curl = curl_init();
-                $postData_send = [ 
-                    "service_date_time"  => $service_date_time,
-                    "cid"                => $cid,
-                    "hcode"              => $hcode,
-                    "total_amout"        => $total_amout,
-                    "invoice_number"     => $invoice_number,
-                    "vn"                 => $vn 
-                ];
-                curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
-                curl_setopt($curl, CURLOPT_POST, 1);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer '.$token,
-                    'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                ));  
-                $server_output     = curl_exec ($curl);
-                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
-                $content = $server_output;
-                $result = json_decode($content, true);
-                @$status = $result['status'];
-                @$message = $result['message'];
-                @$data = $result['data'];
-                @$uid = $data['transaction_uid'];
-                if (@$message == 'success') {
-                        Fdh_mini_dataset::where('vn', $vn)
-                        ->update([
-                            'transaction_uid' =>  @$uid,
-                            'active'          => 'Y'
-                        ]); 
-                } elseif ($status == '400') {
-                        Fdh_mini_dataset::where('vn', $vn)
-                            ->update([
-                                'transaction_uid' =>  @$uid,
-                                'active'          => 'Y'
-                            ]);
-                } else {
-                }
- 
-            }
-            // dd($result);
-            return response()->json([
-                'status'    => '200'
-            ]);
-              
-    }
+
     // END POINT 
     public function nhso_endpoint(Request $request)
     {
@@ -2135,7 +2119,6 @@ class FdhController extends Controller
             'status'    => '200'
         ]);
     }
-    
     public function nhso_endpoint___(Request $request)
     {
         $id          = $request->ids;
@@ -2763,121 +2746,6 @@ class FdhController extends Controller
     }
 
     // ***************************************** Mini Auto ************************************
-    public function pidsit_pull(Request $request)
-    {
-        $startdate   = $request->startdate;
-        $enddate     = $request->enddate;
-        $date = date('Y-m-d');
-        $newday = date('Y-m-d', strtotime($date . ' -2 days')); //
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
-        $cid_auth    = Auth::user()->cid;
-        if ($startdate == '') {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-                'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate = "' . $date . '"  
-                    ORDER BY vn DESC'); 
-        } else {
-            $date = date('Y-m-d');
-            $iduser = Auth::user()->id;
-            $datashow_ = DB::connection('mysql10')->select(
-                
-                'SELECT o.vstdate,o.vsttime,Time_format(o.vsttime ,"%H:%i") vsttime2
-                    ,pt.cid,"10978" as hcode,IFNULL(rd.total_amount,v.income) as total_amout
-                    ,IFNULL(rd.finance_number,v.vn) as invoice_number,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
-                    ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode,IFNULL(o.main_dep,"155") as main_dep,IFNULL(k.department,"อายุรกรรมห้องตรวจ 3") as department
-                        
-                    ,CONCAT(o.vstdate," ",DATE_FORMAT(o.vsttime,"%H:%i")) AS service_date_time,v.income as totalAmount
-                    ,v.uc_money AS privilegeAmount,v.paid_money AS paidAmount,rd.finance_number as visitNumber,ov.name as ovstost
-                    FROM vn_stat v 
-                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
-                    LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
-                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
-                    LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
-                    LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
-                    AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
-                    GROUP BY o.vn
-            '
-            );
-            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")  
-            // ,IFNULL(rd.total_amount,v.income) as total_amout
-            // ,IFNULL(rd.finance_number,v.vn) as invoice_number
-            foreach ($datashow_ as $key => $value) {
-                $dateString = $value->vstdate." ".$value->vsttime;
-                $dateTime = new DateTime($dateString);
-                $timestampInSeconds = $dateTime->getTimestamp();
-                $timestampInMilliseconds = $timestampInSeconds * 1000;                
-                $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
-
-                if ($value->pttype == 'M1') {
-                    $claimServiceCode = 'PG0130001';
-                }elseif ($value->pttype == 'M2') {
-                    $claimServiceCode = 'PG0130001';
-                }elseif ($value->pttype == 'M3') {
-                    $claimServiceCode = 'PG0130001';
-                }elseif ($value->pttype == 'M4') {
-                    $claimServiceCode = 'PG0130001';
-                }elseif ($value->pttype == 'M5') {
-                    $claimServiceCode = 'PG0130001'; 
-                } else {
-                     $claimServiceCode = 'PG0060001';
-                }
-                
-
-                $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
-                if ($check_opd > 0) {
-                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
-                        'total_amout'         => $value->total_amout,
-                        'invoice_number'      => $value->invoice_number, 
-                        'pttype'              => $value->pttype,  
-                        'ovstost'             => $value->ovstost, 
-                        'totalAmount'         => $value->totalAmount,
-                        'paidAmount'          => $value->paidAmount,
-                        'privilegeAmount'     => $value->privilegeAmount,        
-                    ]);
-                } else {
-                    Fdh_mini_dataset::insert([
-                        'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
-                        'cid'                 => $value->cid,
-                        'hcode'               => $value->hcode,
-                        'total_amout'         => $value->total_amout,
-                        'invoice_number'      => $value->invoice_number,
-                        'vn'                  => $value->vn,
-                        'pttype'              => $value->pttype,
-                        'ptname'              => $value->ptname,
-                        'hn'                  => $value->hn,
-                        'vstdate'             => $value->vstdate,
-                        'vsttime'             => $value->vsttime,
-                        'datesave'            => $date,
-                        'user_id'             => $iduser,
-                        'rcpt_money'          => $value->rcpt_money,
-                        'uc_money'            => $value->privilegeAmount,
-                        'paid_money'          => $value->paidAmount,
-                        'ovstost'             => $value->ovstost,
-                        'mainInsclCode'       => $value->mainInsclCode, 
-                        'serviceDateTime'     => $timestampInMilliseconds,
-                        'invoiceDateTime'     => $invoiceDateTime,
-                        'transactionId'       => '10978'.$value->vn,
-                        'totalAmount'         => $value->totalAmount,
-                        'paidAmount'          => $value->paidAmount,
-                        'privilegeAmount'     => $value->privilegeAmount,
-                        'claimServiceCode'    => $claimServiceCode,
-                        'sourceId'            => 'PK9999',
-                        'code'                => $value->main_dep,
-                        'name'                => $value->department,
-                        'visitNumber'         => $value->vn,  
-                        'recorderPid'         => $cid_auth, 
-                    ]);
-                } 
-            }
-        }
-        
-        return response()->json([
-            'status'     => '200'
-        ]);
-    }
 
     public function fdh_mini_dataset_authauto(Request $request)
     {

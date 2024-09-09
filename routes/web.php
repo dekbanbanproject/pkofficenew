@@ -298,8 +298,6 @@ Route::match(['get', 'post'], 'uprepdestroy/{id}', [App\Http\Controllers\UpstmCo
 // Route::DELETE('uprepdestroy/{id}',[App\Http\Controllers\UpstmController::class, 'uprepdestroy']);//
 Route::match(['get', 'post'], 'uprep_money_updatefile', [App\Http\Controllers\UpstmController::class, 'uprep_money_updatefile'])->name('acc.uprep_money_updatefile'); //
 
-
-
 Route::match(['get', 'post'], 'uprep_sss_304', [App\Http\Controllers\UpstmController::class, 'uprep_sss_304'])->name('acc.uprep_sss_304'); //
 Route::match(['get', 'post'], 'uprep_sss_304edit/{id}', [App\Http\Controllers\UpstmController::class, 'uprep_sss_304edit'])->name('acc.uprep_sss_304edit'); //
 Route::match(['get', 'post'], 'uprep_sss_304_update', [App\Http\Controllers\UpstmController::class, 'uprep_sss_304_update'])->name('acc.uprep_sss_304_update'); //
@@ -467,6 +465,11 @@ Route::match(['get', 'post'], 'fdh_mini_dataset_pullauto', [App\Http\Controllers
 Route::match(['get', 'post'], 'fdh_mini_dataset_pullnoinauto', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinauto'])->name('fdh.fdh_mini_dataset_pullnoinauto');
 Route::match(['get', 'post'], 'fdh_mini_dataset_apicliamauto', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliamauto'])->name('fdh.fdh_mini_dataset_apicliamauto');
 Route::match(['get', 'post'], 'fdh_mini_dataset_pulljongauto', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljongauto'])->name('fdh.fdh_mini_dataset_pulljongauto');
+
+Route::match(['get', 'post'], 'pidsit_pull', [App\Http\Controllers\FdhController::class, 'pidsit_pull'])->name('fdh.pidsit_pull');
+// Route::match(['get', 'post'], 'fdh_mini_dataset_apicliam', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliam'])->name('fdh.fdh_mini_dataset_apicliam');
+// Route::match(['get', 'post'], 'mini_dataset', [App\Http\Controllers\FdhController::class, 'mini_dataset'])->name('fdh.mini_dataset');
+// Route::match(['get', 'post'], 'nhso_endpoint', [App\Http\Controllers\FdhController::class, 'nhso_endpoint'])->name('fdh.nhso_endpoint');
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -3277,6 +3280,7 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'fdh_mini_dataset_pull', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pull'])->name('fdh.fdh_mini_dataset_pull');
   Route::match(['get', 'post'], 'fdh_mini_dataset_pullnoinv', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pullnoinv'])->name('fdh.fdh_mini_dataset_pullnoinv');
   Route::match(['get', 'post'], 'fdh_mini_dataset_apicliam', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_apicliam'])->name('fdh.fdh_mini_dataset_apicliam');
+  Route::match(['get', 'post'], 'mini_dataset', [App\Http\Controllers\FdhController::class, 'mini_dataset'])->name('fdh.mini_dataset');
   Route::match(['get', 'post'], 'nhso_endpoint', [App\Http\Controllers\FdhController::class, 'nhso_endpoint'])->name('fdh.nhso_endpoint');
   Route::match(['get', 'post'], 'fdh_mini_dataset_rep', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_rep'])->name('fdh.fdh_mini_dataset_rep');
   Route::match(['get', 'post'], 'fdh_mini_dataset_pulljong', [App\Http\Controllers\FdhController::class, 'fdh_mini_dataset_pulljong'])->name('fdh.fdh_mini_dataset_pulljong');
@@ -3390,6 +3394,8 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'gas_add', [App\Http\Controllers\MedicalgasController::class, 'gas_add'])->name('prs.gas_add'); //
   Route::match(['get', 'post'], 'gas_check_list', [App\Http\Controllers\MedicalgasController::class, 'gas_check_list'])->name('prs.gas_check_list'); //
   Route::match(['get', 'post'], 'gas_check/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
+  Route::match(['get', 'post'], 'gas_check_tank', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank'])->name('prs.gas_check_tank'); //
+  Route::match(['get', 'post'], 'gas_check_tank_save', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank_save'])->name('prs.gas_check_tank_save'); //
 
 
 

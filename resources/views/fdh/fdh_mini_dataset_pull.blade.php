@@ -97,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-7 text-end">
                 {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'> --}}
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control card_fdh_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -115,18 +115,18 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-primary me-2"></i>
                         ประมวลผล
                     </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
-                        <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ปิดสิทธิ์
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
+                        <i class="fa-solid fa-spinner text-warning me-2"></i>
+                        Minidataset+EndPoint
                     </button>
-                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claim" data-url="{{url('fdh_mini_dataset_apicliam')}}">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success card_fdh_4 Claimfdh" data-url="{{url('mini_dataset')}}">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
-                        ส่ง Minidataset
-                    </button> --}}
-                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('nhso_endpoint')}}">
+                        Minidataset
+                    </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4 Claim_endpoint" data-url="{{url('nhso_endpoint')}}">
                         <i class="fa-solid fa-spinner text-danger me-2"></i>
-                        ส่ง End Point
-                    </button> --}}
+                        EndPoint
+                    </button>
                    
                   
                 </div> 
@@ -318,6 +318,140 @@ $pos = strrpos($url, '/') + 1;
         $("#spinner-div").hide(); //Request is complete so hide spinner
        
         $('.Claim').on('click', function(e) {
+            // alert('oo');
+            var allValls = [];
+            // $(".sub_destroy:checked").each(function () {
+            $(".sub_chk:checked").each(function () {
+                allValls.push($(this).attr('data-id'));
+            });
+            if (allValls.length <= 0) {
+                // alert("SSSS");
+                Swal.fire({
+                    title: 'คุณยังไม่ได้เลือกรายการ ?',
+                    text: "กรุณาเลือกรายการก่อน",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', 
+                    }).then((result) => {
+                    
+                    })
+            } else {
+                Swal.fire({
+                    title: 'Are you Want Send sure?',
+                    text: "คุณต้องการ Send รายการนี้ใช่ไหม!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Send it.!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var check = true;
+                            if (check == true) {
+                                var join_selected_values = allValls.join(",");
+                                // alert(join_selected_values);
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+
+                                $.ajax({
+                                    url:$(this).data('url'),
+                                    type: 'POST',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: 'ids='+join_selected_values,
+                                    success:function(data){ 
+                                            if (data.status == 200) {
+                                               
+                                                $(".sub_chk:checked").each(function () {
+                                                    $(this).parents("tr").remove();
+                                                });
+                                                Swal.fire({
+                                                    position: "top-end",
+                                                    title: 'ส่งข้อมูลสำเร็จ',
+                                                    text: "You Send data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                    }
+                                                })
+                                            } else if (data.status == 100) {
+                                                Swal.fire({
+                                                    title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
+                                                    text: "Found duplicate claim booking information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else if (data.status == 400) {
+                                                Swal.fire({
+                                                    title: 'พบข้อมูลการจองเคลมซ้ำในระบบ',
+                                                    text: "Found duplicate claim booking information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else if (data.status == 900) {
+                                                Swal.fire({
+                                                    title: 'ข้อมูลในระบบไม่เจอ',
+                                                    text: "Found information in the system.",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload(); 
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            } 
+                                        } 
+                                    
+                                });
+                                $.each(allValls,function (index,value) {
+                                    $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                });
+                            }
+                        }
+                    }) 
+                // var check = confirm("Are you want ?");  
+            }
+        });
+
+
+        // FDH
+        $('.Claimfdh').on('click', function(e) {
             // alert('oo');
             var allValls = [];
             // $(".sub_destroy:checked").each(function () {

@@ -422,10 +422,31 @@
 
  
 
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('gas_check_list') }}" id="topnav-more" role="button">
                                    <i class="fa-solid fa-fire-flame-simple me-2"></i> บันทึกการตรวจสอบ
                                 </a>
+                            </li> --}}
+
+                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <i class="fa-solid fa-fire-flame-simple me-2"></i><span key="t-layouts">บันทึกการตรวจสอบ</span> <div class="arrow-down"></div>
+                              
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_tank')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">Tank Liquid Oxygen</span>  
+                                        </a> 
+                                    </div> 
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ(ปีงบประมาณ)</span>  
+                                        </a> 
+                                    </div>
+                                </div>
                             </li>
 
                             {{-- <li class="nav-item dropdown">

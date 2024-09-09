@@ -41,7 +41,7 @@ use App\Models\Air_repaire_excel;
 use App\Models\Article_status;
 use App\Models\Air_repaire;
 use App\Models\Air_list;
-use App\Models\Product_buy;
+use App\Models\Gas_check;
 use App\Models\Air_repaire_sub;
 use App\Models\Air_repaire_ploblem;
 use App\Models\Air_repaire_ploblemsub;
@@ -180,15 +180,145 @@ class MedicalgasController extends Controller
                 ORDER BY b.gas_check_id DESC  
             '); 
         }
-        
-       
-        // WHERE active="Y"
+     
         return view('support_prs.gas.gas_check_list',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
         ]);
     }
+    public function gas_check_tank(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        // if ($startdate =='') {
+        //     $datashow = DB::select(
+        //         'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+        //         ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+        //         ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+        //         ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+        //         FROM gas_check b
+        //         LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+        //         LEFT JOIN users p ON p.id = a.user_id 
+        //         WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+        //         ORDER BY b.gas_check_id DESC 
+        //     '); 
+        // } else {
+        //     $datashow = DB::select(
+        //         'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+        //         ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+        //         ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+        //         ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+        //         FROM gas_check b
+        //         LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+        //         LEFT JOIN users p ON p.id = a.user_id 
+        //         WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+        //         ORDER BY b.gas_check_id DESC  
+        //     '); 
+        // }
+     
+        return view('support_prs.gas.gas_check_tank',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            // 'datashow'      => $datashow,
+        ]);
+    }
+
+    public function gas_check_tank_save(Request $request)
+    {
+        $datenow       = date('Y-m-d');
+        $months        = date('m');
+        $year          = date('Y'); 
+        $m             = date('H');
+        $mm            = date('H:m:s');
+        $datefull      = date('Y-m-d H:m:s');
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        $iduser        = Auth::user()->id;
+        $name_         = User::where('id', '=',$iduser)->first();
+        $name_check    = $name_->fname. '  '.$name_->lname;
+
+        Gas_check::insert([
+            'check_year'      =>  $bg_yearnow,
+            'check_date'      =>  $request->check_date,
+            'check_time'      =>  $mm,
+            'gas_type'        =>  $request->gas_type,
+            'standard_value'  =>  $request->standard_value,
+            'check_time'      =>  $request->standard_value_min,
+            'pressure_value'  =>  $request->pressure_value,
+            'pariman_value'   =>  $request->pariman_value,
+        ]);
+         
+        //แจ้งเตือนไลน์
+        // if ($request->pariman_value < '50') {
+            //แจ้งเตือน 
+            function DateThailine($strDate)
+            {
+                $strYear = date("Y", strtotime($strDate)) + 543;
+                $strMonth = date("n", strtotime($strDate));
+                $strDay = date("j", strtotime($strDate));
+
+                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                $strMonthThai = $strMonthCut[$strMonth];
+                return "$strDay $strMonthThai $strYear";
+            }
+            $header = "ตรวจสอบออกซิเจนเหลว(Main)";                                    
+                $message =  $header. 
+                "\n" . "วันที่ตรวจสอบ: " . DateThailine($request->check_date).
+                "\n" . "เวลา : " . $mm ."". 
+                "\n" . "ปริมาณมาตรฐาน : 124 inH2O". 
+                "\n" . "ปริมาณวัดได้ : " . $request->pariman_value . 
+                "\n" . "แรงดันมาตรฐาน : 5-12 bar". 
+                "\n" . "ค่าแรงดันวัดได้ : " . $request->pressure_value;
+                "\n" . "ผู้ตรวจสอบ : " . $name_check;
+                // $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
+                $linesend = "ZKL5cZS30sn2MYsP4ZD5x9REjJZkodKhQNrzD7y4GBK";  // พรส
+                
+                if ($linesend == null) {
+                    $test = '';
+                } else {
+                    $test = $linesend;
+                }
+
+                if ($test !== '' && $test !== null) {
+                    $chOne = curl_init();
+                    curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($chOne, CURLOPT_POST, 1);
+                    curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                    curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                    curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($chOne);
+                    if (curl_error($chOne)) {
+                        echo 'error:' . curl_error($chOne);
+                    } else {
+                        $result_ = json_decode($result, true);                        
+                    }
+                    curl_close($chOne); 
+                }
+        // }
+        //แจ้งเตือนไลน์
+        // if ($request->pressure_value < '5') {
+            
+        // }
+        
+
+    return response()->json([
+        'status'     => '200'
+    ]);
+}
   
 
  }
