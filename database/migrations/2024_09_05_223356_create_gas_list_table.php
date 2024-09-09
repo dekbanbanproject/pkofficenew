@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('gas_list', function (Blueprint $table) {
                 $table->bigIncrements('gas_list_id'); 
+                $table->string('gas_type')->nullable(); 
                 $table->string('gas_list_num', length: 255)->nullable();  //           
                 $table->string('gas_list_name', length: 255)->nullable(); //  
                 $table->string('detail', length: 255)->nullable(); //  

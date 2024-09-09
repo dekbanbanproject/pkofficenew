@@ -18,13 +18,22 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-
-    $date_now   = date('Y-m-d');
-
     ?>
     
     <div class="tabs-animation">
-        
+        {{-- <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
+        </div> --}}
         <div id="preloader">
             <div id="status">
                 <div id="container_spin">
@@ -43,72 +52,118 @@
 
        
         <div class="row"> 
-            <div class="col-12 text-center"> 
-                <h4 style="color:rgb(255, 255, 255)">ตรวจสอบออกซิเจนเหลว(Main)</h4> 
+            <div class="col-md-4"> 
+                <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบก๊าซทางการแพทย์</h4> 
             </div>
-          
+            <div class="col"></div>
+            <div class="col-md-1 text-end mt-2">วันที่</div>
+            <div class="col-md-5 text-end">
+                <form action="{{ url('gas_check_tank') }}" method="GET">
+                    @csrf
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary bt_prs" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
+                        </button> 
+                    </form> 
+              
+                <a href="{{url('gas_check_tankadd')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs"> 
+                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
+                    Check
+                </a> 
+            </div>
         </div>
     </div>  
         
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card card_prs_4">
                     <div class="card-body"> 
+                        <div class="table-responsive">    
+                        <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                       
+                                    <thead>
+                                        <tr> 
+                                            <th class="text-center">ลำดับ</th>  
+                                            <th class="text-center" width="10%">วันที่ตรวจ</th>  
+                                            <th class="text-center" width="10%">เวลา</th> 
+                                            <th class="text-center" width="10%">รหัสถังก๊าซ</th> 
+                                            <th class="text-center">รายการ</th>
+                                            {{-- <th class="text-center" width="9%">ตัวถัง</th>
+                                            <th class="text-center" width="9%">วาลว์</th> 
+                                            <th class="text-center" width="9%">แรงดัน</th>  
+                                            <th class="text-center" >รายการชำรุด</th>  --}}
 
-                        <div class="row">
-                            <div class="col text-start"> 
-                                <p style="color:rgb(19, 154, 233);font-size:19px">เช็คระดับปริมาณออกซิเจนเหลว</p>
-                            </div> 
+                                            <th class="text-center" width="10%">ระดับ O2 </th>
+                                            <th class="text-center" width="10%">ค่าแรงดัน</th>
+                                            <th class="text-center" width="12%">ผู้ตรวจ</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1; ?>
+                                        @foreach ($datashow as $item) 
+                                            <tr id="tr_{{$item->gas_list_num}}">                                                  
+                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ Datethai($item->check_date) }}</td> 
+                                                <td class="text-center" width="5%" style="font-size: 12px">{{ $item->check_time }}</td> 
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
+                                                <td class="text-start" style="font-size: 12px">{{ $item->gas_list_name }}</td>  
+
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->pariman_value }}</td>  
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->pressure_value }}</td> 
+
+                                                {{-- <td class="text-center" width="9%"> 
+                                                    @if ($item->gas_check_body == '0') 
+                                                         <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif
+                                                </td>  
+                                                <td class="text-center" width="9%"> 
+                                                    @if ($item->gas_check_valve == '0') 
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif
+                                                </td>   
+                                                <td class="text-center" width="9%"> 
+                                                    @if ($item->gas_check_pressure == '0') 
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif
+                                                </td>    --}}
+                                               
+                                                {{-- <td class="text-start" style="color:rgb(73, 147, 231)">
+                                                    @if ($item->gas_check_body == '0' || $item->gas_check_valve == '0' || $item->gas_check_pressure == '0' ) 
+                                                        - 
+                                                    @else 
+                                                        @if ($item->gas_check_body == '1')
+                                                        ตัวถัง,                                                                                                 
+                                                        @endif
+                                                        @if ($item->gas_check_valve == '1')
+                                                        วาลว์,
+                                                        @endif
+                                                        @if ($item->gas_check_pressure == '1')
+                                                        แรงดัน, 
+                                                        @endif 
+                                                    @endif
+                                                      
+                                                </td>    --}}
+
+                                                <td class="text-start" width="12%">{{ $item->ptname }}</td>                                              
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            {{-- </div> --}}
+                        {{-- </p> --}}
                         </div>
-                        <div class="row">
-                            <div class="col-4 text-end"> 
-                                <p style="color:rgb(19, 154, 233);font-size:16px">วันที่ตรวจ</p>
-                            </div>
-                            <div class="col text-start">  
-                                <p style="color:rgb(19, 154, 233);font-size:16px">{{Datethai($date_now)}}</p>
-                                <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
-                                <input type="hidden" id="gas_type" name="gas_type" value="1">
-                                <input type="hidden" id="standard_value" name="standard_value" value="124">
-                                <input type="hidden" id="standard_value_min" name="standard_value_min" value="50">
-                                
-                                
-                            </div> 
-                        </div>
-                        <div class="row">
-                            <div class="col-4 text-end"> 
-                                <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ระดับ O2</p>
-                            </div>
-                            <div class="col text-start">  
-                                <input type="text" class="form-control" id="pariman_value" name="pariman_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
-                            </div> 
-                            <div class="col-3 text-start"> 
-                                <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">inH2O</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 text-end"> 
-                                <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ค่าแรงดัน</p>
-                            </div>
-                            <div class="col text-start">  
-                                <input type="text" class="form-control" id="pressure_value" name="pressure_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
-                            </div> 
-                            <div class="col-3 text-start"> 
-                                <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">bar</p>
-                            </div>
-                        </div>
-                        <div class="row mt-4 mb-4">
-                            <div class="col"></div>
-                            <div class="col-6 text-center">
-                                <button class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Insert_data"> 
-                                    <i class="fa-solid fa-floppy-disk text-white me-2"></i>
-                                   บันทึกข้อมูล
-                                </button>  
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
 
@@ -137,70 +192,8 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
- 
-             
-            $("#spinner-div").hide(); //Request is complete so hide spinner
-            
-            $('#Insert_data').click(function() {
-                var check_date         = $('#check_date').val(); 
-                var gas_type           = $('#gas_type').val(); 
-                var standard_value     = $('#standard_value').val(); 
-                var standard_value_min = $('#standard_value_min').val(); 
-                var pressure_value     = $('#pressure_value').val(); 
-                var pariman_value      = $('#pariman_value').val(); 
-                
-                
-                Swal.fire({ position: "top-end",
-                        title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
-                        text: "You Warn Insert Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Insert it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('prs.gas_check_tank_save') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {check_date,gas_type,standard_value,standard_value_min,pressure_value,pariman_value},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({ position: "top-end",
-                                                title: 'บันทึกข้อมูลสำเร็จ',
-                                                text: "You Insert data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    // window.location.reload();
-                                                    window.location="{{url('gas_check_list')}}"; 
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-            });
-         
-            
+              
+            $("#spinner-div").hide(); //Request is complete so hide spinner 
         });
     </script>
     @endsection

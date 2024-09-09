@@ -437,15 +437,21 @@
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_tank')}}" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">Tank Liquid Oxygen</span>  
+                                            <span key="t-vertical">Tank Liquid Oxygen(Main)</span>  
                                         </a> 
-                                    </div> 
-                                    <div class="dropdown">
+                                    </div>
+                                    {{-- <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_tank')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">Tank Liquid Oxygen(Main)</span>  
+                                        </a> 
+                                    </div>   --}}
+                                    {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
                                             role="button">
                                             <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ(ปีงบประมาณ)</span>  
                                         </a> 
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </li>
 
