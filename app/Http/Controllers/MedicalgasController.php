@@ -119,7 +119,7 @@ class MedicalgasController extends Controller
                 GROUP BY a.air_supplies_id
         '); 
   
-        $data['count_air'] = Air_list::where('active','Y')->count();
+        // $data['count_air'] = Air_list::where('active','Y')->count();
         
 
         return view('support_prs.gas.medicalgas_db',$data,[
@@ -199,7 +199,7 @@ class MedicalgasController extends Controller
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
         if ($startdate =='') {
             $datashow = DB::select(
-                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
                 ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
                 ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
                 ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname,b.pariman_value,b.pressure_value
@@ -211,7 +211,7 @@ class MedicalgasController extends Controller
             '); 
         } else {
             $datashow = DB::select(
-                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
                 ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
                 ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
                 ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname ,b.pariman_value,b.pressure_value
@@ -279,7 +279,6 @@ class MedicalgasController extends Controller
             'datashow'      => $datashow,
         ]);
     }
-
     public function gas_check_tank_save(Request $request)
     {
         $datenow       = date('Y-m-d');
@@ -374,6 +373,27 @@ class MedicalgasController extends Controller
             'status'     => '200'
         ]);
     }
+    public function gas_check_tankedit(Request $request,$id)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+          
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+     
+        return view('support_prs.gas.gas_check_tankedit',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+        
+        ]);
+    }
     public function gas_qrcode(Request $request)
     {  
             $dataprint_main = Gas_list::get();
@@ -384,6 +404,18 @@ class MedicalgasController extends Controller
         ]);
 
     }
+    public function gas_check_destroy(Request $request,$id)
+    {
+        $del = Gas_check::find($id);  
+        // $description = 'storage/air/'.$del->air_imgname;
+        // if (File::exists($description)) {
+        //     File::delete($description);
+        // }
+        $del->delete(); 
+        // Fire::whereIn('fire_id',explode(",",$id))->delete();
+
+        return response()->json(['status' => '200']);
+    } 
 
   
 
