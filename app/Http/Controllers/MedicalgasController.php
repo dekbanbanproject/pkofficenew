@@ -280,7 +280,7 @@ class MedicalgasController extends Controller
                 "\n" . "ค่าแรงดันวัดได้ : " . $request->pressure_value;
                 "\n" . "ผู้ตรวจสอบ : " . $name_check;
                 // $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
-                $linesend = "ZKL5cZS30sn2MYsP4ZD5x9REjJZkodKhQNrzD7y4GBK";  // พรส
+                $linesend = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส
                 
                 if ($linesend == null) {
                     $test = '';
