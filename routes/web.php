@@ -3397,9 +3397,10 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'gas_check_tank', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank'])->name('prs.gas_check_tank'); //
   Route::match(['get', 'post'], 'gas_check_tankadd', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tankadd'])->name('prs.gas_check_tankadd'); //
   Route::match(['get', 'post'], 'gas_check_tank_save', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank_save'])->name('prs.gas_check_tank_save'); //
+  Route::match(['get', 'post'], 'gas_check_tankedit/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tankedit'])->name('prs.gas_check_tankedit'); //
 
-
-
+  Route::match(['get', 'post'], 'gas_qrcode', [App\Http\Controllers\MedicalgasController::class, 'gas_qrcode'])->name('prs.gas_qrcode'); //
+  Route::match(['get', 'post'], 'gas_check', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
 
 
 

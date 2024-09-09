@@ -101,10 +101,10 @@
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
             </a>  --}}
-            {{-- <a href="{{url('air_qrcode_repaire')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs">  
+            <a href="{{url('gas_qrcode')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs">  
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
-                <span>Repaire All</span> 
-            </a>  --}}
+                <span>qrcode</span> 
+            </a> 
             <a href="{{url('gas_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ

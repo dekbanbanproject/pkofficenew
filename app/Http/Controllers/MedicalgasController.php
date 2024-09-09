@@ -40,7 +40,7 @@ use App\Models\Air_repaire_supexcel;
 use App\Models\Air_repaire_excel;
 use App\Models\Article_status;
 use App\Models\Air_repaire;
-use App\Models\Air_list;
+use App\Models\Gas_list;
 use App\Models\Gas_check;
 use App\Models\Air_repaire_sub;
 use App\Models\Air_repaire_ploblem;
@@ -338,31 +338,31 @@ class MedicalgasController extends Controller
                 // $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
                 $linesend = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส
                 
-                // if ($linesend == null) {
-                //     $test = '';
-                // } else {
-                //     $test = $linesend;
-                // }
-                // if ($test !== '' && $test !== null) {
-                //     $chOne = curl_init();
-                //     curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-                //     curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-                //     curl_setopt($chOne, CURLOPT_POST, 1);
-                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
-                //     curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
-                //     curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-                //     $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
-                //     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-                //     curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-                //     $result = curl_exec($chOne);
-                //     if (curl_error($chOne)) {
-                //         echo 'error:' . curl_error($chOne);
-                //     } else {
-                //         $result_ = json_decode($result, true);                        
-                //     }
-                //     curl_close($chOne); 
-                // }
+                if ($linesend == null) {
+                    $test = '';
+                } else {
+                    $test = $linesend;
+                }
+                if ($test !== '' && $test !== null) {
+                    $chOne = curl_init();
+                    curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($chOne, CURLOPT_POST, 1);
+                    curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                    curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                    curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                    $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                    curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($chOne);
+                    if (curl_error($chOne)) {
+                        echo 'error:' . curl_error($chOne);
+                    } else {
+                        $result_ = json_decode($result, true);                        
+                    }
+                    curl_close($chOne); 
+                }
 
                 // }
                 //แจ้งเตือนไลน์
@@ -370,10 +370,21 @@ class MedicalgasController extends Controller
                 // }
         
 
-    return response()->json([
-        'status'     => '200'
-    ]);
-}
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+    public function gas_qrcode(Request $request)
+    {  
+            $dataprint_main = Gas_list::get();
+           
+        return view('support_prs.gas.gas_qrcode', [
+            'dataprint_main'  =>  $dataprint_main,
+            // 'dataprint'        =>  $dataprint
+        ]);
+
+    }
+
   
 
  }
