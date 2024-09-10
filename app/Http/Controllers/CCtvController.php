@@ -862,8 +862,8 @@ class CCtvController extends Controller
                     'cctv_camera_screen'         => $request->cctv_camera_screen,
                     'cctv_camera_corner'         => $request->cctv_camera_corner,
                     'cctv_camera_drawback'       => $request->cctv_camera_drawback,
-                    'cctv_camera_save'           => $request->cctv_camera_save,
-                    'cctv_camera_power_backup'   => $request->cctv_camera_power_backup,
+                    // 'cctv_camera_save'           => $request->cctv_camera_save,
+                    // 'cctv_camera_power_backup'   => $request->cctv_camera_power_backup,
                 );
                 DB::connection('mysql')->table('cctv_list')
                     ->where('cctv_list_num', $request->cctv_list_num)
@@ -948,5 +948,4 @@ class CCtvController extends Controller
     }
      
  
-
  }

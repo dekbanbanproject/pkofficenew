@@ -28,60 +28,61 @@
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
-                        <p style="font-size: 17px">  <br> {{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
-                    </div> 
-                </div> 
-            </div>
-            <div class="col-md-2 text-center">
-                <div class="card">
-                    <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {{-- {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!}  --}}
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
-                        <p style="font-size: 17px">  <br> {{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
-                    </div> 
-                </div> 
-            </div>
-            <div class="col-md-2 text-center">
-                <div class="card">
-                    <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
-                        <p style="font-size: 17px">  <br> {{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
+                        <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
+                            สแกนเพื่อซ่อม
+                        </p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
+                        <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
+                            สแกนเพื่อซ่อม
+                        </p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
+                        <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
@@ -93,60 +94,60 @@
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
-                        <p style="font-size: 17px">  <br> {{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
-                    </div> 
-                </div> 
-            </div>
-            <div class="col-md-2 text-center">
-                <div class="card">
-                    <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
-                        <p style="font-size: 17px">  <br> {{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
-                    </div> 
-                </div> 
-            </div>
-            <div class="col-md-2 text-center">
-                <div class="card">
-                    <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>
             <div class="col-md-2 text-center">
                 <div class="card">
                     <div class="body"><br>
-                        {!! QrCode::size(112)->encoding('UTF-8')->generate($dataprint->air_list_num);!!} 
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
                         <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
-                            แสกนตรวจสอบ<br>
-                            สำหรับเจ้าหน้าที่</p>
+                            สแกนเพื่อซ่อม
+                        </p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
+                        <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
+                            สแกนเพื่อซ่อม
+                        </p>
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-md-2 text-center">
+                <div class="card">
+                    <div class="body"><br>
+                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $dataprint->air_list_id) !!}
+                        <p style="font-size: 17px">   <br>{{ $dataprint->air_list_num }} <br>
+                            สแกนเพื่อซ่อม
+                        </p>
                     </div> 
                 </div> 
             </div>

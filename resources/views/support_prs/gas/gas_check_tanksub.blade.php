@@ -97,12 +97,12 @@
        
         <div class="row"> 
             <div class="col-md-4"> 
-                <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบก๊าซ(Main)</h4> 
+                <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบก๊าซ(Sub)</h4> 
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end">
-                <form action="{{ url('gas_check_tank') }}" method="GET">
+                <form action="{{ url('gas_check_tanksub') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -114,7 +114,7 @@
                         </button> 
                     </form> 
               
-                <a href="{{url('gas_check_tankadd')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs"> 
+                <a href="{{url('gas_check_tanksub_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-info bt_prs"> 
                     <i class="fa-solid fa-circle-plus text-white me-2"></i>
                     Check
                 </a> 
@@ -136,13 +136,14 @@
                                             <th class="text-center" width="10%">เวลา</th> 
                                             <th class="text-center" width="10%">รหัสถังก๊าซ</th> 
                                             <th class="text-center">รายการ</th>
-                                            {{-- <th class="text-center" width="9%">ตัวถัง</th>
+
+                                            <th class="text-center" width="9%">ตัวถัง</th>
                                             <th class="text-center" width="9%">วาลว์</th> 
                                             <th class="text-center" width="9%">แรงดัน</th>  
-                                            <th class="text-center" >รายการชำรุด</th>  --}}
+                                            {{-- <th class="text-center" >รายการชำรุด</th>  --}}
 
-                                            <th class="text-center" width="10%">ระดับ O2 </th>
-                                            <th class="text-center" width="10%">ค่าแรงดัน</th>
+                                            {{-- <th class="text-center" width="10%">ระดับ O2 </th> --}}
+                                            {{-- <th class="text-center" width="10%">ค่าแรงดัน</th> --}}
                                             <th class="text-center" width="12%">ผู้ตรวจ</th> 
                                             <th class="text-center">จัดการ</th> 
                                         </tr>
@@ -157,8 +158,9 @@
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
                                                 <td class="text-start" style="font-size: 12px">{{ $item->gas_list_name }}</td>  
 
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->pariman_value }}</td>  
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->pressure_value }}</td> 
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_body_name }}</td>  
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_valve_name }}</td> 
+                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_pressure_name }}</td> 
 
                                                 {{-- <td class="text-center" width="9%"> 
                                                     @if ($item->gas_check_body == '0') 

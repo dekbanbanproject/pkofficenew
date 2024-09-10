@@ -1,5 +1,5 @@
 @extends('layouts.support_prs_gas')
-@section('title', 'PK-OFFICE || ก๊าซธรรมชาติ')
+@section('title', 'PK-OFFICE || ก๊าซทางการแพทย์')
  
 @section('content')
     <script>

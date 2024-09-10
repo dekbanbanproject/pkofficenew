@@ -55,11 +55,11 @@
                 <div class="card card_prs_4">
                     <div class="card-body"> 
 
-                        {{-- <div class="row">
+                        <div class="row">
                             <div class="col text-center"> 
                                 <p style="color:rgb(19, 154, 233);font-size:19px">เช็คระดับปริมาณออกซิเจนเหลว</p>
                             </div> 
-                        </div> --}}
+                        </div>
                         <div class="row">
                             <div class="col-4 text-end"> 
                                 <p style="color:rgb(19, 154, 233);font-size:16px">วันที่ตรวจ</p>
@@ -67,11 +67,11 @@
                             <div class="col text-start">  
                                 <p style="color:rgb(19, 154, 233);font-size:16px">{{Datethai($date_now)}}</p>
                                 <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
-                                <input type="hidden" id="gas_type" name="gas_type" value="1">
+                                <input type="hidden" id="gas_type" name="gas_type" value="{{$gas_type}}">
                                 <input type="hidden" id="gas_list_id" name="gas_list_id" value="{{$gas_list_id}}">
                                 <input type="hidden" id="standard_value" name="standard_value" value="124">
                                 <input type="hidden" id="standard_value_min" name="standard_value_min" value="50">
-                                
+                                <input type="hidden" id="gas_check_id" name="gas_check_id" value="{{$data_edit->gas_check_id}}">
                                 
                             </div> 
                         </div>
@@ -80,7 +80,7 @@
                                 <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ระดับ O2</p>
                             </div>
                             <div class="col text-start">  
-                                <input type="text" class="form-control" id="pariman_value" name="pariman_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
+                                <input type="text" class="form-control" id="pariman_value" name="pariman_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white" value="{{$data_edit->pariman_value}}"> 
                             </div> 
                             <div class="col-3 text-start"> 
                                 <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">inH2O</p>
@@ -91,25 +91,25 @@
                                 <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ค่าแรงดัน</p>
                             </div>
                             <div class="col text-start">  
-                                <input type="text" class="form-control" id="pressure_value" name="pressure_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
+                                <input type="text" class="form-control" id="pressure_value" name="pressure_value" style="color:rgb(19, 154, 233);font-size:16px;background-color: white" value="{{$data_edit->pressure_value}}"> 
                             </div> 
                             <div class="col-3 text-start"> 
                                 <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">bar</p>
                             </div>
                         </div>
                         <div class="row mt-4 mb-4">
-                         
+                            {{-- <div class="col"></div> --}}
                             <div class="col text-center">
-                                <button class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Insert_data"> 
-                                    <i class="fa-solid fa-floppy-disk text-white me-2"></i>
-                                   บันทึกข้อมูล
+                                <button class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Update_data"> 
+                                    <i class="fa-regular fa-pen-to-square me-2"></i>
+                                    แก้ไขข้อมูล
                                 </button>  
                                 <a href="{{url('gas_check_tank')}}" class="ladda-button me-2 btn-pill btn btn-danger bt_prs">  
                                     <i class="fa-solid fa-xmark me-2"></i>
                                     ยกเลิก
-                                </a> 
+                                </a>  
                             </div>
-                    
+                            {{-- <div class="col"></div> --}}
                         </div>
                         
                     </div>
@@ -146,17 +146,17 @@
              
             $("#spinner-div").hide(); //Request is complete so hide spinner
             
-            $('#Insert_data').click(function() {
-                var check_date         = $('#check_date').val(); 
-                var gas_type           = $('#gas_type').val(); 
-                var standard_value     = $('#standard_value').val(); 
-                var standard_value_min = $('#standard_value_min').val(); 
+            $('#Update_data').click(function() {
+                // var check_date         = $('#check_date').val(); 
+                // var gas_type           = $('#gas_type').val(); 
+                // var standard_value     = $('#standard_value').val(); 
+                // var standard_value_min = $('#standard_value_min').val(); 
                 var pressure_value     = $('#pressure_value').val(); 
                 var pariman_value      = $('#pariman_value').val(); 
-                var gas_list_id        = $('#gas_list_id').val();
+                var gas_check_id       = $('#gas_check_id').val();
                 
                 Swal.fire({ position: "top-end",
-                        title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
+                        title: 'ต้องการแก้ไขข้อมูลใช่ไหม ?',
                         text: "You Warn Insert Data!",
                         icon: 'warning',
                         showCancelButton: true,
@@ -169,15 +169,15 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('prs.gas_check_tank_save') }}",
+                                    url: "{{ route('prs.gas_check_tank_update') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {check_date,gas_type,standard_value,standard_value_min,pressure_value,pariman_value,gas_list_id},
+                                    data: {pressure_value,pariman_value,gas_check_id},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({ position: "top-end",
-                                                title: 'บันทึกข้อมูลสำเร็จ',
-                                                text: "You Insert data success",
+                                                title: 'แก้ไขข้อมูลสำเร็จ',
+                                                text: "You Update data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

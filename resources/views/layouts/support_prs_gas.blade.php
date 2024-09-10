@@ -440,12 +440,12 @@
                                             <span key="t-vertical">Tank Liquid Oxygen(Main)</span>  
                                         </a> 
                                     </div>
-                                    {{-- <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_tank')}}" id="topnav-layout-verti"
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_tanksub')}}" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">Tank Liquid Oxygen(Main)</span>  
+                                            <span key="t-vertical">Tank Liquid Oxygen(Sub)</span>  
                                         </a> 
-                                    </div>   --}}
+                                    </div>
                                     {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
                                             role="button">

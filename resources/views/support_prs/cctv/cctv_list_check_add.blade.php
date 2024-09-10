@@ -98,8 +98,7 @@ $loter = $date.''.$time
         <div class="row">
             <div class="col-md-12">
                 <div class="card card_prs_4">
-                   
-                    <div class="card-body">
+                    
                         <div class="card-body">
                             <div class="table-responsive">  
                                     <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
@@ -111,8 +110,8 @@ $loter = $date.''.$time
                                             <th class="text-center" style="background: #e4fdfc">จอกล้อง</th> 
                                             <th class="text-center" style="background: #e4fdfc">มุมกล้อง</th>
                                             <th class="text-center" style="background: #e4fdfc">สิ่งกีดขวาง</th>
-                                            <th class="text-center" style="background: #dadffa">การบันทึก</th> 
-                                            <th class="text-center" style="background: #dadffa">การสำรองไฟ</th> 
+                                            {{-- <th class="text-center" style="background: #dadffa">การบันทึก</th>  --}}
+                                            {{-- <th class="text-center" style="background: #dadffa">การสำรองไฟ</th>  --}}
                                         </tr>
                                        
                                     </thead>
@@ -147,8 +146,8 @@ $loter = $date.''.$time
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_screen}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>   
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>  
+                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>    --}}
+                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>   --}}
                                           
                                                
                                             </tr> 
@@ -158,9 +157,7 @@ $loter = $date.''.$time
                                 </table>
                             </div>
                         </div>
-                        
-                    </div>
-                 
+                         
                 </div>
             </div>
         </div>
@@ -201,7 +198,8 @@ $loter = $date.''.$time
                 columns:{
                     identifier:[0,'cctv_list_num'],
                     // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3'], [9, 'gender', '{"1":"Male", "2":"Female"}']]
-                    editable: [[3, 'cctv_camera_screen', '{"0":"ปกติ", "1":"ชำรุด"}'], [4, 'cctv_camera_corner', '{"0":"ปกติ", "1":"ชำรุด"}'], [5, 'cctv_camera_drawback', '{"0":"ปกติ", "1":"ชำรุด"}'], [6, 'cctv_camera_save', '{"0":"ปกติ", "1":"ชำรุด"}'], [7, 'cctv_camera_power_backup', '{"0":"ปกติ", "1":"ชำรุด"}']]
+                    // editable: [[3, 'cctv_camera_screen', '{"0":"ปกติ", "1":"ชำรุด"}'], [4, 'cctv_camera_corner', '{"0":"ปกติ", "1":"ชำรุด"}'], [5, 'cctv_camera_drawback', '{"0":"ปกติ", "1":"ชำรุด"}'], [6, 'cctv_camera_save', '{"0":"ปกติ", "1":"ชำรุด"}'], [7, 'cctv_camera_power_backup', '{"0":"ปกติ", "1":"ชำรุด"}']]
+                    editable: [[3, 'cctv_camera_screen', '{"0":"ปกติ", "1":"ชำรุด"}'], [4, 'cctv_camera_corner', '{"0":"ปกติ", "1":"ชำรุด"}'], [5, 'cctv_camera_drawback', '{"0":"ปกติ", "1":"ชำรุด"}']]
                 },
                 // restoreButton:false,
                 deleteButton: false,

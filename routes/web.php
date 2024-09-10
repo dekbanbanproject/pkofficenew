@@ -3403,9 +3403,13 @@ Route::middleware(['type'])->group(function () {
   Route::match(['get', 'post'], 'gas_qrcode', [App\Http\Controllers\MedicalgasController::class, 'gas_qrcode'])->name('prs.gas_qrcode'); //
   Route::match(['get', 'post'], 'gas_check', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
 
-
-
-
+  Route::match(['get', 'post'], 'gas_check_tanksub', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub'])->name('prs.gas_check_tanksub'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_add', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_add'])->name('prs.gas_check_tanksub_add'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_edit/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_edit'])->name('prs.gas_check_tanksub_edit'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_save', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_save'])->name('prs.gas_check_tanksub_save'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_saveall', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_saveall'])->name('prs.gas_check_tanksub_saveall'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_update', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_update'])->name('prs.gas_check_tanksub_update'); //
+  Route::match(['get', 'post'], 'gas_check_tanksub_destroy/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_destroy'])->name('prs.gas_check_tanksub_destroy'); //
 
 
 

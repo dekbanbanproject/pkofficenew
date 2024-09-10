@@ -31,6 +31,7 @@ return new class extends Migration
                 $table->text('gas_check_valve_name')->nullable(); // 
                 $table->text('gas_check_pressure')->nullable(); // 3.แรงดัน
                 $table->text('gas_check_pressure_name')->nullable(); // 
+
                 $table->text('gas_check_pressure_min')->nullable(); // 
                 $table->text('gas_check_pressure_max')->nullable(); // 
 

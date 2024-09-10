@@ -155,6 +155,9 @@ class MedicalgasController extends Controller
         $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
         if ($startdate =='') {
             $datashow = DB::select(
                 'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
@@ -164,7 +167,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -176,7 +179,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC  
             '); 
         }
@@ -187,6 +190,8 @@ class MedicalgasController extends Controller
             'datashow'      => $datashow,
         ]);
     }
+
+    // Tank Main
     public function gas_check_tank(Request $request)
     {
         $datenow   = date('Y-m-d');
@@ -197,6 +202,9 @@ class MedicalgasController extends Controller
         $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
         if ($startdate =='') {
             $datashow = DB::select(
                 'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
@@ -206,7 +214,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
-                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type ="1" AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -218,16 +226,16 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
-                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type ="1" AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC  
             '); 
         }
 
-        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
-        $data['gas_list_id']    = $data_->gas_list_id;
-        $data['gas_type']       = $data_->gas_type;
+        // $data_                  = DB::table('gas_list')->where('gas_type','1')->where('gas_year',$bg_yearnow)->first();
+        // $data['gas_list_id']    = $data_->gas_list_id;
+        // $data['gas_type']       = $data_->gas_type;
      
-        return view('support_prs.gas.gas_check_tank',$data,[
+        return view('support_prs.gas.gas_check_tank',[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
@@ -252,7 +260,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type ="1"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -264,7 +272,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type ="1"
                 ORDER BY b.gas_check_id DESC  
             '); 
         }
@@ -388,10 +396,25 @@ class MedicalgasController extends Controller
         $data['gas_list_id']    = $data_->gas_list_id;
         $data['gas_type']       = $data_->gas_type;
      
+        $data_edit              = DB::table('gas_check')->where('gas_check_id',$id)->first();
+
         return view('support_prs.gas.gas_check_tankedit',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
+            'data_edit'     => $data_edit,
+        ]);
+    }
+    public function gas_check_tank_update(Request $request)
+    { 
+        $gas_check_id  = $request->gas_check_id;
         
+        Gas_check::where('gas_check_id',$gas_check_id)->update([ 
+            'pressure_value'       =>  $request->pressure_value,
+            'pariman_value'        =>  $request->pariman_value, 
+        ]);
+         
+        return response()->json([
+            'status'     => '200'
         ]);
     }
     public function gas_qrcode(Request $request)
@@ -416,6 +439,248 @@ class MedicalgasController extends Controller
 
         return response()->json(['status' => '200']);
     } 
+
+    //Thank Sub 
+    public function gas_check_tanksub(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname,b.pariman_value,b.pressure_value
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = b.user_id 
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'"
+                ORDER BY b.gas_check_id DESC 
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname ,b.pariman_value,b.pressure_value
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = b.user_id 
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'"
+                ORDER BY b.gas_check_id DESC  
+            '); 
+        }
+
+        // $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        // $data['gas_list_id']    = $data_->gas_list_id;
+        // $data['gas_type']       = $data_->gas_type;
+     
+        return view('support_prs.gas.gas_check_tanksub',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function gas_check_tanksub_add(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $data['month_now']         = date('m');
+        $m             = date('H');
+        $data['mm']    = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+        $iduser        = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months
+            FROM gas_list a
+            LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
+            WHERE a.active = "Ready" AND a.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'" 
+            GROUP BY a.gas_list_id
+            ORDER BY a.gas_list_id ASC
+        ');          
+        // AND month(b.check_date) = "'.$month.'"
+        // $datashow = DB::select(
+        //     'SELECT a.*
+        //     FROM gas_list a         
+        //     WHERE a.active = "Ready" AND a.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'" 
+        //     GROUP BY a.gas_list_id
+        //     ORDER BY a.gas_list_id ASC
+        // ');  
+        return view('support_prs.gas.gas_check_tanksub_add',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+
+    public function gas_check_tanksub_save(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->first();
+                $gas_list_id   = $idgas->gas_list_id; 
+                $gas_list_num  = $idgas->gas_list_num; 
+                $gas_list_name = $idgas->gas_list_name; 
+                $size          = $idgas->size; 
+                $gas_type      = $idgas->gas_type; 
+                 
+                $date          = date('Y-m-d');
+                $y             = date('Y')+543;
+                $m             = date('H');
+                $mm            = date('H:m:s');
+                $datefull      = date('Y-m-d H:m:s');
+                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
+                $iduser        = Auth::user()->id;
+
+                $body_    = $request->gas_check_body;
+                if ($body_ == '0') {
+                    $body  = 'พร้อมใช้';
+                } else {
+                    $body  = 'ไม่พร้อมใช้';
+                }
+
+                $check_valve_     = $request->gas_check_valve;
+                if ($check_valve_ == '0') {
+                    $check_valve  = 'พร้อมใช้';
+                } else {
+                    $check_valve  = 'ไม่พร้อมใช้';
+                }
+
+                $pressure_        = $request->gas_check_pressure;
+                if ($pressure_ == '0') {
+                    $pressure  = 'พร้อมใช้';
+                } else {
+                    $pressure  = 'ไม่พร้อมใช้';
+                }
+                
+                if ($check > 0) {
+                    Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([ 
+                        // 'check_year'               => $y,
+                        'gas_check_body'           => $body_,
+                        'gas_check_body_name'      => $body,
+                        'gas_check_valve'          => $check_valve_,
+                        'gas_check_valve_name'     => $check_valve,
+                        'gas_check_pressure'       => $pressure_, 
+                        'gas_check_pressure_name'  => $pressure, 
+                        'user_id'                  => $iduser, 
+                    ]);
+                } else {
+                    Gas_check::insert([
+                        'check_year'               => $y,
+                        'check_date'               => $date,
+                        'check_time'               => $mm,
+                        'gas_list_id'              => $gas_list_id,
+                        'gas_list_num'             => $gas_list_num,
+                        'gas_list_name'            => $gas_list_name,
+                        'size'                     => $size,
+                        'gas_type'                 => $gas_type,
+                        'gas_check_body'           => $body_,
+                        'gas_check_body_name'      => $body,
+                        'gas_check_valve'          => $check_valve_,
+                        'gas_check_valve_name'     => $check_valve,
+                        'gas_check_pressure'       => $pressure_, 
+                        'gas_check_pressure_name'  => $pressure, 
+                        'user_id'                  => $iduser, 
+                    ]);
+                }
+                
+                // $data  = array(
+                //     // 'cctv_check_date'            => $date,
+                //     'gas_check_body'        => $request->gas_check_body,
+                //     'gas_check_valve'       => $request->gas_check_valve,
+                //     'gas_check_pressure'    => $request->gas_check_pressure, 
+                // );
+                // DB::connection('mysql')->table('cctv_list')
+                //     ->where('cctv_list_num', $request->cctv_list_num)
+                //     ->update($data);
+            }
+            return response()->json([
+                'status'     => '200'
+            ]);
+            // return request()->json($request);
+        }
+    }
+    public function cctv_list_check_save(Request $request)
+    {
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+    // public function cctv_list_check_save(Request $request)
+    // {
+     
+    //         $cctv_insert = Cctv_list::where('cctv_check', '=','N')->get();
+    //         $date        = date('Y-m-d'); 
+    //         $m           = date('m');   
+    //         $iduser      = Auth::user()->id;
+    //         foreach ($cctv_insert as $key => $value) {
+    //             $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->count(); 
+    //             $cctv_detail = Cctv_list::where('cctv_list_num',$value->cctv_list_num)->first();
+
+    //             if ($check > 0) {
+    //                 Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->update([ 
+    //                     // 'cctv_check_date'           => $value->cctv_check_date,
+    //                     'cctv_camera_screen'        => $value->cctv_camera_screen,
+    //                     'cctv_camera_corner'        => $value->cctv_camera_corner,
+    //                     'cctv_camera_drawback'      => $value->cctv_camera_drawback,
+    //                     'cctv_camera_save'          => $value->cctv_camera_save,
+    //                     'cctv_camera_power_backup'  => $value->cctv_camera_power_backup,
+    //                     'cctv_type'                 => $cctv_detail->cctv_type,
+    //                     'cctv_location'             => $cctv_detail->cctv_location,
+    //                     'cctv_user_id'              => $iduser,
+    //                     'cctv_check_date'           => $date
+    //                 ]);
+    //                 Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
+    //                     'cctv_check_date'           => $date, 
+    //                 ]);
+    //             } else {
+    //                 Cctv_check::insert([
+    //                     'article_num'               => $value->cctv_list_num,
+    //                     // 'cctv_check_date'           => $value->cctv_check_date,
+    //                     'cctv_camera_screen'        => $value->cctv_camera_screen,
+    //                     'cctv_camera_corner'        => $value->cctv_camera_corner,
+    //                     'cctv_camera_drawback'      => $value->cctv_camera_drawback,
+    //                     'cctv_camera_save'          => $value->cctv_camera_save,
+    //                     'cctv_camera_power_backup'  => $value->cctv_camera_power_backup,
+    //                     'cctv_type'                 => $cctv_detail->cctv_type,
+    //                     'cctv_location'             => $cctv_detail->cctv_location,
+    //                     'cctv_user_id'              => $iduser,
+    //                     'cctv_check_date'           => $date
+    //                 ]);
+    //                 Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
+    //                     'cctv_check_date'           => $date, 
+    //                 ]);
+    //             }
+    //             if ($value->cctv_camera_screen == '1' || $value->cctv_camera_corner == '1' || $value->cctv_camera_drawback == '1' || $value->cctv_camera_save == '1' || $value->cctv_camera_power_backup == '1') {
+    //                 Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '1']);
+    //             } else {
+    //                 Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '0']);
+    //             }
+                 
+    //         }
+             
+    //     return response()->json([
+    //         'status'     => '200'
+    //     ]);
+            
+    // }
 
   
 
