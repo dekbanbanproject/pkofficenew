@@ -494,17 +494,20 @@ Route::get('backups/total-unit', [App\Http\Controllers\BackupController::class, 
 Route::get('backup/download/{name}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download');
 Route::delete('backup/delete', [App\Http\Controllers\BackupController::class, 'delete'])->name('backup.delete');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+
+
+Route::middleware(['type'])->group(function () {
+  Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
 Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome'])->name('staff.home')->middleware('type');
 Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 // Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
+
 Route::get('home_supplies', [App\Http\Controllers\AirController::class, 'home_supplies'])->name('manage.home_supplies')->middleware('type');
 Route::get('home_supplies_mobile', [App\Http\Controllers\AirController::class, 'home_supplies_mobile'])->name('manage.home_supplies_mobile')->middleware('type');
 Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'home_supplies_excel'])->name('manage.home_supplies_excel')->middleware('type');
 
-Route::middleware(['type'])->group(function () {
   // Route::get('/', function () {
   //   if (Auth::check()) {
   //     return view('welcome');

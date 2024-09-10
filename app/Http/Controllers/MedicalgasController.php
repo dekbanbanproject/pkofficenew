@@ -581,6 +581,11 @@ class MedicalgasController extends Controller
                         'gas_check_pressure_name'  => $pressure, 
                         'user_id'                  => $iduser, 
                     ]);
+                    if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                    } else {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                    }
                 } else {
                     Gas_check::insert([
                         'check_year'               => $y,
@@ -599,6 +604,12 @@ class MedicalgasController extends Controller
                         'gas_check_pressure_name'  => $pressure, 
                         'user_id'                  => $iduser, 
                     ]);
+
+                    if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                    } else {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                    }
                 }
                 
                 // $data  = array(
@@ -617,18 +628,18 @@ class MedicalgasController extends Controller
             // return request()->json($request);
         }
     }
-    public function gas_check_tanksub_saveall(Request $request)
-    {
-        $check_date = $request->check_date;
-        $gas_insert = Gas_check::where('check_date', '=',$check_date)->get();
+    // public function gas_check_tanksub_saveall(Request $request)
+    // {
+    //     $check_date = $request->check_date;
+    //     $gas_insert = Gas_check::where('check_date', '=',$check_date)->get();
 
-        foreach ($gas_insert as $key => $value) {
-            # code...
-        }
-        return response()->json([
-            'status'     => '200'
-        ]);
-    }
+    //     foreach ($gas_insert as $key => $value) {
+    //         # code...
+    //     }
+    //     return response()->json([
+    //         'status'     => '200'
+    //     ]);
+    // }
     // public function cctv_list_check_save(Request $request)
     // {
      

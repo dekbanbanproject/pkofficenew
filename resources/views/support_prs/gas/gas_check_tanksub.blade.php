@@ -134,7 +134,7 @@
                                             <th class="text-center">ลำดับ</th>  
                                             <th class="text-center" width="10%">วันที่ตรวจ</th>  
                                             <th class="text-center" width="10%">เวลา</th> 
-                                            <th class="text-center" width="10%">รหัสถังก๊าซ</th> 
+                                            <th class="text-center" width="10%">รหัส</th> 
                                             <th class="text-center">รายการ</th>
 
                                             <th class="text-center" width="9%">ตัวถัง</th>
@@ -157,10 +157,28 @@
                                                 <td class="text-center" width="5%" style="font-size: 12px">{{ $item->check_time }}</td> 
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
                                                 <td class="text-start" style="font-size: 12px">{{ $item->gas_list_name }}</td>  
-
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_body_name }}</td>  
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_valve_name }}</td> 
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_pressure_name }}</td> 
+                                                <td class="text-center" width="9%"> 
+                                                    @if ($item->gas_check_body == '0') 
+                                                         <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif
+                                                </td> 
+                                                {{-- <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_body_name }}</td>   --}}
+                                                <td class="text-center" width="10%" style="font-size: 12px">
+                                                    @if ($item->gas_check_valve == '0') 
+                                                            <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif 
+                                                </td> 
+                                                <td class="text-center" width="10%" style="font-size: 12px">
+                                                    @if ($item->gas_check_pressure == '0') 
+                                                        <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @else 
+                                                        <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
+                                                    @endif
+                                                </td> 
 
                                                 {{-- <td class="text-center" width="9%"> 
                                                     @if ($item->gas_check_body == '0') 
