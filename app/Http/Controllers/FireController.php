@@ -560,7 +560,7 @@ class FireController extends Controller
                 '); 
         } else {
             $datashow = DB::select(
-                'SELECT c.fire_num,c.fire_name,c.fire_check_color,c.fire_check_location,c.check_date,c.fire_check_injection,c.fire_check_joystick,c.fire_check_body,c.fire_check_gauge,c.fire_check_drawback,concat(s.fname," ",s.lname) ptname 
+                'SELECT c.fire_num,c.check_time,c.fire_name,c.fire_check_color,c.fire_check_location,c.check_date,c.fire_check_injection,c.fire_check_joystick,c.fire_check_body,c.fire_check_gauge,c.fire_check_drawback,concat(s.fname," ",s.lname) ptname 
                 FROM fire_check c
                 LEFT JOIN users s ON s.id = c.user_id
                 WHERE c.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
