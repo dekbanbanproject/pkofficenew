@@ -67,7 +67,7 @@
                             </div>
                             <div class="col text-start">  
                                 {{-- <p style="color:rgb(19, 154, 233);font-size:16px">{{Datethai($date_now)}}</p> --}}
-                                {{-- <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}"> --}}
+                                <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
                                 {{-- <input type="hidden" id="gas_type" name="gas_type" value="2"> --}}
                                 
                             </div> 
@@ -81,7 +81,7 @@
                                             <tr style="font-size: 13px">                                        
                                                 <th class="text-center" style="background: #fdf7e4">รหัส</th>
                                                 {{-- <th class="text-center" width="15%" style="background: #fdf7e4">รายการ</th>  --}}
-                                               
+                                                <th class="text-center" style="background: #e4fdfc">วันที่ตรวจ</th> 
                                                 <th class="text-center" style="background: #e4fdfc">สภาพถัง</th> 
                                                 <th class="text-center" style="background: #e4fdfc">หัววาล์ว</th>
                                                 <th class="text-center" style="background: #e4fdfc">แรงดัน</th> 
@@ -117,14 +117,18 @@
                                             ?>
                                             @if ($item->months == $month_now)
                                                 <tr style="font-size:13px"> 
+                                                  
                                                     <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
+                                                    <td class="text-center" width="7%" >{{ $item->check_date }} </td> 
                                                     <td class="text-center" width="7%">{{$item->gas_check_body_name}}</td> 
                                                     <td class="text-center" width="7%">{{$item->gas_check_valve_name}}</td> 
                                                     <td class="text-center" width="7%">{{$item->gas_check_pressure_name}}</td> 
                                                 </tr>
                                             @else
                                                 <tr style="font-size:13px"> 
+                                            
                                                     <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
+                                                    <td class="text-center" width="7%" >{{ $item->check_date }} </td> 
                                                     <td class="text-center" width="7%"></td> 
                                                     <td class="text-center" width="7%"></td> 
                                                     <td class="text-center" width="7%"></td> 
@@ -140,13 +144,14 @@
                         <div class="row mt-4 mb-4">
                          
                             <div class="col text-center">
-                                <button class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Insert_data"> 
+                                {{-- <button class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Insert_data"> 
                                     <i class="fa-solid fa-floppy-disk text-white me-2"></i>
                                    บันทึกข้อมูล
-                                </button>  
-                                <a href="{{url('gas_check_tank')}}" class="ladda-button me-2 btn-pill btn btn-danger bt_prs">  
-                                    <i class="fa-solid fa-xmark me-2"></i>
-                                    ยกเลิก
+                                </button>   --}}
+                                <a href="{{url('gas_check_tanksub')}}" class="ladda-button me-2 btn-pill btn btn-warning bt_prs">  
+                                    {{-- <i class="fa-solid fa-xmark me-2"></i> --}}
+                                    <i class="fa-solid fa-rotate-left me-2"></i>
+                                    ย้อนกลับ
                                 </a> 
                             </div>
                     
@@ -175,7 +180,7 @@
                 columns:{
                     identifier:[0,'gas_list_num'],
                     // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3'], [9, 'gender', '{"1":"Male", "2":"Female"}']] 
-                    editable: [[1, 'gas_check_body', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}'], [2, 'gas_check_valve', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}'], [3, 'gas_check_pressure', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}']]
+                    editable: [[2, 'gas_check_body', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}'], [3, 'gas_check_valve', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}'], [4, 'gas_check_pressure', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"}']]
                 },
                 // restoreButton:false,
                 deleteButton: false,
@@ -211,12 +216,12 @@
             
             $('#Insert_data').click(function() {
                 var check_date         = $('#check_date').val(); 
-                var gas_type           = $('#gas_type').val(); 
+                // var gas_type           = $('#gas_type').val(); 
                 // var standard_value     = $('#standard_value').val(); 
                 // var standard_value_min = $('#standard_value_min').val(); 
-                var pressure_value     = $('#pressure_value').val(); 
-                var pariman_value      = $('#pariman_value').val(); 
-                var gas_list_id        = $('#gas_list_id').val();
+                // var pressure_value     = $('#pressure_value').val(); 
+                // var pariman_value      = $('#pariman_value').val(); 
+                // var gas_list_id        = $('#gas_list_id').val();
                 
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
@@ -232,10 +237,10 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('prs.gas_check_tank_save') }}",
+                                    url: "{{ route('prs.gas_check_tanksub_saveall') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {check_date,gas_type,pressure_value,pariman_value,gas_list_id},
+                                    data: {check_date},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({ position: "top-end",

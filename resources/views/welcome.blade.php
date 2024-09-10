@@ -47,11 +47,17 @@
 
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
               
-                  
-
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0"> 
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                    
+                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0"> 
+                        <a href="{{ route('logout') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <h1 style="color: #059784">Back To Login</h1>
+                            
+                        </a>
                     </div>
+
+                    {{-- <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0"> 
+                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                    </div> --}}
 
                 </div>
             </div>

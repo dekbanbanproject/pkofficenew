@@ -145,7 +145,7 @@
                                             {{-- <th class="text-center" width="10%">ระดับ O2 </th> --}}
                                             {{-- <th class="text-center" width="10%">ค่าแรงดัน</th> --}}
                                             <th class="text-center" width="12%">ผู้ตรวจ</th> 
-                                            <th class="text-center">จัดการ</th> 
+                                            {{-- <th class="text-center">จัดการ</th>  --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -202,7 +202,7 @@
                                                 </td>    --}}
 
                                                 <td class="text-start" width="12%">{{ $item->ptname }}</td>  
-                                                <td class="text-center" width="5%">
+                                                {{-- <td class="text-center" width="5%">
  
                                                     <div class="btn-group me-1">
                                                         <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -223,7 +223,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </td>                                            
+                                                </td>                                             --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

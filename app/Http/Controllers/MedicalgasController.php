@@ -508,7 +508,7 @@ class MedicalgasController extends Controller
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months
+            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months,b.check_date
             FROM gas_list a
             LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
             WHERE a.active = "Ready" AND a.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'" 
@@ -617,8 +617,14 @@ class MedicalgasController extends Controller
             // return request()->json($request);
         }
     }
-    public function cctv_list_check_save(Request $request)
+    public function gas_check_tanksub_saveall(Request $request)
     {
+        $check_date = $request->check_date;
+        $gas_insert = Gas_check::where('check_date', '=',$check_date)->get();
+
+        foreach ($gas_insert as $key => $value) {
+            # code...
+        }
         return response()->json([
             'status'     => '200'
         ]);
