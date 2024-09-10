@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('size', length: 255)->nullable(); //  
                 $table->decimal('gas_price',total: 12, places: 2)->nullable(); //  
                 $table->string('gas_year', length: 200)->nullable(); //                
-                $table->enum('active', ['NotReady','Ready','Borrow','Back'])->default('Ready'); 
+                $table->enum('active', ['NotReady','Ready','Borrow','Wait'])->default('Ready'); 
 
                 $table->string('location_id', length: 255)->nullable(); // 
                 $table->string('location_name', length: 255)->nullable(); //

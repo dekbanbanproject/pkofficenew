@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('gas_list_num')->nullable();  //เลขครุภัณฑ์ รหัส : OUT CO1
                 $table->string('gas_list_name')->nullable(); 
                 $table->string('size')->nullable(); //   
+                $table->enum('active', ['NotReady','Ready','Borrow','"Wait"'])->default('Ready'); 
 
                 $table->text('gas_check_body')->nullable(); // 1.ตัวถัง
                 $table->text('gas_check_body_name')->nullable(); // 

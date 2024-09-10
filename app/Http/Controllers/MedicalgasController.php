@@ -753,19 +753,102 @@ class MedicalgasController extends Controller
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months,b.check_date,a.active,a.size
+            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date,b.active,a.size
             FROM gas_list a
             LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
-            WHERE a.active = "Ready" AND a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'" 
-            GROUP BY a.gas_list_id
+            WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'" 
+            GROUP BY a.gas_list_num
             ORDER BY a.gas_list_id ASC
         ');          
-        
+        // ,b.check_date
         return view('support_prs.gas.gas_check_o2_add',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'datashow'      => $datashow,
+            'datenow'       => $datenow,
         ]);
+    }
+    public function gas_check_o2_save(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->first();
+                $gas_list_id   = $idgas->gas_list_id; 
+                $gas_list_num  = $idgas->gas_list_num; 
+                $gas_list_name = $idgas->gas_list_name; 
+                $size          = $idgas->size; 
+                $gas_type      = $idgas->gas_type; 
+                 
+                $date          = date('Y-m-d');
+                $y             = date('Y')+543;
+                $m             = date('H');
+                $mm            = date('H:m:s');
+                $datefull      = date('Y-m-d H:m:s');
+                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
+                $iduser        = Auth::user()->id;
+                // dd($gas_list_id);
+
+                $active    = $request->active;
+                // if ($active_ == '0') {
+                //     $active  = 'พร้อมใช้';
+                // } elseif($active_ == '1') {
+                //     $active  = 'NotReady';
+                // } elseif($active_ == '2') {
+                //     $active  = 'รอเติม';
+                // } elseif($active_ == '3') {
+                //     $active  = 'ยืมคืน';
+                // } else {
+                //     $active  = 'จำหน่าย';
+                // }
+
+               
+                
+                if ($check > 0) {
+                    Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([  
+                        'check_date'         => $date,
+                        'active'             => $active, 
+                        'user_id'            => $iduser, 
+                    ]);
+                    Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                        'active'             => $active, 
+                        'user_id'            => $iduser, 
+                    ]);
+                } else {
+                    Gas_check::insert([
+                        'check_year'               => $y,
+                        'check_date'               => $date,
+                        'check_time'               => $mm,
+                        'gas_list_id'              => $gas_list_id,
+                        'gas_list_num'             => $gas_list_num,
+                        'gas_list_name'            => $gas_list_name,
+                        'size'                     => $size,
+                        'gas_type'                 => $gas_type,
+                        'active'                   => $active, 
+                        // 'gas_check_body'           => $body_,
+                        // 'gas_check_body_name'      => $body,
+                        // 'gas_check_valve'          => $check_valve_,
+                        // 'gas_check_valve_name'     => $check_valve,
+                        // 'gas_check_pressure'       => $pressure_, 
+                        // 'gas_check_pressure_name'  => $pressure, 
+                        'user_id'                  => $iduser, 
+                    ]);
+                    Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                        'active'             => $active, 
+                        'user_id'            => $iduser, 
+                    ]);
+                    // if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                    //     Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                    // } else {
+                    //     Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                    // }
+                }
+              
+            }
+            return response()->json([
+                'status'     => '200'
+            ]);
+            // return request()->json($request);
+        }
     }
 
   

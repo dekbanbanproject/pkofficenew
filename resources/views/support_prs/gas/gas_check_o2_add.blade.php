@@ -82,8 +82,7 @@
                                                 <th class="text-center" style="background: #fdf7e4">รหัส</th>
                                                 {{-- <th class="text-center" width="15%" style="background: #fdf7e4">รายการ</th>  --}}
                                                 <th class="text-center" style="background: #e4fdfc">ขนาด</th> 
-                                                <th class="text-center" style="background: #e4fdfc">วันที่ตรวจ</th> 
-                                             
+                                                <th class="text-center" style="background: #e4fdfc">วันที่ตรวจ</th>                                              
                                                 <th class="text-center" style="background: #e4fdfc">สถานะ</th> 
                                                 {{-- <th class="text-center" style="background: #e4fdfc">หัววาล์ว</th> --}}
                                                 {{-- <th class="text-center" style="background: #e4fdfc">แรงดัน</th>  --}}
@@ -99,6 +98,14 @@
                                             <?php 
                                                 // if ($item->gas_list_id != '' || $item->gas_list_id != NULL) {
                                                     // $value    = DB::table('gas_check')->whereMonth('check_date',$month)->where('gas_type',"2")->where('gas_list_id',$item->gas_list_id)->first();
+                                                    $checkdate   = DB::table('gas_check')->where('check_date',$item->check_date)->where('gas_list_id',$item->gas_list_id)->count();
+                                                    if ( $checkdate > 0) {
+                                                        $checkdate_  = DB::table('gas_check')->where('check_date',$item->check_date)->where('gas_list_id',$item->gas_list_id)->first();
+                                                        $checkdate_s  = $checkdate_->check_date;
+                                                    } else {
+                                                        # code...
+                                                    }
+                                                    
                                                 // $datashow_sub = DB::select(
                                                 //     'SELECT gas_check_body,gas_check_body_name,gas_check_valve,gas_check_valve_name,gas_check_pressure,gas_check_pressure_name
                                                 //      FROM gas_check WHERE month(check_date) = "'.$month.'"
@@ -114,30 +121,23 @@
                                                     // $gas_check_valve_name     = '';
                                                     // $gas_check_pressure_name  = '';
                                                 // }
-                                                 
+                                                
                                            
                                             ?>
-                                            @if ($item->months == $month_now)
-                                                <tr style="font-size:13px"> 
-                                                  
+                                            @if ($item->check_date == $datenow )
+                                                <tr style="font-size:13px">                                                   
                                                     <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
                                                     <td class="text-center" width="7%">{{$item->size}}</td> 
-                                                    <td class="text-center" width="7%" >{{ $item->check_date }} </td> 
-                                                
-                                                    <td class="text-center" width="7%">{{$item->active}}</td> 
-                                                    {{-- <td class="text-center" width="7%">{{$item->gas_check_valve_name}}</td>  --}}
-                                                    {{-- <td class="text-center" width="7%">{{$item->gas_check_pressure_name}}</td>  --}}
+                                                    <td class="text-center" width="7%" >{{$checkdate_s}} </td> 
+                                                    <td class="text-center" width="7%">{{$item->active}}</td>  
                                                 </tr>
                                             @else
-                                                <tr style="font-size:13px"> 
-                                            
-                                                    <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
+                                                <tr style="font-size:13px">                                             
+                                                    <td class="text-center" width="7%" >{{ $item->gas_list_num }}</td> 
                                                     <td class="text-center" width="7%">{{$item->size}}</td> 
-                                                    <td class="text-center" width="7%" >{{ $item->check_date }} </td> 
-                                                 
+                                                   
                                                     <td class="text-center" width="7%"></td> 
-                                                    {{-- <td class="text-center" width="7%"></td>  --}}
-                                                    {{-- <td class="text-center" width="7%"></td>  --}}
+                                                    <td class="text-center" width="7%"></td>  
                                                 </tr>
                                             @endif
                                                 
@@ -179,14 +179,15 @@
     <script>
         $(document).ready(function() {
             $('#Tabledit').Tabledit({
-                url:'{{route("prs.gas_check_tanksub_save")}}',
+                url:'{{route("prs.gas_check_o2_save")}}',
                 dataType:"json",
                 // editButton: true,
                 removeButton: false,
                 columns:{
                     identifier:[0,'gas_list_num'],
                     // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3'], [9, 'gender', '{"1":"Male", "2":"Female"}']] 
-                    editable: [[3, 'active', '{"0":"พร้อมใช้", "1":"ไม่พร้อมใช้"},"2":"รอเติม"}']]
+                    // editable: [[3, 'active', '{"0":"Ready", "1":"NotReady"},"2":"Borrow"},"3":"Back"}']]
+                    editable: [[3, 'active', '{"Ready":"พร้อมใช้", "NotReady":"ไม่พร้อมใช้", "Wait":"รอเติม", "Borrow":"ยืมคืน"}']]
                 },
                 // restoreButton:false,
                 deleteButton: false,
