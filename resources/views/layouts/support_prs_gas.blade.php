@@ -446,6 +446,12 @@
                                             <span key="t-vertical">Tank Liquid Oxygen(Sub)</span>  
                                         </a> 
                                     </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_nitrus')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">ไนตรัสออกไซด์ (N2O-6Q)</span>  
+                                        </a> 
+                                    </div>
                                     {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
                                             role="button">

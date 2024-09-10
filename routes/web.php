@@ -3414,6 +3414,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'gas_check_tanksub_update', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_update'])->name('prs.gas_check_tanksub_update'); //
   Route::match(['get', 'post'], 'gas_check_tanksub_destroy/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_destroy'])->name('prs.gas_check_tanksub_destroy'); //
 
+  Route::match(['get', 'post'], 'gas_check_nitrus', [App\Http\Controllers\MedicalgasController::class, 'gas_check_nitrus'])->name('prs.gas_check_nitrus'); //
+  Route::match(['get', 'post'], 'gas_check_nitrus_add', [App\Http\Controllers\MedicalgasController::class, 'gas_check_nitrus_add'])->name('prs.gas_check_nitrus_add'); //
+  Route::match(['get', 'post'], 'gas_check_nitrus_save', [App\Http\Controllers\MedicalgasController::class, 'gas_check_nitrus_save'])->name('prs.gas_check_nitrus_save'); //
 
 
 
