@@ -342,9 +342,8 @@ class MedicalgasController extends Controller
                 "\n" . "แรงดันมาตรฐาน : 5-12 bar". 
                 "\n" . "ค่าแรงดันวัดได้ : " . $request->pressure_value;
                 "\n" . "ผู้ตรวจสอบ : " . $name_check;
-                // $linesend = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
-                $linesend = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส
-                
+                $linesend_tech = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
+                $linesend      = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส                
                 if ($linesend == null) {
                     $test = '';
                 } else {
@@ -369,6 +368,32 @@ class MedicalgasController extends Controller
                         $result_ = json_decode($result, true);                        
                     }
                     curl_close($chOne); 
+                }
+
+                if ($linesend_tech == null) {
+                    $test2 = '';
+                } else {
+                    $test2 = $linesend_tech;
+                }
+                if ($test2 !== '' && $test2 !== null) {
+                    $chOne_tech = curl_init();
+                    curl_setopt($chOne_tech, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                    curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($chOne_tech, CURLOPT_POST, 1);
+                    curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, $message);
+                    curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, "message=$message");
+                    curl_setopt($chOne_tech, CURLOPT_FOLLOWLOCATION, 1);
+                    $headers2 = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test2 . '',);
+                    curl_setopt($chOne_tech, CURLOPT_HTTPHEADER, $headers2);
+                    curl_setopt($chOne_tech, CURLOPT_RETURNTRANSFER, 1);
+                    $result2 = curl_exec($chOne_tech);
+                    if (curl_error($chOne_tech)) {
+                        echo 'error:' . curl_error($chOne_tech);
+                    } else {
+                        $result_2 = json_decode($result2, true);                        
+                    }
+                    curl_close($chOne_tech); 
                 }
 
                 // }

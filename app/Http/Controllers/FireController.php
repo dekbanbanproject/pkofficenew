@@ -1267,12 +1267,14 @@ class FireController extends Controller
         if ($ddt > 0) {
             # code...
         } else { 
-        
+            // $monthsnew          = substr($months,1,2); 
+            // dd($months);
             $datareport = DB::connection('mysql')->select('SELECT fire_id,fire_num,fire_name,check_date FROM fire_check WHERE month(check_date) = "'.$months.'" AND year(check_date) = "'.$years.'"');      
             foreach ($datareport as $key => $value) {    
                 // $check1 = Fire_countcheck::where('fire_id',$value->fire_id)->where('check_date',$value->check_date)->count();
                 // if ($check1 >0) { 
                 // } else {
+                   
                     Fire_countcheck::insert([
                         'fire_id'     => $value->fire_id,
                         'fire_num'    => $value->fire_num,
@@ -1283,7 +1285,7 @@ class FireController extends Controller
                     ]); 
                 // } 
             } 
-            
+            // dd($months);
             $insert_1 = Fire_countcheck::get();
             foreach ($insert_1 as $key => $val) {
                 $check_insert = Fire_report::where('fire_id',$val->fire_id)->where('check_date',$val->check_date)->count();
@@ -1299,7 +1301,7 @@ class FireController extends Controller
                     ]); 
                 } 
             } 
-    
+            // dd($months);
             Fire_count_nocheck::truncate();
             $datanocheck = DB::select(
                 'SELECT f.fire_id,f.fire_num,f.fire_name,f.fire_size,f.fire_color,f.fire_location 
