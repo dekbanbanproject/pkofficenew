@@ -16,8 +16,8 @@ use App\Models\Acc_debtor_stamp;
 use App\Models\Acc_debtor_sendmoney;
 use App\Models\Pttype;
 use App\Models\Pttype_acc; 
-use App\Models\Department;
-use App\Models\Departmentsub;
+use App\Models\Air_report_dep;
+use App\Models\Air_report_depexcel;
 use App\Models\Air_stock_month;
 use App\Models\Fire;
 use App\Models\Product_spyprice;
@@ -2577,6 +2577,224 @@ class AirController extends Controller
             'datashow_sub'  => $datashow_sub,
             'air_list'      => $air_list
             
+        ]);
+    }
+    public function air_report_department(Request $request)
+    {
+        $date              = date('Y-m-d');
+        $y                 = date('Y') + 543;
+        $months            = date('m');
+        $year              = date('Y'); 
+        
+        $monthsnew          = substr($months,1,2); 
+        $startdate         = $request->startdate;
+        $enddate           = $request->enddate;
+        $air_location_id   = $request->air_location_id; 
+        $air_plan_month    = $request->air_plan_month;       
+        $newweek           = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate           = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear           = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year          = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow        = $bgs_year->leave_year_id;
+        // dd($air_plan_month );
+       
+
+        if ($air_plan_month == ''  ) {
+            // dd($monthsnew );
+            Air_report_dep::truncate();
+            Air_report_depexcel::truncate();
+            $air_plan_month_   = DB::table('air_plan_month')->where('air_plan_month',$monthsnew)->where('air_plan_year',$year)->first();
+            $air_planmonth     = $air_plan_month_->air_plan_month;
+            $air_planyears     = $air_plan_month_->air_plan_year;
+            $air_plan_name     = $air_plan_month_->air_plan_name;
+            // dd($air_planmonth );
+            $datashow  = DB::select(
+                'SELECT a.repaire_date                 
+                ,(SELECT concat(air_list_num,"-",air_list_name,"-",btu) FROM air_list WHERE air_list_id = a.air_list_id) as air_list_name    
+                ,(SELECT concat(air_location_name,"-อาคาร",air_location_id,"-ชั้น",air_room_class) FROM air_list WHERE air_list_id = a.air_list_id) as air_location_name          
+                ,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "1" AND aa.air_list_num = a.air_list_num) as plan_one
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "2" AND aa.air_list_num = a.air_list_num) as plan_two 
+                ,s.supplies_name
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                LEFT JOIN users p ON p.id = a.air_staff_id  
+                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                WHERE month(a.repaire_date) = "'.$air_planmonth.'" AND year(a.repaire_date) = "'.$air_planyears.'"   
+                GROUP BY a.air_repaire_id 
+                ORDER BY a.air_repaire_id DESC 
+            '); 
+             
+            Air_report_dep::insert([
+                'years'            => $bg_yearnow,
+                'air_plan_month'   => $air_planmonth,
+                 'air_plan_year'   => $air_planyears,
+                'air_plan_name'    => $air_plan_name,
+             ]);
+             foreach ($datashow as $key => $value) { 
+               
+                Air_report_depexcel::insert([
+                    'air_list_name'      => $value->air_list_name,
+                    'air_location_name'  => $value->air_location_name,
+                    'debsubsub'          => $value->debsubsub,
+                    'plan_one'           => $value->plan_one,
+                    'plan_two'           => $value->plan_two, 
+                    'supplies_name'      => $value->supplies_name 
+                ]); 
+            }  
+            
+        }elseif($air_location_id == '' &&  $air_plan_month != ''){
+            Air_report_dep::truncate();
+            Air_report_depexcel::truncate();
+            // dd($air_plan_month );
+            $air_plan_month_   = DB::table('air_plan_month')->where('air_plan_month_id',$air_plan_month)->first();
+            $air_planmonth     = $air_plan_month_->air_plan_month;
+            $air_planyears     = $air_plan_month_->air_plan_year;
+            $air_plan_name     = $air_plan_month_->air_plan_name;
+            
+            $datashow  = DB::select(
+                'SELECT a.repaire_date                 
+                ,(SELECT concat(air_list_num,"-",air_list_name,"-",btu) FROM air_list WHERE air_list_id = a.air_list_id) as air_list_name    
+                ,(SELECT concat(air_location_name,"-อาคาร",air_location_id,"-ชั้น",air_room_class) FROM air_list WHERE air_list_id = a.air_list_id) as air_location_name          
+                ,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "1" AND aa.air_list_num = a.air_list_num) as plan_one
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "2" AND aa.air_list_num = a.air_list_num) as plan_two 
+                ,s.supplies_name
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                LEFT JOIN users p ON p.id = a.air_staff_id  
+                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                WHERE month(a.repaire_date) = "'.$air_planmonth.'" AND year(a.repaire_date) = "'.$air_planyears.'"   
+                GROUP BY a.air_repaire_id 
+                ORDER BY a.air_repaire_id DESC 
+            '); 
+            Air_report_dep::insert([
+                'years'            => $bg_yearnow,
+                'air_plan_month'   => $air_planmonth,
+                'air_plan_year'    => $air_planyears,
+                'air_plan_name'    => $air_plan_name,
+             ]);
+            foreach ($datashow as $key => $value) {  
+                Air_report_depexcel::insert([
+                    'air_list_name'      => $value->air_list_name,
+                    'air_location_name'  => $value->air_location_name,
+                    'debsubsub'          => $value->debsubsub,
+                    'plan_one'           => $value->plan_one,
+                    'plan_two'           => $value->plan_two, 
+                    'supplies_name'      => $value->supplies_name 
+                ]); 
+            }
+
+        }elseif($air_location_id != '' &&  $air_plan_month != ''){
+            Air_report_dep::truncate();
+            Air_report_depexcel::truncate();
+            $air_plan_month_   = DB::table('air_plan_month')->where('air_plan_month_id',$air_plan_month)->first();
+            $air_planmonth     = $air_plan_month_->air_plan_month;
+            $air_planyears     = $air_plan_month_->air_plan_year;
+            $air_plan_name     = $air_plan_month_->air_plan_name;
+            // dd($air_planyears );
+            $datashow  = DB::select(
+                'SELECT a.repaire_date                 
+                ,(SELECT concat(air_list_num,"-",air_list_name,"-",btu) FROM air_list WHERE air_list_id = a.air_list_id) as air_list_name    
+                ,(SELECT concat(air_location_name,"-อาคาร",air_location_id,"-ชั้น",air_room_class) FROM air_list WHERE air_list_id = a.air_list_id) as air_location_name          
+                ,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "1" AND aa.air_list_num = a.air_list_num) as plan_one
+                ,(SELECT CONCAT(bb.air_plan_name," ",bb.years) 
+                FROM air_plan aa
+                LEFT JOIN air_plan_month bb ON bb.air_plan_month_id = aa.air_plan_month_id
+                WHERE aa.air_plan_year ="'.$bg_yearnow.'" AND aa.air_repaire_type_id = "2" AND aa.air_list_num = a.air_list_num) as plan_two 
+                ,s.supplies_name
+                FROM air_repaire a 
+                LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                LEFT JOIN users p ON p.id = a.air_staff_id  
+                LEFT JOIN air_maintenance m ON m.air_repaire_id = a.air_repaire_id
+                LEFT JOIN air_supplies s ON s.air_supplies_id = a.air_supplies_id 
+                WHERE month(a.repaire_date) = "'.$air_planmonth.'" AND year(a.repaire_date) = "'.$air_planyears.'"  
+                AND a.air_location_id ="'.$air_location_id.'"
+                GROUP BY a.air_repaire_id 
+                ORDER BY a.air_repaire_id DESC 
+            ');   
+            Air_report_dep::insert([
+                'years'            => $bg_yearnow,
+                'air_plan_month'   => $air_planmonth,
+                 'air_plan_year'    => $air_planyears,
+                'air_plan_name'    => $air_plan_name,
+             ]);
+            foreach ($datashow as $key => $value) { 
+               
+                Air_report_depexcel::insert([
+                    'air_list_name'      => $value->air_list_name,
+                    'air_location_name'  => $value->air_location_name,
+                    'debsubsub'          => $value->debsubsub,
+                    'plan_one'           => $value->plan_one,
+                    'plan_two'           => $value->plan_two, 
+                    'supplies_name'      => $value->supplies_name 
+                ]); 
+            }    
+        } else { 
+           
+        }
+        $data['air_location']      = DB::select('SELECT * FROM air_list GROUP BY air_location_id'); 
+        $data['air_plan_month']    = DB::select('SELECT * FROM air_plan_month WHERE years ="'.$bg_yearnow.'"'); 
+        
+        $air_report_dep    = DB::select('SELECT * FROM air_report_dep'); 
+        foreach ($air_report_dep as $key => $va) {
+            $data['rep_month'] = $va->air_plan_name;
+            $data['rep_years'] = $va->years;
+        }
+        
+        // $data['air_plan_month']    = DB::select('SELECT * FROM air_plan_month'); 
+        // $data['air_plan_month']    = DB::select('SELECT * FROM air_plan_month WHERE active ="ํY"');
+        // dd($rep_month );
+        return view('support_prs.air.air_report_department',$data,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+            'datashow'         => $datashow,
+            'air_location_id'  => $air_location_id,
+            'air_planmonth'    => $air_planmonth,
+            'air_planyears'    => $air_planyears,
+            
+        ]);
+    }
+    public function air_report_department_excel(Request $request)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $months         = date('m');
+        $year           = date('Y'); 
+        $startdate      = $request->datepicker;
+        $enddate        = $request->datepicker2; 
+        $bgs_year          = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow        = $bgs_year->leave_year_id;
+
+        $datashow  = DB::select('SELECT * FROM air_report_depexcel'); 
+        $air_report_dep    = DB::select('SELECT * FROM air_report_dep'); 
+        foreach ($air_report_dep as $key => $va) {
+            $data['rep_month'] = $va->air_plan_name;
+            $data['rep_years'] = $va->years;
+        }
+        return view('support_prs.air.air_report_department_excel',$data,[
+            'startdate'     =>$startdate,
+            'enddate'       =>$enddate,
+            'datashow'      =>$datashow, 
+            'bg_yearnow'    =>$bg_yearnow, 
         ]);
     }
    

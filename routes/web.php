@@ -3335,6 +3335,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'air_report_company', [App\Http\Controllers\AirController::class, 'air_report_company'])->name('prs.air_report_company'); //
   Route::match(['get', 'post'], 'air_report_company_excel', [App\Http\Controllers\AirController::class, 'air_report_company_excel'])->name('prs.air_report_company_excel'); //
+  
+  Route::match(['get', 'post'], 'air_report_department', [App\Http\Controllers\AirController::class, 'air_report_department'])->name('prs.air_report_department'); //
+  Route::match(['get', 'post'], 'air_report_department_excel', [App\Http\Controllers\AirController::class, 'air_report_department_excel'])->name('prs.air_report_department_excel'); //
 
   Route::match(['get', 'post'], 'air_report_building', [App\Http\Controllers\AirController::class, 'air_report_building'])->name('prs.air_report_building'); //
   Route::match(['get', 'post'], 'air_report_building_sub/{id}', [App\Http\Controllers\AirController::class, 'air_report_building_sub'])->name('prs.air_report_building_sub'); //

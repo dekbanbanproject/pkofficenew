@@ -655,6 +655,12 @@
                                             <span key="t-vertical">รายงานบริษัท</span>  
                                         </a> 
                                     </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_department')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานแยกตามหน่วยงาน</span>  
+                                        </a> 
+                                    </div>
                                 </div>
                                 
                             </li>

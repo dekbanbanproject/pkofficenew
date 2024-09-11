@@ -215,17 +215,17 @@
                                 <li><a href="{{ url('check_authen_day') }}" target="_blank">Check Authen</a></li>
                                 {{-- <li><a href="{{ url('check_authen') }}" target="_blank">Import Excel Authen</a></li> --}}
                                 {{-- <li><a href="{{ url('check_sit_money') }}" target="_blank"> เช็คสิทธิ์ Money PK</a></li> --}} 
-                                 <li><a href="javascript: void(0);" class="has-arrow">Data Auto</a>
+                                 {{-- <li><a href="javascript: void(0);" class="has-arrow">Data Auto</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('pull_hosauto') }}" target="_blank">Pull Hos Auto</a></li>
                                         <li><a href="{{ url('checksit_auto') }}" target="_blank">Checksit Auto</a></li> 
                                         <li><a href="{{ url('pullauthen_spsch') }}" target="_blank">Pull Authen SPSCH Auto</a></li> 
                                     </ul>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-truck-medical text-danger"></i>
                                 <span>Refer</span>
@@ -233,12 +233,12 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('report_refer') }}">การใช้งานรถ Refer BK</a></li>
                                 <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>
-                                {{-- <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li> --}}
+                                <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li>
                                 <li ><a href="{{ url('refer_opds_cross') }}" >Referข้าม CUP ภายในจังหวัด</a></li>
                                 <li ><a href="{{ url('report_ct') }}" >เรียกเก็บค่า CT ในจังหวัด</a></li>
                             </ul>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-wheelchair text-danger"></i>
                                 <span>อุปกรณ์อวัยวะเที่ยม</span>
@@ -254,7 +254,7 @@
                                 <li ><a href="{{ url('ins_b') }}" >Colostomy IPD</a></li>
                                 <li ><a href="{{ url('check_colpo_ipd') }}" >Colposcopic IPD</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
@@ -265,7 +265,7 @@
                                 <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li>
                             </ul>
                         </li> --}}
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>Telemed</span>
@@ -274,8 +274,8 @@
                                 <li ><a href="{{ url('telemedicine') }}" >Telemed นัด</a></li>
                                 <li ><a href="{{ url('telemedicine_visit') }}" >Telemed เปิด Visit</a></li>
                             </ul>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>จิตเวช</span>
@@ -283,8 +283,8 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('kayapap_jitvs_mian') }}" >จิตเวช</a></li> 
                             </ul>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>มะเร็ง</span>
@@ -292,8 +292,8 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('acc_stm_ct') }}" >เทียบ STM มะเร็ง</a></li> 
                             </ul>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>ทาลัสซีเมีย </span>
@@ -302,7 +302,7 @@
                                 <li ><a href="{{ url('thalassemia_opd') }}" >Thalassemia OPD</a></li> 
                                 <li ><a href="{{ url('thalassemia_ipd') }}" >Thalassemia IPD</a></li> 
                             </ul>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </div>

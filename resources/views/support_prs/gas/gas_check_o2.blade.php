@@ -82,15 +82,9 @@
                                             <th class="text-center" width="10%">รหัส</th> 
                                             <th class="text-center">รายการ</th>
 
-                                            <th class="text-center" width="9%">ตัวถัง</th>
-                                            <th class="text-center" width="9%">วาลว์</th> 
-                                            <th class="text-center" width="9%">แรงดัน</th>  
-                                            {{-- <th class="text-center" >รายการชำรุด</th>  --}}
+                                            <th class="text-center" width="9%">สถานะ</th> 
 
-                                            {{-- <th class="text-center" width="10%">ระดับ O2 </th> --}}
-                                            {{-- <th class="text-center" width="10%">ค่าแรงดัน</th> --}}
-                                            <th class="text-center" width="12%">ผู้ตรวจ</th> 
-                                            {{-- <th class="text-center">จัดการ</th>  --}}
+                                            <th class="text-center" width="12%">ผู้ตรวจ</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,97 +97,20 @@
                                                 <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
                                                 <td class="text-start" style="font-size: 12px">{{ $item->gas_list_name }}</td>  
                                                 <td class="text-center" width="9%"> 
-                                                    @if ($item->gas_check_body == '0') 
+                                                    @if ($item->active == 'Ready') 
                                                          <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
                                                     @else 
                                                         <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
                                                     @endif
-                                                </td> 
-                                                {{-- <td class="text-center" width="10%" style="font-size: 12px">{{ $item->gas_check_body_name }}</td>   --}}
-                                                <td class="text-center" width="10%" style="font-size: 12px">
-                                                    @if ($item->gas_check_valve == '0') 
-                                                            <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @else 
-                                                        <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @endif 
-                                                </td> 
-                                                <td class="text-center" width="10%" style="font-size: 12px">
-                                                    @if ($item->gas_check_pressure == '0') 
-                                                        <img src="{{asset('images/true_sm_50.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @else 
-                                                        <img src="{{asset('images/false_smal.png')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @endif
-                                                </td> 
-
-                                                {{-- <td class="text-center" width="9%"> 
-                                                    @if ($item->gas_check_body == '0') 
-                                                         <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @else 
-                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @endif
                                                 </td>  
-                                                <td class="text-center" width="9%"> 
-                                                    @if ($item->gas_check_valve == '0') 
-                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @else 
-                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @endif
-                                                </td>   
-                                                <td class="text-center" width="9%"> 
-                                                    @if ($item->gas_check_pressure == '0') 
-                                                        <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @else 
-                                                        <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
-                                                    @endif
-                                                </td>    --}}
-                                               
-                                                {{-- <td class="text-start" style="color:rgb(73, 147, 231)">
-                                                    @if ($item->gas_check_body == '0' || $item->gas_check_valve == '0' || $item->gas_check_pressure == '0' ) 
-                                                        - 
-                                                    @else 
-                                                        @if ($item->gas_check_body == '1')
-                                                        ตัวถัง,                                                                                                 
-                                                        @endif
-                                                        @if ($item->gas_check_valve == '1')
-                                                        วาลว์,
-                                                        @endif
-                                                        @if ($item->gas_check_pressure == '1')
-                                                        แรงดัน, 
-                                                        @endif 
-                                                    @endif
-                                                      
-                                                </td>    --}}
-
+                                                
                                                 <td class="text-start" width="12%">{{ $item->ptname }}</td>  
-                                                {{-- <td class="text-center" width="5%">
- 
-                                                    <div class="btn-group me-1">
-                                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            ทำรายการ <i class="mdi mdi-chevron-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu"> 
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-warning" href="{{ url('gas_check_tankedit/' . $item->gas_check_id) }}" style="font-size:13px"  
-                                                                data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
-                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
-                                                                <span>แก้ไข</span>
-                                                            </a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="gas_check_destroy({{ $item->gas_check_id }})" style="font-size:13px"
-                                                                data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                                <i class="fa-solid fa-trash-can me-2"></i>
-                                                                <span style="color: rgb(255, 2, 2);font-size:13px">ลบ</span> 
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </td>                                             --}}
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                            {{-- </div> --}}
-                        {{-- </p> --}}
-                        {{-- </div> --}}
+                            
                     </div>
                 </div>
             </div>
