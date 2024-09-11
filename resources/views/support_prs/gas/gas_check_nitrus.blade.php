@@ -41,7 +41,7 @@
 
        
         <div class="row"> 
-            <div class="col-md-4"> 
+            <div class="col-md-5"> 
                 <h4 style="color:rgb(255, 255, 255)">บันทึกการตรวจสอบไนตรัสออกไซด์ (N2O-6Q)</h4> 
             </div>
             <div class="col"></div>

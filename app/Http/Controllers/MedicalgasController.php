@@ -712,6 +712,187 @@ class MedicalgasController extends Controller
             'datashow'      => $datashow,
         ]);
     }
+    public function gas_check_nitrus_add(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $data['month_now']         = date('m');
+        $m             = date('H');
+        $data['mm']    = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+        $iduser        = Auth::user()->id;
+        $datashow = DB::select(
+            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date
+            ,(SELECT check_date FROM gas_check WHERE gas_list_id = a.gas_list_id AND check_date ="'.$datenow.'") as check_date_b
+            FROM gas_list a
+            LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
+            WHERE a.gas_type IN("5") AND a.gas_year = "'.$bg_yearnow.'"  
+            GROUP BY a.gas_list_num
+            ORDER BY a.gas_list_id ASC
+        ');          
+        // ,b.check_date
+        return view('support_prs.gas.gas_check_nitrus_add',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+            'datenow'       => $datenow,
+        ]);
+    }
+    public function gas_check_nitrus_save(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->first();
+                $gas_list_id   = $idgas->gas_list_id; 
+                $gas_list_num  = $idgas->gas_list_num; 
+                $gas_list_name = $idgas->gas_list_name; 
+                $size          = $idgas->size; 
+                $gas_type      = $idgas->gas_type; 
+                 
+                $date          = date('Y-m-d');
+                $y             = date('Y')+543;
+                $m             = date('H');
+                $mm            = date('H:m:s');
+                $datefull      = date('Y-m-d H:m:s');
+                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
+                $iduser        = Auth::user()->id;
+                // dd($gas_list_id);
+
+                // $active    = $request->active;
+                $body_    = $request->gas_check_body;
+                if ($body_ == '0') {
+                    $body  = 'พร้อมใช้';
+                } else {
+                    $body  = 'ไม่พร้อมใช้';
+                }
+
+                $check_valve_     = $request->gas_check_valve;
+                if ($check_valve_ == '0') {
+                    $check_valve  = 'พร้อมใช้';
+                } else {
+                    $check_valve  = 'ไม่พร้อมใช้';
+                }
+
+                $pressure_        = $request->gas_check_pressure;
+                if ($pressure_ == '0') {
+                    $pressure  = 'พร้อมใช้';
+                } else {
+                    $pressure  = 'ไม่พร้อมใช้';
+                }
+                // if ($active_ == '0') {
+                //     $active  = 'พร้อมใช้';
+                // } elseif($active_ == '1') {
+                //     $active  = 'NotReady';
+                // } elseif($active_ == '2') {
+                //     $active  = 'รอเติม';
+                // } elseif($active_ == '3') {
+                //     $active  = 'ยืมคืน';
+                // } else {
+                //     $active  = 'จำหน่าย';
+                // }
+
+                if ($check > 0) {
+                    Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([ 
+                        'check_date'         => $date,
+                        // 'active'             => $active, 
+                        'user_id'            => $iduser, 
+                        'gas_check_body'           => $body_,
+                        'gas_check_body_name'      => $body,
+                        'gas_check_valve'          => $check_valve_,
+                        'gas_check_valve_name'     => $check_valve,
+                        'gas_check_pressure'       => $pressure_, 
+                        'gas_check_pressure_name'  => $pressure, 
+                        'user_id'                  => $iduser, 
+                    ]);
+                    if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                    } else {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                    }
+                } else {
+                    Gas_check::insert([ 
+                        'check_year'               => $y,
+                        'check_date'               => $date,
+                        'check_time'               => $mm,
+                        'gas_list_id'              => $gas_list_id,
+                        'gas_list_num'             => $gas_list_num,
+                        'gas_list_name'            => $gas_list_name,
+                        'size'                     => $size,
+                        'gas_type'                 => $gas_type,
+                        'gas_check_body'           => $body_,
+                        'gas_check_body_name'      => $body,
+                        'gas_check_valve'          => $check_valve_,
+                        'gas_check_valve_name'     => $check_valve,
+                        'gas_check_pressure'       => $pressure_, 
+                        'gas_check_pressure_name'  => $pressure, 
+                        'user_id'                  => $iduser,
+                        // 'active'                   => $active, 
+                    ]);
+
+                    if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                    } else {
+                        Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                    }
+                }
+                
+
+
+                // if ($check > 0) {
+                //     // Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([  
+                //     //     'check_date'         => $date,
+                //     //     'active'             => $active, 
+                //     //     'user_id'            => $iduser, 
+                //     // ]);
+                //     // Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                //     //     'active'             => $active, 
+                //     //     'user_id'            => $iduser, 
+                //     // ]);
+                // } else {
+                //     Gas_check::insert([
+                //         'check_year'               => $y,
+                //         'check_date'               => $date,
+                //         'check_time'               => $mm,
+                //         'gas_list_id'              => $gas_list_id,
+                //         'gas_list_num'             => $gas_list_num,
+                //         'gas_list_name'            => $gas_list_name,
+                //         'size'                     => $size,
+                //         'gas_type'                 => $gas_type,
+                //         'active'                   => $active, 
+                //         // 'gas_check_body'           => $body_,
+                //         // 'gas_check_body_name'      => $body,
+                //         // 'gas_check_valve'          => $check_valve_,
+                //         // 'gas_check_valve_name'     => $check_valve,
+                //         // 'gas_check_pressure'       => $pressure_, 
+                //         // 'gas_check_pressure_name'  => $pressure, 
+                //         'user_id'                  => $iduser, 
+                //     ]);
+                //     Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                //         'active'             => $active, 
+                //         'user_id'            => $iduser, 
+                //     ]);
+                //     // if ($body_ == '1' || $check_valve_ == '1' || $pressure_ == '1') {
+                //     //     Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'NotReady']);
+                //     // } else {
+                //     //     Gas_list::where('gas_list_id',$gas_list_id)->update(['active' => 'Ready']);
+                //     // }
+                // }
+              
+            }
+            return response()->json([
+                'status'     => '200'
+            ]);
+            // return request()->json($request);
+        }
+    }
     
 
     //ก๊าซอ๊อกซิเจน (2Q-6Q)
