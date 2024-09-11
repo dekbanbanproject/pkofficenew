@@ -124,11 +124,11 @@
                                                 
                                            
                                             ?>
-                                            @if ($item->check_date == $datenow )
+                                            @if ($item->check_date_b == $datenow )
                                                 <tr style="font-size:13px">                                                   
                                                     <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
                                                     <td class="text-center" width="7%">{{$item->size}}</td> 
-                                                    <td class="text-center" width="7%" >{{$checkdate_s}} </td> 
+                                                    <td class="text-center" width="7%" >{{$item->check_date_b}} </td> 
                                                     <td class="text-center" width="7%">{{$item->active}}</td>  
                                                 </tr>
                                             @else

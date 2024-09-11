@@ -737,7 +737,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
-                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"
+                WHERE b.check_date BETWEEN "'.$datenow.'" AND "'.$datenow.'" AND b.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -778,10 +778,11 @@ class MedicalgasController extends Controller
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date,b.active,a.size
+            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date
+            ,(SELECT check_date FROM gas_check WHERE gas_list_id = a.gas_list_id AND check_date ="'.$datenow.'") as check_date_b
             FROM gas_list a
             LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
-            WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'" 
+            WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"  
             GROUP BY a.gas_list_num
             ORDER BY a.gas_list_id ASC
         ');          
