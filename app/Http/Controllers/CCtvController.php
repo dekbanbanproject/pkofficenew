@@ -827,12 +827,14 @@ class CCtvController extends Controller
         $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $iduser = Auth::user()->id;
- 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
         $datashow = DB::select(
             'SELECT * from cctv_list 
-            WHERE cctv_check = "N"
+            WHERE cctv_list_year = "'.$bg_yearnow.'"
             ORDER BY cctv_list_id ASC
         '); 
+        //  WHERE cctv_check = "N"
         //  WHERE cctv_status = "0" 
         //   AND cctv_check = "N"
         return view('support_prs.cctv.cctv_list_check_add',[
@@ -856,18 +858,30 @@ class CCtvController extends Controller
                 $m = date('H');
                 $mm = date('H:m:s');
                 $datefull = date('Y-m-d H:m:s');
+
+                if ($request->cctv_camera_screen =='1' || $request->cctv_camera_corner =='1' || $request->cctv_camera_drawback =='1') {
+                    $cctv_status = '1';
+                } else {
+                    $cctv_status = '0';
+                    // $cctv_check = 'N';
+                }
+                
  
                 $data  = array(
                     // 'cctv_check_date'            => $date,
                     'cctv_camera_screen'         => $request->cctv_camera_screen,
                     'cctv_camera_corner'         => $request->cctv_camera_corner,
                     'cctv_camera_drawback'       => $request->cctv_camera_drawback,
+                    'cctv_status'                => $cctv_status,
+                    'cctv_check'                 => 'Y',
                     // 'cctv_camera_save'           => $request->cctv_camera_save,
                     // 'cctv_camera_power_backup'   => $request->cctv_camera_power_backup,
                 );
                 DB::connection('mysql')->table('cctv_list')
                     ->where('cctv_list_num', $request->cctv_list_num)
                     ->update($data);
+
+
             }
             return response()->json([
                 'status'     => '200'

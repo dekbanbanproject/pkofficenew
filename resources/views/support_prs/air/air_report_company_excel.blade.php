@@ -53,11 +53,11 @@
     
    ?>
 <center>
-    <br><br>
+    <br>
    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>รายงานการบำรุงรักษาเครื่องปรับอากาศแยกตามบริษัท โรงพยาบาลภูเขียวเฉลิมพระเกียรติ</b></label><br>
  
 </center>
-   <br><br>
+   <br>
    <center>
     <table class="table table-borderless table-bordered" style="width: 100%;">
         <thead>
@@ -113,7 +113,31 @@
        <br> 
        <tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
        <tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
-       
+       <tr>   
+        <td colspan="2"> 
+            <center>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้เสนอแผน</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายประภัทร์  ขจัดพาล )</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ตำแหน่ง วิศวกร</label>  
+            </center>
+        </td>
+    
+        <td colspan="2"> 
+            <center>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้เห็นชอบ</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายสถาพร  ป้อมสุวรรณ )</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> หัวหน้ากลุ่มภารกิจด้านอำนวยการ</label>  
+            </center>
+        </td>
+    
+        <td colspan="2"> 
+        <center>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้อนุมัติ</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายสุภาพ  สำราญวงษ์ )</label><br>
+            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</label> 
+        </center>
+        </td>
+    </tr>    
         
    </table>
 </center>

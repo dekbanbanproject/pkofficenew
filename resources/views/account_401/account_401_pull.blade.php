@@ -8,15 +8,18 @@
         }
     </script>
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+        use App\Http\Controllers\StaticController;
+        use App\Models\Opitemrece217;
+
     ?>
     <style>
         #button{
@@ -244,18 +247,24 @@
                                     <div class="tab-pane active" id="Main" role="tabpanel">
                                         <p class="mb-0">
                                             <div class="table-responsive">
-                                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                                style=" border-spacing: 0; width: 100%;">
+                                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                                                {{-- <table id="example" class="table table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;"> --}}
+                                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                                                     <thead>
                                                         <tr>
                                                           
                                                             <th width="5%" class="text-center">ลำดับ</th> 
                                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
-                                                            <th class="text-center">
+                                                            <th class="text-center" style="background-color: #fad6b8">
                                                                 Approve
                                                                 <span class="bg-success badge">{{ $count_no }}</span>                                                                 
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
+                                                            <th class="text-center">ยานอก</th>
+                                                            <th class="text-center">กายภาพ</th>
+                                                            <th class="text-center" style="background-color: #fad6b8">pdx</th>  
+                                                            {{-- <th class="text-center">icd10</th>   --}}
+                                                            <th class="text-center" >vn</th>
                                                             <th class="text-center" >hn</th>
                                                             <th class="text-center" >cid</th>
                                                             <th class="text-center">ptname</th>
@@ -268,13 +277,45 @@
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
                                                             <th class="text-center">spsch</th>  
-                                                            <th class="text-center">pdx</th>  
+                                                           
                                                             <th class="text-center">ลูกหนี้</th>   
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
                                                         @foreach ($acc_debtor as $item) 
+
+                                                        <?php 
+                                                            $datas = DB::connection('mysql2')->select(
+                                                                'SELECT v.vn SEQ,oo.presc_reason as DRUGREMARK 
+                                                                    FROM opitemrece v
+                                                                    LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                                                                    LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                                                                    LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn  
+                                                                    WHERE v.vn IN("'.$item->vn.'")
+                                                                    AND d.did is not null  
+                                                                    GROUP BY v.vn 
+                                                            ');
+                                                            foreach ($datas as $key => $value) {
+                                                               $drugmark = $value->DRUGREMARK;
+                                                            }
+                                                            $datas_kay = Opitemrece217::where('vn',$item->vn)->where('income',"=","14")->count('vn');
+                                                            // $datas_kay = DB::connection('mysql2')->select(
+                                                            //     'SELECT COUNT(vn) as Cvn 
+                                                            //         FROM opitemrece   
+                                                            //         WHERE vn IN("'.$item->vn.'") AND income ="14"
+                                                            //         GROUP BY vn 
+                                                            // ');
+                                                            // foreach($datas_kay as $v_k) {
+                                                            //    $kaya = $v_k->Cvn;
+                                                            // }
+                                                            if ($datas_kay > 0) {
+                                                                $kayas = $datas_kay;
+                                                            } else {
+                                                                $kayas = '';
+                                                            }
+                                                            
+                                                        ?>
                                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                                 @if ($item->debit_total == '')
@@ -291,6 +332,23 @@
                                                                         <span class="bg-danger badge">{{ $item->approval_code }}</span> 
                                                                     @endif 
                                                                 </td>  
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($drugmark != NULL)
+                                                                        <span class="bg-success badge">{{ $drugmark }}</span> 
+                                                                    @else
+                                                                        <span class="bg-danger badge">-</span> 
+                                                                    @endif 
+                                                                </td> 
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($kayas > 0)
+                                                                        <span class="bg-success badge">{{ $kayas }}</span> 
+                                                                    @else
+                                                                        <span class="bg-danger badge">-</span> 
+                                                                    @endif 
+                                                                </td> 
+                                                                <td class="text-start" width="5%">{{ $item->pdx }}</td>
+                                                                {{-- <td class="text-start" width="5%">{{ $item->icd10 }}</td>  --}}
+                                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                                 <td class="p-2" >{{ $item->ptname }}</td> 
@@ -313,7 +371,7 @@
                                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                                <td class="text-start" width="5%">{{ $item->icd10 }}</td>  
+                                                               
                                                                 <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td>  
                                                             </tr>
                                                         @endforeach
@@ -957,7 +1015,7 @@
                                                         <th class="text-center">DID</th> 
                                                         <th class="text-center">DIDNAME</th> 
                                                         <th class="text-center">AMOUNT</th> 
-                                                        <th class="text-center">DRUGPRIC</th>  
+                                                        <th class="text-center">DRUGPRICE</th>  
                                                         <th class="text-center">DRUGCOST</th>
                                                         <th class="text-center">DIDSTD</th>
                                                         <th class="text-center">UNIT</th>
@@ -979,7 +1037,7 @@
                                                             <td class="text-center" >{{$dru->DID }}</td>
                                                             <td class="text-start" >{{$dru->DIDNAME }}</td>
                                                             <td class="text-center" >{{$dru->AMOUNT }}</td>
-                                                            <td class="text-center" >{{$dru->DRUGPRIC }}</td>  
+                                                            <td class="text-center" >{{$dru->DRUGPRICE }}</td>  
                                                             <td class="text-center">{{$dru->DRUGCOST }}</td> 
                                                             <td class="text-center" >{{$dru->DIDSTD }}</td> 
                                                             <td class="text-center" >{{$dru->UNIT }}</td> 

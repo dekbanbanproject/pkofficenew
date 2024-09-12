@@ -122,7 +122,7 @@ $loter = $date.''.$time
                                             <th class="text-center">รหัสกล้อง</th>
                                             <th class="text-center" width="15%">สถานที่ติดตั้ง</th> 
                                             <th class="text-center">วันที่เช็คล่าสุด</th> 
-                                            <th class="text-center">สถานะการตรวจเช็ค</th> 
+                                            <th class="text-center">สถานะ</th> 
                                             <th class="text-center">จอกล้อง</th> 
                                             <th class="text-center">มุมกล้อง</th>
                                             <th class="text-center">สิ่งกีดขวาง</th>
@@ -152,9 +152,28 @@ $loter = $date.''.$time
                                                         {{-- <span class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ชำรุด</span> --}}
                                                     @endif 
                                                 </td>  
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_screen}}</td> 
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>
+                                                <td class="text-center" width="7%">
+                                                    @if ($item->cctv_camera_screen == '0') 
+                                                        <span class="badge bg-success">ปกติ</span> 
+                                                    @else
+                                                        <span class="badge bg-danger">ชำรุด</span> 
+                                                    @endif
+                                                </td> 
+                                                <td class="text-center" width="7%">
+                                                    @if ($item->cctv_camera_corner == '0') 
+                                                        <span class="badge bg-success">ปกติ</span> 
+                                                    @else
+                                                        <span class="badge bg-danger">ชำรุด</span> 
+                                                    @endif
+                                                </td> 
+                                                <td class="text-center" width="7%">
+                                                    @if ($item->cctv_camera_drawback == '0') 
+                                                        <span class="badge bg-success">ปกติ</span> 
+                                                    @else
+                                                        <span class="badge bg-danger">ชำรุด</span> 
+                                                    @endif
+                                                </td> 
+                                             
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>   
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>   
                                             </tr> 
