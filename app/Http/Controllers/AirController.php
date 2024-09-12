@@ -15,7 +15,7 @@ use App\Models\Leave_month;
 use App\Models\Acc_debtor_stamp;
 use App\Models\Acc_debtor_sendmoney;
 use App\Models\Pttype;
-use App\Models\Pttype_acc; 
+use App\Models\Gas_list; 
 use App\Models\Air_report_dep;
 use App\Models\Air_report_depexcel;
 use App\Models\Air_stock_month;
@@ -473,7 +473,11 @@ class AirController extends Controller
         $data['count_air']             = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         $data['fire']                  = Fire::where('active','Y')->count();
         $data['cctv_list']             = Cctv_list::where('cctv_status','0')->count();
-               
+        // $data['gas_list']              = Gas_list::where('active','Ready')->where('gas_type',[3,4,5])->count(); 
+        $data_gas_list = DB::select('SELECT COUNT(gas_list_id) as gas_list_id FROM gas_list WHERE gas_type in("3","4","5")');  
+        foreach ($data_gas_list as $key => $value) {
+            $data['gas_list'] = $value->gas_list_id;
+        }    
         return view('support_prs.support_main',$data,[
             'startdate'               =>  $startdate,
             'enddate'                 =>  $enddate,  
