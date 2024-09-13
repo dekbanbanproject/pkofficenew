@@ -2192,6 +2192,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_401_yok/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401_yok'])->name('acc.account_401_yok'); //
   Route::match(['get', 'post'], 'account_401_export_api', [App\Http\Controllers\Account401Controller::class, 'account_401_export_api'])->name('acc.account_401_export_api'); //
   Route::match(['get', 'post'], 'account_401_send_api', [App\Http\Controllers\Account401Controller::class, 'account_401_send_api'])->name('acc.account_401_send_api'); //
+  Route::match(['get', 'post'], 'account_401_claimswitch', [App\Http\Controllers\Account401Controller::class, 'account_401_claimswitch'])->name('acc.account_401_claimswitch'); //
 
   Route::match(['get', 'post'], 'account_402_dash', [App\Http\Controllers\Account402Controller::class, 'account_402_dash'])->name('acc.account_402_dash'); //
   Route::match(['get', 'post'], 'account_402_pull', [App\Http\Controllers\Account402Controller::class, 'account_402_pull'])->name('acc.account_402_pull'); //
@@ -2207,6 +2208,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_402_stm_date/{startdate}/{enddate}', [App\Http\Controllers\Account402Controller::class, 'account_402_stm_date'])->name('acc.account_402_stm_date'); //
   Route::match(['get', 'post'], 'account_402_stmnull_date/{startdate}/{enddate}', [App\Http\Controllers\Account402Controller::class, 'account_402_stmnull_date'])->name('acc.account_402_stmnull_date'); //
   Route::match(['get', 'post'], 'account_402_destroy_all', [App\Http\Controllers\Account402Controller::class, 'account_402_destroy_all'])->name('acc.account_402_destroy_all'); //
+  Route::match(['get', 'post'], 'account_402_claimswitch', [App\Http\Controllers\Account402Controller::class, 'account_402_claimswitch'])->name('acc.account_402_claimswitch'); //
+  Route::match(['get', 'post'], 'account_402_claim', [App\Http\Controllers\Account402Controller::class, 'account_402_claim'])->name('acc.account_402_claim'); //
+  Route::match(['get', 'post'], 'account_402_claim_export', [App\Http\Controllers\Account402Controller::class, 'account_402_claim_export'])->name('acc.account_402_claim_export'); //
 
   Route::match(['get', 'post'], 'account_501_dash', [App\Http\Controllers\Account501Controller::class, 'account_501_dash'])->name('acc.account_501_dash'); //  
   Route::match(['get', 'post'], 'account_501_pull', [App\Http\Controllers\Account501Controller::class, 'account_501_pull'])->name('acc.account_501_pull'); //

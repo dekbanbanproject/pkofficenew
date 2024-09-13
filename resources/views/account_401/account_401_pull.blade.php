@@ -109,12 +109,26 @@
                 <div class="card card_audit_4c">
                     <div class="card-body">    
                         <div class="row mb-2">
+                            <div class="col-md-3 text-start"> 
+                              @if ($activeclaim == 'Y')
+                                <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
+                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                              @else
+                                <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
+                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                              @endif
+                                {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
+                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
+                            </div>
                            
                             <div class="col"></div>
                             <div class="col-md-7 text-end">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
                                     <i class="fa-solid fa-user me-2"></i>
-                                    ตรวจสอบสิทธิ์
+                                    ตรวจสอบสิทธิ์ 
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
                                      <i class="fa-solid fa-sack-dollar me-2"></i>
@@ -136,6 +150,7 @@
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button> 
+                               
                             </div>
                         </div>
  
@@ -325,13 +340,18 @@
                                                         ?>
                                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                                @if ($item->debit_total == '' || $item->approval_code =='' || $item->pdx =='')
-                                                                    <td class="text-center" width="5%">
-                                                                        <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
-                                                                    </td> 
+                                                                @if ($activeclaim == 'Y')
+                                                                    @if ($item->debit_total == '' || $item->approval_code =='' || $item->pdx =='')
+                                                                        <td class="text-center" width="5%">
+                                                                            <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                                        </td> 
+                                                                    @else
+                                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                                    @endif  
                                                                 @else
                                                                     <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                                @endif                                                                
+                                                                @endif
+                                                                                                                                     
                                                                 <td class="text-center" width="15%">
                                                                     @if ($item->approval_code != NULL)
                                                                         <span class="bg-success badge">{{ $item->approval_code }}</span> 
@@ -340,11 +360,11 @@
                                                                     @endif 
                                                                 </td>  
                                                                 <td class="text-center" width="5%">
-                                                                    {{-- @if ($drugmark != NULL)
+                                                                    @if ($drugmark != NULL)
                                                                         <span class="bg-success badge">{{ $drugmark }}</span> 
-                                                                    @else --}}
+                                                                    @else
                                                                         <span class="bg-danger badge">-</span> 
-                                                                    {{-- @endif  --}}
+                                                                    @endif 
                                                                 </td> 
                                                                 <td class="text-center" width="5%">
                                                                     @if ($kayas > 0)
@@ -1089,6 +1109,46 @@
     @section('footer')
     
     <script>
+       function check() {
+        var onoff; 
+        document.getElementById("myCheck").checked = true;
+        onoff = "Y";
+          var _token=$('input[name="_token"]').val();
+            $.ajax({
+                    url:"{{route('acc.account_401_claimswitch')}}",
+                    method:"GET",
+                    data:{onoff:onoff,_token:_token}
+            })
+        }
+
+        function uncheck() {
+            document.getElementById("myCheck").checked = false;
+            onoff = "N";
+            var _token=$('input[name="_token"]').val();
+            $.ajax({
+                    url:"{{route('acc.account_401_claimswitch')}}",
+                    method:"GET",
+                    data:{onoff:onoff,_token:_token}
+            })
+        }
+
+        // function account_401_claimswitch(claim_active){
+            // var nameVar = document.getElementById("claim_active").value;
+            // var checkBox = document.getElementById(claim_active);
+            // alert(checkBox);
+            // var onoff;            
+            // if (checkBox.checked == true){
+            //     onoff = "Y";
+            // } else {
+            //     onoff = "N";
+            // } 
+            // var _token=$('input[name="_token"]').val();
+            // $.ajax({
+            //         url:"{{route('acc.account_401_claimswitch')}}",
+            //         method:"GET",
+            //         data:{onoff:onoff,claim_active:claim_active,_token:_token}
+            // })
+    //    }
         $(document).ready(function() {
             $('#example7').DataTable();
             $('#example8').DataTable();
@@ -1098,6 +1158,8 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
+
 
             $('#stamp').on('click', function(e) {
                     if($(this).is(':checked',true))  

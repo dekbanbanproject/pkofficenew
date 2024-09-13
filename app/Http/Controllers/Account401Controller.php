@@ -62,7 +62,7 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
-use App\Models\D_ofc_401;
+use App\Models\Acc_function;
 
 use App\Models\D_apiofc_ins;
 use App\Models\D_apiofc_iop;
@@ -373,11 +373,7 @@ class Account401Controller extends Controller
                 $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
                 $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
         } else {
-            // $startdate = $startdate_;
-            // $enddate = $enddate_;
-            // $data_date_ = Acc_ofc_dateconfig::where('acc_ofc_dateconfig_id','=','1')->first();
-            // $startdate = $data_date_->startdate;
-            // $enddate = $data_date_->enddate;
+       
                 $acc_debtor = DB::select(' 
                         SELECT * 
                         from acc_debtor a 
@@ -409,16 +405,22 @@ class Account401Controller extends Controller
                 $data['count_noclaim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
         }
         
-
-       
-        
-        
+        // $data_activeclaim        = Acc_function::where('pang','1102050101.401')->get();
+        $data_activeclaim        = Acc_function::where('pang','1102050101.401')->first();
+        $data['activeclaim']     = $data_activeclaim->claim_active;
+        $data['acc_function_id'] = $data_activeclaim->acc_function_id;
 
         return view('account_401.account_401_pull',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
         ]);
+    }
+    function account_401_claimswitch(Request $request)
+    {  
+        // $id = $request->idfunc;
+        Acc_function::where('pang','1102050101.401')->update(['claim_active'=> $request->onoff]); 
+        // return redirect()->route('acc.account_401_pull');
     }
 
     public function account_401_pulldata(Request $request)
@@ -486,8 +488,7 @@ class Account401Controller extends Controller
                         if ($check > 0) {
                             Acc_debtor::where('vn', $value->vn)->update([
                                 'pdx'                => $value->pdx,
-                                'icd10'              => $value->icd10,
-                                // 'cc'                 => $value->cc,
+                                'icd10'              => $value->icd10, 
                                 'approval_code'      => $value->approval_code,
                                 'price_ofc'          => $value->price_ofc,
                                 'debit_total'        => $value->debit,
@@ -3013,6 +3014,8 @@ class Account401Controller extends Controller
         return redirect()->route('acc.account_401_pull');
 
     }
+
+   
    
     // *************** Api *********************
     // public function account_401_export_api(Request $request)
