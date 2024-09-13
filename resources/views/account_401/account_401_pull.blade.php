@@ -262,6 +262,7 @@
                                                             </th> 
                                                             <th class="text-center">ยานอก</th>
                                                             <th class="text-center">กายภาพ</th>
+                                                            <th class="text-center">Dent</th>
                                                             <th class="text-center" style="background-color: #fad6b8">pdx</th>  
                                                             {{-- <th class="text-center">icd10</th>   --}}
                                                             <th class="text-center" >vn</th>
@@ -299,16 +300,11 @@
                                                             foreach ($datas as $key => $value) {
                                                                $drugmark = $value->DRUGREMARK;
                                                             }
-                                                            $datas_kay = Opitemrece217::where('vn',$item->vn)->where('income',"=","14")->count('vn');
-                                                            // $datas_kay = DB::connection('mysql2')->select(
-                                                            //     'SELECT COUNT(vn) as Cvn 
-                                                            //         FROM opitemrece   
-                                                            //         WHERE vn IN("'.$item->vn.'") AND income ="14"
-                                                            //         GROUP BY vn 
-                                                            // ');
-                                                            // foreach($datas_kay as $v_k) {
-                                                            //    $kaya = $v_k->Cvn;
-                                                            // }
+                                                            
+                                                            $data_dent = Opitemrece217::where('vn',$item->vn)->where('income',"=","13")->sum('sum_price');
+                                                            
+                                                            $datas_kay = Opitemrece217::where('vn',$item->vn)->where('income',"=","14")->sum('sum_price');
+                                                         
                                                             if ($datas_kay > 0) {
                                                                 $kayas = $datas_kay;
                                                             } else {
@@ -342,6 +338,13 @@
                                                                 <td class="text-center" width="5%">
                                                                     @if ($kayas > 0)
                                                                         <span class="bg-success badge">{{ $kayas }}</span> 
+                                                                    @else
+                                                                        <span class="bg-danger badge">-</span> 
+                                                                    @endif 
+                                                                </td> 
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($data_dent > 0)
+                                                                        <span class="bg-success badge">{{ $data_dent }}</span> 
                                                                     @else
                                                                         <span class="bg-danger badge">-</span> 
                                                                     @endif 

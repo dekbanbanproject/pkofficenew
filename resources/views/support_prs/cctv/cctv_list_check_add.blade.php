@@ -122,9 +122,15 @@ $loter = $date.''.$time
                                         ?>
                                         @foreach ($datashow as $item) 
                                         <?php
-                                                $dashboard_ = DB::select(
-                                                    'SELECT * FROM cctv_check WHERE article_num = "'.$item->cctv_list_num.'"  
-                                                ');  
+                                                $lastday_   = DB::table('cctv_check')->orderBy('cctv_check_date', 'DESC')->latest()->first();
+                                                $lastday    = $lastday_->cctv_check_date;
+                                                $datenow    = date('Y-m-d');
+                                                $newweek    = date('Y-m-d', strtotime($lastday . ' +1 week')); //เพิ่ม 1 สัปดาห์
+                                                $newDate    = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+                                                $newyear    = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+                                                // $dashboard_ = DB::select(
+                                                //     'SELECT * FROM cctv_check WHERE article_num = "'.$item->cctv_list_num.'"  
+                                                // ');  
                                                 // foreach ($dashboard_ as $key => $value) {
                                                 //    $cctv_camera_screen       = $value->cctv_camera_screen;
                                                 //    $cctv_camera_corner       = $value->cctv_camera_corner;
@@ -139,18 +145,19 @@ $loter = $date.''.$time
                                                 //     $cctv_camera_save         = $dataedit->cctv_camera_save;
                                                 //     $cctv_camera_power_backup = $dataedit->cctv_camera_power_backup;
                                         ?>
+                                        @if ($datenow == $newweek)
                                             <tr style="font-size:13px"> 
-                                                <td class="text-center" width="7%" >{{ $item->cctv_list_num }} </td>
+                                                <td class="text-center" width="7%" >{{ $item->cctv_list_num }}</td>
                                                 <td class="p-2"> {{ $item->cctv_location }}</td>  
                                                 <td class="text-center" width="7%">{{$item->cctv_check}}</td>  
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_screen}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>
-                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>    --}}
-                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>   --}}
-                                          
-                                               
+                                                <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>  
                                             </tr> 
+                                        @else
+                                            
+                                        @endif
+                                            
                                         @endforeach
                                     </tbody>
                                     

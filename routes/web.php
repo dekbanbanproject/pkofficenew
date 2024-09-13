@@ -32,6 +32,7 @@ use App\Models\Fire;
 //       'id'           => $id
 //   ]);
 // });
+Route::match(['get', 'post'], 'line_cctvcheck', [App\Http\Controllers\AutoprsController::class, 'line_cctvcheck'])->name('notify.line_cctvcheck'); //
 
 Route::match(['get', 'post'], 'notice', [App\Http\Controllers\NoticeController::class, 'notice'])->name('font.notice'); //  ประกาศ
 

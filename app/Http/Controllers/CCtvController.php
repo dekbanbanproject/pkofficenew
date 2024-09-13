@@ -822,10 +822,11 @@ class CCtvController extends Controller
         $y           = date('Y') + 543;
         $months = date('m');
         $year = date('Y'); 
-        $newdays     = date('Y-m-d', strtotime($date . ' -1 days')); //ย้อนหลัง 1 วัน
-        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate     = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
-        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $newdays      = date('Y-m-d', strtotime($date . ' -1 days'));//ย้อนหลัง 1 วัน
+        $newweek_plus = date('Y-m-d', strtotime($date . ' +1 week')); //ไปหน้า 1 สัปดาห์
+        $newweek      = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate      = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear      = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $iduser = Auth::user()->id;
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;

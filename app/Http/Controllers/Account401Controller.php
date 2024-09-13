@@ -1345,7 +1345,7 @@ class Account401Controller extends Controller
                         JOIN nondrugitems n on n.icode = v.icode 
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
-                        WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("14")
+                        WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14")
                         GROUP BY i.vn,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
                             UNION
@@ -1359,7 +1359,7 @@ class Account401Controller extends Controller
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("14")
+                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14")
                         AND v.an is NULL
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate;
@@ -1368,45 +1368,7 @@ class Account401Controller extends Controller
                 // ,n.nhso_adp_type_id TYPE
                 // ,ic.drg_chrgitem_id TYPE
                                 
-                foreach ($data_adp_ as $va_13) {
-                    // if ($va_13->income  == '14') {
-                    //     $type_new = '14';
-                    //     $code_new = 'XXX14';
-                    //     $rate_new = $va_13->rate_new;
-                    //     D_adp::insert([
-                    //         'HN'                   => $va_13->HN,
-                    //         'AN'                   => $va_13->AN,
-                    //         'DATEOPD'              => $va_13->DATEOPD,
-                    //         'TYPE'                 => $type_new,
-                    //         'CODE'                 => $code_new,
-                    //         'QTY'                  => $va_13->QTY,
-                    //         'RATE'                 => $rate_new,
-                    //         'SEQ'                  => $va_13->SEQ,
-                    //         'CAGCODE'              => $va_13->CAGCODE,
-                    //         'DOSE'                 => $va_13->DOSE,
-                    //         'CA_TYPE'              => $va_13->CA_TYPE,
-                    //         'SERIALNO'             => $va_13->SERIALNO,
-                    //         'TOTCOPAY'             => $va_13->TOTCOPAY,
-                    //         'USE_STATUS'           => $va_13->USE_STATUS,
-                    //         'TOTAL'                => $va_13->TOTAL,
-                    //         'QTYDAY'               => $va_13->QTYDAY,
-                    //         'TMLTCODE'             => $va_13->TMLTCODE,
-                    //         'STATUS1'              => $va_13->STATUS1,
-                    //         'BI'                   => $va_13->BI,
-                    //         'CLINIC'               => $va_13->CLINIC,
-                    //         'ITEMSRC'              => $va_13->ITEMSRC,
-                    //         'PROVIDER'             => $va_13->PROVIDER,
-                    //         'GRAVIDA'              => $va_13->GRAVIDA,
-                    //         'GA_WEEK'              => $va_13->GA_WEEK,
-                    //         'DCIP'                 => $va_13->DCIP,
-                    //         'LMP'                  => $va_13->LMP,
-                    //         'SP_ITEM'              => $va_13->SP_ITEM,
-                    //         'icode'                => $va_13->icode,
-                    //         'vstdate'              => $va_13->vstdate,
-                    //         'user_id'              => $iduser,
-                    //         'd_anaconda_id'        => 'OFC_401'
-                    //     ]);
-                    // } else { 
+                foreach ($data_adp_ as $va_13) {                    
                         D_adp::insert([
                             'HN'                   => $va_13->HN,
                             'AN'                   => $va_13->AN,
@@ -1439,14 +1401,11 @@ class Account401Controller extends Controller
                             'vstdate'              => $va_13->vstdate,
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'OFC_401'
-                        ]);
-                    // }
-
-                  
+                        ]);                   
                 } 
-                 //D_adp กายภาพ
-                $data_adp_kay = DB::connection('mysql2')->select(' 
-                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //D_adp กายภาพ
+                $data_adp_kay = DB::connection('mysql2')->select(
+                    'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                             FROM
                             (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
@@ -1459,7 +1418,7 @@ class Account401Controller extends Controller
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
                         WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("14")
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        GROUP BY i.vn) a 
                         GROUP BY an,CODE,rate
                             UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -1474,44 +1433,112 @@ class Account401Controller extends Controller
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("14")
                         AND v.an is NULL
-                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                        GROUP BY vv.vn) b 
                         GROUP BY seq,CODE,rate;
                 '); 
-                foreach ($data_adp_ as $va_13) {  
+                foreach ($data_adp_kay as $va_20) {  
                         D_adp::insert([
-                            'HN'                   => $va_13->HN,
-                            'AN'                   => $va_13->AN,
-                            'DATEOPD'              => $va_13->DATEOPD,
-                            'TYPE'                 => '14',
+                            'HN'                   => $va_20->HN,
+                            'AN'                   => $va_20->AN,
+                            'DATEOPD'              => $va_20->DATEOPD,
+                            'TYPE'                 => '20',
                             'CODE'                 => 'XXX14',
                             'QTY'                  => '1',
-                            'RATE'                 => $va_13->rate_new,
-                            'SEQ'                  => $va_13->SEQ,
-                            'CAGCODE'              => $va_13->CAGCODE,
-                            'DOSE'                 => $va_13->DOSE,
-                            'CA_TYPE'              => $va_13->CA_TYPE,
-                            'SERIALNO'             => $va_13->SERIALNO,
-                            'TOTCOPAY'             => $va_13->TOTCOPAY,
-                            'USE_STATUS'           => $va_13->USE_STATUS,
-                            'TOTAL'                => $va_13->TOTAL,
-                            'QTYDAY'               => $va_13->QTYDAY,
-                            'TMLTCODE'             => $va_13->TMLTCODE,
-                            'STATUS1'              => $va_13->STATUS1,
-                            'BI'                   => $va_13->BI,
-                            'CLINIC'               => $va_13->CLINIC,
-                            'ITEMSRC'              => $va_13->ITEMSRC,
-                            'PROVIDER'             => $va_13->PROVIDER,
-                            'GRAVIDA'              => $va_13->GRAVIDA,
-                            'GA_WEEK'              => $va_13->GA_WEEK,
-                            'DCIP'                 => $va_13->DCIP,
-                            'LMP'                  => $va_13->LMP,
-                            'SP_ITEM'              => $va_13->SP_ITEM,
-                            'icode'                => $va_13->icode,
-                            'vstdate'              => $va_13->vstdate,
+                            'RATE'                 => $va_20->rate_new,
+                            'SEQ'                  => $va_20->SEQ,
+                            'CAGCODE'              => $va_20->CAGCODE,
+                            'DOSE'                 => $va_20->DOSE,
+                            'CA_TYPE'              => $va_20->CA_TYPE,
+                            'SERIALNO'             => $va_20->SERIALNO,
+                            'TOTCOPAY'             => $va_20->TOTCOPAY,
+                            'USE_STATUS'           => $va_20->USE_STATUS,
+                            'TOTAL'                => $va_20->TOTAL,
+                            'QTYDAY'               => $va_20->QTYDAY,
+                            'TMLTCODE'             => $va_20->TMLTCODE,
+                            'STATUS1'              => $va_20->STATUS1,
+                            'BI'                   => $va_20->BI,
+                            'CLINIC'               => $va_20->CLINIC,
+                            'ITEMSRC'              => $va_20->ITEMSRC,
+                            'PROVIDER'             => $va_20->PROVIDER,
+                            'GRAVIDA'              => $va_20->GRAVIDA,
+                            'GA_WEEK'              => $va_20->GA_WEEK,
+                            'DCIP'                 => $va_20->DCIP,
+                            'LMP'                  => $va_20->LMP,
+                            'SP_ITEM'              => $va_20->SP_ITEM,
+                            'icode'                => $va_20->icode,
+                            'vstdate'              => $va_20->vstdate,
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'OFC_401'
                         ]); 
                 }
+                 //D_adp ทันตกรรม
+                 $data_adp_dent = DB::connection('mysql2')->select(
+                    'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
+                            FROM
+                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                            ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
+                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = i.vn AND income ="13") as rate_new
+                        FROM opitemrece v
+                        JOIN nondrugitems n on n.icode = v.icode 
+                        LEFT OUTER JOIN ipt i on i.an = v.an
+                        AND i.an is not NULL 
+                        WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("13")
+                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        GROUP BY an,CODE,rate
+                            UNION
+                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
+                            FROM
+                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                            ,""SP_ITEM,v.icode,v.vstdate,v.income
+                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="13") as rate_new
+                        FROM opitemrece v
+                        JOIN nondrugitems n on n.icode = v.icode 
+                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("13")
+                        AND v.an is NULL
+                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                        GROUP BY seq,CODE,rate;
+                '); 
+                foreach ($data_adp_dent as $va_21) {                    
+                    D_adp::insert([
+                        'HN'                   => $va_21->HN,
+                        'AN'                   => $va_21->AN,
+                        'DATEOPD'              => $va_21->DATEOPD,
+                        'TYPE'                 => $va_21->TYPE,
+                        'CODE'                 => $va_21->CODE,
+                        'QTY'                  => $va_21->QTY,
+                        'RATE'                 => $va_21->RATE,
+                        'SEQ'                  => $va_21->SEQ,
+                        'CAGCODE'              => $va_21->CAGCODE,
+                        'DOSE'                 => $va_21->DOSE,
+                        'CA_TYPE'              => $va_21->CA_TYPE,
+                        'SERIALNO'             => $va_21->SERIALNO,
+                        'TOTCOPAY'             => $va_21->TOTCOPAY,
+                        'USE_STATUS'           => $va_21->USE_STATUS,
+                        'TOTAL'                => $va_21->TOTAL,
+                        'QTYDAY'               => $va_21->QTYDAY,
+                        'TMLTCODE'             => $va_21->TMLTCODE,
+                        'STATUS1'              => $va_21->STATUS1,
+                        'BI'                   => $va_21->BI,
+                        'CLINIC'               => $va_21->CLINIC,
+                        'ITEMSRC'              => $va_21->ITEMSRC,
+                        'PROVIDER'             => $va_21->PROVIDER,
+                        'GRAVIDA'              => $va_21->GRAVIDA,
+                        'GA_WEEK'              => $va_21->GA_WEEK,
+                        'DCIP'                 => $va_21->DCIP,
+                        'LMP'                  => $va_21->LMP,
+                        'SP_ITEM'              => $va_21->SP_ITEM,
+                        'icode'                => $va_21->icode,
+                        'vstdate'              => $va_21->vstdate,
+                        'user_id'              => $iduser,
+                        'd_anaconda_id'        => 'OFC_401'
+                    ]);                   
+                } 
 
                 //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
