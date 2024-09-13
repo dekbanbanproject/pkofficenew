@@ -234,7 +234,11 @@
                                                     - {{$item->repaire_sub_name}}  
                                                 </p>
                                             @else
-                                                <?php $datas_sub_= DB::select('SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" ');?>
+                                                <?php 
+                                                    $datas_sub_= DB::select(
+                                                        'SELECT * FROM air_repaire_sub WHERE air_repaire_id = "'.$item->air_repaire_id.'" 
+                                                    ');
+                                                ?>
                                                 @foreach ($datas_sub_ as $v_1)
                                                     @if ($v_1->air_repaire_type_code == '04')
                                                     <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
@@ -247,6 +251,9 @@
                                                     @endif
                                                    
                                                 @endforeach 
+                                                <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                                                    - {{$item->air_problems_orthersub}} 
+                                                </p>
                                             @endif
                                             
                                         </td>  

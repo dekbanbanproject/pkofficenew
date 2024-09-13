@@ -2127,7 +2127,7 @@ class AirController extends Controller
 
         if ($supplies_id == '') {
             $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu,a.air_problems_orthersub
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
@@ -2166,7 +2166,7 @@ class AirController extends Controller
             }
         } else { 
             $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu,a.air_problems_orthersub
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
