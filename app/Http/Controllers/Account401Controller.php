@@ -490,6 +490,7 @@ class Account401Controller extends Controller
                                 // 'cc'                 => $value->cc,
                                 'approval_code'      => $value->approval_code,
                                 'price_ofc'          => $value->price_ofc,
+                                'debit_total'        => $value->debit,
                             ]);
                         }else{
                             Acc_debtor::insert([

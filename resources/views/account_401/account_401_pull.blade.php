@@ -344,7 +344,7 @@
                                                                 </td> 
                                                                 <td class="text-center" width="5%">
                                                                     @if ($data_dent > 0)
-                                                                        <span class="bg-success badge">{{ $data_dent }}</span> 
+                                                                        <span class="bg-info badge">{{ $data_dent }}</span> 
                                                                     @else
                                                                         <span class="bg-danger badge">-</span> 
                                                                     @endif 
