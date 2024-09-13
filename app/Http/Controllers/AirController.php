@@ -1546,6 +1546,12 @@ class AirController extends Controller
 
                                 $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
                                 $techname = $data_tech->fname.' '.$data_tech->lname;
+
+                                if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                                    $active_status = 'ไม่พร้อมใช้';
+                                } else {
+                                    $active_status = 'พร้อมใช้';
+                                }
                 
                                 // *************************************
                                 $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
@@ -1577,7 +1583,8 @@ class AirController extends Controller
                                             "\n" . "หน่วยงาน : " . $request->detail.
                                             "\n" . "ช่างซ่อม(นอก รพ.) : " . $techoutname.
                                             "\n" . "เจ้าหน้าที่ : " . $staffname.
-                                            "\n" . "ช่างซ่อม(รพ.) : " . $techname;
+                                            "\n" . "ช่างซ่อม(รพ.) : " . $techname.
+                                            "\n" . "สถานะ : " . $active_status;
                                             
                                     foreach ($mMessage as $key => $smes) {
                                         // $num_mesage           = $smes['air_list_num'];
@@ -1747,6 +1754,12 @@ class AirController extends Controller
 
                         $data_tech = DB::table('users')->where('id', '=', $request->air_tech_id)->first();
                         $techname = $data_tech->fname.' '.$data_tech->lname;
+
+                        if ($request->air_status_techout == 'N' || $request->air_status_staff == 'N' || $request->air_status_tech == 'N') {
+                            $active_status = 'ไม่พร้อมใช้';
+                        } else {
+                            $active_status = 'พร้อมใช้';
+                        }
         
                         // *************************************
                         $data_loob = Air_repaire_sub::where('air_repaire_id','=',$air_repaire_id)->get();
@@ -1778,7 +1791,8 @@ class AirController extends Controller
                                     "\n" . "หน่วยงาน : " . $request->detail.
                                     "\n" . "ช่างซ่อม(นอก รพ.) : " . $techoutname.
                                     "\n" . "เจ้าหน้าที่ : " . $staffname.
-                                    "\n" . "ช่างซ่อม(รพ.) : " . $techname;
+                                    "\n" . "ช่างซ่อม(รพ.) : " . $techname.
+                                    "\n" . "สถานะ : " . $active_status;
                                     
                             foreach ($mMessage as $key => $smes) {
                                 // $num_mesage           = $smes['air_list_num'];

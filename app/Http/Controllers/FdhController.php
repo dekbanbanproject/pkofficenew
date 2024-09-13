@@ -3243,6 +3243,21 @@ class FdhController extends Controller
             //     AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
             //     GROUP BY vn
             // ');   
+            // $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
+            //     'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            //     ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            //     from ovst c
+            //     LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            //     LEFT JOIN vn_stat v ON v.vn = c.vn
+            //     LEFT JOIN patient p ON p.hn = v.hn
+            //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            //     WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            //     AND vp.claim_code is null
+            //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            //     AND c.main_dep NOT IN("011","036","107","078","020") 
+            //     AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
+            //     GROUP BY c.vn 
+            // ');       
             $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
                 'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
                 ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
@@ -3252,12 +3267,12 @@ class FdhController extends Controller
                 LEFT JOIN patient p ON p.hn = v.hn
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND vp.claim_code is null
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND c.main_dep NOT IN("011","036","107","078","020") 
+                AND (vp.claim_code is null OR vp.claim_code ="")
+                AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                
                 AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
                 GROUP BY c.vn 
-            ');         
+            ');
         }
         
 
@@ -3298,6 +3313,7 @@ class FdhController extends Controller
                         $response = curl_exec($ch); 
                         $contents = $response; 
                         $result = json_decode($contents, true);  
+                        // dd($result);
                         if ($result != null ) {  
                                 isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
                                 if ($statusAuthen =='false') { 
@@ -3307,8 +3323,10 @@ class FdhController extends Controller
                                         $cd	           = $value_s["claimCode"];
                                         $sv_code	   = $value_s["service"]["code"];
                                         $sv_name	   = $value_s["service"]["name"];
-                                            
-                                        Visit_pttype::where('vn','=', $vn)
+                                        $hcode	       = $value_s["hospital"]["hcode"];
+                                        $hname	       = $value_s["hospital"]["hname"];
+                                        // dd($hname);
+                                        Visit_pttype::where('vn','=', $vn)->where('hospmain','=', $hcode)
                                             ->update([
                                                 'claim_code'     => $cd, 
                                                 'auth_code'      => $cd, 
@@ -3320,7 +3338,7 @@ class FdhController extends Controller
                                                 'claimtype'     => $sv_code,
                                                 'servicename'   => $sv_name, 
                                         ]);
-                                        Fdh_mini_dataset::where('vn','=', $vn)
+                                        Fdh_mini_dataset::where('vn','=', $vn)->where('hcode','=', $hcode)
                                             ->update([
                                                 'claimcode'     => $cd,
                                                 'claimtype'     => $sv_code,

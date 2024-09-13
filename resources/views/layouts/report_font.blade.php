@@ -275,7 +275,7 @@
                                 <li ><a href="{{ url('telemedicine_visit') }}" >Telemed เปิด Visit</a></li>
                             </ul>
                         </li> --}}
-                        {{-- <li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>จิตเวช</span>
@@ -283,7 +283,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('kayapap_jitvs_mian') }}" >จิตเวช</a></li> 
                             </ul>
-                        </li> --}}
+                        </li>
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>

@@ -1,102 +1,132 @@
-@extends('layouts.report_font')
+@extends('layouts.audit')
 @section('title', 'PK-OFFICE || งานจิตเวชและยาเสพติด')
 @section('content')
-    {{-- <script>
-        function TypeAdmin() {
-            window.location.href = '{{ route('index') }}';
-        }
-    </script> --}}
-    {{-- <style>
-        .table thead tr th {
-            font-family: sans-serif;
-            font-size: 12px;
-            background-color: #3fb4f8;
-            color: #ffffff;
-            text-align: center;
-        }
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
+<style>
+    #button {
+        display: block;
+        margin: 20px auto;
+        padding: 30px 30px;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        cursor: pointer;
+    }
 
-        .table td {
-            font-family: sans-serif;
-            font-size: 12px;
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 250px;
+        height: 250px;
+        border: 10px #ddd solid;
+        border-top: 10px #0dc79f solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
+
+    @keyframes sp-anime {
+        100% {
+            transform: rotate(390deg);
         }
-        .myTable thead tr{
-            background-color: #3fb4f8;
-            color: #ffffff;
-            text-align: center;
-            }
-            .myTable th .myTable td{
-                padding: 12px 15px;
-            }
-            .myTable tbody tr{
-                border-bottom: 1px solid #f3760f;
-            }
-            .myTable tbody tr:nth-of-type(even){
-                background-color: #d2efff;
-            }
-            .myTable tbody tr:last-of-type{
-                border-bottom: 3px solid #08d1a9;
-            }
-            .myTable tbody tr .active-row{
-                color: #08d1a9;
-            }
-    </style> --}}
-    <?php
-    // if (Auth::check()) {
-    //     $type = Auth::user()->type;
-    //     $iduser = Auth::user()->id;
-    // } else {
-    //     echo "<body onload=\"TypeAdmin()\"></body>";
-    //     exit();
-    // }
-    // $url = Request::url();
-    // $pos = strrpos($url, '/') + 1;
-    ?> 
-    <div class="container-fluid">
+    }
 
-        <div class="row">
-            <div class="col-xl-12">
-                {{-- <form action="{{ route('pt.restore') }}" method="POST"> --}}
-                    <form action="{{ route('pt.kayapap_jitvs_mian') }}" method="POST">
-                 
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-1 text-end">  </div> 
-                        <div class="col-md-1 text-end">วันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate"
-                                    id="startdate" data-date-format="yyyy-mm-dd" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" value="{{ $startdate }}">
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="enddate"
-                                    id="enddate" data-date-format="yyyy-mm-dd" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" value="{{ $enddate }}">
+    .is-hide {
+        display: none;
+    }
 
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>
-                                ค้นหา
-                            </button>
-                            
-                        </div>
-                        <div class="col"></div>
-                </form>
+    .modal-dis {
+        width: 1350px;
+        margin: auto;
+    }
+
+    @media (min-width: 1200px) {
+        .modal-xlg {
+            width: 90%;
+        }
+    }
+</style>
+<div class="tabs-animation">
+
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
         </div>
     </div>
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+            </div>
+        </div>
+    </div>
+ 
+    <form action="{{ route('pt.kayapap_jitvs_mian') }}" method="GET">
+                 
+        @csrf
+    <div class="row">
+        <div class="col-md-3">
+            <h4 class="card-title" style="color:rgb(250, 128, 124)">รายงานจำนวนผู้ป่วยนอกที่ได้รับให้บริการฟื้นฟู</h4>
+            <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit</p>
+        </div>
+        <div class="col"></div> 
+        <div class="col-md-4">
+            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+            data-date-autoclose="true" data-provide="datepicker"
+            data-date-container='#datepicker1'>
+            <input type="text" class="form-control card_audit_4" name="startdate"
+                id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
+                data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                data-date-language="th-th" value="{{ $startdate }}" required />
+            <input type="text" class="form-control card_audit_4" name="enddate"
+                placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
+                data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                data-date-language="th-th" value="{{ $enddate }}" />
+            <button type="submit" class="ladda-button btn-pill btn btn-primary card_audit_4" data-style="expand-left">
+                <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i></i>ค้นหา</span>
+                <span class="ladda-spinner"></span>
+            </button>
+            
+        </div>
+        </div>
+    </div>
+</form>
+        
+    </div>
 
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-xl-12">
-            <h5>รายงานจำนวนผู้ป่วยนอกที่ได้รับให้บริการฟื้นฟู</h5>
-            <div class="card">
+            {{-- <h5>รายงานจำนวนผู้ป่วยนอกที่ได้รับให้บริการฟื้นฟู</h5> --}}
+            <div class="card card_audit_4">
                 <div class="card-body py-0 px-2 mt-2">
                     <div class="table-responsive">
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
@@ -193,6 +223,13 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
+
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
 
             $('select').select2();
             $('#ECLAIM_STATUS').select2({

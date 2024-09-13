@@ -73,7 +73,7 @@
                                     <th class="text-center">เลขบัตรประชาชน</th>
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">ICD</th>
-                                    <th class="text-center">cc</th>
+                                    {{-- <th class="text-center">cc</th> --}}
                                     <th class="text-center">ชื่อ - สกุล</th>
                                     <th class="text-center">สิทธิ</th>
                                     <th class="text-center">ค่ารักษาทั้งหมด HOS</th>
@@ -92,7 +92,7 @@
                                         <td>{{$item->cid}}</td> 
                                         <td>{{$item->vstdate}}</td> 
                                         <td> {{ $item->pdx }} </td>
-                                        <td>{{ $item->cc }} </td>
+                                        {{-- <td>{{ $item->cc }} </td> --}}
                                         <td>{{ $item->fullname }}</td>
                                         <td>{{ $item->pttype }}</td>
 

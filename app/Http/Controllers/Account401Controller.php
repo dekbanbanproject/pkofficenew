@@ -334,15 +334,15 @@ class Account401Controller extends Controller
         $months = date('m');
         $year = date('Y');
         $newday = date('Y-m-d', strtotime($datenow . ' -10 Day')); //ย้อนหลัง 1 สัปดาห์
-        $startdate_ = $request->startdate;
-        $enddate_   = $request->enddate;
-        if ($startdate_ == '') {
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        if ($startdate == '') {
             // $data_date_ = Acc_ofc_dateconfig::where('acc_ofc_dateconfig_id','=','1')->first();
             // $startdate = $data_date_->startdate;
             // $enddate = $data_date_->enddate;
 
-            $startdate = $startdate_;
-            $enddate = $enddate_;
+            $startdate = '';
+            $enddate = '';
                 $acc_debtor = DB::select(' 
                         SELECT * 
                         from acc_debtor a 
@@ -375,9 +375,9 @@ class Account401Controller extends Controller
         } else {
             // $startdate = $startdate_;
             // $enddate = $enddate_;
-            $data_date_ = Acc_ofc_dateconfig::where('acc_ofc_dateconfig_id','=','1')->first();
-            $startdate = $data_date_->startdate;
-            $enddate = $data_date_->enddate;
+            // $data_date_ = Acc_ofc_dateconfig::where('acc_ofc_dateconfig_id','=','1')->first();
+            // $startdate = $data_date_->startdate;
+            // $enddate = $data_date_->enddate;
                 $acc_debtor = DB::select(' 
                         SELECT * 
                         from acc_debtor a 
@@ -1079,11 +1079,17 @@ class Account401Controller extends Controller
                         WHERE v.vn IN("'.$va1->vn.'") 
                 ');             
                 foreach ($data_odx_ as $va_04) { 
+                    if ($va_04->DIAG == 'U779') {
+                        $diag_new = 'U77';
+                    } else {
+                        $diag_new = $va_04->DIAG;
+                    }
+                    
                     D_odx::insert([
                         'HN'                => $va_04->HN,
                         'CLINIC'            => $va_04->CLINIC,
                         'DATEDX'            => $va_04->DATEDX,
-                        'DIAG'              => $va_04->DIAG,
+                        'DIAG'              => $diag_new,
                         'DXTYPE'            => $va_04->DXTYPE,
                         'DRDX'              => $va_04->DRDX,
                         'PERSON_ID'         => $va_04->PERSON_ID, 
@@ -1576,34 +1582,40 @@ class Account401Controller extends Controller
                 ');
                
                 foreach ($data_dru_ as $va_14) {
-                    D_dru::insert([ 
-                        'HN'             => $va_14->HN,
-                        'CLINIC'         => $va_14->CLINIC,
-                        'HCODE'          => $va_14->HCODE,
-                        'AN'             => $va_14->AN,
-                        'PERSON_ID'      => $va_14->PERSON_ID,
-                        'DATE_SERV'      => $va_14->DATE_SERV,
-                        'DID'            => $va_14->DID,
-                        'DIDNAME'        => $va_14->DIDNAME, 
-                        'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRICE'       => $va_14->DRUGPRIC,
-                        'DRUGCOST'       => $va_14->DRUGCOST,
-                        'DIDSTD'         => $va_14->DIDSTD,
-                        'UNIT'           => $va_14->UNIT,
-                        'UNIT_PACK'      => $va_14->UNIT_PACK,
-                        'SEQ'            => $va_14->SEQ,
-                        'DRUGREMARK'     => $va_14->DRUGREMARK,
-                        'PA_NO'          => $va_14->PA_NO,
-                        'TOTCOPAY'       => $va_14->TOTCOPAY, 
-                        'USE_STATUS'     => $va_14->USE_STATUS,
-                        'TOTAL'          => $va_14->TOTAL,   
-                        'SIGCODE'        => $va_14->SIGCODE,                      
-                        'SIGTEXT'        => $va_14->SIGTEXT,
-                        'PROVIDER'       => $va_14->PROVIDER,
-                        'vstdate'        => $va_14->vstdate,   
-                        'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'OFC_401'
-                    ]);
+                    if ($va_14->AMOUNT < 1) {
+                        # code...
+                    } else {
+                        D_dru::insert([ 
+                            'HN'             => $va_14->HN,
+                            'CLINIC'         => $va_14->CLINIC,
+                            'HCODE'          => $va_14->HCODE,
+                            'AN'             => $va_14->AN,
+                            'PERSON_ID'      => $va_14->PERSON_ID,
+                            'DATE_SERV'      => $va_14->DATE_SERV,
+                            'DID'            => $va_14->DID,
+                            'DIDNAME'        => $va_14->DIDNAME, 
+                            'AMOUNT'         => $va_14->AMOUNT,
+                            'DRUGPRICE'       => $va_14->DRUGPRIC,
+                            'DRUGCOST'       => $va_14->DRUGCOST,
+                            'DIDSTD'         => $va_14->DIDSTD,
+                            'UNIT'           => $va_14->UNIT,
+                            'UNIT_PACK'      => $va_14->UNIT_PACK,
+                            'SEQ'            => $va_14->SEQ,
+                            'DRUGREMARK'     => $va_14->DRUGREMARK,
+                            'PA_NO'          => $va_14->PA_NO,
+                            'TOTCOPAY'       => $va_14->TOTCOPAY, 
+                            'USE_STATUS'     => $va_14->USE_STATUS,
+                            'TOTAL'          => $va_14->TOTAL,   
+                            'SIGCODE'        => $va_14->SIGCODE,                      
+                            'SIGTEXT'        => $va_14->SIGTEXT,
+                            'PROVIDER'       => $va_14->PROVIDER,
+                            'vstdate'        => $va_14->vstdate,   
+                            'user_id'        => $iduser,
+                            'd_anaconda_id'  => 'OFC_401'
+                        ]);
+                    }
+                    
+                   
                 } 
                  
          }

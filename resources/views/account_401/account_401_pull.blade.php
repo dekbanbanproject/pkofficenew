@@ -77,7 +77,8 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ route('acc.account_401_pull') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4"> 
                 <h5 class="card-title" style="color:green">Process data 1102050101.401</h5>
@@ -91,6 +92,10 @@
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
@@ -98,7 +103,7 @@
             </div> 
         </div>
     </div>  
-        
+</form>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
@@ -287,7 +292,8 @@
                                                         @foreach ($acc_debtor as $item) 
 
                                                         <?php 
-                                                            $datas = DB::connection('mysql2')->select(
+                                                            if ($item->vn != '') {
+                                                                $datas = DB::connection('mysql10')->select(
                                                                 'SELECT v.vn SEQ,oo.presc_reason as DRUGREMARK 
                                                                     FROM opitemrece v
                                                                     LEFT OUTER JOIN drugitems d on d.icode = v.icode
@@ -300,6 +306,11 @@
                                                             foreach ($datas as $key => $value) {
                                                                $drugmark = $value->DRUGREMARK;
                                                             }
+                                                            } else {
+                                                                $drugmark = '';
+                                                            }
+                                                            
+                                                            
                                                             
                                                             $data_dent = Opitemrece217::where('vn',$item->vn)->where('income',"=","13")->sum('sum_price');
                                                             
@@ -314,7 +325,7 @@
                                                         ?>
                                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                                @if ($item->debit_total == '')
+                                                                @if ($item->debit_total == '' || $item->approval_code =='' || $item->pdx =='')
                                                                     <td class="text-center" width="5%">
                                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                                     </td> 
@@ -325,15 +336,15 @@
                                                                     @if ($item->approval_code != NULL)
                                                                         <span class="bg-success badge">{{ $item->approval_code }}</span> 
                                                                     @else
-                                                                        <span class="bg-danger badge">{{ $item->approval_code }}</span> 
+                                                                        <span class="bg-warning badge">-</span> 
                                                                     @endif 
                                                                 </td>  
                                                                 <td class="text-center" width="5%">
-                                                                    @if ($drugmark != NULL)
+                                                                    {{-- @if ($drugmark != NULL)
                                                                         <span class="bg-success badge">{{ $drugmark }}</span> 
-                                                                    @else
+                                                                    @else --}}
                                                                         <span class="bg-danger badge">-</span> 
-                                                                    @endif 
+                                                                    {{-- @endif  --}}
                                                                 </td> 
                                                                 <td class="text-center" width="5%">
                                                                     @if ($kayas > 0)
@@ -349,7 +360,13 @@
                                                                         <span class="bg-danger badge">-</span> 
                                                                     @endif 
                                                                 </td> 
-                                                                <td class="text-start" width="5%">{{ $item->pdx }}</td>
+                                                                <td class="text-start" width="5%">
+                                                                    @if ($item->pdx != NULL)
+                                                                        <span class="bg-info badge">{{ $item->pdx }}</span> 
+                                                                    @else
+                                                                        <span class="bg-warning badge">-</span> 
+                                                                    @endif 
+                                                                </td>
                                                                 {{-- <td class="text-start" width="5%">{{ $item->icd10 }}</td>  --}}
                                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  

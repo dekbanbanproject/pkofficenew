@@ -275,7 +275,7 @@ class PtController extends Controller
                 and n.detail in("H9433.1","H9449.1") 
         ');
 
-        return view('pt.kayapap_jitvs',[
+        return view('audit.kayapap_jitvs_mian',[
             'kayapap_jitvs'             =>  $kayapap_jitvs,
             'startdate'              =>  $startdate,
             'enddate'                =>  $enddate,
@@ -905,7 +905,7 @@ class PtController extends Controller
                 GROUP BY v.cid,v.vstdate,n.detail
         '); 
          
-        return view('pt.kayapap_jitvs_vn',[
+        return view('audit.kayapap_jitvs_vn',[
             'kayapap_jitvs_vn'     =>  $kayapap_jitvs_vn,
             'startdate'              =>  $startdate,
             'enddate'                =>  $enddate, 
