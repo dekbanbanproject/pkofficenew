@@ -3162,7 +3162,7 @@ class FdhController extends Controller
                 LEFT JOIN vn_stat v ON v.vn = c.vn
                 LEFT JOIN patient p ON p.hn = v.hn
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" 
+                WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
                 AND vp.claim_code is null
                 AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 

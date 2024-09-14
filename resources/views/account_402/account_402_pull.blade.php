@@ -172,10 +172,17 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">Adjrw</th> 
-                                            <th class="text-center">Adjrw*9000</th>
+                                            <th class="text-center">ตั้งลูกหนี้</th>
+                                            <th class="text-center"> 
+                                                เคลม
+                                                <span class="bg-success badge">{{ $count_claim }}</span> 
+                                                <span class="bg-danger badge">{{ $count_noclaim }}</span>  
+                                            </th>
+                                            {{-- <th class="text-center">Adjrw</th>  --}}
+                                            {{-- <th class="text-center">Adjrw*9000</th> --}}
                                             <th class="text-center">กายภาพ</th>
                                             <th class="text-center">Dent</th>
+                                            <th class="text-center" style="background-color: #fad6b8">pdx</th> 
                                             <th class="text-center">dchdate</th> 
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
@@ -226,8 +233,22 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="7%">{{ $item->adjrw }}</td>
-                                                <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td>
+                                                <td class="text-center" width="5%">
+                                                    @if ($item->stamp =='N')
+                                                        <span class="bg-danger badge me-2">{{ $item->stamp }}</span> 
+                                                    @else
+                                                        <span class="bg-success badge me-2">{{ $item->stamp }}</span> 
+                                                    @endif
+                                                </td>  
+                                                <td class="text-center" width="5%">
+                                                    @if ($item->active_claim =='N')
+                                                        <span class="bg-danger badge me-2">{{ $item->active_claim }}</span> 
+                                                    @else
+                                                        <span class="bg-success badge me-2">{{ $item->active_claim }}</span> 
+                                                    @endif 
+                                                </td>  
+                                                {{-- <td class="text-center" width="7%">{{ $item->adjrw }}</td> --}}
+                                                {{-- <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td> --}}
                                                 <td class="text-center" width="5%">
                                                     @if ($kayas > 0)
                                                         <span class="bg-success badge">{{ $kayas }}</span> 
@@ -242,6 +263,13 @@
                                                         <span class="bg-danger badge">-</span> 
                                                     @endif 
                                                 </td> 
+                                                <td class="text-start" width="5%">
+                                                    @if ($item->pdx != NULL)
+                                                        <span class="bg-info badge">{{ $item->pdx }}</span> 
+                                                    @else
+                                                        <span class="bg-warning badge">-</span> 
+                                                    @endif 
+                                                </td>
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
