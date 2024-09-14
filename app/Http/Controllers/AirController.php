@@ -2166,7 +2166,8 @@ class AirController extends Controller
             }
         } else { 
             $datashow  = DB::select(
-                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu,a.air_problems_orthersub
+                'SELECT a.repaire_date,a.repaire_time,a.air_repaire_id,a.air_repaire_num,a.air_repaire_no,a.air_list_num,concat(a.air_list_num," ",a.air_list_name) as air_list_name,a.btu as btu
+                ,a.air_problems_orthersub,b.air_repaire_ploblem_id
                 ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                 ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                 ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
@@ -2184,6 +2185,12 @@ class AirController extends Controller
                 ORDER BY a.air_repaire_id DESC 
             ');   
             foreach ($datashow as $key => $value) { 
+                if ($value->air_repaire_ploblem_id == '6') {
+                    $repaire_subname = $value->repaire_sub_name.','.$value->air_problems_orthersub;
+                } else {
+                    $repaire_subname = $value->repaire_sub_name;
+                }
+                
                     Air_repaire_excel::insert([
                         'air_repaire_id'     => $value->air_repaire_id,
                         'repaire_date'       => $value->repaire_date,
@@ -2195,7 +2202,7 @@ class AirController extends Controller
                         'btu'                => $value->btu,
                         'air_location_name'  => $value->air_location_name,
                         'debsubsub'          => $value->debsubsub, 
-                        'repaire_sub_name'   => $value->repaire_sub_name, 
+                        'repaire_sub_name'   => $repaire_subname, 
                         'staff_name'         => $value->staff_name,
                         'tect_name'          => $value->tect_name,
                         'air_techout_name'   => $value->air_techout_name,

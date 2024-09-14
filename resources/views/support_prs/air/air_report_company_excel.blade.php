@@ -84,26 +84,26 @@
             <?php $i++ ?> 
                      
                 <tr> 
-                    <td class="text-center" style="width: 7%;border: 1px solid black;">{{ DateThai($item->repaire_date )}}</td>  
-                    <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->repaire_time }}</td>   
-                    <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->air_repaire_no }}</td> 
+                    <td class="text-center" style="font-size: 13px;width: 7%;border: 1px solid black;">{{ dateThaifromFull($item->repaire_date )}}</td>  
+                    <td class="text-center" style="font-size: 13px;width: 5%;border: 1px solid black;">{{ $item->repaire_time }}</td>   
+                    <td class="text-center" style="font-size: 13px;width: 5%;border: 1px solid black;">{{ $item->air_repaire_no }}</td> 
                     {{-- <td class="text-center" style="width: 5%;border: 1px solid black;">{{ $item->air_list_num }}</td>  --}}
-                    <td class="p-2" style="border: 1px solid black;">{{ $item->air_list_name }} - {{ $item->btu }} btu</td>  
+                    <td class="p-2" style="font-size: 13px;border: 1px solid black;">{{ $item->air_list_name }} - {{ $item->btu }} btu</td>  
                     {{-- <td class="p-2" style="width: 5%;border: 1px solid black;">{{ $item->btu }}</td>   --}}
-                    <td class="p-2" style="width: 10%;border: 1px solid black;">{{ $item->air_location_name }}</td>  
-                    <td class="p-2" style="width: 10%;border: 1px solid black;">{{ $item->debsubsub }}</td>  
-                    <td class="p-2" style="width: 10%;border: 1px solid black;"> 
+                    <td class="p-2" style="font-size: 13px;width: 10%;border: 1px solid black;">{{ $item->air_location_name }}</td>  
+                    <td class="p-2" style="font-size: 13px;width: 10%;border: 1px solid black;">{{ $item->debsubsub }}</td>  
+                    <td class="p-2" style="font-size: 13px;width: 10%;border: 1px solid black;"> 
                          
                
-                        <p class="mt-2" style="font-size: 13px;color:rgb(6, 149, 168)">
+                        <p class="mt-2" style="font-size: 13px;color:rgb(21, 22, 22)">
                              {{$item->repaire_sub_name}}  
                         </p>
                        
                     </td>  
-                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->staff_name }}</td> 
-                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->tect_name }}</td> 
-                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->air_techout_name }}</td>  
-                    <td class="p-2" style="width: 7%;border: 1px solid black;">{{ $item->supplies_name }}</td>  
+                    <td class="p-2" style="font-size: 13px;width: 7%;border: 1px solid black;">{{ $item->staff_name }}</td> 
+                    <td class="p-2" style="font-size: 13px;width: 7%;border: 1px solid black;">{{ $item->tect_name }}</td> 
+                    <td class="p-2" style="font-size: 13px;width: 7%;border: 1px solid black;">{{ $item->air_techout_name }}</td>  
+                    <td class="p-2" style="font-size: 13px;width: 7%;border: 1px solid black;">{{ $item->supplies_name }}</td>  
                 </tr> 
             @endforeach
         </tbody>
@@ -114,29 +114,38 @@
        <tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
        <tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
        <tr>   
+        <td></td>
         <td colspan="2"> 
             <center>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้เสนอแผน</label><br>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายประภัทร์  ขจัดพาล )</label><br>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ตำแหน่ง วิศวกร</label>  
+            <label for="" style="font-size:10px;"> ลงชื่อ………………………………….ผู้ตรวจสอบ</label><br>
+            <label for="" style="font-size:10px;"> ( นายประภัทร์  ขจัดพาล )</label><br>
+            <label for="" style="font-size:10px;"> ตำแหน่ง วิศวกร</label>  
             </center>
         </td>
-    
+    <td></td>
         <td colspan="2"> 
             <center>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้เห็นชอบ</label><br>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายสถาพร  ป้อมสุวรรณ )</label><br>
-            <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> หัวหน้ากลุ่มภารกิจด้านอำนวยการ</label>  
+            <label for="" style="font-size:10px;"> ลงชื่อ………………………………….ผู้รับรอง</label><br>
+            <label for="" style="font-size:10px;"> ( นางสุวิตรี  กำลังเหลือ )</label><br>
+            <label for="" style="font-size:10px;"> ตำแหน่ง นักวิชาการพัสดุปฎิบัติการ</label>  
             </center>
         </td>
-    
+        <td></td>
+        <td colspan="2"> 
+            <center>
+            <label for="" style="font-size:10px;"> ลงชื่อ………………………………….ผู้เห็นชอบ</label><br>
+            <label for="" style="font-size:10px;"> ( นายสถาพร  ป้อมสุวรรณ )</label><br>
+            <label for="" style="font-size:10px;"> ตำแหน่ง นักจัดการทั่วไป</label>  
+            </center>
+        </td>
+{{--     
         <td colspan="2"> 
         <center>
             <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ………………………………….ผู้อนุมัติ</label><br>
             <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นายสุภาพ  สำราญวงษ์ )</label><br>
             <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</label> 
         </center>
-        </td>
+        </td> --}}
     </tr>    
         
    </table>
