@@ -78,7 +78,8 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ route('acc.account_402_pull') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4">
                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.402</h4>
@@ -92,6 +93,10 @@
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
@@ -104,7 +109,7 @@
         </div>
         </div>
              
-        
+    </form>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
@@ -139,10 +144,14 @@
                                    <i class="fa-solid fa-upload me-2"></i>
                                    ส่ง New Eclaim
                                </button> --}}
-                               <a href="{{url('account_402_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                               <a href="{{url('account_402_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">
                                    <i class="fa-solid fa-file-export text-white me-2"></i>
                                    Export Txt
                                </a>   
+                               <a href="{{url('account_402_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                <i class="fa-solid fa-file-export text-white me-2"></i>
+                                Zip
+                            </a> 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_402_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -151,6 +160,10 @@
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
+                                {{-- <a href="{{url('account_402_claim_zip')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger card_fdh_4">
+                                    <i class="fa-solid fa-file-export text-danger me-2"></i>
+                                    Zip Txt
+                                </a>  --}}
                                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_402_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -167,7 +180,7 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
-                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                            <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
@@ -178,8 +191,8 @@
                                                 <span class="bg-success badge">{{ $count_claim }}</span> 
                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
                                             </th>
-                                            {{-- <th class="text-center">Adjrw</th>  --}}
-                                            {{-- <th class="text-center">Adjrw*9000</th> --}}
+                                            <th class="text-center">Adjrw</th> 
+                                            <th class="text-center">Adjrw*9000</th>
                                             <th class="text-center">กายภาพ</th>
                                             <th class="text-center">Dent</th>
                                             <th class="text-center" style="background-color: #fad6b8">pdx</th> 
@@ -228,7 +241,7 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
-
+                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
@@ -247,8 +260,8 @@
                                                         <span class="bg-success badge me-2">{{ $item->active_claim }}</span> 
                                                     @endif 
                                                 </td>  
-                                                {{-- <td class="text-center" width="7%">{{ $item->adjrw }}</td> --}}
-                                                {{-- <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td> --}}
+                                                <td class="text-center" width="7%">{{ $item->adjrw }}</td>
+                                                <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td>
                                                 <td class="text-center" width="5%">
                                                     @if ($kayas > 0)
                                                         <span class="bg-success badge">{{ $kayas }}</span> 

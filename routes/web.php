@@ -2211,6 +2211,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_402_claimswitch', [App\Http\Controllers\Account402Controller::class, 'account_402_claimswitch'])->name('acc.account_402_claimswitch'); //
   Route::match(['get', 'post'], 'account_402_claim', [App\Http\Controllers\Account402Controller::class, 'account_402_claim'])->name('acc.account_402_claim'); //
   Route::match(['get', 'post'], 'account_402_claim_export', [App\Http\Controllers\Account402Controller::class, 'account_402_claim_export'])->name('acc.account_402_claim_export'); //
+  Route::match(['get', 'post'], 'account_402_claim_zip', [App\Http\Controllers\Account402Controller::class, 'account_402_claim_zip'])->name('acc.account_402_claim_zip'); //
 
   Route::match(['get', 'post'], 'account_501_dash', [App\Http\Controllers\Account501Controller::class, 'account_501_dash'])->name('acc.account_501_dash'); //  
   Route::match(['get', 'post'], 'account_501_pull', [App\Http\Controllers\Account501Controller::class, 'account_501_pull'])->name('acc.account_501_pull'); //

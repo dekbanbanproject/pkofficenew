@@ -44,7 +44,7 @@ use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
-use App\Models\Check_sit_auto;
+use App\Models\Fdh_sesion;
 use App\Models\Acc_function;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -266,7 +266,7 @@ class Account402Controller extends Controller
         // dd($year);
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $newday = date('Y-m-d', strtotime($datenow . ' -15 Day')); //ย้อนหลัง 1 สัปดาห์
+        $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 1 สัปดาห์
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $startdate = '';
@@ -307,7 +307,7 @@ class Account402Controller extends Controller
                 from acc_debtor  
                 WHERE account_code="1102050101.402" 
                 AND dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND a.debit_total > 0
+                AND debit_total > 0
                 GROUP BY an
                 order by an DESC; 
             '); 
@@ -716,9 +716,28 @@ class Account402Controller extends Controller
         // Fdh_ins::where('d_anaconda_id','=','OFC_402')->delete();
         // Fdh_pat::where('d_anaconda_id','=','OFC_402')->delete();
         // Fdh_opd::where('d_anaconda_id','=','OFC_402')->delete();
-  
+
+        Fdh_sesion::where('d_anaconda_id', '=', 'OFC_402')->delete(); 
+        $s_date_now = date("Y-m-d");
+        $s_time_now = date("H:i:s");
         $id = $request->ids;
         $iduser = Auth::user()->id;
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        $pattern_time = '/:/i';
+        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        #ตัดขีด, ตัด : ออก
+        $folder_name = 'OFC_402_' . $s_date_now_preg . '_' . $s_time_now_preg;
+        Fdh_sesion::insert([
+            'folder_name'      => $folder_name,
+            'd_anaconda_id'    => 'OFC_402',
+            'date_save'        => $s_date_now,
+            'time_save'        => $s_time_now,
+            'userid'           => $iduser
+        ]);  
+       
         $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
 
@@ -1159,7 +1178,7 @@ class Account402Controller extends Controller
                     JOIN nondrugitems n on n.icode = v.icode 
                     LEFT OUTER JOIN ipt i on i.an = v.an
                     AND i.an is not NULL 
-                    WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14") 
+                    WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14","19") 
                     GROUP BY i.vn,n.nhso_adp_code,rate) a 
                     GROUP BY an,CODE,rate
                         UNION
@@ -1173,7 +1192,7 @@ class Account402Controller extends Controller
                     FROM opitemrece v
                     JOIN nondrugitems n on n.icode = v.icode 
                     LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14")
+                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14","11")
                     AND v.an is NULL
                     GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                     GROUP BY seq,CODE,rate;
@@ -1224,7 +1243,7 @@ class Account402Controller extends Controller
                                       
             } 
           
-            //D_adp กายภาพ
+            //D_adp 20-ค่าบริการทางกายภาพบำบัดและเวชกรรมฟื้นฟู
             $data_adp_kay = DB::connection('mysql2')->select(
                 'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
@@ -1292,8 +1311,8 @@ class Account402Controller extends Controller
                         'd_anaconda_id'        => 'OFC_402'
                     ]); 
             }
-             //D_adp ทันตกรรม
-             $data_adp_dent = DB::connection('mysql2')->select(
+            //D_adp 12-ค่าบริการทันตกรรม
+            $data_adp_dent = DB::connection('mysql2')->select(
                 'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                         FROM
@@ -1360,6 +1379,75 @@ class Account402Controller extends Controller
                     'd_anaconda_id'        => 'OFC_402'
                 ]);                   
             } 
+            //D_adp สปสชเป็น type 19-ค่าหัตถการและวิสัญญี  ใน hosเป็น income = 11
+            $data_adp_visanyee = DB::connection('mysql2')->select(
+                'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new,billcode
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,v.QTY QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
+                        ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = i.an AND income ="11") as rate_new,n.billcode
+                    FROM opitemrece v
+                    JOIN nondrugitems n on n.icode = v.icode 
+                    LEFT OUTER JOIN ipt i on i.an = v.an
+                    AND i.an is not NULL 
+                    WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11")
+                    GROUP BY i.vn) a 
+                    GROUP BY an,CODE,rate
+                        UNION
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new,billcode
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,v.QTY QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                        ,""SP_ITEM,v.icode,v.vstdate,v.income
+                        ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="11") as rate_new,n.billcode
+                    FROM opitemrece v
+                    JOIN nondrugitems n on n.icode = v.icode 
+                    LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("11")
+                    AND v.an is NULL
+                    GROUP BY vv.vn) b 
+                    GROUP BY seq,CODE,rate;
+            '); 
+            foreach ($data_adp_visanyee as $va_22) {  
+                    D_adp::insert([
+                        'HN'                   => $va_22->HN,
+                        'AN'                   => $va_22->AN,
+                        'DATEOPD'              => $va_22->DATEOPD,
+                        'TYPE'                 => '19',
+                        'CODE'                 => $va_22->billcode,
+                        'QTY'                  => $va_22->QTY,
+                        'RATE'                 => $va_22->RATE,
+                        'SEQ'                  => $va_22->SEQ,
+                        'CAGCODE'              => $va_22->CAGCODE,
+                        'DOSE'                 => $va_22->DOSE,
+                        'CA_TYPE'              => $va_22->CA_TYPE,
+                        'SERIALNO'             => $va_22->SERIALNO,
+                        'TOTCOPAY'             => $va_22->TOTCOPAY,
+                        'USE_STATUS'           => $va_22->USE_STATUS,
+                        'TOTAL'                => $va_22->TOTAL,
+                        'QTYDAY'               => $va_22->QTYDAY,
+                        'TMLTCODE'             => $va_22->TMLTCODE,
+                        'STATUS1'              => $va_22->STATUS1,
+                        'BI'                   => $va_22->BI,
+                        'CLINIC'               => $va_22->CLINIC,
+                        'ITEMSRC'              => $va_22->ITEMSRC,
+                        'PROVIDER'             => $va_22->PROVIDER,
+                        'GRAVIDA'              => $va_22->GRAVIDA,
+                        'GA_WEEK'              => $va_22->GA_WEEK,
+                        'DCIP'                 => $va_22->DCIP,
+                        'LMP'                  => $va_22->LMP,
+                        'SP_ITEM'              => $va_22->SP_ITEM,
+                        'icode'                => $va_22->icode,
+                        'vstdate'              => $va_22->vstdate,
+                        'user_id'              => $iduser,
+                        'd_anaconda_id'        => 'OFC_402'
+                    ]); 
+            }
+
 
             //D_dru OK
              $data_dru_ = DB::connection('mysql2')->select('
@@ -1454,6 +1542,16 @@ class Account402Controller extends Controller
         $file->cleanDirectory('Export_OFC_API'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
         $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+
+        // $file = new Filesystem;
+        // $file->cleanDirectory('Export_OFC'); //ทั้งหมด
+        // // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        // // $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_402"');
+        // foreach ($dataexport_ as $key => $v_export) {
+        //     $folder_ = $v_export->folder_name;
+        // }
+        // $folder = $folder_;
 
         mkdir ('Export_OFC_API/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -2170,7 +2268,18 @@ class Account402Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export_OFC'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+
+        // $file = new Filesystem;
+        // $file->cleanDirectory('Export_OFC'); //ทั้งหมด
+        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        // $folder='WALKIN_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_402"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
+
 
          mkdir ('Export_OFC/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -2650,6 +2759,26 @@ class Account402Controller extends Controller
 
         return redirect()->route('acc.account_402_pull');
 
+    }
+    public function account_402_claim_zip (Request $request)
+    {
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_402"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder = $v_export->folder_name;
+        }
+        $filename = $folder . ".zip";
+
+        $zip = new ZipArchive;
+        if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
+            $files = File::files(public_path("Export_OFC/" . $folder . "/"));
+            foreach ($files as $key => $value) {
+                $relativenameInZipFile = basename($value);
+                $zip->addFile($value, $relativenameInZipFile);
+            }
+            $zip->close();
+        }
+        return response()->download(public_path($filename));
+      
     }
 
     public function account_402_claim_export๘๘๘(Request $request)
