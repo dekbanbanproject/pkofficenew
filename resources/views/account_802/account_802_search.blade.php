@@ -1,6 +1,25 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+    use App\Http\Controllers\StaticController;
+    use App\Models\Opitemrece217;
+
+?>
     <style>
         #button {
             display: block;
@@ -117,14 +136,13 @@
                                     <th class="text-center" >an</th> 
                                     <th class="text-center" >hn</th> 
                                     <th class="text-center">ptname</th>  
-                                    <th class="text-center">vstdate</th> 
+                                    <th class="text-center">dchdate</th> 
 
                                     <th class="text-center">drug</th> 
                                     <th class="text-center">inst</th> 
                                     <th class="text-center">toa</th> 
                                     <th class="text-center">refer</th> 
                                     {{-- <th class="text-center">ucep</th>  --}}
-
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm</th> 
@@ -144,7 +162,7 @@
                                         <td class="text-center" width="7%">{{ $item->an }}</td>
                                         <td class="text-center" width="4%">{{ $item->hn }}</td>   
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>    
-                                        <td class="text-center" width="6%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="6%">{{ $item->dchdate }}</td>
 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 

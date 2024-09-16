@@ -21,8 +21,8 @@ use App\Exports\OtExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Department;
 use App\Models\Departmentsub;
-use App\Models\Departmentsubsub;
-use App\Models\Position; 
+use App\Models\Visit_pttype_import_excel;
+use App\Models\Visit_pttype_import; 
 use App\Models\D_apiwalkin_ins;  
 use App\Models\D_apiwalkin_adp;
 use App\Models\D_apiwalkin_aer;
@@ -91,6 +91,231 @@ date_default_timezone_set("Asia/Bangkok");
 
 class PreauditController extends Controller
 {  
+    public function authen_excel(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $newdays     = date('Y-m-d', strtotime($date . ' -2 days')); //ย้อนหลัง 2 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+ 
+        if ($startdate == '') {
+          
+            $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
+                'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+                ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+                from ovst c
+                LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+                LEFT JOIN vn_stat v ON v.vn = c.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
+                AND vp.claim_code is null
+                AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                
+                AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
+                GROUP BY c.vn 
+            ');
+            // $data['authen_excel'] = DB::connection('mysql')->select(
+            //     'SELECT *
+            //     FROM visit_pttype_import 
+            //     WHERE vstdate BETWEEN "'.$date.'" AND "'.$date.'"  
+            //     GROUP BY vn 
+            //     ORDER BY claimcode DESC 
+            // ');
+            $data['authen_excel'] = DB::connection('mysql10')->select(
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                FROM vn_stat v
+                LEFT JOIN visit_pttype vp ON vp.vn = v.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                GROUP BY v.vn  
+            ');
+            // AND c.main_dep NOT IN("011","036","107","078","020") 
+        } else {
+            $data_vn_1 = DB::connection('mysql10')->select(
+                'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
+                ,concat(p.pname,p.fname," ",p.lname) as ptname
+                ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit,v.income
+                FROM vn_stat v
+                LEFT JOIN visit_pttype vs on vs.vn = v.vn
+                LEFT JOIN ovst o on o.vn = v.vn 
+                LEFT JOIN patient p on p.hn=v.hn
+                LEFT JOIN pttype pt on pt.pttype=v.pttype
+                LEFT JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="")  
+                AND v.income > 0 
+                GROUP BY o.vn 
+            ');
+            // AND p.birthday <> "'.$startdate.'" 
+            // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            // AND (vp.claim_code IS NULL OR vp.claim_code ="")
+            foreach ($data_vn_1 as $key => $value_1) {                
+                $check = Visit_pttype_import::where('vn', $value_1->vn)->count();
+                    if ($check > 0) {   
+                        // Check_sit_auto::where('vn', $value_1->vn)->update([  
+                        //     'vstdate'    => $value_1->vstdate,
+                        //     'pttype'     => $value_1->pttype,
+                        //     'debit'      => $value_1->debit, 
+                        //     'debit'      => $value_1->income,
+                        // ]);              
+                    } else {
+                        Visit_pttype_import::insert([
+                            'vn'         => $value_1->vn, 
+                            'hn'         => $value_1->hn,
+                            'pid'        => $value_1->cid,
+                            'vstdate'    => $value_1->vstdate,
+                            'hometel'    => $value_1->hometel, 
+                            'ptname'     => $value_1->ptname,
+                            'pttype'     => $value_1->pttype,
+                            'hcode'      => $value_1->hospmain, 
+                        ]);
+                    }
+               
+            }
+      
+            // $data['authen_excel'] = DB::connection('mysql')->select(
+            //     'SELECT *
+            //     FROM visit_pttype_import 
+            //     WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND claimcode IS NULL
+            //     GROUP BY vn 
+            //     ORDER BY claimcode DESC 
+            // ');
+            $data['authen_excel'] = DB::connection('mysql10')->select(
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                FROM vn_stat v
+                JOIN visit_pttype vp
+                JOIN patient p on p.hn=v.hn
+                WHERE v.vstdate BETWEEN "'.$date.'" AND "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                GROUP BY v.vn  
+            ');
+        }
+        
+
+        return view('audit.authen_excel',$data, [
+            'startdate'        => $startdate,
+            'enddate'          => $enddate, 
+        ]);
+    }
+    public function authen_excel_save(Request $request)
+    { 
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file');
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath());
+                // $sheet        = $spreadsheet->getActiveSheet();
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( '2', $row_limit );
+                // $row_range    = range( "!", $row_limit );
+                // $column_range = range( 'T', $column_limit );
+                $startcount = '2';
+                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );                    
+                $data = array();
+                foreach ($row_range as $row ) {
+
+                    $vst = $sheet->getCell( 'P' . $row )->getValue();  
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4)-543;
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'Q' . $row )->getValue(); 
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 6, 4);
+                    $vsttime = substr($reg,12,8);
+                    $hm = substr($reg,12,2);
+                    $mm = substr($reg,15,2);
+                    $ss = substr($reg,18,2);
+                    $datesave = $regyear.'-'.$regmo.'-'.$regday.'-'.$vsttime; 
+ 
+                        
+                    $data[] = [
+                            'hcode'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                            'hosname'                      =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'cid'                      =>$sheet->getCell( 'C' . $row )->getValue(),
+                            'ptname'                      =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'birthday'                     =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'hometel'                =>$sheet->getCell( 'F' . $row )->getValue(), 
+                            'mainpttype'                =>$sheet->getCell( 'G' . $row )->getValue(),
+                            'subpttype'                 =>$sheet->getCell( 'H' . $row )->getValue(), 
+                            'repcode'                 =>$sheet->getCell( 'I' . $row )->getValue(),
+                            'claimcode'                 =>$sheet->getCell( 'J' . $row )->getValue(),
+                            'servicerep'                 =>$sheet->getCell( 'K' . $row )->getValue(),
+                            'claimtype'                 =>$sheet->getCell( 'L' . $row )->getValue(),
+                            'servicename'                 =>$sheet->getCell( 'M' . $row )->getValue(),
+                            'hncode'                 =>$sheet->getCell( 'N' . $row )->getValue(),
+                            'ancode'                 =>$sheet->getCell( 'O' . $row )->getValue(), 
+                            'vstdate'               =>$vstdate,
+                            'regdate'                     =>$datesave, 
+                            // 'regdate'                     =>$sheet->getCell( 'Q' . $row )->getValue(),
+                            'status'                    =>$sheet->getCell( 'R' . $row )->getValue(),
+                            'repauthen'                    =>$sheet->getCell( 'S' . $row )->getValue(),
+                            'authentication'                    =>$sheet->getCell( 'T' . $row )->getValue(),
+                            'staffservice'                 =>$sheet->getCell( 'U' . $row )->getValue(),
+                            'dateeditauthen'                   =>$sheet->getCell( 'V' . $row )->getValue(),
+                            'nameeditauthen'                =>$sheet->getCell( 'W' . $row )->getValue(), 
+                            'comment'                =>$sheet->getCell( 'X' . $row )->getValue(), 
+                            // 'STMdoc'                  =>$file_
+                    ];                             
+                    $startcount++;                            
+                }
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {                   
+                    Visit_pttype_import_excel::insert($data_);  
+                } 
+                // DB::table('acc_stm_ofcexcel')->insert($data);
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }  
+
+            $data_authen_excel = DB::connection('mysql')->select(
+                'SELECT * FROM
+                Visit_pttype_import_excel
+                WHERE claimtype = "PG0060001" 
+                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"  
+            ');
+            foreach ($data_authen_excel as $key => $value) {
+                $check = Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype', ['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->count();
+                if ($check > 0) {
+                    Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([  
+                            'cid'           => $value->cid,
+                            'claimcode'     => $value->claimcode,
+                            'claimtype'     => $value->claimtype,  
+                        ]);  
+                } else {
+                    # code...
+                }
+                
+            }
+
+
+
+
+
+
+
+
+            return redirect()->route('audit.authen_excel');   
+            // return response()->json([
+            //     'status'    => '200',
+            // ]);
+    }
+
+
+
     public function pre_audit(Request $request)
     {
         $startdate = $request->startdate;
@@ -857,17 +1082,7 @@ class PreauditController extends Controller
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
-    } 
-
-
-
-
-
-
-
-
-
-
+    }  
     public function audit_only(Request $request)
     {
         $startdate = $request->startdate;

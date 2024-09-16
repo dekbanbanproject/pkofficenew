@@ -85,10 +85,10 @@ $yb =  date('Y')+542;
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between"> 
-                        <h4 class="mb-sm-0" style="color:green">Detail 1102050102.803 STM</h4>
+                        <h4 class="mb-sm-0" style="color:green">Detail 1102050102.803 ยอดยกไป</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail ยอดยกไป</a></li>
                                 <li class="breadcrumb-item active">1102050102.803</li>
                             </ol>
                         </div>

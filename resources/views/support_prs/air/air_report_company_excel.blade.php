@@ -135,7 +135,7 @@
             <center>
             <label for="" style="font-size:10px;"> ลงชื่อ………………………………….ผู้เห็นชอบ</label><br>
             <label for="" style="font-size:10px;"> ( นายสถาพร  ป้อมสุวรรณ )</label><br>
-            <label for="" style="font-size:10px;"> ตำแหน่ง นักจัดการทั่วไป</label>  
+            <label for="" style="font-size:10px;"> ตำแหน่ง นักจัดการทั่วไปชำนาญการพิเศษ </label>  
             </center>
         </td>
 {{--     

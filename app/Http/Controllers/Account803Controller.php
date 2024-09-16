@@ -85,7 +85,7 @@ date_default_timezone_set("Asia/Bangkok");
 class Account803Controller extends Controller
  {
         
-    public function account_803_dash(Request $request)
+    public function account_803_dash_old(Request $request)
     {
         // $startdate = $request->startdate;
         // $enddate = $request->enddate;
@@ -187,6 +187,77 @@ class Account803Controller extends Controller
                  'y'                =>  $y,
         ]);
     }
+    public function account_803_dash(Request $request)
+    {
+        $budget_year        = $request->budget_year;
+        $acc_trimart_id = $request->acc_trimart_id;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.803"
+                    group by month(a.vstdate)                     
+                    order by a.vstdate desc;
+            ');  
+        } else {
+          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+            // dd($startdate);
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.803" 
+                    group by month(a.vstdate)                    
+                    order by a.vstdate desc;
+            ');
+        }
+        // dd($startdate);
+        return view('account_803.account_803_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y, 
+        ]);
+
+        // return view('account_304.account_304_dash',[
+        //     'startdate'        => $startdate,
+        //     'enddate'          => $enddate,
+        //     'leave_month_year' => $leave_month_year,
+        //     'data_trimart'     => $data_trimart,
+        //     'newyear'          => $newyear,
+        //     'date'             => $date,
+        //     'trimart'          => $trimart,
+        // ]);
+    }
     public function account_803_pull(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -225,7 +296,7 @@ class Account803Controller extends Controller
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+            SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.pdx
                 ,o.vstdate,o.vsttime
                 ,v.hospmain,"" regdate,"" dchdate 
                 ,ptt.pttype_eclaim_id,vp.pttype
@@ -270,7 +341,7 @@ class Account803Controller extends Controller
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
-                            // 'income_group'       => $value->income_group,
+                            'pdx'                => $value->pdx,
                             'income'             => $value->income,
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money,
@@ -590,6 +661,26 @@ class Account803Controller extends Controller
            'status'    => '200'
        ]);
 
+    }
+    public function account_803_yokpai(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');        
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+            SELECT *
+                from acc_1102050102_803 U1
+               
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                AND U1.stm_money IS NULL
+                group by U1.vn
+        ');
+        
+        return view('account_803.account_803_yokpai', $data, [ 
+            'datashow'      =>     $datashow,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
     }
     
 

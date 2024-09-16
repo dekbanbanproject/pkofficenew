@@ -153,9 +153,9 @@
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">เดือน</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง-402</th>  
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้-402</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm-402</th>
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง</th>  
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้</th> 
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm</th>
                                             {{-- <th class="text-center" style="background-color: rgb(253, 135, 174)">ต้องตั้ง-4022</th> 
                                             <th class="text-center" style="background-color: rgb(253, 135, 174)">ตั้งลูกหนี้-4022</th> 
                                             <th class="text-center" style="background-color: rgb(253, 135, 174)">Stm-4022</th> --}}

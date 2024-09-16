@@ -1832,7 +1832,6 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'upstm_bkkexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_bkkexcel'])->name('acc.upstm_bkkexcel'); //
   Route::match(['get', 'post'], 'upstm_bkkexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_bkkexcel_save'])->name('acc.upstm_bkkexcel_save'); //
-
   Route::match(['get', 'post'], 'upstm_bkk803_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk803_senddata'])->name('acc.upstm_bkk803_senddata'); //
   Route::match(['get', 'post'], 'upstm_bkk804_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk804_senddata'])->name('acc.upstm_bkk804_senddata'); //
 
@@ -2433,6 +2432,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_803_stm_date/{startdate}/{enddate}', [App\Http\Controllers\Account803Controller::class, 'account_803_stm_date'])->name('acc.account_803_stm_date'); //
   Route::match(['get', 'post'], 'account_803_stmnull_date/{startdate}/{enddate}', [App\Http\Controllers\Account803Controller::class, 'account_803_stmnull_date'])->name('acc.account_803_stmnull_date'); // 
   Route::match(['get', 'post'], 'account_803_destroy', [App\Http\Controllers\Account803Controller::class, 'account_803_destroy'])->name('acc.account_803_destroy'); //
+  Route::match(['get', 'post'], 'account_803_yokpai/{months}/{year}', [App\Http\Controllers\Account803Controller::class, 'account_803_yokpai'])->name('acc.account_803_yokpai'); //
 
   Route::match(['get', 'post'], 'account_804_dash', [App\Http\Controllers\Account804Controller::class, 'account_804_dash'])->name('acc.account_804_dash'); //
   Route::match(['get', 'post'], 'account_804_pull', [App\Http\Controllers\Account804Controller::class, 'account_804_pull'])->name('acc.account_804_pull'); //
@@ -3278,6 +3278,10 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'audit_approve_codenew', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew'])->name('audit.audit_approve_codenew');
   Route::match(['get', 'post'], 'audit_approve_codenew_process', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_process'])->name('audit.audit_approve_codenew_process');
   Route::match(['get', 'post'], 'audit_approve_codenew_excel', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_excel'])->name('audit.audit_approve_codenew_excel');
+
+  Route::match(['get', 'post'], 'authen_excel', [App\Http\Controllers\PreauditController::class, 'authen_excel'])->name('audit.authen_excel');
+  Route::match(['get', 'post'], 'authen_excel_save', [App\Http\Controllers\PreauditController::class, 'authen_excel_save'])->name('audit.authen_excel_save');
+  Route::match(['get', 'post'], 'authen_update', [App\Http\Controllers\PreauditController::class, 'authen_update'])->name('audit.authen_update');
 
   // **************************** ทาลัสซีเมีย **********************************************
   Route::match(['get', 'post'], 'talassemaie', [App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');

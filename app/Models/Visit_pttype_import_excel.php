@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\support\Facades\Http;
-class Visit_pttype_import extends Model
+class Visit_pttype_import_excel extends Model
 {
     use HasFactory;
 
     protected $connection = 'mysql';
-    protected $table = 'visit_pttype_import';
-    protected $primaryKey = 'visit_pttype_import_id';
+    protected $table = 'visit_pttype_import_excel';
+    protected $primaryKey = 'visit_pttype_import_excel_id';
     protected $fillable = [
-        'visit_pttype_import_id',
+        // 'visit_pttype_import_excel_id',
         'vn',
         'hcode',
         'hosname',

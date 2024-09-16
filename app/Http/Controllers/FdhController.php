@@ -3289,16 +3289,34 @@ class FdhController extends Controller
         // if ($startdate =='') {
                 $iduser      = Auth::user()->id;
                 $id          = $request->ids;
+                // $data_vn_1 = Vn_stat::whereIn('vn',explode(",",$id))->get();
+                $data_vn_1 = Vn_stat::select('cid','vn','vstdate')->whereIn('vn', explode(",", $id))->get();
+                // $vn = array();
+                // dd($data_vn_1 );
+                // foreach ($id as $key => $value) {
+                    // $vn = $value;
+                    // dd($vn );
+                // }
                 // $data_vn_1 = Check_sit_auto::whereIn('check_sit_auto_id', explode(",", $id))->get();
-                $data_vn_1 = Vn_stat::select('patient.cid', 'vn_stat.vn','vn_stat.vstdate','vn_stat.pttype')
-                ->leftjoin('patient','patient.hn','=','vn_stat.hn')
-                ->whereIn('vn_stat.vn', explode(",", $id))->get();
-                
+                // $data_vn_1 = Vn_stat::select('patient.cid', 'vn_stat.vn','vn_stat.vstdate','vn_stat.pttype')
+                // ->leftjoin('patient','patient.hn','=','vn_stat.hn')
+                // ->whereIn('vn_stat.vn', explode(",", $id))->get();
+                // $data_vn_1 = Vn_stat::select('vn_stat.cid', 'vn_stat.vn','vn_stat.vstdate','vn_stat.pttype')->whereIn('vn_stat.vn', explode(",", $id))->get();
+                // $data_vn_1 = DB::connection('mysql10')->select(
+                //     'SELECT o.vn,v.hn,p.cid,v.vstdate,vp.pttype,vp.claim_code,v.hospmain,p.hometel 
+                //         FROM ovst o
+                //         LEFT JOIN visit_pttype vp ON vp.vn = o.vn
+                //         LEFT JOIN vn_stat v ON v.vn = o.vn
+                //         LEFT JOIN patient p ON p.hn = v.hn 
+                //         WHERE vp.vn IN("'.$id.'")
+                // ');
+                // AND (vp.claim_code is null OR vp.claim_code ="")  
+                // $data_vn_1 = Visit_pttype::whereIn('vn',explode(",",$id))->get();
                 foreach ($data_vn_1 as $key => $value) {
                         $cid         = $value->cid;
                         $vn          = $value->vn;
                         $vstdate     = $value->vstdate;
-                        $pttype     = $value->pttype;  
+                        // $pttype     = $value->pttype;  
 
                         $ch = curl_init(); 
                         $headers = array();
@@ -3332,12 +3350,12 @@ class FdhController extends Controller
                                                 'auth_code'      => $cd, 
                                         ]);
                                         
-                                        Check_sit_auto::where('vn','=', $vn)
-                                            ->update([
-                                                'claimcode'     => $cd,
-                                                'claimtype'     => $sv_code,
-                                                'servicename'   => $sv_name, 
-                                        ]);
+                                        // Check_sit_auto::where('vn','=', $vn)
+                                        //     ->update([
+                                        //         'claimcode'     => $cd,
+                                        //         'claimtype'     => $sv_code,
+                                        //         'servicename'   => $sv_name, 
+                                        // ]);
                                         Fdh_mini_dataset::where('vn','=', $vn)->where('hcode','=', $hcode)
                                             ->update([
                                                 'claimcode'     => $cd,

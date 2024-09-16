@@ -8,20 +8,17 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     { 
-        if (!Schema::hasTable('visit_pttype_import'))
+        if (!Schema::hasTable('visit_pttype_import_excel'))
         {
-        Schema::create('visit_pttype_import', function (Blueprint $table) {
-                $table->bigIncrements('visit_pttype_import_id'); 
+        Schema::create('visit_pttype_import_excel', function (Blueprint $table) {
+                $table->bigIncrements('visit_pttype_import_excel_id'); 
                 $table->string('vn')->nullable();//  
                 $table->string('hn')->nullable();// 
                 $table->string('pid')->nullable();// 
-                $table->string('pttype')->nullable();// 
-                // $table->date('vstdate')->nullable();// 
+                $table->string('pttype')->nullable();//  
 
                 $table->string('hcode')->nullable();// 
                 $table->string('hosname')->nullable();// 
@@ -54,11 +51,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('visit_pttype_import');
+        Schema::dropIfExists('visit_pttype_import_excel');
     }
 };

@@ -101,11 +101,11 @@
         </div>
 
         <div class="row"> 
-            {{-- <div class="col"></div> --}}
-            <div class="col-xl-12 col-md-12">
-                <div class="card cardacc">
+            <div class="col"></div>
+            <div class="col-xl-8">
+                <div class="card card_audit_4c">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('acc.upstm_bkkexcel_save') }}" method="POST" enctype="multipart/form-data">
                             {{-- id="Upstmti" --}}
                             @csrf
                             <div class="row">
@@ -123,23 +123,31 @@
 
                             </div>
                             @if ($countc > 0)
-                           <div class="row">
+                           <div class="row text-center">
                             <div class="col"></div>
-                            <div class="col-md-2 mb-3">
+                            {{-- <div class="col-md-2 mb-3">
                                 <select name="type" id="type" class="form-control form-control-sm cardacc"> 
                                     <option value="BKK">BKK</option>
                                 </select>
-                            </div>
+                            </div> --}}
+                           <input type="hidden" name="type" id="type" value="BKK">
                             <div class="col-md-4"> 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc" data-style="expand-left" id="Sendstm803">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 803</span>
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Senddata">
+                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
                                     <span class="ladda-spinner"></span>
-                                </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc" data-style="expand-left" id="Sendstm804">
-                                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 804</span>
-                                    <span class="ladda-spinner"></span>
-                                </button>
-
+                                </button> --}}
+                                @if ($count_op > 1)
+                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc mb-3" data-style="expand-left" id="Sendstm803">
+                                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 803</span>
+                                        <span class="ladda-spinner"></span>
+                                    </button> 
+                                @endif
+                                @if ($count_ip > 1)
+                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc mb-3" data-style="expand-left" id="Sendstm804">
+                                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 804</span>
+                                        <span class="ladda-spinner"></span>
+                                    </button>
+                                @endif
                             </div>
                           <div class="col"></div>
                            </div>
@@ -173,7 +181,7 @@
                 </div> 
                 <br> 
             </div>
-            {{-- <div class="col"></div> --}}
+            <div class="col"></div>
         </div>
 
 
@@ -181,7 +189,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="card cardacc p-3">
+                <div class="card card_audit_4c p-3">
                     <div class="grid-menu-col">
                         {{-- <div class="row mt-3 mb-3">
                             <div class="col"></div>

@@ -458,7 +458,17 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>FDH REP REPORT</span> 
                             </a>  
                         </li> --}}
-                       
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="fa-solid fa-file-code text-primary"></i>
+                                <span>งานเวชระเบียน</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('audit_pdx') }}"> <span>ไม่ลง PDX</span></a> </li> 
+                                <li><a href="{{ url('authen_excel') }}"> <span>Excel => hos</span></a> </li>   
+                                <li><a href="{{ url('authen_update') }}"> <span>สปสช => hos</span></a> </li>  
+                            </ul> 
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="fa-solid fa-sack-dollar text-success"></i>
@@ -472,19 +482,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 
                             </ul> 
                         </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="fa-solid fa-file-code text-primary"></i>
-                                <span>งานเวชระเบียน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('audit_pdx') }}">   
-                                        <span>ไม่ลง PDX</span> 
-                                    </a>  
-                                </li>  
-                            
-                            </ul> 
-                        </li>
+                       
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">

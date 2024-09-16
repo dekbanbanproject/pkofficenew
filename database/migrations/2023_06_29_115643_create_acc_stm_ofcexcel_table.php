@@ -42,6 +42,7 @@ return new class extends Migration
                 $table->string('service')->nullable();// 
                 $table->string('pricereq_all')->nullable();//   
                 $table->string('STMdoc')->nullable();//  
+                $table->string('type')->nullable();//
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
                 $table->timestamps();
                 // $table->timestamp(column:'created_at')->useCurrent();

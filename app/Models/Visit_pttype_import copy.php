@@ -9,12 +9,11 @@ class Visit_pttype_import extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql3';
     protected $table = 'visit_pttype_import';
-    protected $primaryKey = 'visit_pttype_import_id';
+    // protected $primaryKey = 'visit_pttype_import_id';
     protected $fillable = [
         'visit_pttype_import_id',
-        'vn',
         'hcode',
         'hosname',
         'cid',
