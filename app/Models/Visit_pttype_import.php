@@ -13,7 +13,7 @@ class Visit_pttype_import extends Model
     protected $table = 'visit_pttype_import';
     protected $primaryKey = 'visit_pttype_import_id';
     protected $fillable = [
-        'visit_pttype_import_id',
+        // 'visit_pttype_import_id',
         'vn',
         'hcode',
         'hosname',

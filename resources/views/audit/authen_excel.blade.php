@@ -134,10 +134,18 @@
                                         type="file" required>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 </div>
-                                <button type="submit" class="ladda-button me-2 btn-pill btn btn-warning cardacc mb-3" data-style="expand-left">
+                                <button type="submit" class="ladda-button me-2 btn-pill btn btn-warning cardacc" data-style="expand-left">
                                     <span class="ladda-label"> <i class="fa-solid fa-upload text-white me-2"></i>Import</span>
                                     <span class="ladda-spinner"></span>
                                 </button> 
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc mb-3" data-style="expand-left">
+                                    <span class="ladda-label"> <i class="fa-solid fa-upload text-white me-2"></i>Update Hos</span>
+                                    <span class="ladda-spinner"></span>
+                                </button>  --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success card_fdh_4" id="Updatedata">
+                                    <i class="fa-solid fa-spinner text-white me-2"></i>
+                                    Update Authen 
+                                </button>
                         </form>    
                     </div>
                 </div>
@@ -246,24 +254,24 @@
             });
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
-            $('.Process_A').click(function() {
+            $('#Updatedata').click(function() {
                 var startdate = $('#datepicker').val();
                 var enddate = $('#datepicker2').val();
                 Swal.fire({
-                    title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
-                    text: "You Warn Process Data!",
+                    title: 'ต้องการอัพเดทข้อมูลใช่ไหม ?',
+                    text: "You Warn Update Data!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Process it!'
+                    confirmButtonText: 'Yes, Update it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $("#overlay").fadeIn(300);
                         $("#spinner").show(); //Load button clicked show spinner 
 
                         $.ajax({
-                            url: "{{ route('audit.pre_audit_process_a') }}",
+                            url: "{{ route('audit.authen_update') }}",
                             type: "POST",
                             dataType: 'json',
                             data: {
@@ -274,8 +282,8 @@
                                 if (data.status == 200) {
                                     Swal.fire({
                                         position: "top-end",
-                                        title: 'ประมวลผลข้อมูลสำเร็จ',
-                                        text: "You Process data success",
+                                        title: 'อัพเดทข้อมูลสำเร็จ',
+                                        text: "You Update data success",
                                         icon: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#06D177',
@@ -296,20 +304,20 @@
                                     })
                                 } else {
 
-                                    Swal.fire({
-                                        position: "top-end",
-                                        icon: "warning",
-                                        title: "ยังไม่ได้เลือกวันที่",
-                                        showCancelButton: false,
-                                        confirmButtonColor: '#ed8d29',
-                                        confirmButtonText: 'เลือกใหม่'
-                                        // timer: 1500
-                                    }).then((result) => {
-                                        if (result
-                                            .isConfirmed) {
-                                            window.location.reload();
-                                        }
-                                    })
+                                    // Swal.fire({
+                                    //     position: "top-end",
+                                    //     icon: "warning",
+                                    //     title: "ยังไม่ได้เลือกวันที่",
+                                    //     showCancelButton: false,
+                                    //     confirmButtonColor: '#ed8d29',
+                                    //     confirmButtonText: 'เลือกใหม่'
+                                    //     // timer: 1500
+                                    // }).then((result) => {
+                                    //     if (result
+                                    //         .isConfirmed) {
+                                    //         window.location.reload();
+                                    //     }
+                                    // })
 
                                 }
                             },
@@ -318,10 +326,96 @@
                     }
                 })
             });
+            // $('.Updatedata').on('click', function(e) {
+            // // alert('oo');
+            // var allValls = [];
+            // // $(".sub_destroy:checked").each(function () {
+            // $(".sub_chk:checked").each(function () {
+            //     allValls.push($(this).attr('data-id'));
+            // });
+            // if (allValls.length <= 0) {
+            //     // alert("SSSS");
+            //     Swal.fire({
+            //         position: "top-end",
+            //         title: 'คุณยังไม่ได้เลือกรายการ ?',
+            //         text: "กรุณาเลือกรายการก่อน",
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33', 
+            //         }).then((result) => {
+                    
+            //         })
+            // } else {
+            //     Swal.fire({
+            //         position: "top-end",
+            //         title: 'Are you Want Pull sure?',
+            //         text: "คุณต้องการ Pull รายการนี้ใช่ไหม!",
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Yes, Pull it.!'
+            //         }).then((result) => {
+            //             if (result.isConfirmed) {
+            //                 var check = true;
+            //                 if (check == true) {
+            //                     var join_selected_values = allValls.join(",");
+            //                     // alert(join_selected_values);
+            //                     $("#overlay").fadeIn(500);　
+            //                     $("#spinner").show(); //Load button clicked show spinner 
 
-
-
-
+            //                     $.ajax({
+            //                         url:$(this).data('url'),
+            //                         type: 'POST',
+            //                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            //                         data: 'ids='+join_selected_values,
+            //                         success:function(data){ 
+            //                                 if (data.status == 200) {
+                                               
+            //                                     $(".sub_chk:checked").each(function () {
+            //                                         $(this).parents("tr").remove();
+            //                                     });
+            //                                     Swal.fire({
+            //                                         position: "top-end",
+            //                                         title: 'ดึงข้อมูลสำเร็จ',
+            //                                         text: "You Pull data success",
+            //                                         icon: 'success',
+            //                                         showCancelButton: false,
+            //                                         confirmButtonColor: '#06D177',
+            //                                         confirmButtonText: 'เรียบร้อย'
+            //                                     }).then((result) => {
+            //                                         if (result
+            //                                             .isConfirmed) {
+            //                                             console.log(
+            //                                                 data);
+            //                                             window.location.reload();
+            //                                             $('#spinner').hide();//Request is complete so hide spinner
+            //                                         setTimeout(function(){
+            //                                             $("#overlay").fadeOut(300);
+            //                                         },500);
+            //                                         }
+            //                                     })
+                                            
+            //                                 } else {
+                                                
+            //                                 } 
+            //                             } 
+                                    
+            //                     });
+            //                     $.each(allValls,function (index,value) {
+            //                         $('table tr').filter("[data-row-id='"+value+"']").remove();
+            //                     });
+            //                 }
+            //             }
+            //         }) 
+            //     // var check = confirm("Are you want ?");  
+            // }
         });
+
+
+
+
+   
     </script>
 @endsection

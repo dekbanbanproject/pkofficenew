@@ -20,7 +20,7 @@ use App\Exports\OtExport;
 // use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Department;
-use App\Models\Departmentsub;
+use App\Models\Visit_pttype;
 use App\Models\Visit_pttype_import_excel;
 use App\Models\Visit_pttype_import; 
 use App\Models\D_apiwalkin_ins;  
@@ -136,7 +136,7 @@ class PreauditController extends Controller
             ');
             // AND c.main_dep NOT IN("011","036","107","078","020") 
         } else {
-            $data_vn_1 = DB::connection('mysql10')->select(
+            $data_vn_1 = DB::connection('mysql2')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
                 ,concat(p.pname,p.fname," ",p.lname) as ptname
                 ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit,v.income
@@ -186,7 +186,7 @@ class PreauditController extends Controller
             //     GROUP BY vn 
             //     ORDER BY claimcode DESC 
             // ');
-            $data['authen_excel'] = DB::connection('mysql10')->select(
+            $data['authen_excel'] = DB::connection('mysql2')->select(
                 'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
                 FROM vn_stat v
                 JOIN visit_pttype vp
@@ -297,23 +297,61 @@ class PreauditController extends Controller
                         ]);  
                 } else {
                     # code...
-                }
-                
-            }
-
-
-
-
-
-
-
-
+                } 
+            } 
+            $data_authen_excel_ti = DB::connection('mysql')->select(
+                'SELECT * FROM
+                Visit_pttype_import_excel
+                WHERE claimtype = "PG0130001" 
+                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"  
+            ');
+            foreach ($data_authen_excel_ti as $key => $value_ti) {
+                $checkti = Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype', ['M1','M2','M3','M4','M5'])->count();
+                if ($checkti > 0) {
+                    Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([  
+                            'cid'           => $value_ti->cid,
+                            'claimcode'     => $value_ti->claimcode,
+                            'claimtype'     => $value_ti->claimtype,  
+                        ]);  
+                } else {
+                    # code...
+                } 
+            } 
             return redirect()->route('audit.authen_excel');   
             // return response()->json([
             //     'status'    => '200',
             // ]);
     }
+    public function authen_update(Request $request)
+    {
+        $date        = date('Y-m-d');
+        $data_authen_excel = DB::connection('mysql')->select(
+            'SELECT * FROM
+            Visit_pttype_import
+            WHERE claimtype = "PG0060001" AND vstdate = "'.$date.'" 
+        ');
+        foreach ($data_authen_excel as $key => $value) {
+            Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
+                'claim_code'     => $value->claimcode,  
+            ]);  
+        }
 
+        $data_authen_excel_ti = DB::connection('mysql')->select(
+            'SELECT * FROM
+            Visit_pttype_import
+            WHERE claimtype = "PG0130001" AND vstdate = "'.$date.'" 
+        ');
+        foreach ($data_authen_excel_ti as $key => $valueti) {
+            Visit_pttype::where('vn', $valueti->vn)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([   
+                'claim_code'     => $valueti->claimcode,  
+            ]);  
+        }
+        Visit_pttype_import::truncate();
+        // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
+            return response()->json([
+                'status'    => '200',
+            ]);
+  }
 
 
     public function pre_audit(Request $request)
