@@ -328,7 +328,6 @@ class MedicalgasController extends Controller
                     $strYear = date("Y", strtotime($strDate)) + 543;
                     $strMonth = date("n", strtotime($strDate));
                     $strDay = date("j", strtotime($strDate));
-
                     $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
                     $strMonthThai = $strMonthCut[$strMonth];
                     return "$strDay $strMonthThai $strYear";
@@ -340,10 +339,12 @@ class MedicalgasController extends Controller
                 "\n" . "ปริมาณมาตรฐาน : 124 inH2O". 
                 "\n" . "ปริมาณวัดได้ : " . $request->pariman_value . 
                 "\n" . "แรงดันมาตรฐาน : 5-12 bar". 
-                "\n" . "ค่าแรงดันวัดได้ : " . $request->pressure_value;
+                "\n" . "ค่าแรงดันวัดได้ : " . $request->pressure_value.
                 "\n" . "ผู้ตรวจสอบ : " . $name_check;
+
                 $linesend_tech = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
-                $linesend      = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส                
+                $linesend      = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส  
+
                 if ($linesend == null) {
                     $test = '';
                 } else {

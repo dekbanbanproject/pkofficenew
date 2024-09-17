@@ -111,19 +111,22 @@
                             placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
                             data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" />
-
-                        <button type="submit"
-                            class="ladda-button me-2 btn-pill btn btn-primary cardacc"
-                            data-url="{{ url('pre_audit_process_a') }}">
+                            <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" id="Pulldata">
+                                <i class="fa-solid fa-magnifying-glass text-white me-2"></i>
+                                {{-- <i class="fa-solid fa-spinner text-white me-2"></i> --}}
+                                ค้นหา
+                           </button>
+                        {{-- <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-url="{{ url('pre_audit_process_a') }}">
                             <i class="fa-solid fa-sack-dolla"></i>
                             ค้นหา
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>
         </form> 
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col"></div>
+            <div class="col-xl-6">
                 <div class="card card_audit_4">
                     <div class="card-body text-center">
                         <form action="{{ route('audit.authen_excel_save') }}" method="POST" enctype="multipart/form-data"> 
@@ -153,12 +156,14 @@
            
         </div>
         <div class="row">
-                <div class="col-xl-7">
+                <div class="col-xl-12">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve ทั้งหมด</h4>  
-                                <div class="table-responsive">                           
-                                    <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Authen Code ทั้งหมด</h4>  
+                                <div class="table-responsive"> 
+                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">                          
+                                    {{-- <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับ</th> 
@@ -326,91 +331,60 @@
                     }
                 })
             });
-            // $('.Updatedata').on('click', function(e) {
-            // // alert('oo');
-            // var allValls = [];
-            // // $(".sub_destroy:checked").each(function () {
-            // $(".sub_chk:checked").each(function () {
-            //     allValls.push($(this).attr('data-id'));
-            // });
-            // if (allValls.length <= 0) {
-            //     // alert("SSSS");
-            //     Swal.fire({
-            //         position: "top-end",
-            //         title: 'คุณยังไม่ได้เลือกรายการ ?',
-            //         text: "กรุณาเลือกรายการก่อน",
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33', 
-            //         }).then((result) => {
-                    
-            //         })
-            // } else {
-            //     Swal.fire({
-            //         position: "top-end",
-            //         title: 'Are you Want Pull sure?',
-            //         text: "คุณต้องการ Pull รายการนี้ใช่ไหม!",
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, Pull it.!'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-            //                 var check = true;
-            //                 if (check == true) {
-            //                     var join_selected_values = allValls.join(",");
-            //                     // alert(join_selected_values);
-            //                     $("#overlay").fadeIn(500);　
-            //                     $("#spinner").show(); //Load button clicked show spinner 
 
-            //                     $.ajax({
-            //                         url:$(this).data('url'),
-            //                         type: 'POST',
-            //                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            //                         data: 'ids='+join_selected_values,
-            //                         success:function(data){ 
-            //                                 if (data.status == 200) {
-                                               
-            //                                     $(".sub_chk:checked").each(function () {
-            //                                         $(this).parents("tr").remove();
-            //                                     });
-            //                                     Swal.fire({
-            //                                         position: "top-end",
-            //                                         title: 'ดึงข้อมูลสำเร็จ',
-            //                                         text: "You Pull data success",
-            //                                         icon: 'success',
-            //                                         showCancelButton: false,
-            //                                         confirmButtonColor: '#06D177',
-            //                                         confirmButtonText: 'เรียบร้อย'
-            //                                     }).then((result) => {
-            //                                         if (result
-            //                                             .isConfirmed) {
-            //                                             console.log(
-            //                                                 data);
-            //                                             window.location.reload();
-            //                                             $('#spinner').hide();//Request is complete so hide spinner
-            //                                         setTimeout(function(){
-            //                                             $("#overlay").fadeOut(300);
-            //                                         },500);
-            //                                         }
-            //                                     })
+            $('#Pulldata').click(function() {
+                var startdate = $('#datepicker').val(); 
+                var enddate   = $('#datepicker2').val(); 
+                Swal.fire({ position: "top-end",
+                        title: 'ต้องการดึงข้อมูลใช่ไหม ?',
+                        text: "You Warn Pull Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.authen_excel_process') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {startdate,enddate},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({ position: "top-end",
+                                                title: 'ดึงข้อมูลสำเร็จ',
+                                                text: "You Pull data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
                                             
-            //                                 } else {
-                                                
-            //                                 } 
-            //                             } 
-                                    
-            //                     });
-            //                     $.each(allValls,function (index,value) {
-            //                         $('table tr').filter("[data-row-id='"+value+"']").remove();
-            //                     });
-            //                 }
-            //             }
-            //         }) 
-            //     // var check = confirm("Are you want ?");  
-            // }
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
+           
         });
 
 

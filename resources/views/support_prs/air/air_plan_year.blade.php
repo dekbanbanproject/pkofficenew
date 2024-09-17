@@ -90,16 +90,44 @@
     {{-- <form action="{{ url('air_report_building') }}" method="GET">
         @csrf --}}
         <div class="row"> 
-            <div class="col-md-10">
+            <div class="col-md-7">
                 <h4 style="color:rgb(255, 255, 255)">แผนการบำรุงรักษาเครื่องปรับอากาศโรงพยาบาลภูเขียวเฉลิมพะเกียรติ ปีงบประมาณ {{$bg_yearnow}} </h4>
    
             </div>
              
-            {{-- <div class="col"></div> --}}
+            {{-- <div class="col-md-1 text-end"> --}}
+                {{-- <select class="form-control bt_prs" id="air_supplies_id" name="air_supplies_id" style="width: 100%"> --}}
+                    {{-- <option value="" class="text-center">เลือกบริษัท</option> --}}
+                        {{-- @foreach ($air_supplies as $item_t) --}}
+                        {{-- @if ($supplies_id == $item_t->air_supplies_id) --}}
+                            {{-- <option value="{{ $item_t->air_supplies_id }}" class="text-center" selected> {{ $item_t->supplies_name }}</option> --}}
+                        {{-- @else --}}
+                            {{-- <option value="{{ $item_t->air_supplies_id }}" class="text-center"> {{ $item_t->supplies_name }}</option> --}}
+                        {{-- @endif  --}}
+                        {{-- @endforeach  --}}
+                {{-- </select> --}}
+            {{-- </div> --}}
+            {{-- <div class="col-md-2 text-end">  --}}
+                {{-- <select class="form-control bt_prs" id="air_plan_month" name="air_plan_month" style="width: 100%" required> --}}
+                    {{-- <option value="" class="text-center">เดือน / ปี</option> --}}
+                        {{-- @foreach ($air_plan_month as $item_m) --}}
+                        {{-- @if ($air_planmonth == $item_m->air_plan_month && $air_planyears == $item_m->air_plan_year) --}}
+                            {{-- <option value="{{ $item_m->air_plan_month_id }}" class="text-center" selected> {{ $item_m->air_plan_name }} {{$item_m->years}}</option> --}}
+                        {{-- @else --}}
+                            {{-- <option value="{{ $item_m->air_plan_month_id }}" class="text-center"> {{ $item_m->air_plan_name }} {{$item_m->years}}</option> --}}
+                        {{-- @endif  --}}
+                        {{-- @endforeach  --}}
+                {{-- </select> --}}
+            {{-- </div> --}}
             <div class="col-md-2 text-end"> 
-                
-                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-sm btn-success bt_prs">
-                    <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Export To Excel</span>  
+                {{-- <a href="" class="ladda-button btn-pill btn btn-info bt_prs">
+                    <span class="ladda-label"><i class="fa-solid fa-print text-white me-2"></i>Print</span>  
+                </a> --}}
+            {{-- </div> --}}
+            {{-- <div class="col-md-2 text-end">  --}}
+               
+                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                    <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Excel</span>  
                 </a>
             
             </div>
@@ -153,7 +181,11 @@
                                         {{-- <td class="text-center" style="font-size:13px;color: rgb(4, 117, 117)">{{$item->building_id}}</td> --}}
                                         <td class="text-center" style="font-size:13px;color: rgb(228, 15, 86)">
                                            {{-- <a href="{{url('air_report_building_sub/'.$item->building_id)}}" target="_blank">  --}}
-                                                <span class="badge bg-success me-2"> {{$item->qtyall}}</span> <span class="badge bg-danger"> {{$item->qty_noall}}</span>
+                                                <span class="badge bg-success me-2"> {{$item->qtyall}}</span> 
+                                                {{-- <a href="" class="ladda-button btn-pill btn btn-info bt_prs">
+                                                    <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i>{{$item->qtyall}}</span>  
+                                                </a> --}}
+                                                <span class="badge bg-danger"> {{$item->qty_noall}}</span>
                                             {{-- </a>  --}}
                                         </td>
                                         <td class="text-center" style="font-size:13px;color: rgb(50, 3, 68)">
@@ -225,6 +257,7 @@
                                     ?>
                                 @endforeach
                             </tbody>
+                           
                             <tr>
                                 <td colspan="1" class="text-end" style="background-color: #fabcd7;font-size:16px">รวม</td>
                                 <td class="text-center" style="background-color: #fcd3e5"><label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha+$Total_bt }}</label></td>
@@ -289,15 +322,22 @@
                                 </td>
                                 
                             </tr>  
+                           
                             <tr>
                                 <td colspan="1" class="text-end" style="background-color: #fc2783;color:#FFFFFF;font-size:16px"> 
                                     บริษัทบีทีแอร์
                                 </td>
                                 <td class="text-center" style="background-color: #fc85b9"> 
                                     <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label>
+                                    {{-- <a href="" class="ladda-button btn-pill btn btn-info bt_prs">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label></span>  
+                                    </a> --}}
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total14}}</label>  
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$total14}}</label>   --}}
+                                    <a href="{{url('air_plan_year_print/2/10/'.$bg_yearnow)}}">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label style="color: #FFFFFF;font-size:16px">{{$total14 }}</label></span>  
+                                    </a>
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
                                     <label for="" style="color: #FFFFFF;font-size:16px">{{$total15}}</label>
@@ -333,6 +373,7 @@
                                     <label for="" style="color: #FFFFFF;font-size:16px"> {{$total25}} </label>
                                 </td> 
                             </tr> 
+                            
                             <tr>
                                 <td colspan="1" class="text-end" style="background-color: #06b78b;color:#FFFFFF;font-size:16px"> 
                                     บริษัทสหรัตน์แอร์
@@ -377,6 +418,7 @@
                                     <label for="" style="color: #FFFFFF;font-size:16px"> {{$total13}} </label>
                                 </td> 
                             </tr> 
+
                         </table>
                     </div>
                 </p>

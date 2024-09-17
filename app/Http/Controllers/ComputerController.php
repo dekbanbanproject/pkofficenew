@@ -466,7 +466,7 @@ class ComputerController extends Controller
                 // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
                 ->first();
             $siguser = $signature->signature_name_usertext; //ผู้รองขอ
-            $sigstaff = $signature->signature_name_stafftext; //ผู้รองขอ
+            $sigstaff = $signature->signature_name_stafftext; //เจ้าหน้าที่
             $sigrep = $signature->signature_name_reptext; //ผู้รับงาน
             $sighn = $signature->signature_name_hntext; //หัวหน้า
             $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
@@ -698,9 +698,7 @@ class ComputerController extends Controller
             $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
         }
 
-
         $pdf->Output();
-
         exit;
     }
 

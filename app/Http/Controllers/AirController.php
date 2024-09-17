@@ -86,6 +86,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+
 date_default_timezone_set("Asia/Bangkok");
 
 
@@ -3980,6 +3981,7 @@ class AirController extends Controller
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
         $iduser = Auth::user()->id;
+        
         $datashow = DB::select(
             'SELECT a.building_id,a.building_name,al.air_year
                 ,(SELECT COUNT(air_list_id) FROM air_list WHERE air_location_id = a.building_id AND air_year = "'.$bg_yearnow.'" AND active ="Y") as qtyall
@@ -4113,8 +4115,11 @@ class AirController extends Controller
             ORDER BY building_id ASC
         ');
         
-         
-        return view('support_prs.air.air_plan_year',[
+        $data['air_supplies']      = DB::table('air_supplies')->get();
+        $data['air_location']      = DB::select('SELECT * FROM air_list GROUP BY air_location_id'); 
+        $data['air_plan_month']    = DB::select('SELECT * FROM air_plan_month WHERE years ="'.$bg_yearnow.'"'); 
+
+        return view('support_prs.air.air_plan_year',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate,
             'datashow'      => $datashow, 
@@ -5621,6 +5626,261 @@ class AirController extends Controller
                 return response()->json([
                     'status'     => '200'
                 ]);  
+    }
+
+    // *-******************************* Print *********************************
+    public function air_plan_year_print(Request $request, $idsup,$month,$years)
+    {
+        
+        $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
+        ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
+        ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+        ->first();
+        $rong = $org->prefix_name . ' ' . $org->fname . '  ' . $org->lname;
+
+        $orgpo = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_po_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $po = $orgpo->prefix_name . ' ' . $orgpo->fname . '  ' . $orgpo->lname;
+
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $iduser = Auth::user()->id;
+        $count = DB::table('users')->where('id', '=', $iduser)->count();
+        $data_air     = DB::select(
+            'SELECT a.air_plan_year,a.air_list_num,c.detail,c.brand_name,c.btu,c.air_location_name,b.air_plan_month,b.air_plan_name,a.supplies_id,d.supplies_name
+            FROM air_plan a 
+            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+            LEFT JOIN air_list c ON c.air_list_num = a.air_list_num
+            LEFT JOIN air_supplies d ON d.air_supplies_id = a.supplies_id 
+            WHERE a.supplies_id = "1" AND b.air_plan_month = "10"
+            GROUP BY a.air_list_num
+        '); 
+
+        $pdf = PDF::loadView('support_prs.air.air_plan_year_print',[            
+            'data_air' => $data_air,           
+            ])->setPaper('a4', 'landscape');
+            return @$pdf->stream();
+        // $dataedit = DB::table('bookrep')->where('bookrep_id','=',$id)->first();
+        // return view('book.book_sendemail_file',[
+        //     'dataedit' =>$dataedit,
+        //    ]);
+    
+       
+
+    }
+    public function air_plan_year_print๘๘๘๘(Request $request, $idsup,$month,$years)
+    {
+        $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $rong = $org->prefix_name . ' ' . $org->fname . '  ' . $org->lname;
+
+        $orgpo = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_po_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $po = $orgpo->prefix_name . ' ' . $orgpo->fname . '  ' . $orgpo->lname;
+
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $iduser = Auth::user()->id;
+        $count = DB::table('users')->where('id', '=', $iduser)->count();
+            // ->orwhere('com_repaire_no', '=', $dataedit->com_repaire_no)
+            
+        if ($count != 0) {
+            $signa = DB::table('users')->where('id', '=', $iduser)->leftjoin('users_prefix', 'users_prefix.prefix_id', '=', 'users.pname')->first();
+                // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
+            $ptname   = $signa->prefix_name . '' . $signa->fname . '  ' . $signa->lname;
+            $position = $signa->position_name;
+            $siguser  = $signa->signature; //ผู้รองขอ
+            // $sigstaff = $signature->signature_name_stafftext; //เจ้าหน้าที่
+            // $sigrep = $signature->signature_name_reptext; //ผู้รับงาน
+            // $sighn = $signature->signature_name_hntext; //หัวหน้า
+            // $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
+            // $sigpo = $signature->signature_name_potext; //ผอ
+            $sigrong = ''; 
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        } else {
+            $sigrong = '';
+            $siguser = '';
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        }
+        $data_air     = DB::select(
+            'SELECT a.air_plan_year,a.air_list_num,c.detail,c.brand_name,c.btu,c.air_location_name,b.air_plan_month,b.air_plan_name,a.supplies_id,d.supplies_name
+            FROM air_plan a 
+            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
+            LEFT JOIN air_list c ON c.air_list_num = a.air_list_num
+            LEFT JOIN air_supplies d ON d.air_supplies_id = a.supplies_id 
+            WHERE a.supplies_id = "1"
+            GROUP BY a.air_list_num
+        '); 
+        define('FPDF_FONTPATH', 'font/');
+        require(base_path('public') . "/fpdf/WriteHTML.php");
+
+            $pdf = new Fpdi(); // Instantiation   start-up Fpdi
+            // get the page count
+            // $pageCount = $pdf->setSourceFile('Laboratory-Report.pdf');
+            // iterate through all pages
+            // for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                // import a page
+                // $templateId = $pdf->importPage($pageNo);
+
+                // function dayThai($strDate)
+                // {
+                //     $strDay = date("j", strtotime($strDate));
+                //     return $strDay;
+                // }
+                // function monthThai($strDate)
+                // {
+                //     $strMonth = date("n", strtotime($strDate));
+                //     $strMonthCut = array("", "มกราคม", "กุมภาพันธ์ ", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+                //     $strMonthThai = $strMonthCut[$strMonth];
+                //     return $strMonthThai;
+                // }
+                // function yearThai($strDate)
+                // {
+                //     $strYear = date("Y", strtotime($strDate)) + 543;
+                //     return $strYear;
+                // }
+                // function time($strtime)
+                // {
+                //     $H = substr($strtime, 0, 5);
+                //     return $H;
+                // }
+                // function DateThai($strDate)
+                // {
+                //     if ($strDate == '' || $strDate == null || $strDate == '0000-00-00') {
+                //         $datethai = '';
+                //     } else {
+                //         $strYear = date("Y", strtotime($strDate)) + 543;
+                //         $strMonth = date("n", strtotime($strDate));
+                //         $strDay = date("j", strtotime($strDate));
+                //         $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                //         $strMonthThai = $strMonthCut[$strMonth];
+                //         $datethai = $strDate ? ($strDay . ' ' . $strMonthThai . ' ' . $strYear) : '-';
+                //     }
+                //     return $datethai;
+                // }
+
+                $pdf->SetLeftMargin(22);
+                $pdf->SetRightMargin(5);
+                $pdf->AddFont('THSarabunNew', '', 'THSarabunNew.php');
+                $pdf->AddFont('THSarabunNew Bold', '', 'THSarabunNew Bold.php');
+                $pdf->SetFont('THSarabunNew Bold', '', 19);
+                // $pdf->AddPage("L", ['100', '100']);
+                $pdf->AliasNbPages();
+                $pdf->AddPage("L");
+                // $pdf->Image('assets/images/crut.png', 22, 15, 16, 16);
+                $pdf->SetFont('THSarabunNew Bold', '', 17);
+                $pdf->Text(15, 25, iconv('UTF-8', 'TIS-620', 'แผนการบำรุงรักษาเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ปีงบประมาณ '.$bg_yearnow));
+                $pdf->SetFont('THSarabunNew', '', 17);
+                // $pdf->Text(75, 33, iconv('UTF-8', 'TIS-620', 'โรงพยาบาล ' ));
+                // $pdf->Text(75, 33, iconv('UTF-8', 'TIS-620', 'โรงพยาบาล ' . $org->orginfo_name));
+                $pdf->SetFont('THSarabunNew', '', 14);
+                $i = 1;
+                foreach ($data_air as $key => $value) {
+                    $current_y = $pdf->GetY();
+                    $current_x = $pdf->GetX();
+                    $pdf->MultiCell(1, 0.5, $i, 1, 'L');
+                    $end_y = $pdf->GetY();
+
+                    $current_x = $current_x + 1;
+                    $pdf->SetXY($current_x, $current_y);
+                    $pdf->MultiCell(4, 0.5, $value->air_list_num, 1, 'L');
+                    $end_y = ($pdf->GetY() > $end_y)?$pdf->GetY() : $end_y;
+
+                    $current_x = $current_x + 4;
+                    $pdf->SetXY($current_x, $current_y); 
+                    $pdf->MultiCell(4, 0.5, $value->detail, 1, 'L');
+                    $end_y = ($pdf->GetY() > $end_y)?$pdf->GetY() : $end_y;
+
+                    $current_x = $current_x + 4;
+                    $pdf->SetXY($current_x, $current_y);
+                    $pdf->MultiCell(4, 0.5, $value->air_location_name, 1, 'L');
+                    $end_y = ($pdf->GetY() > $end_y)?$pdf->GetY() : $end_y;
+                    $i++;
+                    $pdf->SetY($end_y);
+                }
+                // $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม : '));
+                // $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม :   ' . $dataedit->com_repaire_debsubsub_name));
+          
+
+                //ผู้ดูแลอนุญาต
+                if ($siguser != null) {
+                    $pdf->Image($siguser, 18, 261, 30, 15, "png");
+                    $pdf->SetFont('THSarabunNew', '', 14);
+                    $pdf->Text(10, 272, iconv('UTF-8', 'TIS-620', 'ลงชื่อ                              ผู้เสนอแผน'));
+                    $pdf->Text(18, 278, iconv('UTF-8', 'TIS-620', '' . $ptname . ''));
+                    $pdf->Text(10, 284, iconv('UTF-8', 'TIS-620', 'ตำแหน่ง ' . $position . ''));
+                    
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                            ผู้อนุญาต')); 
+                    // $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', '(                                   )')); 
+                    // $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+                } else {
+                    // $pdf->Image($siguser, 105,173, 50, 17,"png"); 
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(100, 180, iconv('UTF-8', 'TIS-620', '(ลงชื่อ) ............................... ผู้อนุญาต'));
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(108, 189, iconv('UTF-8', 'TIS-620', '( .................................... )'));
+                }
+        
+                if ($siguser != null) { 
+                    $pdf->Image($siguser, 83, 261, 30, 15, "png");
+                    $pdf->SetFont('THSarabunNew', '', 14);
+                    $pdf->Text(75, 272, iconv('UTF-8', 'TIS-620', 'ลงชื่อ                              ผู้เห็นชอบ'));
+                    $pdf->Text(82, 278, iconv('UTF-8', 'TIS-620', '' . $ptname . ''));
+                    $pdf->Text(75, 284, iconv('UTF-8', 'TIS-620', 'หัวหน้ากลุ่มภารกิจด้านอำนวยการ '));
+                    // if ($dataedit->car_service_status == "noallow") {
+                    //     $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
+                    //     $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 140, 217, 4, 4);
+                    // } else {
+                    //     $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4.5, 4.5);
+                    //     $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 105, 217, 4.5, 4.5); 
+                    // }
+                    // $pdf->Image($sigpo, 109, 225, 50, 17, "png");
+                    // $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', $po));
+                    // // $pdf->Text(150,288,iconv( 'UTF-8','TIS-620','ผู้อำนวยการ'.$orgpo->orginfo_name  ));
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                            ผู้เสนอแผน')); 
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+                } else {
+                    // $pdf->Image($siguser, 105,225, 50, 17,"png");
+                    // $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
+                    // $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4, 4);
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                            ผู้อนุญาต'));
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', '(                                   )'));
+                    // $pdf->SetFont('THSarabunNew', '', 15);
+                    // $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+                }
+                if ($siguser != null) { 
+                    $pdf->Image($siguser, 152, 261, 30, 15, "png");
+                    $pdf->SetFont('THSarabunNew', '', 14);
+                    $pdf->Text(142, 272, iconv('UTF-8', 'TIS-620', 'ลงชื่อ                              ผู้อนุมัติ'));
+                    $pdf->Text(147, 278, iconv('UTF-8', 'TIS-620', '' . $ptname . ''));
+                    $pdf->Text(137, 284, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ ' ));
+                
+                } else { 
+                }
+
+                // $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
+
+                // $pdf->SetFont('Helvetica');
+                // $pdf->SetXY(5, 5);
+                // $pdf->Write(8, 'A complete document imported with FPDI');
+            // }
+        $pdf->Output();
+        exit;
     }
 
 

@@ -805,7 +805,7 @@ class CCtvController extends Controller
         // '); 
         $datashow = Cctv_check::leftJoin('cctv_list', 'cctv_check.article_num', '=', 'cctv_list.cctv_list_num')
         ->whereMonth('cctv_check.cctv_check_date', '=', $months)
-        ->groupBy('cctv_list.cctv_list_num')->orderBy('cctv_list_id','ASC')
+        ->groupBy('cctv_list.cctv_list_num')->orderBy('cctv_monitor','ASC')
         ->get(); 
       
         return view('support_prs.cctv.cctv_list_check',[

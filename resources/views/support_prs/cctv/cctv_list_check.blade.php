@@ -121,13 +121,14 @@ $loter = $date.''.$time
                                         <tr style="font-size: 13px">                                        
                                             <th class="text-center">รหัสกล้อง</th>
                                             <th class="text-center" width="15%">สถานที่ติดตั้ง</th> 
+                                            <th class="text-center">Monitor</th> 
                                             <th class="text-center">วันที่เช็คล่าสุด</th> 
                                             <th class="text-center">สถานะ</th> 
                                             <th class="text-center">จอกล้อง</th> 
                                             <th class="text-center">มุมกล้อง</th>
                                             <th class="text-center">สิ่งกีดขวาง</th>
-                                            <th class="text-center">การบันทึก</th> 
-                                            <th class="text-center">การสำรองไฟ</th> 
+                                            {{-- <th class="text-center">การบันทึก</th>  --}}
+                                            {{-- <th class="text-center">การสำรองไฟ</th>  --}}
                                         </tr>
                                        
                                     </thead>
@@ -140,7 +141,8 @@ $loter = $date.''.$time
                                         
                                             <tr style="font-size:13px"> 
                                                 <td class="text-center" width="7%" >{{ $item->article_num }} </td>
-                                                <td class="p-2"> {{ $item->cctv_location }}</td>  
+                                                <td class="p-2"> {{ $item->cctv_location }}</td> 
+                                                <td class="text-center" width="7%" >{{ $item->cctv_monitor }} </td> 
                                                 <td class="text-center" width="10%">{{DateThai($item->cctv_check_date)}}</td> 
                                                 <td class="text-center" width="10%"> 
                                                     @if ($item->cctv_status == '0')
@@ -174,8 +176,8 @@ $loter = $date.''.$time
                                                     @endif
                                                 </td> 
                                              
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>   
-                                                <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>   
+                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_save}}</td>    --}}
+                                                {{-- <td class="text-center" width="7%">{{$item->cctv_camera_power_backup}}</td>    --}}
                                             </tr> 
                                         @endforeach
                                     </tbody>

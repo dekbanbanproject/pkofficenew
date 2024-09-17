@@ -229,6 +229,7 @@ Route::match(['get', 'post'], 'db_authen_detail', [App\Http\Controllers\AutoCont
 
 Route::match(['get', 'post'], 'check_authen', [App\Http\Controllers\ChecksitController::class, 'check_authen'])->name('claim.check_authen'); //
 Route::match(['get', 'post'], 'check_authen_excel', [App\Http\Controllers\ChecksitController::class, 'check_authen_excel'])->name('claim.check_authen_excel'); //
+
 Route::match(['get', 'post'], 'check_authen_send', [App\Http\Controllers\ChecksitController::class, 'check_authen_send'])->name('claim.check_authen_send'); //
 
 Route::match(['get', 'post'], 'check_sit_day', [App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day'); //
@@ -2192,6 +2193,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_401_export_api', [App\Http\Controllers\Account401Controller::class, 'account_401_export_api'])->name('acc.account_401_export_api'); //
   Route::match(['get', 'post'], 'account_401_send_api', [App\Http\Controllers\Account401Controller::class, 'account_401_send_api'])->name('acc.account_401_send_api'); //
   Route::match(['get', 'post'], 'account_401_claimswitch', [App\Http\Controllers\Account401Controller::class, 'account_401_claimswitch'])->name('acc.account_401_claimswitch'); //
+  Route::match(['get', 'post'], 'account_401_claim_zip', [App\Http\Controllers\Account401Controller::class, 'account_401_claim_zip'])->name('acc.account_401_claim_zip'); //
 
   Route::match(['get', 'post'], 'account_402_dash', [App\Http\Controllers\Account402Controller::class, 'account_402_dash'])->name('acc.account_402_dash'); //
   Route::match(['get', 'post'], 'account_402_pull', [App\Http\Controllers\Account402Controller::class, 'account_402_pull'])->name('acc.account_402_pull'); //
@@ -3281,6 +3283,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'authen_excel', [App\Http\Controllers\PreauditController::class, 'authen_excel'])->name('audit.authen_excel');
   Route::match(['get', 'post'], 'authen_excel_save', [App\Http\Controllers\PreauditController::class, 'authen_excel_save'])->name('audit.authen_excel_save');
+  Route::match(['get', 'post'], 'authen_excel_process', [App\Http\Controllers\PreauditController::class, 'authen_excel_process'])->name('claim.authen_excel_process'); //
   Route::match(['get', 'post'], 'authen_update', [App\Http\Controllers\PreauditController::class, 'authen_update'])->name('audit.authen_update');
 
   // **************************** ทาลัสซีเมีย **********************************************
@@ -3364,6 +3367,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'air_report_monthpdf', [App\Http\Controllers\AirController::class, 'air_report_monthpdf'])->name('prs.air_report_monthpdf'); //
   Route::match(['get', 'post'], 'air_plan_year', [App\Http\Controllers\AirController::class, 'air_plan_year'])->name('prs.air_plan_year'); //
   Route::match(['get', 'post'], 'air_plan_yearexcel', [App\Http\Controllers\AirController::class, 'air_plan_yearexcel'])->name('prs.air_plan_yearexcel'); //
+  Route::match(['get', 'post'], 'air_plan_year_print/{idsup}/{month}/{years}', [App\Http\Controllers\AirController::class, 'air_plan_year_print'])->name('prs.air_plan_year_print'); //
+
 
   Route::match(['get', 'post'], 'air_setting', [App\Http\Controllers\AirController::class, 'air_setting'])->name('prs.air_setting'); //
   Route::match(['get', 'post'], 'importplan_excel', [App\Http\Controllers\AirController::class, 'importplan_excel'])->name('prs.importplan_excel'); //

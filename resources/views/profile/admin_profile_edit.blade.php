@@ -177,26 +177,49 @@
                                 </div>
                                 
                                 <div class="tab-pane" id="progress-bank-detail">
-                                    <div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-6"> 
+                                            @if ($dataedits->img == null)
+                                                <img src="{{ asset('assets/images/default-image.jpg') }}"
+                                                    id="edit_upload_preview" height="300px" width="300px" alt="Image"
+                                                    class="img-thumbnail">
+                                            @else
+                                                <img src="{{ asset('storage/person/' . $dataedits->img) }}"
+                                                    id="edit_upload_preview" height="300px" width="300px" alt="Image"
+                                                    class="img-thumbnail">
+                                            @endif
+                                            <br>
+                                            <div class="input-group mb-3 mt-3">
 
-                                        @if ($dataedits->img == null)
-                                            <img src="{{ asset('assets/images/default-image.jpg') }}"
-                                                id="edit_upload_preview" height="300px" width="300px" alt="Image"
-                                                class="img-thumbnail">
-                                        @else
-                                            <img src="{{ asset('storage/person/' . $dataedits->img) }}"
-                                                id="edit_upload_preview" height="300px" width="300px" alt="Image"
-                                                class="img-thumbnail">
-                                        @endif
-                                        <br>
-                                        <div class="input-group mb-3 mt-3">
-
-                                            <input type="file" class="form-control" id="img" name="img"
-                                            onchange="editpic(this)">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="file" class="form-control" id="img" name="img"
+                                                onchange="editpic(this)">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            </div> 
                                         </div>
+                                        <div class="col-lg-6">  
+                                            <div class="form-group text-center mt-2"> <img src="{{ $dataedits->signature }}" alt="" height="150px" width="auto"> </div>
+                                            <div id="signature-pad2" class="mt-2 text-center">
+                                                    <div style="border:solid 1px teal;height:150px;width: auto">
+                                                        <div id="note2" onmouseover="my_function2();" class="text-center">The
+                                                            signature should be inside box</div>
+                                                        <canvas id="the_canvas2" width="320px" height="150px"> </canvas>
+                                                        </div>
 
+                                                        <input type="hidden" id="signature2" name="signature2">
+                                                        <button type="button" id="clear_btn2"
+                                                            class="btn btn-secondary btn-sm mt-3 ms-3 me-3" data-action="clear2"><span
+                                                                class="glyphicon glyphicon-remove"></span>
+                                                            Clear</button>
 
+                                                        <button type="button" id="save_btn2"
+                                                            class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png2"
+                                                            onclick="create2()"><span class="glyphicon glyphicon-ok"></span>
+                                                            Create
+                                                        </button>
+                                                    </div>  
+                                            </div>
+                                           
+                                           
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="progress-confirm-detail">
@@ -242,70 +265,161 @@
 
 @endsection
 @section('footer')
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script src="{{ asset('js/gcpdfviewer.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            
+        // เจ้าหน้าที่
+        var wrapper = document.getElementById("signature-pad2");
+        var clearButton2 = wrapper.querySelector("[data-action=clear2]");
+        var savePNGButton2 = wrapper.querySelector("[data-action=save-png2]");
+        var canvas2 = wrapper.querySelector("canvas");
+        var el_note = document.getElementById("note2");
+        var signaturePad2;
+
+        signaturePad2 = new SignaturePad(canvas2, {
+            minWidth: 1,
+            maxWidth: 2,
+            penColor: "rgb(15, 82, 191)"   // เพิ่มสีและขนาดเส้นลายเซนต์
+        });
+       
+        clearButton2.addEventListener("click", function(event) {
+            document.getElementById("note2").innerHTML = "The signature should be inside box";
+            // signaturePad2.penColor = 'white'
+            signaturePad2.clear();  // Clears the canvas
+        });
+        savePNGButton2.addEventListener("click", function(event) {
+            if (signaturePad2.isEmpty()) {
+                // alert("Please provide signature first.");
+                Swal.fire(
+                    'กรุณาลงลายเซนต์ก่อน !',
+                    'You clicked the button !',
+                    'warning'
+                )
+                event.preventDefault();
+            } else {
+                var canvas = document.getElementById("the_canvas2");
+                var dataUrl = canvas.toDataURL();   // save image as PNG
+                document.getElementById("signature2").value = dataUrl;
+
+                // ข้อความแจ้ง
+                Swal.fire({
+                    title: 'สร้างสำเร็จ',
+                    text: "You create success",
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#06D177',
+                    confirmButtonText: 'เรียบร้อย'
+                }).then((result) => {
+                    if (result.isConfirmed) {}
+                })
+            }
+        });
+
+        function my_function2() {
+            document.getElementById("note2").innerHTML = "";
+        }
+        $(document).ready(function() {            
             $('#pname').select2({
                 placeholder:"--เลือก--",
                 allowClear:true
-            });
-            
+            });            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });
-            
-
+            });   
         });
 
         $(document).ready(function(){
-              $('#update_profileForm').on('submit',function(e){
-                    e.preventDefault();
-                      //   alert('Person');
-                    var form = this;
-                  
-                    $.ajax({
-                      url:$(form).attr('action'),
-                      method:$(form).attr('method'),
-                      data:new FormData(form),
-                      processData:false,
-                      dataType:'json',
-                      contentType:false,
-                      beforeSend:function(){
-                        $(form).find('span.error-text').text('');
-                      },
-                      success:function(data){
-                        if (data.status == 0 ) {  
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Username...!!',
-                        text: 'Username นี้ได้ถูกใช้ไปแล้ว!',
-                      }).then((result) => {
-                        if (result.isConfirmed) {                  
-                        
-                        }
-                      })   
-                    } else {                         
-                      Swal.fire({
-                        title: 'แก้ไขข้อมูลสำเร็จ',
-                        text: "You Edit data success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177', 
-                        confirmButtonText: 'เรียบร้อย'
-                      }).then((result) => {
-                        if (result.isConfirmed) {                  
-                        //   window.location="{{route('person.person_index')}}"; //
-                          window.location
-                                            .reload();
-                        }
-                      })      
+            $('#update_profileForm').on('submit',function(e){
+                e.preventDefault();
+                    //   alert('Person');
+                var form = this;
+                
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                    $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                    if (data.status == 0 ) {  
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Username...!!',
+                    text: 'Username นี้ได้ถูกใช้ไปแล้ว!',
+                    }).then((result) => {
+                    if (result.isConfirmed) {                  
+                    
                     }
-                      }
-                    });
-              }); 
+                    })   
+                } else {                         
+                    Swal.fire({
+                    title: 'แก้ไขข้อมูลสำเร็จ',
+                    text: "You Edit data success",
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#06D177', 
+                    confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                    if (result.isConfirmed) {                  
+                    //   window.location="{{route('person.person_index')}}"; //
+                        window.location
+                                        .reload();
+                    }
+                    })      
+                }
+                    }
+                });
+            }); 
         });
     </script>
 
 @endsection
+
+
+{{-- const canvas = document.querySelector("canvas");
+
+const signaturePad = new SignaturePad(canvas);
+
+// Returns signature image as data URL (see https://mdn.io/todataurl for the list of possible parameters)
+signaturePad.toDataURL(); // save image as PNG
+signaturePad.toDataURL("image/jpeg"); // save image as JPEG
+signaturePad.toDataURL("image/jpeg", 0.5); // save image as JPEG with 0.5 image quality
+signaturePad.toDataURL("image/svg+xml"); // save image as SVG data url
+
+// Return svg string without converting to base64
+signaturePad.toSVG(); // "<svg...</svg>"
+signaturePad.toSVG({includeBackgroundColor: true}); // add background color to svg output
+
+// Draws signature image from data URL (mostly uses https://mdn.io/drawImage under-the-hood)
+// NOTE: This method does not populate internal data structure that represents drawn signature. Thus, after using #fromDataURL, #toData won't work properly.
+signaturePad.fromDataURL("data:image/png;base64,iVBORw0K...");
+
+// Draws signature image from data URL and alters it with the given options
+signaturePad.fromDataURL("data:image/png;base64,iVBORw0K...", { ratio: 1, width: 400, height: 200, xOffset: 100, yOffset: 50 });
+
+// Returns signature image as an array of point groups
+const data = signaturePad.toData();
+
+// Draws signature image from an array of point groups
+signaturePad.fromData(data);
+
+// Draws signature image from an array of point groups, without clearing your existing image (clear defaults to true if not provided)
+signaturePad.fromData(data, { clear: false });
+
+// Clears the canvas
+signaturePad.clear();
+
+// Returns true if canvas is empty, otherwise returns false
+signaturePad.isEmpty();
+
+// Unbinds all event handlers
+signaturePad.off();
+
+// Rebinds all event handlers
+signaturePad.on(); --}}

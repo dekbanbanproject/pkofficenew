@@ -142,6 +142,10 @@
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
                                 </a>   
+                                <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                                    Zip
+                                </a> 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -280,7 +284,7 @@
                                                                 <span class="bg-success badge">{{ $count_no }}</span>                                                                 
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
-                                                            <th class="text-center">ยานอก</th>
+                                                            {{-- <th class="text-center">ยานอก</th> --}}
                                                             <th class="text-center">กายภาพ</th>
                                                             <th class="text-center">Dent</th>
                                                             <th class="text-center" style="background-color: #fad6b8">pdx</th>  
@@ -359,13 +363,13 @@
                                                                         <span class="bg-warning badge">-</span> 
                                                                     @endif 
                                                                 </td>  
-                                                                <td class="text-center" width="5%">
+                                                                {{-- <td class="text-center" width="5%">
                                                                     @if ($drugmark != NULL)
                                                                         <span class="bg-success badge">{{ $drugmark }}</span> 
                                                                     @else
                                                                         <span class="bg-danger badge">-</span> 
                                                                     @endif 
-                                                                </td> 
+                                                                </td>  --}}
                                                                 <td class="text-center" width="5%">
                                                                     @if ($kayas > 0)
                                                                         <span class="bg-success badge">{{ $kayas }}</span> 

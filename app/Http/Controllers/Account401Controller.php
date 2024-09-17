@@ -54,7 +54,7 @@ use App\Models\D_odx;
 use App\Models\D_cht;
 use App\Models\D_cha;
 use App\Models\D_oop;
-use App\Models\D_claim;
+use App\Models\Fdh_sesion;
 use App\Models\D_adp;
 use App\Models\D_dru;
 use App\Models\D_idx;
@@ -913,8 +913,28 @@ class Account401Controller extends Controller
         // D_cha::truncate();
         // D_ins::truncate();
 
+      
+        Fdh_sesion::where('d_anaconda_id', '=', 'OFC_401')->delete(); 
+        $s_date_now = date("Y-m-d");
+        $s_time_now = date("H:i:s");
         $id = $request->ids;
         $iduser = Auth::user()->id;
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        $pattern_time = '/:/i';
+        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        #ตัดขีด, ตัด : ออก
+        $folder_name = 'OFC_401_' . $s_date_now_preg . '_' . $s_time_now_preg;
+        Fdh_sesion::insert([
+            'folder_name'      => $folder_name,
+            'd_anaconda_id'    => 'OFC_401',
+            'date_save'        => $s_date_now,
+            'time_save'        => $s_time_now,
+            'userid'           => $iduser
+        ]);  
+
         $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
@@ -2533,7 +2553,13 @@ class Account401Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export_OFC'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        // $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_401"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder_ = $v_export->folder_name;
+        }
+        $folder = $folder_;
 
          mkdir ('Export_OFC/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -3013,6 +3039,26 @@ class Account401Controller extends Controller
 
         return redirect()->route('acc.account_401_pull');
 
+    }
+    public function account_401_claim_zip (Request $request)
+    {
+        $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_401"');
+        foreach ($dataexport_ as $key => $v_export) {
+            $folder = $v_export->folder_name;
+        }
+        $filename = $folder . ".zip";
+
+        $zip = new ZipArchive;
+        if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
+            $files = File::files(public_path("Export_OFC/" . $folder . "/"));
+            foreach ($files as $key => $value) {
+                $relativenameInZipFile = basename($value);
+                $zip->addFile($value, $relativenameInZipFile);
+            }
+            $zip->close();
+        }
+        return response()->download(public_path($filename));
+      
     }
 
    

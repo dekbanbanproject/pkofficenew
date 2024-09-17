@@ -380,7 +380,9 @@ public function profile_update(Request $request)
             // $update->start_date = $request->start_date;
             // $update->end_date = $request->end_date;
             // $update->status = $request->status;
-
+            $signature          = $request->input('signature2'); 
+            $update->signature    = $signature;
+            
             if ($request->hasfile('img')) {
                 $description = 'storage/person/'.$update->img;
                 if (File::exists($description))
