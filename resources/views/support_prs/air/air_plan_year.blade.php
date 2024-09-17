@@ -126,7 +126,7 @@
             {{-- </div> --}}
             {{-- <div class="col-md-2 text-end">  --}}
                
-                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-success bt_prs">
+                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-success bt_prs" >
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Excel</span>  
                 </a>
             
@@ -335,7 +335,7 @@
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$total14}}</label>   --}}
-                                    <a href="{{url('air_plan_year_print/2/10/'.$bg_yearnow)}}">
+                                    <a href="{{url('air_plan_year_print/2/10/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label style="color: #FFFFFF;font-size:16px">{{$total14 }}</label></span>  
                                     </a>
                                 </td>
@@ -370,7 +370,10 @@
                                     <label for="" style="color: #FFFFFF;font-size:16px"> {{$total24}} </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total25}} </label>
+                                    <a href="{{url('air_plan_year_print/2/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label style="color: #FFFFFF;font-size:16px">{{$total25 }}</label></span>  
+                                    </a>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total25}} </label> --}}
                                 </td> 
                             </tr> 
                             

@@ -5644,22 +5644,50 @@ class AirController extends Controller
             ->first();
         $po = $orgpo->prefix_name . ' ' . $orgpo->fname . '  ' . $orgpo->lname;
 
+        $rong = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $rong_bo = $rong->prefix_name . ' ' . $rong->fname . '  ' . $rong->lname;
+
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
         $iduser = Auth::user()->id;
         $count = DB::table('users')->where('id', '=', $iduser)->count();
+        if ($count != 0) {
+            $signa = DB::table('users')->where('id', '=', $iduser)->leftjoin('users_prefix', 'users_prefix.prefix_id', '=', 'users.pname')->first();
+                // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
+            $ptname   = $signa->prefix_name . '' . $signa->fname . '  ' . $signa->lname;
+            $position = $signa->position_name;
+            $siguser  = $signa->signature; //ผู้รองขอ
+            // $sigstaff = $signature->signature_name_stafftext; //เจ้าหน้าที่
+            // $sigrep = $signature->signature_name_reptext; //ผู้รับงาน
+            // $sighn = $signature->signature_name_hntext; //หัวหน้า
+            // $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
+            // $sigpo = $signature->signature_name_potext; //ผอ
+            $sigrong = ''; 
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        } else {
+            $sigrong = '';
+            $siguser = '';
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        }
         $data_air     = DB::select(
-            'SELECT a.air_plan_year,a.air_list_num,c.detail,c.brand_name,c.btu,c.air_location_name,b.air_plan_month,b.air_plan_name,a.supplies_id,d.supplies_name
+            'SELECT a.air_plan_year,a.air_list_num,c.detail,c.brand_name,c.btu,c.air_location_name,b.air_plan_month,b.air_plan_name,a.supplies_id,d.supplies_name,c.air_room_class
             FROM air_plan a 
             LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
             LEFT JOIN air_list c ON c.air_list_num = a.air_list_num
             LEFT JOIN air_supplies d ON d.air_supplies_id = a.supplies_id 
-            WHERE a.supplies_id = "1" AND b.air_plan_month = "10"
+            WHERE a.supplies_id = "'.$idsup.'" AND b.air_plan_month = "'.$month.'" AND a.air_plan_year = "'.$years.'"
             GROUP BY a.air_list_num
         '); 
 
         $pdf = PDF::loadView('support_prs.air.air_plan_year_print',[            
-            'data_air' => $data_air,           
+            'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo           
             ])->setPaper('a4', 'landscape');
             return @$pdf->stream();
         // $dataedit = DB::table('bookrep')->where('bookrep_id','=',$id)->first();
