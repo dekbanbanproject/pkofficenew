@@ -119,6 +119,7 @@
                         {{-- @endforeach  --}}
                 {{-- </select> --}}
             {{-- </div> --}}
+            <div class="col"></div>
             <div class="col-md-2 text-end"> 
                 {{-- <a href="" class="ladda-button btn-pill btn btn-info bt_prs">
                     <span class="ladda-label"><i class="fa-solid fa-print text-white me-2"></i>Print</span>  
@@ -328,7 +329,10 @@
                                     บริษัทบีทีแอร์
                                 </td>
                                 <td class="text-center" style="background-color: #fc85b9"> 
-                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label> --}}
+                                    <a href="{{url('air_plan_year_print_sup/2/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$Total_bt }}</label></span>  
+                                    </a>
                                     {{-- <a href="" class="ladda-button btn-pill btn btn-info bt_prs">
                                         <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_bt }}</label></span>  
                                     </a> --}}
@@ -336,44 +340,73 @@
                                 <td class="text-center" style="background-color: #fc2783" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$total14}}</label>   --}}
                                     <a href="{{url('air_plan_year_print/2/10/'.$bg_yearnow)}}" target="_blank">
-                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label style="color: #FFFFFF;font-size:16px">{{$total14 }}</label></span>  
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total14 }}</label></span>  
                                     </a>
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total15}}</label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$total15}}</label> --}}
+                                    <a href="{{url('air_plan_year_print/2/11/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total15 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$total16}}</label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$total16}}</label> --}}
+                                    <a href="{{url('air_plan_year_print/2/12/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total16 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total17}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total17}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/1/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total17 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total18}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total18}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/2/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total18 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total19}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total19}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/3/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total19 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total20}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total20}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/4/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total20 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total21}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total21}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/5/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total21 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total22}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total22}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/6/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total22 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total23}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total23}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/7/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total23 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total24}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total24}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/2/8/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total24 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #fc2783" >
                                     <a href="{{url('air_plan_year_print/2/9/'.$bg_yearnow)}}" target="_blank">
-                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2"></i> <label style="color: #FFFFFF;font-size:16px">{{$total25 }}</label></span>  
-                                    </a>
-                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total25}} </label> --}}
+                                        <span class="badge bg-success me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total25 }}</label></span>  
+                                    </a> 
                                 </td> 
                             </tr> 
                             
@@ -382,43 +415,82 @@
                                     บริษัทสหรัตน์แอร์
                                 </td>  
                                 <td class="text-center" style="background-color: #68eecc">
-                                    <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha }}</label>  
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha }}</label>  --}}
+                                    <a href="{{url('air_plan_year_print_sup/1/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$Total_saha }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total2}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total2}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total2 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total3}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total3}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total3 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total4}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total4}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total4 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total5}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total5}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total5 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total6}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total6}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total6 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total7}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total7}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total7 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total8}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total8}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total8 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total9}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total9}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total9 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total10}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total10}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total10 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total11}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total11}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total11 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total12}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total12}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total12 }}</label></span>  
+                                    </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px"> {{$total13}} </label>
+                                    {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total13}} </label> --}}
+                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                        <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total13 }}</label></span>  
+                                    </a> 
                                 </td> 
                             </tr> 
 

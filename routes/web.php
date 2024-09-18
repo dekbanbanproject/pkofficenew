@@ -3368,7 +3368,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'air_plan_year', [App\Http\Controllers\AirController::class, 'air_plan_year'])->name('prs.air_plan_year'); //
   Route::match(['get', 'post'], 'air_plan_yearexcel', [App\Http\Controllers\AirController::class, 'air_plan_yearexcel'])->name('prs.air_plan_yearexcel'); //
   Route::match(['get', 'post'], 'air_plan_year_print/{idsup}/{month}/{years}', [App\Http\Controllers\AirController::class, 'air_plan_year_print'])->name('prs.air_plan_year_print'); //
-
+  Route::match(['get', 'post'], 'air_plan_year_print_sup/{idsup}/{years}', [App\Http\Controllers\AirController::class, 'air_plan_year_print_sup'])->name('prs.air_plan_year_print_sup'); //
 
   Route::match(['get', 'post'], 'air_setting', [App\Http\Controllers\AirController::class, 'air_setting'])->name('prs.air_setting'); //
   Route::match(['get', 'post'], 'importplan_excel', [App\Http\Controllers\AirController::class, 'importplan_excel'])->name('prs.importplan_excel'); //
