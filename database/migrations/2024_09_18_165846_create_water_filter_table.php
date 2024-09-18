@@ -15,8 +15,22 @@ return new class extends Migration
         {
             Schema::create('water_filter', function (Blueprint $table) {
                 $table->bigIncrements('water_filter_id'); 
-                $table->string('water_filter_name')->nullable(); //  
-                $table->enum('active', ['Y','N'])->default('N');
+                $table->string('water_year')->nullable(); // 
+                $table->string('water_code')->nullable(); //  
+                $table->string('water_num')->nullable(); // เลขครุภัณฑ์
+                $table->string('water_name')->nullable(); //  
+                $table->string('size')->nullable(); // 
+                $table->string('water_system')->nullable(); //  
+                $table->string('water_type_new')->nullable(); //  
+                $table->string('water_type_old1')->nullable(); //  
+                $table->string('water_type_old2')->nullable(); //  
+                $table->string('water_type_old3')->nullable(); //  
+                $table->string('water_type_old4')->nullable(); //  
+                // $table->string('water_filter_name')->nullable(); //  
+                $table->string('location_id')->nullable(); //  
+                $table->string('location_name')->nullable(); //  
+                $table->string('class')->nullable(); // 
+                $table->enum('active', ['Y','N','C'])->default('N');
                 
                 $table->timestamps();
             });
