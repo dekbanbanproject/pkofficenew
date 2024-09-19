@@ -146,7 +146,7 @@
                                     {{-- <th class="text-center" >สถานที่ตั้ง</th>   --}}
                                     {{-- <th class="text-center" >หน่วยงาน</th>  --}}
                                     {{-- <th class="text-center" >ชั้น</th>   --}}
-                                    {{-- <th class="text-center">จัดการ</th>  --}}
+                                    <th class="text-center">จัดการ</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -163,9 +163,9 @@
                                         </td>
                                       
                                         @if ( $item->gas_imgname == Null )
-                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
+                                        <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/gas/'.$item->gas_imgname)}}" height="20px" width="30px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/gas/'.$item->gas_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%">  
@@ -177,7 +177,7 @@
                                         {{-- <td class="p-2" width="20%">{{ $item->air_location_id }} - {{ $item->air_location_name }}</td>   --}}
                                         {{-- <td class="p-2" width="20%">{{ $item->detail }}</td>  --}}
                                         {{-- <td class="text-center" width="5%">{{ $item->air_room_class }}</td>   --}}
-                                        {{-- <td class="text-center" width="5%">
+                                        <td class="text-center" width="5%">
  
                                             <div class="btn-group me-1">
                                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -185,26 +185,26 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                    
-                                                    <a class="dropdown-item text-primary" href="{{ url('air_qrcode/'.$item->air_list_id) }}" style="font-size:13px" target="_blank"
+                                                    <a class="dropdown-item text-primary" href="{{ url('gas_qrcode_only/'.$item->gas_list_id) }}" style="font-size:13px" target="_blank"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="Print QR"> 
                                                         <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                         <span>Print QR</span>
                                                     </a> 
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-warning" href="{{ url('air_edit/' . $item->air_list_id) }}" style="font-size:13px" target="_blank"
+                                                    <a class="dropdown-item text-warning" href="{{ url('gas_edit/' . $item->gas_list_id) }}" style="font-size:13px" target="_blank"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
                                                     </a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="air_main_repaire_destroy({{ $item->air_list_id }})" style="font-size:13px"
+                                                    {{-- <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="gas_destrouy({{ $item->gas_list_id }})" style="font-size:13px"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
                                                         <i class="fa-solid fa-trash-can me-2"></i>
                                                         <span style="color: rgb(255, 2, 2);font-size:13px">ลบ</span> 
-                                                    </a>
+                                                    </a> --}}
                                                 </div>
                                             </div>
-                                        </td> --}}
+                                        </td>
 
                                     </tr>
                                 @endforeach

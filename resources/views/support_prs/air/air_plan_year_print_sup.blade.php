@@ -20,13 +20,14 @@
       font-style: normal; // use the matching font-style here
   }        
   body{
+      /* margin: 0px; */
       font-family: "THSarabunNew",  //set your font name u can set custom font name also which u set in @font-face css rule
       
     }
     /* .page-break {
         page-break-after: always;
     } */
-
+    @page { margin:0px 10px 0px 10px; }
     @media print {
       footer {page-break-after: always;}
     }
@@ -35,14 +36,14 @@
 <div class="page-break"></div>
 <h1>Page 2</h1> --}}
 <body>
-  <div class="container-fluid text-center">
+  <div class="container-fluid text-center p-0">
   @php
-    $row_in_table = 12;
+    $row_in_table = 16;
   @endphp
     @forelse ($data_air as $item)
           @if ($loop->iteration % $row_in_table == 1) 
               <div class="row"> 
-                <div class="col-xl-12">   
+                <div class="col-md-12">   
                   <label for="" style="font-size:15px;">
                     <b>แผนการบำรุงรักษาเครื่องปรับอากาศ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ปีงบประมาณ {{$bg_yearnow}}</b>
                   </label>
@@ -51,7 +52,7 @@
                 </div>
               </div>
               <div class="row mt-2"> 
-                  <div class="col-xl-12">  
+                  <div class="col-md-12">  
                           <table class="table table-sm" style="width: 100%;"> 
                               <thead>
                                 <tr style="font-size: 11px;" class="text-center">
@@ -129,9 +130,6 @@
                               $air_plan_year2 = "-";
                               $supplies_name  = $supplies_name_;
                          }
-                         
-
-                          
                           
                     @endphp
                                     <tr style="font-size: 11px;">
@@ -155,40 +153,40 @@
                               
                             </tbody>
                         </table>   
-                        <table class="mt-5">
+                        <table>
                             <tr>
-                              <td style="font-size: 12px;width:15px"><b></b></td> 
-                              <td style="font-size: 12px;width:230px">ลงชื่อ.........................................ผู้เสนอแผน<br> 
-                                <label style="font-size: 12px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
+                              <td style="font-size: 12px;width:18px"><b></b></td> 
+                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เสนอแผน<br> 
+                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
                               </td>
                               
-
                               <td style="font-size: 12px;width:50px"></td>  
-                              <td style="font-size: 12px;width:230px">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
-                                <label style="font-size: 12px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
+                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
+                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
                               </td>
-                             
-                             
+                                                          
                               <td style="font-size: 12px;width:50px"></td> 
-                              <td style="font-size: 12px;width:250px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ.........................................ผู้อนุมัติ<br>  
-                                <label style="font-size: 12px;" class="ms-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$po}}</label>
+                              <td style="font-size: 12px;width:250px;height: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ.........................................ผู้อนุมัติ<br>  
+                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$po}}</label>
                               </td>
                         
                             </tr>                       
                             <tr>
-                              <td style="font-size: 12px;width:15px"><b></b></td> 
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$position}}</p></td>
-                              <td style="font-size: 12px;width:120px"></td>
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">หัวหน้ากลุ่มภารกิจด้านอำนวยการ</p></td>
-                              <td style="font-size: 12px;width:100px"></td>
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</p></td>
+                              <td style="font-size: 12px;width:18px"><b></b></td> 
+                              <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$position}}</p></td>
+                              <td style="font-size: 12px;width:120px;height: 10px;"></td>
+                              <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">หัวหน้ากลุ่มภารกิจด้านอำนวยการ</p></td>
+                              <td style="font-size: 12px;width:100px;height: 10px;"></td>
+                              <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</p></td>
                             </tr>
                         </table> 
-                    </div>
-                </div> 
+                    {{-- </div>
+                </div>  --}}
               @if (!$loop->last)
                   <p style="page-break-after: always;"></p>
               @endif
+            </div>
+          </div> 
           @endif
       @empty
         

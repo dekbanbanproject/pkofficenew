@@ -19,7 +19,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Exports\OtExport;
 // use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Department;
+use App\Models\Visit_import_date;
 use App\Models\Visit_pttype;
 use App\Models\Visit_pttype_import_excel;
 use App\Models\Visit_pttype_import; 
@@ -101,31 +101,33 @@ class PreauditController extends Controller
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
- 
+      
         if ($startdate == '') {
           
-            $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
-                'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
-                ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
-                from ovst c
-                LEFT JOIN visit_pttype vp ON vp.vn = c.vn
-                LEFT JOIN vn_stat v ON v.vn = c.vn
-                LEFT JOIN patient p ON p.hn = v.hn
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
-                AND vp.claim_code is null
-                AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            // $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
+            //     'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
+            //     ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            //     from ovst c
+            //     LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            //     LEFT JOIN vn_stat v ON v.vn = c.vn
+            //     LEFT JOIN patient p ON p.hn = v.hn
+            //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            //     WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
+            //     AND vp.claim_code is null
+            //     AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
                 
-                AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
-                GROUP BY c.vn 
-            ');
-            // $data['authen_excel'] = DB::connection('mysql')->select(
-            //     'SELECT *
-            //     FROM visit_pttype_import 
-            //     WHERE vstdate BETWEEN "'.$date.'" AND "'.$date.'"  
-            //     GROUP BY vn 
-            //     ORDER BY claimcode DESC 
+            //     AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
+            //     GROUP BY c.vn 
             // ');
+            $date_old      = DB::table('visit_import_date')->where('visit_import_date_id','1')->first();
+            if ($date_old == null || $date_old == '') {
+                $startdate_    = '';
+                $enddate_      = '';
+            } else {
+                $startdate_    = $date_old->startdate;
+                $enddate_      = $date_old->enddate;
+            }                       
+
             $data['authen_excel'] = DB::connection('mysql10')->select(
                 'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
                 FROM vn_stat v
@@ -134,8 +136,22 @@ class PreauditController extends Controller
                 WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
                 GROUP BY v.vn  
             ');
-            // AND c.main_dep NOT IN("011","036","107","078","020") 
+
+            // $data['authen_excel_date'] = DB::connection('mysql2')->select(
+            //     'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+            //     FROM vn_stat v
+            //     JOIN visit_pttype vp
+            //     JOIN patient p on p.hn=v.hn
+            //     WHERE v.vstdate BETWEEN "'.$startdate_.'" AND "'.$enddate_.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+            //     GROUP BY v.vn  
+            // ');
         } else {
+          
+            // Visit_import_date::insert([
+            //     'startdate'  => $startdate,
+            //     'enddate'    => $enddate,
+            // ]);
+            
             $data_vn_1 = DB::connection('mysql2')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
                 ,concat(p.pname,p.fname," ",p.lname) as ptname
@@ -178,6 +194,7 @@ class PreauditController extends Controller
                     }
                
             }
+            
       
             // $data['authen_excel'] = DB::connection('mysql')->select(
             //     'SELECT *
@@ -191,11 +208,20 @@ class PreauditController extends Controller
                 FROM vn_stat v
                 JOIN visit_pttype vp
                 JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate BETWEEN "'.$date.'" AND "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                GROUP BY v.vn  
+            ');
+            $data['authen_excel_date'] = DB::connection('mysql2')->select(
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                FROM vn_stat v
+                JOIN visit_pttype vp
+                JOIN patient p on p.hn=v.hn
+                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
                 GROUP BY v.vn  
             ');
         }
-        
+
+     
 
         return view('audit.authen_excel',$data, [
             'startdate'        => $startdate,
@@ -373,6 +399,13 @@ class PreauditController extends Controller
             AND v.income > 0 
             GROUP BY o.vn 
         ');
+        Visit_import_date::truncate();
+        Visit_pttype_import::truncate();
+        
+        $add = new Visit_import_date();
+        $add->startdate  = $startdate;
+        $add->enddate    = $enddate;
+        $add->save();
         // AND p.birthday <> "'.$startdate.'" 
         // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
         // AND (vp.claim_code IS NULL OR vp.claim_code ="")

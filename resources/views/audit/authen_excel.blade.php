@@ -92,12 +92,17 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('audit.authen_excel') }}" method="POST" enctype="multipart/form-data"> 
-            @csrf
+        {{-- <form action="{{ route('audit.authen_excel') }}" method="POST" enctype="multipart/form-data"> 
+            @csrf --}}
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit Authen</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit Authen</p>
+                </div>
+                <div class="col-md-1 text-start"> 
+                    <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                        <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
+                    </button>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-4 text-end">
@@ -112,7 +117,7 @@
                             data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" />
                             <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" id="Pulldata">
-                                <i class="fa-solid fa-magnifying-glass text-white me-2"></i>
+                                <i class="fa-solid fa-1 text-white me-2"></i><i class="fa-solid fa-magnifying-glass text-white me-2"></i>
                                 {{-- <i class="fa-solid fa-spinner text-white me-2"></i> --}}
                                 ค้นหา
                            </button>
@@ -123,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </form> 
+        {{-- </form>  --}}
         <div class="row">
             <div class="col"></div>
             <div class="col-xl-6">
@@ -138,7 +143,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 </div>
                                 <button type="submit" class="ladda-button me-2 btn-pill btn btn-warning cardacc" data-style="expand-left">
-                                    <span class="ladda-label"> <i class="fa-solid fa-upload text-white me-2"></i>Import</span>
+                                    <span class="ladda-label"> <i class="fa-solid fa-2 text-white me-2"></i><i class="fa-solid fa-upload text-white me-2"></i>Import</span>
                                     <span class="ladda-spinner"></span>
                                 </button> 
                                 {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc mb-3" data-style="expand-left">
@@ -146,7 +151,7 @@
                                     <span class="ladda-spinner"></span>
                                 </button>  --}}
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-success card_fdh_4" id="Updatedata">
-                                    <i class="fa-solid fa-spinner text-white me-2"></i>
+                                    <i class="fa-solid fa-3 text-white me-2"></i><i class="fa-solid fa-spinner text-white me-2"></i>
                                     Update Authen 
                                 </button>
                         </form>    
@@ -159,22 +164,20 @@
                 <div class="col-xl-12">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Authen Code ทั้งหมด</h4>  
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Authen Code วันนี้ทั้งหมด</h4>  
                                 <div class="table-responsive"> 
                                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">                          
-                                    {{-- <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">    
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับ</th> 
                                                 <th class="text-center">HN</th> 
                                                 <th class="text-center">VN</th>
                                                 <th class="text-center">CID</th>
-                                                <th class="text-center">วันที่รับบริการ</th>
+                                                <th class="text-center">vstdate</th>
                                                 <th class="text-center">pttype</th>
                                                 <th class="text-center">ชื่อ-สกุล</th>
-                                                <th class="text-center">claimcode</th>
-                                                {{-- <th class="text-center">รหัสบริการ</th>  --}}
+                                                <th class="text-center">claimcode</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -184,7 +187,7 @@
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td>
                                                     <td class="text-center" style="width: 7%">{{ $item_n->vn }}</td>
                                                     <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
+                                                    <td class="text-center" style="width: 10%">{{ $item_n->vstdate }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->pttype }}</td>
                                                     <td class="p-2">{{ $item_n->ptname }}</td>  
                                                     <td class="text-center" style="width: 5%">{{ $item_n->claim_code }}</td>
@@ -199,9 +202,86 @@
                         </div>
                     </div>
                 </div> 
+
+                {{-- <div class="col-xl-6">
+                    <div class="card card_audit_4">
+                        <div class="card-body">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Authen Code ย้อนหลัง(สำหรับงานประกัน)</h4>  
+                                <div class="table-responsive"> 
+                                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">    
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ลำดับ</th> 
+                                                <th class="text-center">HN</th>  
+                                                <th class="text-center">CID</th>
+                                                <th class="text-center">vstdate</th>
+                                                <th class="text-center">pttype</th>
+                                                <th class="text-center">ชื่อ-สกุล</th>
+                                                <th class="text-center">claimcode</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $jj = 1; ?>
+                                            @foreach ($authen_excel_date as $item_n) 
+                                                <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
+                                                    <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
+                                                    <td class="text-center" style="width: 10%">{{ $item_n->vstdate }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->pttype }}</td>
+                                                    <td class="p-2">{{ $item_n->ptname }}</td>  
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->claim_code }}</td> 
+                                                </tr>
+                                            @endforeach
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>  --}}
+
             </div>
     </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">คู่มือการใช้งาน</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center"> 
+            <p style="color: red;font-size: 17px;">คู่มือการนำเข้า Authen Code</p> 
+            <p style="color: red;font-size: 17px;"> <a href="https://authenservice.nhso.go.th/authencode/#/login" target="_blank">เข้าสู่ระบบ สปสช</a></p><br> 
+            <img src="{{ asset('images/doc/Authen_1.jpg') }}" class="rounded" alt="Image" width="auto" height="520px"> 
+            <br><br><br> 
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <br><br><br> 
+            <img src="{{ asset('images/doc/Authen_2.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+            <br><br><br> 
+            <img src="{{ asset('images/doc/Authen_3.jpg') }}" class="rounded" alt="Image" width="auto" height="520px">
+            <br><br><br>
+            <hr style="color: red;border: blueviolet">
+            <hr style="color: red;border: blueviolet">
+
+
+
+          
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">  <i class="fa-solid fa-xmark me-2"></i>Close</button> 
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 @section('footer')
@@ -213,7 +293,7 @@
                 scrollCollapse: true,
                 scrollX: true,
                 "autoWidth": false,
-                "pageLength": 100,
+                "pageLength": 10,
                 "lengthMenu": [10, 100, 150, 200, 300, 400, 500],
             });
             var table = $('#example2').DataTable({

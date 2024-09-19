@@ -219,12 +219,15 @@
 
                                                     </td>
                                                     <td class="text-center" width="20%" style="color:rgb(22, 168, 132)">
-                                                        {{ number_format($item->sum_total, 2) }}</td>
+                                                        {{-- {{ number_format($item->sum_total, 2) }} --}}
+                                                        {{ $item->sum_total }}
+                                                    </td>
                                                     <td class="text-center" width="20%"
                                                         style="color:rgb(252, 73, 42)">
                                                         <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
                                                             href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}">
-                                                            {{ number_format($sum_total_no_, 2) }}
+                                                            {{-- {{ number_format($sum_total_no_, 2) }} --}}
+                                                            {{$sum_total_no_}}
                                                         </a>
 
                                                     </td>
@@ -267,8 +270,8 @@
                                         <th class="text-center">vstdate</th>
                                         <th class="text-center">income</th>
                                         <th class="text-center">Approve Code</th>
-                                        <th class="text-center">EDC</th>
-                                        <th class="text-center">Ap KTB</th>
+                                        {{-- <th class="text-center">EDC</th> --}}
+                                        {{-- <th class="text-center">Ap KTB</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -287,23 +290,23 @@
                                             <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->debit }} </td>
                                             <td class="text-center" width="10%">{{ $item_m->authen }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->edc }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td>
+                                            {{-- <td class="text-center" width="10%">{{ $item_m->edc }} </td> --}}
+                                            {{-- <td class="text-center" width="10%">{{ $item_m->AppKTB }} </td> --}}
                                         </tr>
                                         <?php
                                             $total1 = $total1 + $item_m->debit;
-                                            $total2 = $total2 + $item_m->edc;
-                                            $total3 = $total3 + $item_m->AppKTB; 
+                                            // $total2 = $total2 + $item_m->edc;
+                                            // $total3 = $total3 + $item_m->AppKTB; 
                                     ?>
                                     @endforeach
 
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="4" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ $total1 }}</label></td>
                                     <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
+                                    {{-- <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ $total2 }}</label></td> --}}
+                                    {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ $total3 }}</label> </td> --}}
                                   
                                 </tr>
                             </table>

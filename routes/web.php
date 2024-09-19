@@ -3413,6 +3413,13 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'medicalgas_db', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_db'])->name('prs.medicalgas_db'); //
   Route::match(['get', 'post'], 'medicalgas_list', [App\Http\Controllers\MedicalgasController::class, 'medicalgas_list'])->name('prs.medicalgas_list'); //
   Route::match(['get', 'post'], 'gas_add', [App\Http\Controllers\MedicalgasController::class, 'gas_add'])->name('prs.gas_add'); //
+  Route::match(['get', 'post'], 'gas_save', [App\Http\Controllers\MedicalgasController::class, 'gas_save'])->name('prs.gas_save'); //
+  Route::match(['get', 'post'], 'gas_edit/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_edit'])->name('prs.gas_edit'); //
+  Route::match(['get', 'post'], 'gas_update', [App\Http\Controllers\MedicalgasController::class, 'gas_update'])->name('prs.gas_update'); //
+  Route::match(['get', 'post'], 'gas_qrcode_only/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_qrcode_only'])->name('prs.gas_qrcode_only'); //
+  Route::match(['get', 'post'], 'gas_destrouy/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_destrouy'])->name('prs.gas_destrouy'); //
+  
+
   Route::match(['get', 'post'], 'gas_check_list', [App\Http\Controllers\MedicalgasController::class, 'gas_check_list'])->name('prs.gas_check_list'); //
   Route::match(['get', 'post'], 'gas_check/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
   Route::match(['get', 'post'], 'gas_check_tank', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank'])->name('prs.gas_check_tank'); //
@@ -3440,7 +3447,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'gas_check_o2_add', [App\Http\Controllers\MedicalgasController::class, 'gas_check_o2_add'])->name('prs.gas_check_o2_add'); //
   Route::match(['get', 'post'], 'gas_check_o2_save', [App\Http\Controllers\MedicalgasController::class, 'gas_check_o2_save'])->name('prs.gas_check_o2_save'); //
 
-
+  Route::match(['get', 'post'], 'gas_control', [App\Http\Controllers\MedicalgasController::class, 'gas_control'])->name('prs.gas_control'); //
+  Route::match(['get', 'post'], 'gas_control_add', [App\Http\Controllers\MedicalgasController::class, 'gas_control_add'])->name('prs.gas_control_add'); //
+  Route::match(['get', 'post'], 'gas_control_save', [App\Http\Controllers\MedicalgasController::class, 'gas_control_save'])->name('prs.gas_control_save'); //
 
 
   Route::match(['get', 'post'], 'document', [App\Http\Controllers\DocumentController::class, 'document'])->name('d.document'); //

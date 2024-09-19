@@ -1,4 +1,4 @@
-@extends('layouts.support_prs_fireback')
+@extends('layouts.support_prs_gas')
 @section('title', 'PK-OFFICE || Fire')
 
 <style>
@@ -30,7 +30,7 @@ $count_article = StaticController::count_article();
         }
 
         function addarticle(input) {
-            var fileInput = document.getElementById('fire_imgname');
+            var fileInput = document.getElementById('gas_img');
             var url = input.value;
             var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
             if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
@@ -106,19 +106,7 @@ $loter = $date.''.$time
     ?>
 
 <div class="tabs-animation">
-    {{-- <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
-        </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
-            </div>
-        </div>
-    </div> --}}
+ 
     <div id="preloader">
         <div id="status">
             <div id="container_spin">
@@ -135,12 +123,12 @@ $loter = $date.''.$time
         </div>
     </div>
 
-    <form class="custom-validation" action="{{ route('prs.fire_save') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
+    <form class="custom-validation" action="{{ route('prs.gas_update') }}" method="POST" id="insert_Form" enctype="multipart/form-data">
         @csrf
     <div class="row"> 
-        <div class="col-md-3"> 
-            <h4 style="color:rgb(10, 151, 85)">ถังดับเพลิง</h4>
-            <p class="card-title-desc" style="font-size: 17px;">เพิ่มข้อมูลถังดับเพลิง</p>
+        <div class="col-md-5"> 
+            <h4 style="color:rgb(255, 255, 255)">แก้ไขข้อมูลทะเบียนก๊าซธรรมชาติ</h4>
+            {{-- <p class="card-title-desc" style="font-size: 17px;">เพิ่มข้อมูลถังดับเพลิง</p> --}}
         </div>
         <div class="col"></div>
         {{-- <div class="col-md-2 text-end">
@@ -152,8 +140,8 @@ $loter = $date.''.$time
         <div class="col-md-4 text-end">
             <div class="form-group">
                 <button type="submit" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs"> 
-                    <i class="fa-solid fa-floppy-disk me-2"></i>
-                        บันทึกข้อมูล
+                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                        แก้ไขข้อมูล
                 </button>
                 <a href="{{ url('fire_main') }}" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-danger bt_prs">
                     <i class="fa-solid fa-xmark me-2"></i>
@@ -172,27 +160,28 @@ $loter = $date.''.$time
                     <div class="card-body">
 
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
-                        
+                        <input type="hidden" name="gas_list_id" id="gas_list_id" value=" {{ $data_edit->gas_list_id }}">
+
                         <div class="row">
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
-                                        alt="Image" class="img-thumbnail bg_prs" width="450px" height="350px">
+                                    @if ($data_edit->gas_img == null)
+                                        <img src="{{ asset('assets/images/default-image.jpg') }}" id="edit_upload_preview" height="450px" width="350px" alt="Image" class="img-thumbnail bt_prs">
+                                    @else
+                                        <img src="{{ asset('storage/gas/' . $data_edit->gas_img) }}" id="add_upload_preview" height="450px" width="350px" alt="Image" class="img-thumbnail bt_prs"> 
+                                    @endif
+
+                                    {{-- <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
+                                        alt="Image" class="img-thumbnail bg_prs" width="450px" height="350px"> --}}
                                     <br>
                                     <div class="input-group mt-3">
                                         {{-- <label class="input-group-text" for="fire_imgname">Upload</label> --}}
                                         {{-- <canvas> --}}
-                                        <input type="file" class="form-control bg_prs" id="fire_imgname" name="fire_imgname"
+                                        <input type="file" class="form-control bg_prs" id="gas_img" name="gas_img"
                                             onchange="addarticle(this)">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        {{-- <input type="hidden" id="signature" name="signature"> --}}
-                                    {{-- </canvas>
-                                    <button type="button" id="save_btn"
-                                    class="btn btn-info btn-sm mt-3 me-2 text-white" data-action="save-png"
-                                    onclick="create()"><span class="glyphicon glyphicon-ok"></span>
-                                    Create
-                                </button> --}}
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -203,9 +192,9 @@ $loter = $date.''.$time
                                     <div class="col-md-6"> 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                              <label class="input-group-text" for="fire_year">ปีงบประมาณ</label>
+                                              <label class="input-group-text" for="gas_year">ปีงบประมาณ</label>
                                             </div>
-                                            <select class="js-example-responsive" id="fire_year" name="fire_year" style="width: 65%">  
+                                            <select class="js-example-responsive" id="gas_year" name="gas_year" style="width: 65%">  
                                                 @foreach ($budget_year as $ye)
                                                 @if ($ye->leave_year_id == $date)
                                                     <option value="{{ $ye->leave_year_id }}" selected>
@@ -224,46 +213,27 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">วันที่รับเข้า</span>
                                             </div>
-                                            <input type="date" class="form-control bg_prs form-control-sm" id="fire_date" name="fire_date" aria-label="fire_date" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="date" class="form-control bg_prs form-control-sm" value="{{$data_edit->gas_recieve_date}}" id="gas_recieve_date" name="gas_recieve_date" aria-label="gas_recieve_date" aria-describedby="inputGroup-sizing-sm">
                                         </div> 
                                     </div>
                                 </div>
-
-                                <div class="row mt-3">
-                                  
-                                    <div class="col-md-6">                                      
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่ผลิต</span>
-                                            </div>
-                                            <input type="date" class="form-control bg_prs" id="fire_date_pdd" name="fire_date_pdd" aria-label="fire_date_pdd" aria-describedby="inputGroup-sizing-sm">
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-6">                                      
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">วันที่หมดอายุ</span>
-                                            </div>
-                                            <input type="date" class="form-control bg_prs" id="fire_date_exp" name="fire_date_exp" aria-label="fire_date_exp" aria-describedby="inputGroup-sizing-sm">
-                                        </div> 
-                                    </div> 
-                                </div>
+ 
 
                                 <div class="row mt-3"> 
                                     <div class="col-md-6">                                      
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">รหัสถังดับเพลิง</span>
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">รหัส</span>
                                             </div>
-                                            <input type="text" class="form-control bg_prs" id="fire_num" name="fire_num" aria-label="fire_num" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->gas_list_num}}" id="gas_list_num" name="gas_list_num" aria-label="gas_list_num" aria-describedby="inputGroup-sizing-sm">
                                         </div> 
                                     </div> 
                                     <div class="col-md-6">                                      
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ</span>
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">รายการ</span>
                                             </div>
-                                            <input type="text" class="form-control bg_prs" id="fire_name" name="fire_name" aria-label="fire_name" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->gas_list_name}}" id="gas_list_name" name="gas_list_name" aria-label="gas_list_name" aria-describedby="inputGroup-sizing-sm">
                                         </div> 
                                     </div> 
                                 </div>
@@ -275,22 +245,25 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">ราคา</span>
                                             </div>
-                                            <input type="text" class="form-control bg_prs" id="fire_price" name="fire_price" aria-label="fire_price" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->gas_price}}" id="gas_price" name="gas_price" aria-label="gas_price" aria-describedby="inputGroup-sizing-sm">
                                         </div>  
                                     </div> 
                                     <div class="col-md-1 mt-2">
                                         <label for="fire_price">บาท</label>
                                     </div>
                                     <div class="col-md-6">  
-                                        <div class="input-group">
+                                        <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                              <label class="input-group-text" for="fire_year">สถานะ</label>
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">detail</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->detail}}" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
+                                        </div>  
+                                        {{-- <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="detail">detail</label>
                                             </div>                                          
-                                            <select id="active" name="active" class="js-example-responsive" style="width: 75%">
-                                                <option value="Y">ปกติ</option>
-                                                <option value="N">ชำรุด</option> 
-                                            </select>
-                                        </div> 
+                                            <input type="text" class="form-control bg_prs" id="detail" name="detail" aria-label="detail" aria-describedby="inputGroup-sizing-sm">
+                                        </div>  --}}
                                     </div> 
                                 </div>
 
@@ -302,62 +275,100 @@ $loter = $date.''.$time
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="inputGroup-sizing-sm">สถานที่ตั้ง</span>
                                             </div>
-                                            <input type="text" class="form-control bg_prs" id="fire_location" name="fire_location" aria-label="fire_location" aria-describedby="inputGroup-sizing-sm">
+                                            <select class="js-example-responsive" id="location_id" name="location_id" style="width: 75%">  
+                                                @foreach ($building_data as $lo)
+                                                @if ($data_edit->location_id == $lo->building_id)
+                                                    <option value="{{ $lo->building_id }}" selected>{{ $lo->building_name }} </option>
+                                                @else
+                                                    <option value="{{ $lo->building_id }}">{{ $lo->building_name }} </option>
+                                                @endif
+                                                    
+                                                @endforeach
+                                            </select> 
+                                            {{-- <input type="text" class="form-control bg_prs" id="location_id" name="location_id" aria-label="location_id" aria-describedby="inputGroup-sizing-sm"> --}}
                                         </div> 
                                     </div>
                                     <div class="col-md-6">                                      
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
-                                              <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด(ปอนด์)</span>
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ชั้น</span>
                                             </div>
-                                            <input type="text" class="form-control bg_prs" id="fire_size" name="fire_size" aria-label="fire_size" aria-describedby="inputGroup-sizing-sm">
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->class}}" id="class" name="class" aria-label="class" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
+ 
+                                </div>
+
+                                <div class="row mt-3">
+                                    
+                                    <div class="col-md-6">                                      
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">ขนาด</span>
+                                            </div>
+                                            <input type="text" class="form-control bg_prs" value="{{$data_edit->size}}" id="size" name="size" aria-label="size" aria-describedby="inputGroup-sizing-sm">
+                                        </div> 
+                                    </div> 
+                                    <div class="col-md-6">  
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="active">สถานะ</label>
+                                            </div>                                          
+                                            <select id="active" name="active" class="js-example-responsive" style="width: 75%">
+                                                @if ($data_edit->active == 'Ready')
+                                                    <option value="Ready" selected>พร้อมใช้งาน</option>
+                                                    <option value="NotReady">ไม่พร้อมใช้งาน</option> 
+                                                    <option value="Borrow">ยืม</option>
+                                                @elseif($data_edit->active == 'NotReady')
+                                                    <option value="Ready">พร้อมใช้งาน</option>
+                                                    <option value="NotReady" selected>ไม่พร้อมใช้งาน</option> 
+                                                    <option value="Borrow">ยืม</option>
+                                                @elseif($data_edit->active == 'Borrow')
+                                                    <option value="Ready">พร้อมใช้งาน</option>
+                                                    <option value="NotReady">ไม่พร้อมใช้งาน</option> 
+                                                    <option value="Borrow" selected>ยืม</option>
+                                                @else
+                                                    
+                                                @endif
+                                              
+                                                
+                                            </select>
                                         </div> 
                                     </div> 
  
                                 </div>
  
 
-                                <div class="row mt-3">
-                                    {{-- <div class="col-md-2 text-end">
-                                        <label for="article_unit_id">หน่วยนับ </label>
-                                    </div> --}}
-                                    <div class="col-md-6">
-                                        {{-- <div class="form-group">
-                                            <select id="article_unit_id" name="article_unit_id"
-                                                class="form-select form-select-lg show_unit" style="width: 100%">
-                                                <option value=""></option>
-                                                @foreach ($product_unit as $uni)
-                                                    <option value="{{ $uni->unit_id }}">
-                                                        {{ $uni->unit_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
-
+                                <div class="row mt-3"> 
+                                    <div class="col-md-6"> 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                               <label class="input-group-text" for="fire_year">หน่วยนับ</label>
                                             </div>
-                                            <select class="js-example-responsive show_unit" id="article_unit_id" name="article_unit_id" style="width: 75%">  
+                                            <select class="js-example-responsive show_unit" id="gas_unit" name="gas_unit" style="width: 75%">  
                                                 @foreach ($product_unit as $uni)
-                                                <option value="{{ $uni->unit_id }}">
-                                                    {{ $uni->unit_name }}
-                                                </option>
-                                            @endforeach
+                                                @if ($data_edit->gas_unit == $uni->unit_id)
+                                                <option value="{{ $uni->unit_id }}" selected>{{ $uni->unit_name }}</option>
+                                                @else
+                                                <option value="{{ $uni->unit_id }}">{{ $uni->unit_name }}</option>
+                                                @endif
+                                                    
+                                                @endforeach
                                             </select> 
-                                        </div>
-
+                                        </div> 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6"> 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                            <label class="input-group-text" for="article_brand_id">ยี่ห้อ</label>
+                                              <label class="input-group-text" for="gas_brand">ยี่ห้อ</label>
                                             </div>
-                                            <select class="js-example-responsive show_brand" id="article_brand_id" name="article_brand_id" style="width: 75%">  
+                                            <select class="js-example-responsive show_brand" id="gas_brand" name="gas_brand" style="width: 75%">  
                                                 @foreach ($product_brand as $bra)
-                                                    <option value="{{ $bra->brand_id }}">
-                                                        {{ $bra->brand_name }}
-                                                    </option>
+                                                @if ($data_edit->gas_brand == $bra->brand_id)
+                                                    <option value="{{ $bra->brand_id }}" selected>{{ $bra->brand_name }}</option>
+                                                @else
+                                                    <option value="{{ $bra->brand_id }}">{{ $bra->brand_name }}</option>
+                                                @endif 
                                                 @endforeach
                                             </select> 
                                         </div>
@@ -381,14 +392,14 @@ $loter = $date.''.$time
                                     </div> --}}
                                 </div>
 
-                                {{-- <div class="row mt-3"> 
-                                    <div class="col-md-6">
-                                      
+                                <div class="row mt-3">
+                                
+                                    {{-- <div class="col-md-6"> 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                              <label class="input-group-text" for="article_brand_id">ยี่ห้อ</label>
+                                              <label class="input-group-text" for="gas_brand">ยี่ห้อ</label>
                                             </div>
-                                            <select class="js-example-responsive show_brand" id="article_brand_id" name="article_brand_id" style="width: 75%">  
+                                            <select class="js-example-responsive show_brand" id="gas_brand" name="gas_brand" style="width: 75%">  
                                                 @foreach ($product_brand as $bra)
                                                     <option value="{{ $bra->brand_id }}">
                                                         {{ $bra->brand_name }}
@@ -396,8 +407,8 @@ $loter = $date.''.$time
                                                 @endforeach
                                             </select> 
                                         </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
+                                    </div> --}}
+                                    {{-- <div class="col-md-2 text-end">
                                         <label for="" style="color: rgb(255, 145, 0)">* ถ้าไม่มีให้เพิ่ม</label>
                                     </div>
                                     <div class="col-md-3">
@@ -414,40 +425,9 @@ $loter = $date.''.$time
                                                 เพิ่ม
                                             </button>
                                         </div>
-                                    </div>
-                                </div> --}}
-
-                                <div class="row mt-3">
-                                    
-                                    {{-- <div class="col-md-2 text-end">
-                                        <label for="fire_color">ถังสี </label>
                                     </div> --}}
-                                    <div class="col-md-6">
-                                        {{-- <div class="form-group">
-                                            
-                                            <select id="fire_color" name="fire_color" class="form-select form-select-lg" style="width: 100%">
-                                                <option value="green">เขียว</option>
-                                                <option value="red">แดง</option> 
-                                                <option value="yellow">เหลือง</option> 
-                                            </select>                                            
-                                        </div> --}}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                              <label class="input-group-text" for="fire_color">ถังสี</label>
-                                            </div>
-                                            <select class="js-example-responsive " id="fire_color" name="fire_color" style="width: 75%">  
-                                                <option value="green">เขียว</option>
-                                                <option value="red">แดง</option> 
-                                                <option value="yellow">เหลือง</option>
-                                            </select> 
-                                        </div>
-
-                                    </div>
-                                    <div class="col"></div>
-
                                 </div>
-
+ 
                             </div>
                         </div>
 
@@ -489,11 +469,11 @@ $loter = $date.''.$time
           $('#example5').DataTable();  
           $('#table_id').DataTable();
          
-          $('#article_unit_id').select2({
+          $('#gas_unit').select2({
               placeholder:"--เลือก--",
               allowClear:true
           });
-          $('#fire_year').select2({
+          $('#gas_year').select2({
               placeholder:"--เลือก--",
               allowClear:true
           });
@@ -502,11 +482,11 @@ $loter = $date.''.$time
               allowClear:true
           });
           
-          $('#article_brand_id').select2({
+          $('#gas_brand').select2({
               placeholder:"--เลือก--",
               allowClear:true
           });  
-          $('#fire_color').select2({
+          $('#location_id').select2({
               placeholder:"--เลือก--",
               allowClear:true
           }); 
@@ -533,8 +513,8 @@ $loter = $date.''.$time
                       } else {          
                         Swal.fire({
                           position: "top-end",
-                          title: 'บันทึกข้อมูลสำเร็จ',
-                          text: "You Insert data success",
+                          title: 'แก้ไขข้อมูลสำเร็จ',
+                          text: "You Update data success",
                           icon: 'success',
                           showCancelButton: false,
                           confirmButtonColor: '#06D177',
@@ -543,7 +523,7 @@ $loter = $date.''.$time
                         }).then((result) => {
                           if (result.isConfirmed) {         
                             // window.location.reload();  
-                            window.location="{{url('fire_main')}}"; 
+                            window.location="{{url('medicalgas_list')}}"; 
                           }
                         })      
                       }

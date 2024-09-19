@@ -190,6 +190,185 @@ class MedicalgasController extends Controller
             'datashow'      => $datashow,
         ]);
     }
+    public function gas_add(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+          
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_unit']       = Product_unit::get();
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['building_data']      = DB::table('building_data')->get();
+
+        return view('support_prs.gas.gas_add',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            // 'data_edit'     => $data_edit,
+        ]);
+    }
+    public function gas_save(Request $request)
+    {
+        $gas_listnum = $request->gas_list_num;
+        $add                     = new Gas_list();
+        $add->gas_year           = $request->gas_year;
+        $add->gas_recieve_date   = $request->gas_recieve_date;
+        $add->gas_list_num       = $gas_listnum;
+        $add->gas_list_name      = $request->gas_list_name;
+        $add->gas_price          = $request->gas_price;
+        $add->active             = $request->active; 
+        $add->size               = $request->size; 
+        $add->class              = $request->class;   
+        $add->detail             = $request->detail; 
+        
+        $loid = $request->input('location_id');
+        if ($loid != '') {
+            $losave = DB::table('building_data')->where('building_id', '=', $loid)->first(); 
+            $add->location_id   = $losave->building_id;
+            $add->location_name = $losave->building_name;
+        } else { 
+            $add->location_id   = '';
+            $add->location_name = '';
+        }
+
+        $branid = $request->input('gas_brand');
+        if ($branid != '') {
+            $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
+            $add->gas_brand = $bransave->brand_id;
+        } else { 
+            $add->gas_brand = '';
+        }
+
+        $uniid = $request->input('gas_unit');
+        if ($uniid != '') {
+            $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
+            $add->gas_unit = $unisave->unit_id;
+        } else {         
+            $add->gas_unit = '';
+        }
+ 
+        if ($request->hasfile('gas_img')) {
+            $image_64 = $request->file('gas_img');  
+            $extention = $image_64->getClientOriginalExtension(); 
+            $filename = $gas_listnum. '.' . $extention;
+            $request->gas_img->storeAs('gas', $filename, 'public');    
+            $add->gas_img            = $filename;
+            $add->gas_imgname        = $filename; 
+            if ($extention =='.jpg') {
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+            } else {
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+            } 
+            $add->gas_img_base       = $file64; 
+        }
+ 
+        $add->save();
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+    public function gas_edit(Request $request,$id)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+          
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_unit']       = Product_unit::get();
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['building_data']      = DB::table('building_data')->get();
+     
+        $data_edit              = DB::table('gas_list')->where('gas_list_id',$id)->first();
+
+        return view('support_prs.gas.gas_edit',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'data_edit'     => $data_edit,
+        ]);
+    }
+    public function gas_update(Request $request)
+    {
+        $id = $request->gas_list_id;
+        $gas_listnum = $request->gas_list_num;
+        $update                     = Gas_list::find($id);
+        $update->gas_year           = $request->gas_year;
+        $update->gas_recieve_date   = $request->gas_recieve_date;
+        $update->gas_list_num       = $gas_listnum;
+        $update->gas_list_name      = $request->gas_list_name;
+        $update->gas_price          = $request->gas_price;
+        $update->active             = $request->active; 
+        $update->size               = $request->size; 
+        $update->class              = $request->class;   
+        $update->detail             = $request->detail; 
+        
+        $loid = $request->input('location_id');
+        if ($loid != '') {
+            $losave = DB::table('building_data')->where('building_id', '=', $loid)->first(); 
+            $update->location_id   = $losave->building_id;
+            $update->location_name = $losave->building_name;
+        } else { 
+            $update->location_id   = '';
+            $update->location_name = '';
+        }
+
+        $branid = $request->input('gas_brand');
+        if ($branid != '') {
+            $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
+            $update->gas_brand = $bransave->brand_id;
+        } else { 
+            $update->gas_brand = '';
+        }
+
+        $uniid = $request->input('gas_unit');
+        if ($uniid != '') {
+            $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
+            $update->gas_unit = $unisave->unit_id;
+        } else {         
+            $update->gas_unit = '';
+        }
+ 
+        if ($request->hasfile('gas_img')) {
+            $description = 'storage/gas/' . $update->gas_img;
+            if (File::exists($description)) {
+                File::delete($description);
+            }
+            $image_64 = $request->file('gas_img');  
+            $extention = $image_64->getClientOriginalExtension(); 
+            $filename = $gas_listnum. '.' . $extention;
+            $request->gas_img->storeAs('gas', $filename, 'public');    
+            $update->gas_img            = $filename;
+            $update->gas_imgname        = $filename; 
+            if ($extention =='.jpg') {
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+            } else {
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+            } 
+            $update->gas_img_base       = $file64; 
+        }
+ 
+        $update->save();
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+
+
 
     // Tank Main
     public function gas_check_tank(Request $request)

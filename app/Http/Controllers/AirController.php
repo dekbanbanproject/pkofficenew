@@ -5699,13 +5699,12 @@ class AirController extends Controller
         $mo            = DB::table('air_plan_month')->where('air_plan_month',$month)->first();
         $mo_name       = $mo->air_plan_name;
 
-
-
-
-
+        // $customPaper = [0, 0, 297.00, 210.80];
         $pdf = PDF::loadView('support_prs.air.air_plan_year_print',$data,[            
             'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo,'mo_name'=>$mo_name           
             ])->setPaper('a4', 'landscape');
+            // ])->setPaper($customPaper, 'landscape');
+
             return @$pdf->stream(); 
     }
 

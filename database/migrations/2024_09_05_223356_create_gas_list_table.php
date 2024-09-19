@@ -15,13 +15,16 @@ return new class extends Migration
         {
             Schema::create('gas_list', function (Blueprint $table) {
                 $table->bigIncrements('gas_list_id'); 
+                $table->date('gas_recieve_date')->nullable(); 
                 $table->string('gas_type')->nullable(); 
                 $table->string('gas_list_num', length: 255)->nullable();  //           
                 $table->string('gas_list_name', length: 255)->nullable(); //  
                 $table->string('detail', length: 255)->nullable(); //  
                 $table->string('size', length: 255)->nullable(); //  
                 $table->decimal('gas_price',total: 12, places: 2)->nullable(); //  
-                $table->string('gas_year', length: 200)->nullable(); //                
+                $table->string('gas_year', length: 200)->nullable(); //       
+                $table->string('gas_unit', length: 200)->nullable(); //    
+                $table->string('gas_brand', length: 200)->nullable(); //          
                 $table->enum('active', ['NotReady','Ready','Borrow','Wait'])->default('Ready'); 
 
                 $table->string('location_id', length: 255)->nullable(); // 
