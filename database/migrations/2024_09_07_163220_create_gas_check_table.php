@@ -42,6 +42,11 @@ return new class extends Migration
                 $table->text('pressure_value')->nullable(); //แรงดัน
                 $table->text('pariman_value')->nullable(); //ระดับปริมาณ
 
+                $table->text('oxygen_check')->nullable(); //
+                $table->text('nitrous_oxide_check')->nullable(); //
+                $table->text('pneumatic_air_check')->nullable(); //
+                $table->text('vacuum_check')->nullable(); //
+
                 $table->string('user_id')->nullable(); // ผู้ตรวจ
                 
                 $table->timestamps();

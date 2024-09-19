@@ -50,7 +50,7 @@ use App\Models\Air_maintenance_list;
 use App\Models\Product_budget;
 use App\Models\Air_plan_month;
 use App\Models\Air_temp_ploblem;
-use App\Models\Air_edit_log;
+use App\Models\Gas_dot_control;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -1238,6 +1238,337 @@ class MedicalgasController extends Controller
         }
     }
 
-  
+    public function gas_control(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname,b.pariman_value,b.pressure_value,a.active
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = b.user_id 
+                WHERE b.check_date BETWEEN "'.$datenow.'" AND "'.$datenow.'" AND b.gas_type IN("6","7","8","9") AND a.gas_year = "'.$bg_yearnow.'"
+                ORDER BY b.gas_check_id DESC 
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size,b.gas_list_id,b.gas_check_id
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname ,b.pariman_value,b.pressure_value,a.active
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = b.user_id 
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type IN("6","7","8","9") AND a.gas_year = "'.$bg_yearnow.'"
+                ORDER BY b.gas_check_id DESC  
+            '); 
+        }
+ 
+        return view('support_prs.gas.gas_control',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function gas_control_add(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type IN("6","7","8","9")
+                ORDER BY b.gas_check_id DESC 
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type IN("6","7","8","9")
+                ORDER BY b.gas_check_id DESC  
+            '); 
+        }
+
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $m             = date('H');
+        $data['mm']    = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+        $data['gas_list_group'] = $datashow = DB::select('SELECT gas_list_id,dot,dot_name,location_name,detail,class FROM gas_list WHERE dot IS NOT NULL GROUP BY dot');
+     
+        return view('support_prs.gas.gas_control_add',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function gas_control_addsave(Request $request)
+    {
+        Gas_dot_control::truncate();
+        $id = $request->dot;
+        $data_  = DB::table('gas_list')->where('gas_list_id',$id)->first();
+                
+            Gas_dot_control::insert([
+                'dot'               => $data_->dot,
+                'gas_list_id'       => $id,
+                'gas_list_num'      => $data_->gas_list_num,
+                'gas_list_name'     => $data_->gas_list_name,
+                'gas_type'          => $data_->gas_type,
+                'dot_name'          => $data_->dot_name,
+                'location_id'       => $data_->location_id,
+                'location_name'     => $data_->location_name,
+                'detail'            => $data_->detail,
+                'class'             => $data_->class, 
+            ]);
+             
+            return response()->json([
+                'status'     => '200'
+            ]);
+            
+    }
+    public function gas_control_addsub(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        if ($startdate =='') {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND b.gas_type IN("6","7","8","9")
+                ORDER BY b.gas_check_id DESC 
+            '); 
+        } else {
+            $datashow = DB::select(
+                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+                FROM gas_check b
+                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN users p ON p.id = a.user_id 
+                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type IN("6","7","8","9")
+                ORDER BY b.gas_check_id DESC  
+            '); 
+        }
+
+        $data_                  = DB::table('gas_dot_control')->where('gas_dot_control_id','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_list_num']   = $data_->gas_list_num;
+        $data['gas_list_name']  = $data_->gas_list_name;
+        $data['gas_type']       = $data_->gas_type;
+        $data['dot']            = $data_->dot;
+        $data['dot_name']       = $data_->dot_name;
+        $data['location_id']    = $data_->location_id;
+        $data['location_name']  = $data_->location_name;
+        $data['detail']         = $data_->detail;
+        $data['class']          = $data_->class;
+       
+        
+
+        $m             = date('H');
+        $data['mm']    = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+        $data['gas_list_group'] = $datashow = DB::select('SELECT gas_list_id,dot,dot_name,location_name,detail,class FROM gas_list WHERE dot IS NOT NULL GROUP BY dot');
+     
+        return view('support_prs.gas.gas_control_addsub',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function gas_control_addsub_save(Request $request)
+    {
+         
+                $idgas         = Gas_list::where('gas_list_id', $request->gas_list_id)->first();
+                $gas_list_id   = $idgas->gas_list_id; 
+                $gas_list_num  = $idgas->gas_list_num; 
+                $gas_list_name = $idgas->gas_list_name; 
+                $size          = $idgas->size; 
+                $gas_type      = $idgas->gas_type; 
+                 
+                $date          = date('Y-m-d');
+                $y             = date('Y')+543;
+                $m             = date('H');
+                $mm            = date('H:m:s');
+                $datefull      = date('Y-m-d H:m:s');
+                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
+                $iduser        = Auth::user()->id;
+                $name_         = User::where('id', '=',$iduser)->first();
+                $name_check    = $name_->fname. '  '.$name_->lname;
+                if ($check > 0) {
+                    // Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([  
+                    //     'check_date'         => $date,
+                    //     'active'             => $active, 
+                    //     'user_id'            => $iduser, 
+                    // ]);
+                    // Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                    //     'active'             => $active, 
+                    //     'user_id'            => $iduser, 
+                    // ]);
+                } else {
+                    Gas_check::insert([
+                        'check_year'               => $y,
+                        'check_date'               => $date,
+                        'check_time'               => $mm,
+                        'gas_list_id'              => $gas_list_id,
+                        'gas_list_num'             => $gas_list_num,
+                        'gas_list_name'            => $gas_list_name,
+                        'size'                     => $size,
+                        'gas_type'                 => $gas_type,
+                        'active'                   => $request->active_edit,  
+                        'user_id'                  => $iduser, 
+
+                        'oxygen_check'            => $request->oxygen_check,
+                        'nitrous_oxide_check'     => $request->nitrous_oxide_check,
+                        'pneumatic_air_check'     => $request->pneumatic_air_check,
+                        'vacuum_check'            => $request->vacuum_check,
+                    ]);
+                    // Gas_list::where('gas_list_id', $gas_list_id)->update([  
+                        // 'active'             => $active, 
+                        // 'user_id'            => $iduser, 
+                    // ]);
+
+                    if ( $request->active_edit == 'Ready') {
+                        $active = 'พร้อมใช้งาน';
+                    } else {
+                        $active = 'ไม่พร้อมใช้งาน';
+                    }
+                    
+
+                    //แจ้งเตือนไลน์
+                    // if ($request->pariman_value < '50') {
+                    //แจ้งเตือน 
+                    function DateThailine($strDate)
+                    {
+                        $strYear = date("Y", strtotime($strDate)) + 543;
+                        $strMonth = date("n", strtotime($strDate));
+                        $strDay = date("j", strtotime($strDate));
+                        $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                        $strMonthThai = $strMonthCut[$strMonth];
+                        return "$strDay $strMonthThai $strYear";
+                    }
+                    $header = "ตรวจสอบ Control Gas";                                    
+                    $message =  $header. 
+                    "\n" . "วันที่ตรวจสอบ: " . DateThailine($date).
+                    "\n" . "เวลา : " . $mm ."". 
+                    "\n" . "อาคาร : " . $request->location_name .  
+                    "\n" . "ชั้น : " . $request->class_edit .  
+                    "\n" . "จุดตรวจเช็ค : " . $request->dot_name .  
+                    "\n" . "Oxygen Control : " . $request->oxygen_check .  
+                    "\n" . "Nitrous oxide Control : " . $request->nitrous_oxide_check . 
+                    "\n" . "Pneumatic Air Control : " . $request->pneumatic_air_check . 
+                    "\n" . "Vacuum Control : " . $request->vacuum_check.
+                    "\n" . "ผู้ตรวจสอบ : " . $name_check.
+                    "\n" . "สถานะ : " . $active;
+
+                    $linesend_tech = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
+                    $linesend      = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส  
+
+                    if ($linesend == null) {
+                        $test = '';
+                    } else {
+                        $test = $linesend;
+                    }
+                    if ($test !== '' && $test !== null) {
+                        $chOne = curl_init();
+                        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($chOne, CURLOPT_POST, 1);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($chOne);
+                        if (curl_error($chOne)) {
+                            echo 'error:' . curl_error($chOne);
+                        } else {
+                            $result_ = json_decode($result, true);                        
+                        }
+                        curl_close($chOne); 
+                    }
+
+                    if ($linesend_tech == null) {
+                        $test2 = '';
+                    } else {
+                        $test2 = $linesend_tech;
+                    }
+                    if ($test2 !== '' && $test2 !== null) {
+                        $chOne_tech = curl_init();
+                        curl_setopt($chOne_tech, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($chOne_tech, CURLOPT_POST, 1);
+                        curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt($chOne_tech, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers2 = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test2 . '',);
+                        curl_setopt($chOne_tech, CURLOPT_HTTPHEADER, $headers2);
+                        curl_setopt($chOne_tech, CURLOPT_RETURNTRANSFER, 1);
+                        $result2 = curl_exec($chOne_tech);
+                        if (curl_error($chOne_tech)) {
+                            echo 'error:' . curl_error($chOne_tech);
+                        } else {
+                            $result_2 = json_decode($result2, true);                        
+                        }
+                        curl_close($chOne_tech); 
+                    }
+                  
+                    return response()->json([
+                        'status'     => '200'
+                    ]); 
+
+                }
+              
+                return response()->json([
+                    'status'     => '100'
+                ]); 
+           
+        
+        }
 
  }

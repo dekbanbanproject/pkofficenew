@@ -3449,6 +3449,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'gas_control', [App\Http\Controllers\MedicalgasController::class, 'gas_control'])->name('prs.gas_control'); //
   Route::match(['get', 'post'], 'gas_control_add', [App\Http\Controllers\MedicalgasController::class, 'gas_control_add'])->name('prs.gas_control_add'); //
+  Route::match(['get', 'post'], 'gas_control_addsave', [App\Http\Controllers\MedicalgasController::class, 'gas_control_addsave'])->name('prs.gas_control_addsave'); //
+  Route::match(['get', 'post'], 'gas_control_addsub', [App\Http\Controllers\MedicalgasController::class, 'gas_control_addsub'])->name('prs.gas_control_addsub'); //
+  Route::match(['get', 'post'], 'gas_control_addsub_save', [App\Http\Controllers\MedicalgasController::class, 'gas_control_addsub_save'])->name('prs.gas_control_addsub_save'); //
   Route::match(['get', 'post'], 'gas_control_save', [App\Http\Controllers\MedicalgasController::class, 'gas_control_save'])->name('prs.gas_control_save'); //
 
 

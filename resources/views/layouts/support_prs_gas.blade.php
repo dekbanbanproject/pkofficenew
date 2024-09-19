@@ -459,9 +459,9 @@
                                         </a> 
                                     </div>
                                     <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_check_o2')}}" id="topnav-layout-verti"
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('gas_control')}}" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">ตู้ Control Gas</span>  
+                                            <span key="t-vertical">Control Gas</span>  
                                         </a> 
                                     </div>
                                     {{-- <div class="dropdown">
