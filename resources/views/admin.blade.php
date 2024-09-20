@@ -1264,8 +1264,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
                 {{-- </a>  --}}
             </div>
             @endif
-
-            {{-- <div class="col-xl-3 col-md-3">
+          
+            <div class="col-xl-3 col-md-3">
+                <a href="{{ url('dental') }}" target="_blank">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(241, 188, 90, 0.74)">
                     <div class="grid-menu-col">
@@ -1275,17 +1276,17 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            <a href="" target="_blank">
+                                            
                                                 <h5 class="text-start mb-2">DENTAL</h5>
-                                            </a>
+                                       
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('dental') }}" target="_blank">
+                                           
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/dental.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/dental.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                 </button>
-                                            </a>
+                                         
                                         </div>
                                     </div>
                                 </div>
@@ -1293,8 +1294,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
                         </div>
                     </div>
                 </div> 
-            </div> --}}
-
+                </a>
+            </div>
+     
             @if ($per_prs != 0) 
           
                 <div class="col-xl-3 col-md-6">

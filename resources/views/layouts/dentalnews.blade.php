@@ -219,6 +219,15 @@
                                 <li ><a href="{{ url('dental') }}" style="color: rgb(5, 5, 5)">ปฎิทินนัด</a></li> 
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                              <i class="fa-solid fa-hospital-user text-danger"></i>
+                                <span>ผู้ช่วยทันตแพทย์</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('dental_assistant') }}" style="color: rgb(5, 5, 5)">ภาระงาน</a></li> 
+                            </ul>
+                        </li>
                         
 
                     </ul>

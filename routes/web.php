@@ -2976,15 +2976,6 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'timein', [App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein'); //ลงเวลา
   Route::match(['get', 'post'], 'timein_save', [App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save'); //ลงเวลา
 
-  //********************* */ DENTAL  ***********************************
-  Route::match(['get', 'post'], 'dental', [App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental'); //
-  Route::match(['get', 'post'], 'dental_detail/{id}', [App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail'); //
-  Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
-  Route::match(['get', 'post'], 'dental_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit'); //
-  Route::match(['get', 'post'], 'dental_update', [App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update'); //
-  Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
-
-
   //********************* */ OPD IPD  ***********************************
   Route::match(['get', 'post'], 'opdtoipd', [App\Http\Controllers\OpipController::class, 'opdtoipd'])->name('op.opdtoipd'); //
   Route::match(['get', 'post'], 'opdtoipd_sub/{vn}', [App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub'); //
@@ -3502,6 +3493,14 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
 
 
+    //********************* */ DENTAL  ***********************************
+    Route::match(['get', 'post'], 'dental', [App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental'); //
+    Route::match(['get', 'post'], 'dental_detail/{id}', [App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail'); //
+    Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
+    Route::match(['get', 'post'], 'dental_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit'); //
+    Route::match(['get', 'post'], 'dental_update', [App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update'); //
+    Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
+    Route::match(['get', 'post'], 'dental_assistant', [App\Http\Controllers\DentalController::class, 'dental_assistant'])->name('den.dental_assistant'); //
 
 
 });

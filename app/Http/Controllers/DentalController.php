@@ -191,6 +191,34 @@ class DentalController extends Controller
             'datanad'       =>  $datanad,
             ]);
     }
+    public function dental_assistant(Request $request)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+        $data_show = DB::connection('mysql2')->select(
+            'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+            from dtmain d  
+            left outer join doctor dt on dt.code = d.doctor_helper  
+            left outer join dttm dm on dm.code = d.tmcode 
+            where d.vstdate between "'.$startdate.'" and "'.$enddate.'"
+            and dt.code = "1299"  
+            order by d.vstdate
+        ');
+
+        return view('dent.dental_assistant',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'data_show'      => $data_show, 
+        ]);
+    }
 
 
 
