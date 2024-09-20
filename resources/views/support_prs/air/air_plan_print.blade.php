@@ -67,8 +67,8 @@
                                 <tr style="font-size: 11px;" class="text-center">
                                   <th rowspan="2" style="border: 1px solid black;">ลำดับ</th> 
                                   <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: rgb(255, 156, 110);color:#FFFFFF" >อาคาร</th> 
-                                  <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: #06b78b;color:#FFFFFF;">จำนวน</th> 
-                                  <th colspan="12" class="text-center" style="border: 1px solid black;background-color: rgb(154, 86, 255);color:#FFFFFF">ระยะเวลาการดำเนินงาน</th> 
+                                  <th rowspan="2" class="text-center" style="border: 1px solid black;background-color: #06b78b;color:#FFFFFF;">จำนวน (เครื่อง)</th> 
+                                  <th colspan="12" class="text-center" style="border: 1px solid black;background-color: rgb(154, 86, 255);color:#FFFFFF">ระยะเวลาการดำเนินงาน/ครั้ง (บำรุงรักษาปีละ 2 ครั้ง)</th> 
                                 
                                 </tr>
                                 <tr style="font-size:11px">  
@@ -121,7 +121,7 @@
                                     <tr style="font-size: 11px;" height="7px;">
                                       <th style="border: 1px solid black;width: 5%;color: #54046d" class="text-center">{{$loop->iteration}}</th> 
                                       <td style="border: 1px solid black;color: #54046d" class="text-start">&nbsp;{{$item->building_name}} ชั้น {{$item->air_room_class}}</td> 
-                                      <th style="border: 1px solid black;width: 5%;color: #54046d" class="text-center"><span style="color: #046d6d"> {{$item->qtyall}}</span> </th>
+                                      <th style="border: 1px solid black;width: 8%;color: #54046d" class="text-center"><span style="color: #046d6d"> {{$item->qtyall}}</span> </th>
                                       <th style="border: 1px solid black;width: 5%;color: #54046d" class="text-center"><span style="color: #54046d"> {{$item->tula_saha+$item->tula_bt}}</span></th>
                                       <th style="border: 1px solid black;width: 5%;color: #54046d" class="text-center"><span style="color: #54046d"> {{$item->plusji_saha+$item->plusji_bt}}</span></th>
                                       <th style="border: 1px solid black;width: 5%;color: #54046d" class="text-center"><span style="color: #54046d"> {{$item->tanwa_saha+$item->tanwa_bt}}</span></th>
@@ -138,11 +138,12 @@
                                     </tr> 
 
           @if ($loop->last || $loop->iteration % $row_in_table == 0) 
-                              
+          
                             </tbody>
                             <tr style="font-size: 11px;" height="7px;">
                               <th colspan="2" style="border: 1px solid black;" class="text-center">รวม</th> 
-                              <th style="border: 1px solid black;color: #a10654" class="text-center">{{$Total_saha+$Total_bt}}</th>
+                              {{-- <th style="border: 1px solid black;color: #a10654" class="text-center">{{$Total_saha+$Total_bt}}</th> --}}
+                              <th style="border: 1px solid black;color: #a10654" class="text-center">{{$total1}}</th>
                               <th style="border: 1px solid black;color: #a10654" class="text-center">{{$total2+$total14}}</th>
                               <th style="border: 1px solid black;color: #a10654" class="text-center">{{$total3+$total15}}</th>
                               <th style="border: 1px solid black;color: #a10654" class="text-center">{{$total4+$total16}}</th>

@@ -265,64 +265,77 @@
                            
                             <tr>
                                 <td colspan="1" class="text-end" style="background-color: #fabcd7;font-size:16px">รวม</td>
-                                <td class="text-center" style="background-color: #fcd3e5"><label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha+$Total_bt }}</label></td>
+                                {{-- <td class="text-center" style="background-color: #fcd3e5"><label for="" style="color: #FFFFFF;font-size:16px">{{$Total_saha+$Total_bt }}</label></td> --}}
+                                <td class="text-center" style="background-color: #fcd3e5"><label for="" style="color: #b3064e;font-size:16px">{{$total1 }}</label></td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total2+$total14}}</span> 
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total2+$total14}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total2+$total14}}</span>  --}}
                                     </label>  
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total3+$total15}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total3+$total15}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total3+$total15}}</span>   --}}
                                     </label></td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total4+$total16}}</span>   
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total4+$total16}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total4+$total16}}</span>    --}}
                                     </label>
                                     </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total5+$total17}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total5+$total17}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total5+$total17}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total6+$total18}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total6+$total18}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total6+$total18}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total7+$total19}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total7+$total19}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total7+$total19}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total8+$total20}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total8+$total20}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total8+$total20}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total9+$total21}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total9+$total21}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total9+$total21}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total10+$total22}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total10+$total22}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total10+$total22}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total11+$total23}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total11+$total23}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total11+$total23}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total12+$total24}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total12+$total24}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total12+$total24}}</span>   --}}
                                     </label>
                                 </td>
                                 <td class="text-center" style="background-color: #fabcd7" >
-                                    <label for="" style="color: #FFFFFF;font-size:16px">
-                                        <span class="badge bg-primary me-2"> {{$total13+$total25}}</span>  
+                                    <label for="" style="color: #b3064e;font-size:16px">
+                                        {{$total13+$total25}}
+                                        {{-- <span class="badge bg-primary me-2"> {{$total13+$total25}}</span>   --}}
                                     </label>
                                 </td>
                                 

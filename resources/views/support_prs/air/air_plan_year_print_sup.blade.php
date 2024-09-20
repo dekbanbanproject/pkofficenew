@@ -31,6 +31,16 @@
     @media print {
       footer {page-break-after: always;}
     }
+    .itemstable {
+        border-collapse: collapse;
+        border-spacing: 0 0;
+        -webkit-border-vertical-spacing: 0;
+        width: 100%;
+        /* height: 100%; */
+        min-height: 100mm !important;
+        position: relative;
+        table-layout: fixed;
+    }
 </style>
 {{-- <h1>Page 1</h1>
 <div class="page-break"></div>
@@ -53,7 +63,7 @@
               </div>
               <div class="row mt-2"> 
                   <div class="col-md-12">  
-                          <table class="table table-sm" style="width: 100%;"> 
+                          <table class="table table-sm itemstable" style="width: 100%;"> 
                               <thead>
                                 <tr style="font-size: 11px;" class="text-center">
                                   <th style="border: 1px solid black;">ลำดับ</th>
@@ -155,33 +165,32 @@
                         </table>   
                         <table>
                             <tr>
-                              <td style="font-size: 12px;width:18px"><b></b></td> 
-                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เสนอแผน<br> 
+                              <td style="font-size: 12px;width:200px"><b></b></td> 
+                              {{-- <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เสนอแผน<br> 
+                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
+                              </td> --}}
+                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ<img src="{{ $siguser }}" class="ms-3 me-3 mt-2" alt="" height="40px" width="auto">ผู้เสนอแผน<br> 
                                 <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
                               </td>
                               
-                              <td style="font-size: 12px;width:50px"></td>  
-                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
+                              <td style="font-size: 12px;width:230px"></td>  
+                              {{-- <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
+                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
+                              </td> --}}
+                              <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ<img src="{{ $sigrong }}" class="ms-4 me-5" alt="" height="35px" width="auto">ผู้เห็นชอบ<br>  
                                 <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
                               </td>
-                                                          
-                              <td style="font-size: 12px;width:50px"></td> 
-                              <td style="font-size: 12px;width:250px;height: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ.........................................ผู้อนุมัติ<br>  
-                                <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$po}}</label>
-                              </td>
-                        
+                              
                             </tr>                       
                             <tr>
-                              <td style="font-size: 12px;width:18px"><b></b></td> 
+                            
+                              <td style="font-size: 12px;width:200px"><b></b></td> 
                               <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$position}}</p></td>
                               <td style="font-size: 12px;width:120px;height: 10px;"></td>
                               <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">หัวหน้ากลุ่มภารกิจด้านอำนวยการ</p></td>
-                              <td style="font-size: 12px;width:100px;height: 10px;"></td>
-                              <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</p></td>
+                             
                             </tr>
-                        </table> 
-                    {{-- </div>
-                </div>  --}}
+                        </table>  
               @if (!$loop->last)
                   <p style="page-break-after: always;"></p>
               @endif

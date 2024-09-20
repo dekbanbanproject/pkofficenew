@@ -80,29 +80,33 @@
                             </tbody>
                         </table>   
                         <table>
-                            <tr>
-                              <td style="font-size: 12px;width:30px"><b></b></td> 
-                              <td style="font-size: 12px;width:250px">ลงชื่อ.........................................ผู้เสนอแผน<br> 
-                                <label style="font-size: 12px;" class="ms-4">{{$ptname}}</label>
-                              </td>
-                              <td style="font-size: 12px;width:50px"></td>  
-                              <td style="font-size: 12px;width:230px">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
-                                <label style="font-size: 12px;" class="ms-4">{{$rong_bo}}</label>
-                              </td>
-                              <td style="font-size: 12px;width:100px"></td> 
-                              <td style="font-size: 12px;width:250px">ลงชื่อ.........................................ผู้อนุมัติ<br>  
-                                <label style="font-size: 12px;" class="ms-4">{{$po}}</label>
-                              </td>
-                            </tr>                       
-                            <tr>
-                              <td style="font-size: 12px;width:50px"><b></b></td> 
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">{{$position}}</p></td>
-                              <td style="font-size: 12px;width:120px"></td>
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">หัวหน้ากลุ่มภารกิจด้านอำนวยการ</p></td>
-                              <td style="font-size: 12px;width:100px"></td>
-                              <td style="font-size: 12px;width:150px"> <p style="font-size: 13px;" class="ms-2">ผู้อำนวยการโรงพยาบาลภูเขียวเฉลิมพระเกียรติ</p></td>
-                            </tr>
-                        </table> 
+                          <tr>
+                            <td style="font-size: 12px;width:200px"><b></b></td> 
+                            {{-- <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เสนอแผน<br> 
+                              <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
+                            </td> --}}
+                            <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ<img src="{{ $siguser }}" class="ms-3 me-3 mt-2" alt="" height="40px" width="auto">ผู้เสนอแผน<br> 
+                              <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;&nbsp;{{$ptname}}</label>
+                            </td>
+                            
+                            <td style="font-size: 12px;width:230px"></td>  
+                            {{-- <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ.........................................ผู้เห็นชอบ<br>  
+                              <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
+                            </td> --}}
+                            <td style="font-size: 12px;width:230px;height: 10px;">ลงชื่อ<img src="{{ $sigrong }}" class="ms-4 me-5" alt="" height="35px" width="auto">ผู้เห็นชอบ<br>  
+                              <label style="font-size: 12px;;height: 10px;" class="ms-4">&nbsp;&nbsp;{{$rong_bo}}</label>
+                            </td>
+                            
+                          </tr>                       
+                          <tr>
+                          
+                            <td style="font-size: 12px;width:200px"><b></b></td> 
+                            <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$position}}</p></td>
+                            <td style="font-size: 12px;width:120px;height: 10px;"></td>
+                            <td style="font-size: 12px;width:150px;height: 10px;"> <p style="font-size: 13px;" class="ms-2">หัวหน้ากลุ่มภารกิจด้านอำนวยการ</p></td>
+                           
+                          </tr>
+                      </table>  
                     </div>
                 </div> 
               @if (!$loop->last)

@@ -5653,8 +5653,8 @@ class AirController extends Controller
 
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
-        // $iduser = Auth::user()->id;
-        $iduser = '1037';
+        $iduser = Auth::user()->id;
+        // $iduser = '1037';
         $count_ = DB::table('users')->where('id', '=', $iduser)->count();
         if ($count_ != 0) {
             $signa = DB::table('users')->where('id', '=', $iduser)->leftjoin('users_prefix', 'users_prefix.prefix_id', '=', 'users.pname')->first();
@@ -5860,6 +5860,7 @@ class AirController extends Controller
             ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
             ->first();
         $rong_bo = $rong->prefix_name . ' ' . $rong->fname . '  ' . $rong->lname;
+        $sigrong_ = $rong->signature; //หัวหน้าบริหาร
 
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
@@ -5876,7 +5877,7 @@ class AirController extends Controller
             // $sighn = $signature->signature_name_hntext; //หัวหน้า
             // $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
             // $sigpo = $signature->signature_name_potext; //ผอ
-            $sigrong = ''; 
+            $sigrong = $sigrong_; 
             $sigstaff = '';
             $sighn = '';
             $sigpo = '';
@@ -5912,7 +5913,7 @@ class AirController extends Controller
 
         // $customPaper = [0, 0, 297.00, 210.80];
         $pdf = PDF::loadView('support_prs.air.air_plan_year_print',$data,[            
-            'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo,'mo_name'=>$mo_name           
+            'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser,'sigrong' => $sigrong, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo,'mo_name'=>$mo_name           
             ])->setPaper('a4', 'landscape');
             // ])->setPaper($customPaper, 'landscape');
 
@@ -5939,6 +5940,7 @@ class AirController extends Controller
             ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
             ->first();
         $rong_bo = $rong->prefix_name . ' ' . $rong->fname . '  ' . $rong->lname;
+        $sigrong_ = $rong->signature; //หัวหน้าบริหาร
 
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
@@ -5955,7 +5957,7 @@ class AirController extends Controller
             // $sighn = $signature->signature_name_hntext; //หัวหน้า
             // $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
             // $sigpo = $signature->signature_name_potext; //ผอ
-            $sigrong = ''; 
+            $sigrong = $sigrong_;
             $sigstaff = '';
             $sighn = '';
             $sigpo = '';
@@ -5995,7 +5997,7 @@ class AirController extends Controller
 
 
         $pdf = PDF::loadView('support_prs.air.air_plan_year_print_sup',$data,[            
-            'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo,'ye_name'=>$ye_name           
+            'data_air' => $data_air, 'bg_yearnow' => $bg_yearnow,'siguser' => $siguser,'sigrong' => $sigrong, 'position' => $position,'ptname' => $ptname,'po' => $po,'rong_bo'=>$rong_bo,'ye_name'=>$ye_name           
             ])->setPaper('a4', 'landscape');
             return @$pdf->stream(); 
     }
