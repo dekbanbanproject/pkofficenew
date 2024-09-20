@@ -126,10 +126,14 @@
                 </a> --}}
             {{-- </div> --}}
             {{-- <div class="col-md-2 text-end">  --}}
-               
-                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-success bt_prs" >
+                <a href="{{url('air_plan_print/'.$bg_yearnow)}}" class="ladda-button btn-pill btn btn-primary bt_prs" target="_blank">
+                    <span class="ladda-label"> <i class="fa-solid fa-print text-white me-2"></i>Print</span>  
+                </a>
+          
+                <a href="{{url('air_plan_yearexcel')}}" class="ladda-button btn-pill btn btn-success bt_prs" target="_blank">
                     <span class="ladda-label"> <i class="fa-solid fa-file-excel text-white me-2"></i>Excel</span>  
                 </a>
+
             
             </div>
         </div>  

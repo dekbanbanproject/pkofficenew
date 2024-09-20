@@ -381,7 +381,10 @@ public function profile_update(Request $request)
             // $update->end_date = $request->end_date;
             // $update->status = $request->status;
             $signature          = $request->input('signature2'); 
-            $update->signature    = $signature;
+            if ($signature !='') { 
+                $update->signature    = $signature;
+            }
+             
             
             if ($request->hasfile('img')) {
                 $description = 'storage/person/'.$update->img;
@@ -390,11 +393,20 @@ public function profile_update(Request $request)
                     File::delete($description);
                 }
                 $file = $request->file('img');
-                $extention = $file->getClientOriginalExtension();
-                $filename = time().'.'.$extention; 
+                $extention_ = $file->getClientOriginalExtension();
+                $filename = time().'.'.$extention_; 
                 $request->img->storeAs('person',$filename,'public'); 
                 $update->img = $filename;
                 $update->img_name = $filename;
+                // dd($extention_); 
+                if ($extention_ =='.jpg') {
+                    $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('img'))); 
+                } else {
+                    $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('img'))); 
+                }                       
+                if ($file64 != '') {
+                    $update->img_base       = $file64;
+                }
             }
             $update->save();
 
