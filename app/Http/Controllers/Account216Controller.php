@@ -396,8 +396,7 @@ class Account216Controller extends Controller
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND v.income-v.discount_money-v.rcpt_money <> 0 AND v.pdx <> "B24"
                 AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216" AND pttype IS NOT NULL)                
-                AND NOT(s.name like "Portex tube%")
-        
+                AND NOT(s.name like "Portex tube%") AND NOT(v.pdx LIKE "C%")        
                 AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")                                
                 AND (o.an="" or o.an is null)
                 GROUP BY v.vn'
@@ -421,12 +420,12 @@ class Account216Controller extends Controller
                     if ($value->debit_walkin > '0') {
                         $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->count();
                         if ($check > 0) {
-                            Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
-                                'projectcode'        => 'WALKIN', 
-                            ]);
-                            Acc_1102050101_216::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
-                                'projectcode'        => 'WALKIN', 
-                            ]);
+                            // Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
+                            //     'projectcode'        => 'WALKIN', 
+                            // ]);
+                            // Acc_1102050101_216::where('vn', $value->vn)->where('account_code', '1102050101.216')->update([ 
+                            //     'projectcode'        => 'WALKIN', 
+                            // ]);
                         }else{
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,

@@ -176,7 +176,14 @@
                                                             <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->ptname }}</td>  
                                                             <td class="text-center" style="color:rgb(233, 83, 14);font-size:15px" width="10%">{{ number_format($item->income, 2) }}</td>
                                                             <td class="text-center" style="color:rgb(18, 118, 233);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td>
-                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_216, 2) }}</td> 
+                                                            <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">
+                                                                @if ($item->projectcode != '')
+                                                                {{ number_format($item->total_approve, 2) }}
+                                                                @else
+                                                                {{ number_format($item->total_216, 2) }}
+                                                                @endif
+                                                                
+                                                            </td> 
                                                             <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td>  
                                                           
                                                         </tr>
