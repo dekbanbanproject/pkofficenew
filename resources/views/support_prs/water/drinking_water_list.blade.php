@@ -1,5 +1,5 @@
-@extends('layouts.support_prs_gas')
-@section('title', 'PK-OFFICE || Air-Service')
+@extends('layouts.support_prs_water')
+@section('title', 'PK-OFFICE || Water-Service')
 
 @section('content')
     <script>
@@ -90,7 +90,7 @@
     <div class="row"> 
         <div class="col-md-4">
            
-            <h4 style="color:rgb(255, 255, 255)">ทะเบียนก๊าซทางการแพทย์</h4>
+            <h4 style="color:rgb(255, 255, 255)">ทะเบียนเครื่องผลิตน้ำดื่ม</h4>
             {{-- <p class="card-title-desc" style="font-size: 17px;">ทะเบียนเครื่องปรับอากาศ</p> --}}
         </div>
         <div class="col"></div>
@@ -101,11 +101,11 @@
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>Detail All</span> 
             </a>  --}}
-            <a href="{{url('gas_qrcode')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs">  
+            <a href="{{url('drinking_water_qrcode')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-warning bt_prs">  
                 <i class="fa-solid fa-print text-white me-2" style="font-size:13px"></i>
                 <span>qrcode</span> 
             </a> 
-            <a href="{{url('gas_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
+            <a href="{{url('drinking_water_add')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                เพิ่มรายการ
             </a>  
@@ -148,28 +148,28 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                {{-- @foreach ($datashow as $item) 
-                                    <tr id="tr_{{$item->gas_list_id}}">                                                  
+                                @foreach ($datashow as $item) 
+                                    <tr id="tr_{{$item->water_filter_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
                                         <td class="text-center" width="3%">
-                                            @if ($item->active == 'Ready') 
+                                            @if ($item->active == 'Y') 
                                                 <span class="badge bg-success">พร้อมใช้งาน</span> 
                                             @else 
                                                 <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
                                         </td>
                                       
-                                        @if ( $item->gas_imgname == Null )
+                                        @if ( $item->water_img == Null )
                                         <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
                                         @else
-                                        <td class="text-center" width="3%"><img src="{{asset('storage/gas/'.$item->gas_imgname)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
+                                        <td class="text-center" width="3%"><img src="{{asset('storage/water/'.$item->water_img)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
                                         @endif
 
                                         <td class="text-center" width="5%">  
-                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/gas_check/' . $item->gas_list_id) !!} 
+                                            {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/water_check/' . $item->water_filter_id) !!} 
                                         </td>  
-                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->gas_list_num }}</td>  
-                                        <td class="p-2">{{ $item->gas_list_name }}</td>  
+                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_num }}</td>  
+                                        <td class="p-2">{{ $item->water_name }}</td>  
                                         <td class="text-center" width="5%" style="font-size: 12px">{{ $item->size }}</td>    
                                        
                                         <td class="text-center" width="5%">
@@ -180,13 +180,13 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                    
-                                                    <a class="dropdown-item text-primary" href="{{ url('gas_qrcode_only/'.$item->gas_list_id) }}" style="font-size:13px" target="_blank"
+                                                    <a class="dropdown-item text-primary" href="{{ url('drinking_water_qrcode_only/'.$item->water_filter_id) }}" style="font-size:13px" target="_blank"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="Print QR"> 
                                                         <i class="fa-solid fa-print me-2 text-primary" style="font-size:13px"></i>
                                                         <span>Print QR</span>
                                                     </a> 
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-warning" href="{{ url('gas_edit/' . $item->gas_list_id) }}" style="font-size:13px" target="_blank"
+                                                    <a class="dropdown-item text-warning" href="{{ url('drinking_water_edit/' . $item->water_filter_id) }}" style="font-size:13px" target="_blank"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
                                                         <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                         <span>แก้ไข</span>
@@ -198,7 +198,7 @@
                                         </td>
 
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

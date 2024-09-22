@@ -30,6 +30,9 @@ return new class extends Migration
                 $table->string('location_id')->nullable(); //  
                 $table->string('location_name')->nullable(); //  
                 $table->string('class')->nullable(); // 
+                $table->binary('water_img')->nullable(); //                 
+                $table->string('water_imgname', length: 200)->nullable(); //
+                $table->longText('water_img_base')->nullable(); // 
                 $table->enum('active', ['Y','N','C'])->default('N');
                 
                 $table->timestamps();

@@ -3449,6 +3449,13 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'drinking_water_db', [App\Http\Controllers\DrinkingController::class, 'drinking_water_db'])->name('prs.drinking_water_db'); //
   Route::match(['get', 'post'], 'drinking_water', [App\Http\Controllers\DrinkingController::class, 'drinking_water'])->name('prs.drinking_water'); //
   Route::match(['get', 'post'], 'drinking_water_list', [App\Http\Controllers\DrinkingController::class, 'drinking_water_list'])->name('prs.drinking_water_list'); //
+  Route::match(['get', 'post'], 'drinking_water_qrcode', [App\Http\Controllers\DrinkingController::class, 'drinking_water_qrcode'])->name('prs.drinking_water_qrcode'); //
+  Route::match(['get', 'post'], 'drinking_water_add', [App\Http\Controllers\DrinkingController::class, 'drinking_water_add'])->name('prs.drinking_water_add'); //
+  Route::match(['get', 'post'], 'drinking_water_save', [App\Http\Controllers\DrinkingController::class, 'drinking_water_save'])->name('prs.drinking_water_save'); //
+  Route::match(['get', 'post'], 'drinking_water_edit/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_edit'])->name('prs.drinking_water_edit'); //
+  Route::match(['get', 'post'], 'drinking_water_update', [App\Http\Controllers\DrinkingController::class, 'drinking_water_update'])->name('prs.drinking_water_update'); //
+  Route::match(['get', 'post'], 'water_check/{id}', [App\Http\Controllers\DrinkingController::class, 'water_check'])->name('prs.water_check'); //
+  Route::match(['get', 'post'], 'drinking_water_qrcode_only/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_qrcode_only'])->name('prs.drinking_water_qrcode_only'); //
   Route::match(['get', 'post'], 'drinking_water_day', [App\Http\Controllers\DrinkingController::class, 'drinking_water_day'])->name('prs.drinking_water_day'); //
 
   Route::match(['get', 'post'], 'document', [App\Http\Controllers\DocumentController::class, 'document'])->name('d.document'); //
