@@ -175,6 +175,7 @@
 
         <div class="row"> 
             <div class="col-xl-3 col-md-6">
+                <a href="{{url('drinking_water_db')}}" target="_blank">
                 <div class="card widget-chart widget-chart-hover" style="height: 200px">
                     <div class="card-body">
                         <div class="d-flex">
@@ -197,6 +198,7 @@
                         </div>  
                     </div> 
                 </div> 
+                </a>
             </div> 
             <div class="col-xl-3 col-md-6">
                 <div class="card widget-chart widget-chart-hover" style="height: 200px">

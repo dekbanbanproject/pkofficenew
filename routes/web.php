@@ -3446,6 +3446,10 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'gas_control_addsub_save', [App\Http\Controllers\MedicalgasController::class, 'gas_control_addsub_save'])->name('prs.gas_control_addsub_save'); //
   Route::match(['get', 'post'], 'gas_control_save', [App\Http\Controllers\MedicalgasController::class, 'gas_control_save'])->name('prs.gas_control_save'); //
 
+  Route::match(['get', 'post'], 'drinking_water_db', [App\Http\Controllers\DrinkingController::class, 'drinking_water_db'])->name('prs.drinking_water_db'); //
+  Route::match(['get', 'post'], 'drinking_water', [App\Http\Controllers\DrinkingController::class, 'drinking_water'])->name('prs.drinking_water'); //
+  Route::match(['get', 'post'], 'drinking_water_list', [App\Http\Controllers\DrinkingController::class, 'drinking_water_list'])->name('prs.drinking_water_list'); //
+  Route::match(['get', 'post'], 'drinking_water_day', [App\Http\Controllers\DrinkingController::class, 'drinking_water_day'])->name('prs.drinking_water_day'); //
 
   Route::match(['get', 'post'], 'document', [App\Http\Controllers\DocumentController::class, 'document'])->name('d.document'); //
   Route::match(['get', 'post'], 'document_save', [App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save'); //
