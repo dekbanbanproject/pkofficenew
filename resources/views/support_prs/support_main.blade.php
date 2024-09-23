@@ -181,7 +181,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-start font-size-14 mb-2">น้ำบริโภค</p>
-                                <h2 class="text-start mb-2">0</h2> 
+                                <h2 class="text-start mb-2">{{$water_filter}}</h2> 
                             </div> 
                             <div class="avatar-sm" style="width: 100px;height:100px">
                                 <span class="avatar-title bg-light text-success rounded-3">

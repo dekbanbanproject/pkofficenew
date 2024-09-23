@@ -3451,8 +3451,10 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'drinking_water_list', [App\Http\Controllers\DrinkingController::class, 'drinking_water_list'])->name('prs.drinking_water_list'); //
   Route::match(['get', 'post'], 'drinking_water_qrcode', [App\Http\Controllers\DrinkingController::class, 'drinking_water_qrcode'])->name('prs.drinking_water_qrcode'); //
   Route::match(['get', 'post'], 'drinking_water_add', [App\Http\Controllers\DrinkingController::class, 'drinking_water_add'])->name('prs.drinking_water_add'); //
+  Route::match(['get', 'post'], 'drinking_water_mobileadd', [App\Http\Controllers\DrinkingController::class, 'drinking_water_mobileadd'])->name('prs.drinking_water_mobileadd'); //
   Route::match(['get', 'post'], 'drinking_water_save', [App\Http\Controllers\DrinkingController::class, 'drinking_water_save'])->name('prs.drinking_water_save'); //
   Route::match(['get', 'post'], 'drinking_water_edit/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_edit'])->name('prs.drinking_water_edit'); //
+  Route::match(['get', 'post'], 'drinking_water_mobileedit/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_mobileedit'])->name('prs.drinking_water_mobileedit'); //
   Route::match(['get', 'post'], 'drinking_water_update', [App\Http\Controllers\DrinkingController::class, 'drinking_water_update'])->name('prs.drinking_water_update'); //
   Route::match(['get', 'post'], 'water_check/{id}', [App\Http\Controllers\DrinkingController::class, 'water_check'])->name('prs.water_check'); //
   Route::match(['get', 'post'], 'drinking_water_qrcode_only/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_qrcode_only'])->name('prs.drinking_water_qrcode_only'); //
@@ -3505,6 +3507,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
 
     //********************* */ DENTAL  ***********************************
+    Route::match(['get', 'post'], 'dental_db', [App\Http\Controllers\DentalController::class, 'dental_db'])->name('den.dental_db'); //
     Route::match(['get', 'post'], 'dental', [App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental'); //
     Route::match(['get', 'post'], 'dental_detail/{id}', [App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail'); //
     Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
@@ -3513,5 +3516,6 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
     Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
     Route::match(['get', 'post'], 'dental_assistant', [App\Http\Controllers\DentalController::class, 'dental_assistant'])->name('den.dental_assistant'); //
 
-
+    Route::match(['get', 'post'], 'dental_assis/{id}', [App\Http\Controllers\DentalController::class, 'dental_assis'])->name('den.dental_assis'); //
+    Route::match(['get', 'post'], 'dental_doctor/{id}', [App\Http\Controllers\DentalController::class, 'dental_doctor'])->name('den.dental_doctor'); //
 });

@@ -423,7 +423,12 @@ public function password_update(Request $request)
        
     $update = User::find($idper);
 
-    $update->password = Hash::make($request->password);
+    // $update->password = Hash::make($request->password);
+
+    $pass               = $request->password;
+    $update->password   = Hash::make($pass);
+    $update->passapp    = $pass;
+
     
     $update->save();
 

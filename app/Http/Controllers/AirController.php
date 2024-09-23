@@ -46,7 +46,7 @@ use App\Models\Air_repaire_sub;
 use App\Models\Air_repaire_ploblem;
 use App\Models\Air_repaire_ploblemsub;
 use App\Models\Air_maintenance;
-use App\Models\Air_maintenance_list;
+use App\Models\Water_filter;
 use App\Models\Product_budget;
 use App\Models\Air_plan_month;
 use App\Models\Air_temp_ploblem;
@@ -474,6 +474,8 @@ class AirController extends Controller
         $data['count_air']             = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         $data['fire']                  = Fire::where('active','Y')->count();
         $data['cctv_list']             = Cctv_list::where('cctv_status','0')->count();
+        $data['water_filter']          = Water_filter::where('active','Y')->count();
+
         // $data['gas_list']              = Gas_list::where('active','Ready')->where('gas_type',[3,4,5])->count(); 
         $data_gas_list = DB::select('SELECT COUNT(gas_list_id) as gas_list_id FROM gas_list WHERE gas_type in("3","4","5")');  
         foreach ($data_gas_list as $key => $value) {

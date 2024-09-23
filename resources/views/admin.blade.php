@@ -1266,9 +1266,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @endif
           
             <div class="col-xl-3 col-md-3">
-                <a href="{{ url('dental') }}" target="_blank">
+                <a href="{{ url('dental_db') }}" target="_blank">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(241, 188, 90, 0.74)">
+                    style="background-color: rgba(255, 197, 255, 0.74)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">

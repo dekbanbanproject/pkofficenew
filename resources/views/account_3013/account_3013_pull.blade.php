@@ -122,14 +122,12 @@
                                     <thead>
                                         <tr>                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
-                                            {{-- <th class="text-center" width="5%">vn</th>   --}}
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th>  
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>
-                                            <th class="text-center">pdx</th> 
-                                            {{-- <th class="text-center">refer_no</th>  --}} 
+                                            <th class="text-center">pdx</th>  
                                             <th class="text-center">hospmain</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">สปสช</th>  

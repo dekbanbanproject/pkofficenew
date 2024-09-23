@@ -468,9 +468,7 @@ class Account3013Controller extends Controller
         return view('account_3013.account_3013_search', $data, [
             'startdate'     => $startdate,
             'enddate'       => $enddate,
-            'datashow'      => $datashow,
-            'startdate'     => $startdate,
-            'enddate'       => $enddate
+            'datashow'      => $datashow, 
         ]);
     }
 

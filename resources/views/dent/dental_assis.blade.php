@@ -104,7 +104,7 @@
             </div>
         </div>
     </div> --}}
-    <form action="{{ url('dental_assistant') }}" method="GET">
+    <form action="{{ url('dental_assis/'.$id) }}" method="GET">
         @csrf
         <div class="row"> 
             <div class="col-md-4">
@@ -112,16 +112,17 @@
                 <h4 style="color:rgb(206, 29, 147)">ค่าภาระงาน ผช ทันตแพทย์</h4> 
             </div>
             <div class="col"></div>
+            {{-- <input type="hidden" name="iduser" id="iduser" value="{{$id}}"> --}}
             <div class="col-md-5 text-end">
                           
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bg_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{$startdate}}" required/>
-                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control bg_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{$enddate}}"/>  
                       
-                        <button type="submit" class="ladda-button btn-pill btn btn-success bt_prs" id="Processdata"> 
-                            <i class="fa-solid fa-spinner text-white me-2"></i>ค้นหา
+                        <button type="submit" class="ladda-button btn-pill btn btn-info bt_prs"> 
+                            <i class="fa-solid fa-magnifying-glass me-2"></i> ค้นหา
                         </button>
                         <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                             <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 

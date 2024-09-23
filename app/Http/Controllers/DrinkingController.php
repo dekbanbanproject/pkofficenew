@@ -39,7 +39,7 @@ use App\Models\Air_report_ploblems;
 use App\Models\Air_repaire_supexcel;
 use App\Models\Air_repaire_excel;
 use App\Models\Article_status;
-use App\Models\Air_repaire;
+use App\Models\Water_filter;
 use App\Models\Gas_list;
 use App\Models\Gas_check;
 use App\Models\Air_repaire_sub;
@@ -140,52 +140,52 @@ class DrinkingController extends Controller
             'datashow'      => $datashow,
         ]);
     }
-    public function gas_check_list(Request $request)
-    {
-        $datenow   = date('Y-m-d');
-        $months    = date('m');
-        $year      = date('Y'); 
-        $startdate = $request->startdate;
-        $enddate   = $request->enddate;
-        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
-        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
-        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-        $bg_yearnow    = $bgs_year->leave_year_id;
+    // public function gas_check_list(Request $request)
+    // {
+    //     $datenow   = date('Y-m-d');
+    //     $months    = date('m');
+    //     $year      = date('Y'); 
+    //     $startdate = $request->startdate;
+    //     $enddate   = $request->enddate;
+    //     $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+    //     $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+    //     $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+    //     $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+    //     $bg_yearnow    = $bgs_year->leave_year_id;
 
-        if ($startdate =='') {
-            $datashow = DB::select(
-                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
-                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
-                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
-                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
-                FROM gas_check b
-                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
-                LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.gas_year = "'.$bg_yearnow.'"
-                ORDER BY b.gas_check_id DESC 
-            '); 
-        } else {
-            $datashow = DB::select(
-                'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
-                ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
-                ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
-                ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
-                FROM gas_check b
-                LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
-                LEFT JOIN users p ON p.id = a.user_id 
-                WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.gas_year = "'.$bg_yearnow.'"
-                ORDER BY b.gas_check_id DESC  
-            '); 
-        }
+    //     if ($startdate =='') {
+    //         $datashow = DB::select(
+    //             'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+    //             ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+    //             ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+    //             ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+    //             FROM gas_check b
+    //             LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+    //             LEFT JOIN users p ON p.id = a.user_id 
+    //             WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.gas_year = "'.$bg_yearnow.'"
+    //             ORDER BY b.gas_check_id DESC 
+    //         '); 
+    //     } else {
+    //         $datashow = DB::select(
+    //             'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
+    //             ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
+    //             ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
+    //             ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
+    //             FROM gas_check b
+    //             LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+    //             LEFT JOIN users p ON p.id = a.user_id 
+    //             WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.gas_year = "'.$bg_yearnow.'"
+    //             ORDER BY b.gas_check_id DESC  
+    //         '); 
+    //     }
      
-        return view('support_prs.gas.gas_check_list',[
-            'startdate'     => $startdate,
-            'enddate'       => $enddate, 
-            'datashow'      => $datashow,
-        ]);
-    }
-    public function gas_add(Request $request)
+    //     return view('support_prs.gas.gas_check_list',[
+    //         'startdate'     => $startdate,
+    //         'enddate'       => $enddate, 
+    //         'datashow'      => $datashow,
+    //     ]);
+    // }
+    public function drinking_water_add(Request $request)
     {
         $datenow   = date('Y-m-d');
         $months    = date('m');
@@ -204,25 +204,51 @@ class DrinkingController extends Controller
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['building_data']      = DB::table('building_data')->get();
 
-        return view('support_prs.gas.gas_add',$data,[
+        return view('support_prs.water.drinking_water_add',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             // 'data_edit'     => $data_edit,
         ]);
     }
-    public function gas_save(Request $request)
+    public function drinking_water_mobileadd(Request $request)
     {
-        $gas_listnum = $request->gas_list_num;
-        $add                     = new Gas_list();
-        $add->gas_year           = $request->gas_year;
-        $add->gas_recieve_date   = $request->gas_recieve_date;
-        $add->gas_list_num       = $gas_listnum;
-        $add->gas_list_name      = $request->gas_list_name;
-        $add->gas_price          = $request->gas_price;
-        $add->active             = $request->active; 
-        $add->size               = $request->size; 
-        $add->class              = $request->class;   
-        $add->detail             = $request->detail; 
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+          
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_unit']       = Product_unit::get();
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['building_data']      = DB::table('building_data')->get();
+
+        return view('support_prs.water.drinking_water_mobileadd',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            // 'data_edit'     => $data_edit,
+        ]);
+    }
+    public function drinking_water_save(Request $request)
+    {
+        $water_code = $request->water_code;
+        $add                       = new Water_filter();
+        $add->water_year           = $request->water_year;
+        $add->water_recieve_date   = $request->water_recieve_date;
+        $add->water_code           = $water_code;
+        $add->water_name           = $request->water_name;
+        $add->water_num            = $request->water_num;
+        $add->water_price          = $request->water_price;
+        $add->active               = $request->active; 
+        $add->size                 = $request->size; 
+        $add->class                = $request->class;   
+        $add->detail               = $request->detail; 
         
         $loid = $request->input('location_id');
         if ($loid != '') {
@@ -234,35 +260,35 @@ class DrinkingController extends Controller
             $add->location_name = '';
         }
 
-        $branid = $request->input('gas_brand');
+        $branid = $request->input('brand_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
-            $add->gas_brand = $bransave->brand_id;
+            $add->brand_id = $bransave->brand_id;
         } else { 
-            $add->gas_brand = '';
+            $add->brand_id = '';
         }
 
-        $uniid = $request->input('gas_unit');
+        $uniid = $request->input('unit_id');
         if ($uniid != '') {
             $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
-            $add->gas_unit = $unisave->unit_id;
+            $add->unit_id = $unisave->unit_id;
         } else {         
-            $add->gas_unit = '';
+            $add->unit_id = '';
         }
  
-        if ($request->hasfile('gas_img')) {
-            $image_64 = $request->file('gas_img');  
+        if ($request->hasfile('water_img')) {
+            $image_64 = $request->file('water_img');  
             $extention = $image_64->getClientOriginalExtension(); 
-            $filename = $gas_listnum. '.' . $extention;
-            $request->gas_img->storeAs('gas', $filename, 'public');    
-            $add->gas_img            = $filename;
-            $add->gas_imgname        = $filename; 
+            $filename = $water_code. '.' . $extention;
+            $request->water_img->storeAs('water', $filename, 'public');    
+            $add->water_img            = $filename;
+            $add->water_imgname        = $filename; 
             if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('water_img'))); 
             } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('water_img'))); 
             } 
-            $add->gas_img_base       = $file64; 
+            $add->water_img_base       = $file64; 
         }
  
         $add->save();
@@ -270,7 +296,7 @@ class DrinkingController extends Controller
             'status'     => '200'
         ]);
     }
-    public function gas_edit(Request $request,$id)
+    public function drinking_water_edit(Request $request,$id)
     {
         $datenow   = date('Y-m-d');
         $months    = date('m');
@@ -289,29 +315,57 @@ class DrinkingController extends Controller
         $data['product_brand']      = DB::table('product_brand')->get();
         $data['building_data']      = DB::table('building_data')->get();
      
-        $data_edit              = DB::table('gas_list')->where('gas_list_id',$id)->first();
+        $data_edit              = DB::table('water_filter')->where('water_filter_id',$id)->first();
 
-        return view('support_prs.gas.gas_edit',$data,[
+        return view('support_prs.water.drinking_water_edit',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate, 
             'data_edit'     => $data_edit,
         ]);
     }
-    public function gas_update(Request $request)
+    public function drinking_water_mobileedit(Request $request,$id)
     {
-        $id = $request->gas_list_id;
-        $gas_listnum = $request->gas_list_num;
-        $update                     = Gas_list::find($id);
-        $update->gas_year           = $request->gas_year;
-        $update->gas_recieve_date   = $request->gas_recieve_date;
-        $update->gas_list_num       = $gas_listnum;
-        $update->gas_list_name      = $request->gas_list_name;
-        $update->gas_price          = $request->gas_price;
-        $update->active             = $request->active; 
-        $update->size               = $request->size; 
-        $update->class              = $request->class;   
-        $update->detail             = $request->detail; 
-        
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+          
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_unit']       = Product_unit::get();
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['building_data']      = DB::table('building_data')->get();
+     
+        $data_edit              = DB::table('water_filter')->where('water_filter_id',$id)->first();
+
+        return view('support_prs.water.drinking_water_mobileedit',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'data_edit'     => $data_edit,
+        ]);
+    }
+    public function drinking_water_update(Request $request)
+    {
+        $id = $request->water_filter_id;
+        $water_code = $request->water_code;
+        $update                     = Water_filter::find($id);
+        $update->water_year           = $request->water_year;
+        $update->water_recieve_date   = $request->water_recieve_date;
+        $update->water_code           = $water_code;
+        $update->water_name           = $request->water_name;
+        $update->water_num            = $request->water_num;
+        $update->water_price          = $request->water_price;
+        $update->active               = $request->active; 
+        $update->size                 = $request->size; 
+        $update->class                = $request->class;   
+        $update->detail               = $request->detail; 
+
         $loid = $request->input('location_id');
         if ($loid != '') {
             $losave = DB::table('building_data')->where('building_id', '=', $loid)->first(); 
@@ -322,39 +376,39 @@ class DrinkingController extends Controller
             $update->location_name = '';
         }
 
-        $branid = $request->input('gas_brand');
+        $branid = $request->input('brand_id');
         if ($branid != '') {
             $bransave = DB::table('product_brand')->where('brand_id', '=', $branid)->first(); 
-            $update->gas_brand = $bransave->brand_id;
+            $update->brand_id = $bransave->brand_id;
         } else { 
-            $update->gas_brand = '';
+            $update->brand_id = '';
         }
 
-        $uniid = $request->input('gas_unit');
+        $uniid = $request->input('unit_id');
         if ($uniid != '') {
             $unisave = DB::table('product_unit')->where('unit_id', '=', $uniid)->first();             
-            $update->gas_unit = $unisave->unit_id;
+            $update->unit_id = $unisave->unit_id;
         } else {         
-            $update->gas_unit = '';
+            $update->unit_id = '';
         }
  
-        if ($request->hasfile('gas_img')) {
-            $description = 'storage/gas/' . $update->gas_img;
+        if ($request->hasfile('water_img')) {
+            $description = 'storage/water/' . $update->water_img;
             if (File::exists($description)) {
                 File::delete($description);
             }
-            $image_64 = $request->file('gas_img');  
+            $image_64 = $request->file('water_img');  
             $extention = $image_64->getClientOriginalExtension(); 
-            $filename = $gas_listnum. '.' . $extention;
-            $request->gas_img->storeAs('gas', $filename, 'public');    
-            $update->gas_img            = $filename;
-            $update->gas_imgname        = $filename; 
+            $filename = $water_code. '.' . $extention;
+            $request->water_img->storeAs('water', $filename, 'public');    
+            $update->water_img            = $filename;
+            $update->water_imgname        = $filename; 
             if ($extention =='.jpg') {
-                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+                $file64 = "data:image/jpg;base64,".base64_encode(file_get_contents($request->file('water_img'))); 
             } else {
-                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('gas_img'))); 
+                $file64 = "data:image/png;base64,".base64_encode(file_get_contents($request->file('water_img'))); 
             } 
-            $update->gas_img_base       = $file64; 
+            $update->water_img_base       = $file64; 
         }
  
         $update->save();
@@ -362,7 +416,6 @@ class DrinkingController extends Controller
             'status'     => '200'
         ]);
     }
-
 
     // Tank Main
     public function gas_check_tank(Request $request)

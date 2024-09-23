@@ -90,7 +90,7 @@ class DentalController extends Controller
  {
     // ***************** 301********************************
 
-    public function dental (Request $request)
+    public function dental(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -103,14 +103,14 @@ class DentalController extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
 
-        $data_doctor = DB::connection('mysql3')->select('
+        $data_doctor = DB::connection('mysql10')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname
             FROM doctor
             WHERE position_id = "2"
             AND active = "Y"
         ');
         $event = array();
-        $data_nad = DB::connection('mysql3')->select('
+        $data_nad = DB::connection('mysql10')->select('
             SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,oa.nexttime,d.shortname as doctor
             FROM oapp oa
             LEFT OUTER JOIN patient p on p.hn=oa.hn
@@ -160,7 +160,20 @@ class DentalController extends Controller
             ];
         }
 
-        return view('dent.dental',[
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        return view('dent.dental',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
             'data_doctor'      => $data_doctor,
@@ -195,6 +208,7 @@ class DentalController extends Controller
     {
         $startdate     = $request->startdate;
         $enddate       = $request->enddate;
+
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
@@ -212,11 +226,132 @@ class DentalController extends Controller
             and dt.code = "1299"  
             order by d.vstdate
         ');
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
 
-        return view('dent.dental_assistant',[
+        return view('dent.dental_assistant',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
             'data_show'      => $data_show, 
+        ]);
+    }
+    public function dental_assis(Request $request,$id)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+        if ($startdate == '') {
+            $data_show = DB::connection('mysql2')->select(
+                'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+                from dtmain d  
+                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join dttm dm on dm.code = d.tmcode 
+                where d.vstdate between "'.$newweek.'" and "'.$date.'"
+                and dt.code = "'.$id.'"  
+                order by d.vstdate
+            ');
+        } else {
+            $data_show = DB::connection('mysql2')->select(
+                'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+                from dtmain d  
+                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join dttm dm on dm.code = d.tmcode 
+                where d.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                and dt.code = "'.$id.'"  
+                order by d.vstdate
+            ');
+        }
+        
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        return view('dent.dental_assis',$data,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'data_show'        => $data_show, 
+            'id'               => $id, 
+        ]);
+    }
+    public function dental_db(Request $request)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+        if ($startdate == '') {
+            $data_show = DB::connection('mysql2')->select(
+                'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+                from dtmain d  
+                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join dttm dm on dm.code = d.tmcode 
+                where d.vstdate between "'.$newweek.'" and "'.$date.'" 
+                order by d.vstdate
+            ');
+        } else {
+            $data_show = DB::connection('mysql2')->select(
+                'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+                from dtmain d  
+                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join dttm dm on dm.code = d.tmcode 
+                where d.vstdate between "'.$startdate.'" and "'.$enddate.'" 
+                order by d.vstdate
+            ');
+        }
+        
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        return view('dent.dental_db',$data,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'data_show'        => $data_show,  
         ]);
     }
 

@@ -2669,11 +2669,30 @@ class FdhController extends Controller
            foreach ($jong_nosuccess_ as $key => $value7) {
                 $jong_nosuccess = $value7->Cvn;
            }  
-           $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+        //    $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+        //    foreach ($authen_success_ as $key => $value8) {
+        //         $authen_success = $value8->Cvn;
+        //    } 
+           $authen_success_ = DB::connection('mysql10')->select(
+            'SELECT COUNT(v.vn) Cvn,SUM(vv.income)-SUM(vv.discount_money)-SUM(vv.rcpt_money) as sumtotal_amout
+                FROM visit_pttype v
+                JOIN ovst o ON o.vn = v.vn
+                JOIN vn_stat vv ON vv.vn = v.vn
+                WHERE o.an IS NULL AND o.vstdate = "'.$date_now.'"
+                AND (v.claim_code IS NOT NULL OR v.claim_code <> "")
+                AND v.claim_code LIKE "PP%" 
+            ');      
            foreach ($authen_success_ as $key => $value8) {
                 $authen_success = $value8->Cvn;
            } 
-           $sum_total_authen_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           $sum_total_authen_ = DB::connection('mysql10')->select(
+            'SELECT COUNT(v.vn) Cvn,SUM(vv.income)-SUM(vv.discount_money)-SUM(vv.rcpt_money) as sumtotal_amout
+            FROM visit_pttype v
+            JOIN ovst o ON o.vn = v.vn
+            JOIN vn_stat vv ON vv.vn = v.vn
+            WHERE o.an IS NULL AND o.vstdate = "'.$date_now.'"
+            AND (v.claim_code IS NOT NULL OR v.claim_code <> "")
+            AND v.claim_code LIKE "PP%"');      
            foreach ($sum_total_authen_ as $key => $value9) {
                 $sum_total_authen = $value9->sumtotal_amout;
            }  

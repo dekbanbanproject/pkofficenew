@@ -91,60 +91,44 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
-        </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
+    <div class="app-main__outer">
+        <div class="app-main__inner">
+            <div class="app-page-title app-page-title-simple">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div>
+                            <div class="page-title-head center-elem">
+                                <span class="d-inline-block pe-2">
+                                    <i class="lnr-apartment opacity-6" style="color:rgb(228, 8, 129)"></i>
+                                </span>
+                                <span class="d-inline-block"><h3 style="color:rgb(228, 8, 129)">DENTAL Dashboard</h3></span>
+                            </div>
+                            <div class="page-title-subheading opacity-10">
+                                <nav class="" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a>
+                                                <i aria-hidden="true" class="fa fa-home" style="color:rgb(252, 52, 162)"></i>
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a>Dashboards</a>
+                                        </li>
+                                        <li class="active breadcrumb-item" aria-current="page">
+                                            dantal
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-title-actions"> 
+                    </div>
+                </div>
             </div>
         </div>
-    </div> --}}
-    <form action="{{ url('dental_assistant') }}" method="GET">
-        @csrf
-        <div class="row"> 
-            <div class="col-md-4">
-            
-                <h4 style="color:rgb(206, 29, 147)">ค่าภาระงาน ผช ทันตแพทย์</h4> 
-            </div>
-            <div class="col"></div>
-            <div class="col-md-5 text-end">
-                          
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control bt_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{$startdate}}" required/>
-                    <input type="text" class="form-control bt_prs" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{$enddate}}"/>  
-                      
-                        <button type="submit" class="ladda-button btn-pill btn btn-success bt_prs" id="Processdata"> 
-                            <i class="fa-solid fa-spinner text-white me-2"></i>ค้นหา
-                        </button>
-                        <button type="button" class="ladda-button btn-pill btn btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
-                            <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
-                        </button>
-                        
-                </div> 
-        
-        </div>
-            {{-- <div class="col-md-2 text-end">
-            
-                <a href="{{url('')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
-                    <i class="fa-solid fa-circle-plus text-white me-2"></i>
-                เพิ่มรายการ
-                </a>  
-
-                <button type="button" class="ladda-button btn-pill btn btn-sm btn-secondary bt_prs me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
-                    <i class="fa-solid fa-book-open-reader text-white me-2"></i>คู่มือ 
-                </button>
-            
-            </div> --}}
-        </div> 
-
-    </form>
+    </div>
+   
         <div class="row mt-2">
             <div class="col-xl-12">
                 <div class="card card_prs_4">
@@ -156,10 +140,9 @@
                         </div>
         
                         <p class="mb-0">
-                            <div class="table-responsive">
+                            {{-- <div class="table-responsive">
                                 <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
-                                {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                               
                                     <thead>
                                         <tr>
                                           
@@ -190,7 +173,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> --}}
                         </p>
                     </div>
                 </div>
