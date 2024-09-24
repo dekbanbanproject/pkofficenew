@@ -45,7 +45,7 @@ use App\Models\Acc_stm_ofc;
 use App\Models\Acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
-use App\Models\Check_sit_auto;
+use App\Models\Acc_1102050101_209;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_stm_repmoney;
 use App\Models\Acc_stm_lgoti_excel;
@@ -375,7 +375,7 @@ class AccountSTMONEIDController extends Controller
                  
                 
   
-            return redirect()->back();
+            return redirect()->route('acc.stm_oneid_opd');
           
     }
     public function stm_oneid_opdsend(Request $request)
@@ -483,9 +483,19 @@ class AccountSTMONEIDController extends Controller
                                     'STMdoc_authon'   => $value->STMdoc_authon,
                             ]);
                         } else {    
-                        }
- 
+                        } 
                     } 
+                    // if ($value->projectcode ='') {
+                    //     Acc_1102050101_209::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                    //         ->update([ 
+                    //             'stm_money'       => $value->total_approve,
+                    //             'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //             'stm_rep'         => $value->tranid, 
+                    //             'STMDoc'          => $value->STMdoc, 
+                    //             'auton'           => $value->auton,
+                    //             'STMdoc_authon'   => $value->STMdoc_authon,
+                    //     ]); 
+                    // }
   
                 } else {
                 }
@@ -495,7 +505,8 @@ class AccountSTMONEIDController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }
             Acc_stm_ucs_excel::truncate();
-        return redirect()->back();
+        // return redirect()->back();
+        return redirect()->route('acc.stm_oneid_opd');
     }
    
 
