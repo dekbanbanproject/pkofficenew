@@ -2020,10 +2020,10 @@ class AccountPKController extends Controller
  
     public function upstm_bkk804_senddata(Request $request)
     {    
-        try{
+        // try{
                 $data_ = DB::connection('mysql')->select('
                     SELECT *
-                    FROM acc_stm_ofcexcel
+                    FROM acc_stm_bkkexcel
                     WHERE income <> "" AND repno <> ""
                     
                 ');
@@ -2064,8 +2064,8 @@ class AccountPKController extends Controller
                                 $add->save(); 
                             } 
 
-                            $check804 = Acc_1102050102_804::where('an',$value->an)->where('STMdoc',NULL)->count();   
-                            if ($check804 > 0) {
+                            // $check804 = Acc_1102050102_804::where('an',$value->an)->where('STMdoc',NULL)->count();   
+                            // if ($check804 > 0) {
                                 Acc_1102050102_804::where('an',$value->an) 
                                 ->update([
                                     'stm_rep'         => $value->price_req,
@@ -2074,18 +2074,18 @@ class AccountPKController extends Controller
                                     'stm_total'       => $value->pricereq_all,
                                     'STMdoc'          => $value->STMdoc,
                                 ]);
-                            }     
+                            // }     
  
                     } else {
                         # code...
                     }
                      
                 }
-        } catch (Exception $e) {
-            $error_code = $e->errorInfo[1];
-            return back()->withErrors('There was a problem uploading the data!');
-        }
-        Acc_stm_ofcexcel::truncate(); 
+        // } catch (Exception $e) {
+        //     $error_code = $e->errorInfo[1];
+        //     return back()->withErrors('There was a problem uploading the data!');
+        // }
+        Acc_stm_bkkexcel::truncate(); 
         return response()->json([
                 'status'    => '200',
             ]);
