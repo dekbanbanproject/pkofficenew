@@ -1654,15 +1654,18 @@ class AccountPKController extends Controller
         ');
         $datacount_op = DB::connection('mysql')->select(
             'SELECT count(STMdoc) as cou_op
-            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND STMdoc LIKE "%STM_10978_OP%"
+            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND an IS NULL
         ');
+        // AND STMdoc LIKE "%STM_10978_OP%"
         foreach ($datacount_op as $key => $value) {
             $data['count_op'] = $value->cou_op;
         }
         $datacount_ip = DB::connection('mysql')->select(
             'SELECT count(STMdoc) as cou_ip
-            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND STMdoc LIKE "%STM_10978_IP%"
+            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND an IS NOT NULL
+            
         ');
+        // AND STMdoc LIKE "%STM_10978_IP%"
          foreach ($datacount_ip as $key => $valuei) {
             $data['count_ip'] = $valuei->cou_ip;
         }

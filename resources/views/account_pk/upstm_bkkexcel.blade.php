@@ -136,13 +136,13 @@
                                     <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>บันทึกข้อมูล</span>
                                     <span class="ladda-spinner"></span>
                                 </button> --}}
-                                @if ($count_op > 1)
+                                @if ($count_op > 0)
                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc mb-3" data-style="expand-left" id="Sendstm803">
                                         <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 803</span>
                                         <span class="ladda-spinner"></span>
                                     </button> 
                                 @endif
-                                @if ($count_ip > 1)
+                                @if ($count_ip > 0)
                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc mb-3" data-style="expand-left" id="Sendstm804">
                                         <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>กระทบลูกหนี้ 804</span>
                                         <span class="ladda-spinner"></span>
@@ -152,18 +152,18 @@
                           <div class="col"></div>
                            </div>
                            @else
-                           <div class="row">
-                            <div class="col"></div>
-                            <div class="col-md-2">
-                                <button type="submit"
-                                class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="UP STM"></i>
-                                UP STM
-                            </button> 
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col-md-2">
+                                    <button type="submit"
+                                    class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="UP STM"></i>
+                                    UP STM
+                                </button> 
+                                </div>
+                                <div class="col"></div>
                             </div>
-                            <div class="col"></div>
-                           </div>
                             @endif
 
 

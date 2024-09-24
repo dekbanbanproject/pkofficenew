@@ -307,45 +307,30 @@ class PreauditController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }  
 
-            $data_authen_excel = DB::connection('mysql')->select(
-                'SELECT * FROM
-                visit_pttype_import_excel
-                WHERE claimtype = "PG0060001" 
-                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"
-            ');
+            $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"');
             // AND repauthen <> "ENDPOINT"  
             foreach ($data_authen_excel as $key => $value) {
                 $check = Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype', ['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->count();
                 if ($check > 0) {
                     Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([  
-                            'cid'           => $value->cid,
-                            'claimcode'     => $value->claimcode,
-                            'claimtype'     => $value->claimtype,  
-                        ]);  
-                } else {
-                    # code...
+                        'cid'           => $value->cid,
+                        'claimcode'     => $value->claimcode,
+                        'claimtype'     => $value->claimtype,  
+                    ]); 
                 } 
             } 
-            $data_authen_excel_ti = DB::connection('mysql')->select(
-                'SELECT * FROM
-                Visit_pttype_import_excel
-                WHERE claimtype = "PG0130001" 
-                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"
-            ');
+            $data_authen_excel_ti = DB::connection('mysql')->select('SELECT * FROM Visit_pttype_import_excel WHERE claimtype = "PG0130001" AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"');
             // AND repauthen <> "ENDPOINT"
             foreach ($data_authen_excel_ti as $key => $value_ti) {
                 $checkti = Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype', ['M1','M2','M3','M4','M5'])->count();
                 if ($checkti > 0) {
                     Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([  
-                            'cid'           => $value_ti->cid,
-                            'claimcode'     => $value_ti->claimcode,
-                            'claimtype'     => $value_ti->claimtype,  
-                        ]);  
-                } else {
-                    # code...
+                        'cid'           => $value_ti->cid,
+                        'claimcode'     => $value_ti->claimcode,
+                        'claimtype'     => $value_ti->claimtype,  
+                    ]);  
                 } 
-            } 
-            
+            }             
             return redirect()->route('audit.authen_excel');   
             // return response()->json([
             //     'status'    => '200',
@@ -354,11 +339,7 @@ class PreauditController extends Controller
     public function authen_update(Request $request)
     {
         $date        = date('Y-m-d');
-        $data_authen_excel = DB::connection('mysql')->select(
-            'SELECT * FROM
-            Visit_pttype_import
-            WHERE claimtype = "PG0060001" AND vstdate = "'.$date.'" 
-        ');
+        $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import WHERE claimtype = "PG0060001" AND vstdate = "'.$date.'"');
         foreach ($data_authen_excel as $key => $value) {
             Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
                 'claim_code'     => $value->claimcode,  
