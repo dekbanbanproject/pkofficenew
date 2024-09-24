@@ -302,10 +302,12 @@ class Account216Controller extends Controller
                 SELECT *
                 from acc_debtor a 
                 WHERE a.account_code="1102050101.216"
-                AND a.stamp = "N" AND a.debit_total > 0
+                AND vstdate BETWEEN "'.$newday.'" AND "'.$datenow.'"
+                AND a.debit_total > 0
                 group by a.vn
-                order by a.vstdate desc;
+                order by a.vn asc;
             ');
+            // AND a.stamp = "N" 
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"');
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="WALKIN"');
@@ -330,9 +332,9 @@ class Account216Controller extends Controller
             SELECT * 
              from acc_debtor a 
                 WHERE a.account_code="1102050101.216"
-                AND a.stamp = "N" AND a.debit_total > 0
+                 AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.debit_total > 0
                 group by a.vn
-                order by a.vstdate desc;
+                order by a.vn asc;
             ');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"');
