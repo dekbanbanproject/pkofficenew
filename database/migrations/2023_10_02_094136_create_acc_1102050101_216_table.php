@@ -65,6 +65,8 @@ return new class extends Migration
                 $table->string('stm_total')->nullable();// 
                 $table->string('va')->nullable();// 
                 $table->string('STMdoc')->nullable();// 
+                $table->string('auton')->nullable();          // อุทรณ์
+                $table->string('STMdoc_authon')->nullable();  // อุทรณ์
              
                 $table->timestamps();
             });

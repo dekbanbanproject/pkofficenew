@@ -118,17 +118,18 @@
                                     <th class="text-center">ptname</th>  
                                     <th class="text-center">vstdate</th> 
 
-                                    <th class="text-center">drug</th> 
-                                    <th class="text-center">inst</th> 
-                                    <th class="text-center">toa</th> 
-                                    <th class="text-center">refer</th> 
+                                    {{-- <th class="text-center">drug</th>  --}}
+                                    {{-- <th class="text-center">inst</th>  --}}
+                                    {{-- <th class="text-center">toa</th>  --}}
+                                    {{-- <th class="text-center">refer</th>  --}}
                                     <th class="text-center">fs</th> 
 
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 216</th> 
-                                    {{-- <th class="text-center">ชดเชย</th>   --}}
                                     <th class="text-center">STMdoc</th> 
+                                    <th class="text-center">อุทรณ์</th>  
+                                    <th class="text-center">STMdoc อุทรณ์</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -145,10 +146,10 @@
                                         <td class="p-2" width="8%">{{ $item->ptname }}</td>    
                                         <td class="text-center" width="6%">{{ $item->vstdate }}</td>
 
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td>  --}}
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td>  --}}
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td>  --}}
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td>  --}}
                                         <td class="text-end" style="color:rgb(5, 144, 179)" width="6%">{{ number_format($item->fs,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td>  --}}
                                         {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
@@ -156,8 +157,9 @@
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
-                                        {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}}
-                                        <td class="p-2" width="9%">{{ $item->STMdoc }}</td>  
+                                        <td class="p-2" width="9%">{{ $item->STMdoc }}</td> 
+                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->auton,2)}}</td>  
+                                        <td class="p-2" width="9%">{{ $item->STMdoc_authon }}</td>  
                                     
                                     </tr>
                                         <?php
@@ -171,22 +173,25 @@
                                             $total6 = $total6 + $item->debit_total;
                                             $total7 = $total7 + ($item->debit_total-$item->stm_money); 
                                             $total8 = $total8 + $item->stm_money;
-                                            // $total9 = $total9 + $item->stm_total;
+                                            $total9 = $total9 + $item->auton;
                                         ?>                                 
                                 @endforeach  
                                
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="5" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                             
+                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td>  --}}
+                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                              --}}
                                             <td class="text-end" style="background-color: #088ca3;color:white">{{ number_format($total5,2)}}</td> 
                                             <td class="text-end" style="background-color: #0783d6;color:white">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #e09be9;color:white">{{ number_format($total7,2)}}</td> 
+                                            <td class="text-end" style="background-color: #ff9d9d"></td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total8,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
+                                           
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td> 
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>

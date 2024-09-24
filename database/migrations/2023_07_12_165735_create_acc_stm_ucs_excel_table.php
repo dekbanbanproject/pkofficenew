@@ -65,6 +65,9 @@ return new class extends Migration
                 $table->date('date_save')->nullable();//
                 $table->string('STMdoc')->nullable();//
 
+                $table->string('auton')->nullable();          // อุทรณ์
+                $table->string('STMdoc_authon')->nullable();  // อุทรณ์
+
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH','PULL'])->default('PULL')->nullable();
                 $table->timestamp(column:'created_at')->useCurrent();
                 $table->timestamp(column:'updated_at')->nullable();

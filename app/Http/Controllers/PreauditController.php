@@ -133,7 +133,7 @@ class PreauditController extends Controller
                 FROM vn_stat v
                 LEFT JOIN visit_pttype vp ON vp.vn = v.vn
                 LEFT JOIN patient p ON p.hn = v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
                 GROUP BY v.vn  
             ');
 
@@ -164,7 +164,7 @@ class PreauditController extends Controller
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="")  
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="") AND v.pttype NOT IN("10")   
                 AND v.income > 0 
                 GROUP BY o.vn 
             ');
@@ -203,15 +203,15 @@ class PreauditController extends Controller
             //     GROUP BY vn 
             //     ORDER BY claimcode DESC 
             // ');
-            $data['authen_excel'] = DB::connection('mysql2')->select(
+            $data['authen_excel'] = DB::connection('mysql10')->select(
                 'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
                 FROM vn_stat v
                 JOIN visit_pttype vp
                 JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7") 
                 GROUP BY v.vn  
             ');
-            $data['authen_excel_date'] = DB::connection('mysql2')->select(
+            $data['authen_excel_date'] = DB::connection('mysql10')->select(
                 'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
                 FROM vn_stat v
                 JOIN visit_pttype vp
@@ -362,7 +362,6 @@ class PreauditController extends Controller
                 'claim_code'     => $value->claimcode,  
             ]);  
         }
-
         $data_authen_excel_ti = DB::connection('mysql')->select(
             'SELECT * FROM
             Visit_pttype_import
@@ -375,6 +374,7 @@ class PreauditController extends Controller
         }
         Visit_pttype_import::truncate();
         // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
+
             return response()->json([
                 'status'    => '200',
             ]);

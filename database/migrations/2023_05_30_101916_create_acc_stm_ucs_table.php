@@ -63,7 +63,10 @@ return new class extends Migration
                 $table->string('va')->nullable();//va
                 $table->string('covid')->nullable();//covid 
                 $table->date('date_save')->nullable();// 
-                $table->string('STMdoc')->nullable();//    
+                $table->string('STMdoc')->nullable();//  
+                
+                $table->string('auton')->nullable();          // อุทรณ์
+                $table->string('STMdoc_authon')->nullable();  // อุทรณ์
                 
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH','PULL'])->default('PULL')->nullable(); 
                 $table->timestamps();
