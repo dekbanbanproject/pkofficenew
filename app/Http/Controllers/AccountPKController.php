@@ -88,13 +88,13 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-use Orchestra\Parser\Xml\Facade as XmlParser;
-use Illuminate\Container\Container;
-use Orchestra\Parser\Xml\Document;
-use Orchestra\Parser\Xml\Reader;
-use Saloon\XmlWrangler\XmlReader;
-use Saloon\XmlWrangler\Data\Element;
-use Saloon\XmlWrangler\XmlWriter;
+// use Orchestra\Parser\Xml\Facade as XmlParser;
+// use Illuminate\Container\Container;
+// use Orchestra\Parser\Xml\Document;
+// use Orchestra\Parser\Xml\Reader;
+// use Saloon\XmlWrangler\XmlReader;
+// use Saloon\XmlWrangler\Data\Element;
+// use Saloon\XmlWrangler\XmlWriter;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -3706,14 +3706,15 @@ class AccountPKController extends Controller
     }
     function upstm_ucs_excel(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
-        $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
+        $the_file = $request->file('file_stm'); 
+        $file_ = $request->file('file_stm')->getClientOriginalName(); //ชื่อไฟล์
+        // $the_file = $request->file('file_stm'); 
+        // $file_ = $request->file('file_stm')->getClientOriginalName(); //ชื่อไฟล์
         // dd($the_file);
-            try{
+            // try{
                 // $a = array('2','3');
                 // foreach($a as $value){
                 //     $table_insert = $sss[0];
@@ -3721,16 +3722,17 @@ class AccountPKController extends Controller
                 //     // code($sheet_read)
                 //     // insert_table $table_insert
                 // }
-
+               
                 // Cheet 2
                 $spreadsheet = IOFactory::load($the_file->getRealPath()); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(2);
                 $row_limit    = $sheet->getHighestDataRow();
-                $column_limit = $sheet->getHighestDataColumn();
+                // $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '15', $row_limit );
                 // $column_range = range( 'AO', $column_limit );
                 $startcount = '15';
                 $data = array();
+                // dd($row_range);
                 foreach ($row_range as $row ) {
                     $vst = $sheet->getCell( 'H' . $row )->getValue();  
                     $day = substr($vst,0,2);
@@ -3846,10 +3848,8 @@ class AccountPKController extends Controller
                 // Cheet 3
                 $spreadsheet2 = IOFactory::load($the_file->getRealPath()); 
                 $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
-                $row_limit2    = $sheet2->getHighestDataRow();
-                $column_limit2 = $sheet2->getHighestDataColumn();
-                $row_range2    = range( '15', $row_limit2 );
-                // $column_range2 = range( 'AO', $column_limit2 );
+                $row_limit2    = $sheet2->getHighestDataRow(); 
+                $row_range2    = range( '15', $row_limit2 ); 
                 $startcount2 = '15';
                 $data2 = array();
                 foreach ($row_range2 as $row2 ) {
@@ -3865,22 +3865,22 @@ class AccountPKController extends Controller
                     $regyear2 = substr($reg2, 6, 4);
                     $dchdate2 = $regyear2.'-'.$regmo2.'-'.$regday2;
 
-                    $ss = $sheet2->getCell( 'S' . $row2 )->getValue();
-                    $del_ss = str_replace(",","",$ss);
-                    $tt = $sheet2->getCell( 'T' . $row2 )->getValue();
-                    $del_tt = str_replace(",","",$tt);
-                    $uu = $sheet2->getCell( 'U' . $row2 )->getValue();
-                    $del_uu = str_replace(",","",$uu);
-                    $vv= $sheet2->getCell( 'V' . $row2 )->getValue();
-                    $del_vv = str_replace(",","",$vv);
-                    $ww = $sheet2->getCell( 'W' . $row2 )->getValue();
-                    $del_ww = str_replace(",","",$ww);
-                    $xx = $sheet2->getCell( 'X' . $row2 )->getValue();
-                    $del_xx = str_replace(",","",$xx);
-                    $yy = $sheet2->getCell( 'Y' . $row2 )->getValue();
-                    $del_yy = str_replace(",","",$yy);
-                    $zz = $sheet2->getCell( 'Z' . $row2 )->getValue();
-                    $del_zz = str_replace(",","",$zz);
+                    $ss2 = $sheet2->getCell( 'S' . $row2 )->getValue();
+                    $del_ss2 = str_replace(",","",$ss2);
+                    $tt2 = $sheet2->getCell( 'T' . $row2 )->getValue();
+                    $del_tt2 = str_replace(",","",$tt2);
+                    $uu2 = $sheet2->getCell( 'U' . $row2 )->getValue();
+                    $del_uu2 = str_replace(",","",$uu2);
+                    $vv2= $sheet2->getCell( 'V' . $row2 )->getValue();
+                    $del_vv2 = str_replace(",","",$vv2);
+                    $ww2 = $sheet2->getCell( 'W' . $row2 )->getValue();
+                    $del_ww2 = str_replace(",","",$ww2);
+                    $xx2 = $sheet2->getCell( 'X' . $row2 )->getValue();
+                    $del_xx2 = str_replace(",","",$xx2);
+                    $yy2 = $sheet2->getCell( 'Y' . $row2 )->getValue();
+                    $del_yy2 = str_replace(",","",$yy2);
+                    $zz2 = $sheet2->getCell( 'Z' . $row2 )->getValue();
+                    $del_zz2 = str_replace(",","",$zz2);
                     $aa2 = $sheet2->getCell( 'AA' . $row2 )->getValue();
                     $del_aa2 = str_replace(",","",$aa2);
                     $ab2 = $sheet2->getCell( 'AB' . $row2 )->getValue();
@@ -3926,14 +3926,15 @@ class AccountPKController extends Controller
                         'ps2'                   =>$sheet2->getCell( 'P' . $row2 )->getValue(),
                         'ccuf'                  =>$sheet2->getCell( 'Q' . $row2 )->getValue(),
                         'adjrw2'                =>$sheet2->getCell( 'R' . $row2 )->getValue(), 
-                        'pay_money'             => $del_ss,
-                        'pay_slip'              => $del_tt,
-                        'pay_after'             => $del_uu,
-                        'op'                    => $del_vv,
-                        'ip_pay1'               => $del_ww,
-                        'ip_paytrue_auton'      => $del_xx,
-                        'hc'                    => $del_yy,
-                        'hc_drug'               => $del_zz,
+                        'pay_money'             => $del_ss2,
+                        'pay_slip'              => $del_tt2,
+                        'pay_after'             => $del_uu2,
+                        'op'                    => $del_vv2,
+                        'ip_pay1'               => $del_ww2,
+                        'ip_paytrue'            => $del_xx2,
+                        'ip_paytrue_auton'      => $del_xx2,
+                        'hc'                    => $del_yy2,
+                        'hc_drug'               => $del_zz2,
                         'ae'                    => $del_aa2,
                         'ae_drug'               => $del_ab2,
                         'inst'                  => $del_ac2,
@@ -3949,12 +3950,14 @@ class AccountPKController extends Controller
                         'va'                    =>$sheet2->getCell( 'AM' . $row2 )->getValue(),
                         'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
                         // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
-                        'STMdoc'                =>$file_ 
+                        'STMdoc'                =>$file_,
+                        'auton'                 =>$del_al2,
+                        'STMdoc_authon'         =>$file_
                     ];
                     $startcount2++; 
 
                 }
-                // DB::table('acc_stm_ucs_excel')->Transaction::insert($data2); 
+                
                 $for_insert2 = array_chunk($data2, length:1000);
                 foreach ($for_insert2 as $key => $data2_) {
                     Acc_stm_ucs_excel::insert($data2_); 
@@ -3962,14 +3965,15 @@ class AccountPKController extends Controller
 
 
 
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
+            // } catch (Exception $e) {
+            //     $error_code = $e->errorInfo[1];
+            //     return back()->withErrors('There was a problem uploading the data!');
+            // }
             // return back()->withSuccess('Great! Data has been successfully uploaded.');
-            return response()->json([
-            'status'    => '200',
-        ]);
+            // return response()->json([
+            //     'status'    => '200',
+            // ]);
+            return redirect()->back();
     }
 
     public function upstm_ucs_sendexcel(Request $request)
@@ -3981,17 +3985,19 @@ class AccountPKController extends Controller
                     $check = Acc_stm_ucs::where('tranid','=',$value->tranid)->count();
                     if ($check > 0) {
   
-                        $data_add = Acc_stm_ucs::where('tranid','=',$value->tranid)->first();
-                        $ip_payt = $data_add->ip_paytrue;
-                        $to_app  = $data_add->total_approve;
+                        // $data_add = Acc_stm_ucs::where('tranid','=',$value->tranid)->first();
+                        // $ip_payt = $data_add->ip_paytrue;
+                        // $to_app  = $data_add->total_approve;
 
-                        Acc_stm_ucs::where('tranid','=', $value->tranid)
-                            ->update([
-                                'ip_paytrue_auton'        => $value->ip_paytrue_auton, 
-                                'total_approve_auton'     => $value->total_approve_auton, 
-                                'ip_paytrue_total'        => $ip_payt + $value->ip_paytrue_auton,
-                                'total_approve_total'     => $to_app + $value->total_approve_auton,
-                        ]);
+                        // Acc_stm_ucs::where('an','=', $value->an)
+                        //     ->update([
+                        //         'ip_paytrue_auton'        => $value->ip_paytrue_auton, 
+                        //         'total_approve_auton'     => $value->total_approve_auton, 
+                        //         'ip_paytrue_total'        => $ip_payt + $value->ip_paytrue_auton,
+                        //         'total_approve_total'     => $to_app + $value->total_approve_auton,
+                        //         'auton'                   => $value->auton, 
+                        //         'STMdoc_authon'           => $value->STMdoc_authon, 
+                        // ]);
                     } else {
                         $add = new Acc_stm_ucs();
                         $add->rep            = $value->rep;
@@ -4039,23 +4045,49 @@ class AccountPKController extends Controller
                         $add->covid          = $value->covid;
                         $add->date_save      = $value->date_save;
                         $add->STMdoc         = $value->STMdoc;
+                        $add->auton          = $value->auton;
+                        $add->STMdoc_authon  = $value->STMdoc_authon;
+
                         $add->save();  
                     } 
 
-                    if ($value->ip_paytrue == "0.00") {
-                        if ($value->ip_paytrue_auton >= "0.00") {
-                            Acc_1102050101_202::where('an',$value->an) 
-                                ->update([
-                                    'status'          => 'Y',
-                                    'stm_rep'         => $value->debit, 
-                                    'stm_auton'       => $value->ip_paytrue_auton,
-                                    'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                                    'stm_trainid'     => $value->tranid,
-                                    'stm_total'       => "0.00",
-                                    'STMdoc'          => $value->STMdoc,
-                                    'va'              => $value->va,
-                            ]); 
-                        }
+                    // if ($value->ip_paytrue == "0.00") {
+                    //     // if ($value->ip_paytrue_auton >= "0.00") {
+                    //     if ($value->ip_paytrue_auton != "") {
+                            
+                    //         if ($value->projectcode =="UCEP24") { 
+                    //             Acc_1102050101_202::where('an',$value->an)  
+                    //                 ->update([
+                    //                     'status'          => 'Y',
+                    //                     'stm_rep'         => $value->debit, 
+                    //                     'stm_auton'       => $value->ip_paytrue_auton,
+                    //                     'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //                     'stm_trainid'     => $value->tranid,
+                    //                     'stm_total'       => "0.00",
+                    //                     'STMdoc'          => $value->STMdoc,
+                    //                     'va'              => $value->va,
+                    //                     'auton'           => $value->auton,
+                    //                     'STMdoc_authon'   => $value->STMdoc_authon,
+                    //             ]); 
+                    //         } else {
+                                
+                    //             Acc_1102050101_202::where('an',$value->an)  
+                    //             ->update([
+                    //                 'status'          => 'Y',
+                    //                 'stm_rep'         => $value->debit, 
+                    //                 'stm_auton'       => '',
+                    //                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //                 'stm_trainid'     => $value->tranid,
+                    //                 'stm_total'       => "0.00",
+                    //                 'STMdoc'          => $value->STMdoc,
+                    //                 'va'              => $value->va,
+                    //                 'auton'           => '',
+                    //                 'STMdoc_authon'   => '',
+                    //         ]); 
+                    //         }
+                            
+                           
+                    //     }
 
                         // Acc_1102050101_202::where('an',$value->an) 
                         // ->update([
@@ -4070,7 +4102,9 @@ class AccountPKController extends Controller
                         // ]);
                         
                         
-                    }else if ($value->ip_paytrue > "0.00") {
+                    // }else if ($value->ip_paytrue > "0.00") {
+
+                        if ($value->ip_paytrue > "0.00") {
                             Acc_1102050101_202::where('an',$value->an) 
                                 ->update([
                                     'status'          => 'Y',
@@ -4081,12 +4115,17 @@ class AccountPKController extends Controller
                                     'stm_total'       => $value->ip_paytrue,
                                     'STMdoc'          => $value->STMdoc,
                                     'va'              => $value->va,
-                            ]);
+                                    'auton'           => $value->ip_paytrue,
+                                    'STMdoc_authon'   => $value->STMdoc_authon,
+                            ]); 
+                        }
+                            
                           
-                    } else {
-                    }
+                    // } else {
+                    // }
 
                     if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug == "0") {
+                        
                         Acc_1102050101_217::where('an',$value->an) 
                             ->update([
                                 'status'          => 'Y',
@@ -4097,6 +4136,8 @@ class AccountPKController extends Controller
                                 'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                 'STMdoc'          => $value->STMdoc,
                                 'va'              => $value->va,
+                                'auton'           => $value->auton,
+                                'STMdoc_authon'   => $value->STMdoc_authon,
                         ]); 
                     }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
                         Acc_1102050101_217::where('an',$value->an) 
@@ -4110,6 +4151,8 @@ class AccountPKController extends Controller
                                 'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                 'STMdoc'          => $value->STMdoc,
                                 'va'              => $value->va,
+                                'auton'           => $value->auton,
+                                'STMdoc_authon'   => $value->STMdoc_authon,
                         ]);
  
                     } else {    

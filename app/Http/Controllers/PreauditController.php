@@ -241,7 +241,7 @@ class PreauditController extends Controller
                 // $sheet        = $spreadsheet->getActiveSheet();
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
-                $column_limit = $sheet->getHighestDataColumn();
+                // $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( '2', $row_limit );
                 // $row_range    = range( "!", $row_limit );
                 // $column_range = range( 'T', $column_limit );
@@ -309,10 +309,11 @@ class PreauditController extends Controller
 
             $data_authen_excel = DB::connection('mysql')->select(
                 'SELECT * FROM
-                Visit_pttype_import_excel
+                visit_pttype_import_excel
                 WHERE claimtype = "PG0060001" 
-                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"  
+                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"
             ');
+            // AND repauthen <> "ENDPOINT"  
             foreach ($data_authen_excel as $key => $value) {
                 $check = Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype', ['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->count();
                 if ($check > 0) {
@@ -329,8 +330,9 @@ class PreauditController extends Controller
                 'SELECT * FROM
                 Visit_pttype_import_excel
                 WHERE claimtype = "PG0130001" 
-                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"  
+                AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"
             ');
+            // AND repauthen <> "ENDPOINT"
             foreach ($data_authen_excel_ti as $key => $value_ti) {
                 $checkti = Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype', ['M1','M2','M3','M4','M5'])->count();
                 if ($checkti > 0) {
@@ -373,6 +375,7 @@ class PreauditController extends Controller
             ]);  
         }
         Visit_pttype_import::truncate();
+        Visit_pttype_import_excel::truncate();
         // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
 
             return response()->json([

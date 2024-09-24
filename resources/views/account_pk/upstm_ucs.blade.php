@@ -108,8 +108,8 @@
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
-                                        <input class="form-control form-control-lg" id="formFileLg" name="file" type="file" required>
+                                        <label for="file_stm" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
+                                        <input class="form-control form-control-lg" id="file_stm" name="file_stm" type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
                                     @if ($countc > 0)
@@ -270,57 +270,57 @@
 
             var bar = $('.bar');
             var percent = $('.percent');
-            $('form').ajaxForm({
-                beforeSend: function() {
-                    var percentVal = '0%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
-                },
-                uploadProgress: function(event, position, total, percentComplete) {
-                    var percentVal = percentComplete+'%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
-                },
-                complete: function(data) { 
-                    if (data.status == 100) {
-                            Swal.fire({
-                            title: 'ไม่เจอไฟล์',
-                            text: "File IS NULL",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            // cancelButtonColor: '#d33', 
-                        })
-                    } else {
-                        Swal.fire({
-                            title: 'UP STM สำเร็จ',
-                            text: "You UP STM success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            // cancelButtonColor: '#d33',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location = "{{ url('upstm_ucs') }}";
-                            }
-                        })
-                    }
-                    // Swal.fire({
-                    //     title: 'UP STM สำเร็จ',
-                    //     text: "You UP STM success",
-                    //     icon: 'success',
-                    //     showCancelButton: false,
-                    //     confirmButtonColor: '#06D177',
-                    //     // cancelButtonColor: '#d33',
-                    //     confirmButtonText: 'เรียบร้อย'
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         window.location = "{{ url('upstm_ucs') }}";
-                    //     }
-                    // })
-                }
-            })
+            // $('form').ajaxForm({
+            //     beforeSend: function() {
+            //         var percentVal = '0%';
+            //         bar.width(percentVal);
+            //         percent.html(percentVal);
+            //     },
+            //     uploadProgress: function(event, position, total, percentComplete) {
+            //         var percentVal = percentComplete+'%';
+            //         bar.width(percentVal);
+            //         percent.html(percentVal);
+            //     },
+            //     complete: function(data) { 
+            //         if (data.status == 100) {
+            //                 Swal.fire({
+            //                 title: 'ไม่เจอไฟล์',
+            //                 text: "File IS NULL",
+            //                 icon: 'success',
+            //                 showCancelButton: false,
+            //                 confirmButtonColor: '#06D177',
+            //                 // cancelButtonColor: '#d33', 
+            //             })
+            //         } else {
+            //             Swal.fire({
+            //                 title: 'UP STM สำเร็จ',
+            //                 text: "You UP STM success",
+            //                 icon: 'success',
+            //                 showCancelButton: false,
+            //                 confirmButtonColor: '#06D177',
+            //                 // cancelButtonColor: '#d33',
+            //                 confirmButtonText: 'เรียบร้อย'
+            //             }).then((result) => {
+            //                 if (result.isConfirmed) {
+            //                     window.location = "{{ url('upstm_ucs') }}";
+            //                 }
+            //             })
+            //         }
+            //         // Swal.fire({
+            //         //     title: 'UP STM สำเร็จ',
+            //         //     text: "You UP STM success",
+            //         //     icon: 'success',
+            //         //     showCancelButton: false,
+            //         //     confirmButtonColor: '#06D177',
+            //         //     // cancelButtonColor: '#d33',
+            //         //     confirmButtonText: 'เรียบร้อย'
+            //         // }).then((result) => {
+            //         //     if (result.isConfirmed) {
+            //         //         window.location = "{{ url('upstm_ucs') }}";
+            //         //     }
+            //         // })
+            //     }
+            // })
 
             $('#Upstm').on('submit', function(e) {
                 e.preventDefault();
