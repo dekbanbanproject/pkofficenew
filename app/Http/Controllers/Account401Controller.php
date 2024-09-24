@@ -420,7 +420,9 @@ class Account401Controller extends Controller
     {  
         // $id = $request->idfunc;
         Acc_function::where('pang','1102050101.401')->update(['claim_active'=> $request->onoff]); 
-        // return redirect()->route('acc.account_401_pull');
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
 
     public function account_401_pulldata(Request $request)
@@ -896,23 +898,7 @@ class Account401Controller extends Controller
         Fdh_ins::where('d_anaconda_id','=','OFC_401')->delete();
         Fdh_pat::where('d_anaconda_id','=','OFC_401')->delete();
         Fdh_opd::where('d_anaconda_id','=','OFC_401')->delete();
-
-        // D_opd::truncate();
-        // D_orf::truncate();
-        // D_oop::truncate();
-        // D_odx::truncate();
-        // D_idx::truncate();
-        // D_ipd::truncate();
-        // D_irf::truncate();
-        // D_aer::truncate();
-        // D_iop::truncate();
-        // D_adp::truncate();  
-        // D_dru::truncate();   
-        // D_pat::truncate();
-        // D_cht::truncate();
-        // D_cha::truncate();
-        // D_ins::truncate();
-
+ 
       
         Fdh_sesion::where('d_anaconda_id', '=', 'OFC_401')->delete(); 
         $s_date_now = date("Y-m-d");
@@ -1029,18 +1015,32 @@ class Account401Controller extends Controller
                     ]);
                 }
                 //D_opd OK
-                $data_opd = DB::connection('mysql2')->select('
-                        SELECT  v.hn HN
-                        ,v.spclty CLINIC
-                        ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
-                        ,v.vn SEQ
-                        ,"1" UUC ,"" DETAIL,""BTEMP,""SBP,""DBP,""PR,""RR,""OPTYPE,""TYPEIN,""TYPEOUT
+                // $data_opd = DB::connection('mysql2')->select('
+                //         SELECT  v.hn HN
+                //         ,v.spclty CLINIC
+                //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
+                //         ,v.vn SEQ
+                //         ,"1" UUC ,"" DETAIL,""BTEMP,""SBP,""DBP,""PR,""RR,""OPTYPE,""TYPEIN,""TYPEOUT
+                //         from vn_stat v
+                //         LEFT OUTER JOIN ovst o on o.vn = v.vn
+                //         LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                //         LEFT OUTER JOIN ipt i on i.vn = v.vn
+                //         LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                //         WHERE v.vn IN("'.$va1->vn.'")                  
+                // '); 
+                 //D_opd OK
+                 $data_opd = DB::connection('mysql2')->select(
+                    'SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
+                        ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR,""OPTYPE,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         from vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
+                        LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
                         LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                        LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
+                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost 
                         WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
                 foreach ($data_opd as $val3) {       
@@ -1314,25 +1314,25 @@ class Account401Controller extends Controller
                 //D_aer OK
                 $data_aer_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
-                        ,c.claimcode AUTHAE
+                        ,vv.claim_code AUTHAE
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                         FROM vn_stat v
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
                         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-                        LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
+                  
                         WHERE v.vn IN("'.$va1->vn.'") and i.an is null
                         AND i.an is null
                         GROUP BY v.vn
                          UNION ALL
-                        SELECT a.hn HN,a.an AN,DATE_FORMAT(vs.vstdate,"%Y%m%d") DATEOPD,c.claimcode AUTHAE
+                        SELECT a.hn HN,a.an AN,DATE_FORMAT(vs.vstdate,"%Y%m%d") DATEOPD,"" AUTHAE
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,"" SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                         FROM an_stat a
                         LEFT OUTER JOIN ipt_pttype vv on vv.an = a.an
                         LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype  
                         LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn
-                        LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = vs.cid AND c.vstdate = vs.vstdate
+                       
                         WHERE a.vn IN("'.$va1->vn.'")
                         GROUP BY a.an;
                 ');
@@ -1571,7 +1571,7 @@ class Account401Controller extends Controller
                 //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,if(v.income="17",oo.presc_reason,"") as DRUGREMARK,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate

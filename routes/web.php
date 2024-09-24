@@ -2005,6 +2005,13 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_pkucs216_stmnull_date/{months}/{year}', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_stmnull_date'])->name('acc.account_pkucs216_stmnull_date'); //
   Route::match(['get', 'post'], 'account_216_destroy', [App\Http\Controllers\Account216Controller::class, 'account_216_destroy'])->name('acc.account_216_destroy'); //
   Route::match(['get', 'post'], 'account_pkucs216_yokpai/{months}/{year}', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_yokpai'])->name('acc.account_pkucs216_yokpai'); //
+  
+  Route::match(['get', 'post'], 'account_pkucs216_claimswitch', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_claimswitch'])->name('acc.account_pkucs216_claimswitch'); //
+  Route::match(['get', 'post'], 'account_pkucs216_claim', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_claim'])->name('acc.account_pkucs216_claim'); //
+  Route::match(['get', 'post'], 'account_pkucs216_export', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_export'])->name('acc.account_pkucs216_export'); //
+  Route::match(['get', 'post'], 'account_pkucs216_zip', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_zip'])->name('acc.account_pkucs216_zip'); //
+  
+
 
   Route::match(['get', 'post'], 'account_pkucs217_pull', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pull'])->name('acc.account_pkucs217_pull'); //
   Route::match(['get', 'post'], 'account_pkucs217_search', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_search'])->name('acc.account_pkucs217_search'); //

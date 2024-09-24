@@ -93,7 +93,7 @@
                     <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                         <button type="submit" class="ladda-button btn-pill btn btn-info cardacc" data-style="expand-left">
-                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white"></i>ค้นหา</span>
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
@@ -131,7 +131,7 @@
                                     ตรวจสอบสิทธิ์ 
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
-                                     <i class="fa-solid fa-sack-dollar me-2"></i>
+                                     <i class="fa-solid fa-spinner text-warning me-2"></i>
                                     ประมวลผล
                                 </button>
                                 {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
@@ -143,7 +143,7 @@
                                     Export Txt
                                 </a>   
                                 <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                                     <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip
                                 </a> 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
@@ -1121,8 +1121,25 @@
             $.ajax({
                     url:"{{route('acc.account_401_claimswitch')}}",
                     method:"GET",
-                    data:{onoff:onoff,_token:_token}
-            })
+                    data:{onoff:onoff,_token:_token},
+                    success:function(data){ 
+                        if (data.status == 200) { 
+                            Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your open function success",
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+                            
+                            window.location.reload(); 
+                                
+                        } else {
+                            
+                        }  
+                }
+            });  
+           
         }
 
         function uncheck() {
@@ -1132,8 +1149,25 @@
             $.ajax({
                     url:"{{route('acc.account_401_claimswitch')}}",
                     method:"GET",
-                    data:{onoff:onoff,_token:_token}
-            })
+                    data:{onoff:onoff,_token:_token},
+                    success:function(data){ 
+                        if (data.status == 200) { 
+                            Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your Close function success",
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+                            
+                            window.location.reload(); 
+                                
+                        } else {
+                            
+                        }  
+                }
+            }); 
+            
         }
 
         // function account_401_claimswitch(claim_active){

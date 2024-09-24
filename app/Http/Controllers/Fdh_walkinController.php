@@ -170,9 +170,7 @@ class Fdh_walkinController extends Controller
                         AND pt.hipdata_code ="UCS"
                         GROUP BY v.vn 
                 ');
-            // LEFT OUTER JOIN check_authen_hos cs on cs.vn = v.vn
-            // ,ca.claimcode as authen
-            // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate               
+                         
             foreach ($data_main_ as $key => $value) {
                 $check_wa = D_fdh::where('vn', $value->vn)->where('projectcode', 'WALKIN')->count();
                 if ($check_wa > 0) {
@@ -230,36 +228,11 @@ class Fdh_walkinController extends Controller
                 //     ]);                       
                 // }  
             }
-            // $data_authen_    = DB::connection('mysql')->select('SELECT hncode,cid,vstdate,claimcode FROM check_authen WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" '); 
-            // foreach ($data_authen_ as $key => $v_up) {
-            //     D_fdh::where('cid',$v_up->cid)->where('vstdate',$v_up->vstdate)->update([ 
-            //         'authen'   => $v_up->claimcode,  
-            //     ]);
-            // } 
-            // $s_date_now = date("Y-m-d");
-            // $s_time_now = date("H:i:s");
-            // #ตัดขีด, ตัด : ออก
-            // $pattern_date = '/-/i';
-            // $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
-            // $pattern_time = '/:/i';
-            // $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
-            // #ตัดขีด, ตัด : ออก
-            // $folder_name = 'WALKIN_' . $s_date_now_preg . '_' . $s_time_now_preg;
-
-            // Fdh_sesion::insert([
-            //     'folder_name'      => $folder_name,
-            //     'd_anaconda_id'    => 'WALKIN',
-            //     'date_save'        => $s_date_now,
-            //     'time_save'        => $s_time_now,
-            //     'userid'           => $iduser
-            // ]);
+            
 
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" AND active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn DESC');
         }
-        // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND authen IS NOT NULL AND icd10 IS NOT NULL AND debit > "1" ORDER BY vn ASC');        
-        // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="N" AND projectcode ="WALKIN" AND debit > "1" ORDER BY vn ASC');  
-        // AND vstdate = "'.$date.'"      
-        // $data['d_walkin'] = DB::connection('mysql')->select('SELECT * from d_walkin WHERE active ="N" AND authen IS NOT NULL ORDER BY vn ASC');  
+        
         $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
         $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"');
         $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="WALKIN"');
@@ -923,35 +896,35 @@ class Fdh_walkinController extends Controller
         $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY SEQ');
         foreach ($walk_ as $key => $va_w) {
             Fdh_adp::insert([
-                'HN'                   => $va_13->HN,
-                'AN'                   => $va_13->AN,
-                'DATEOPD'              => $va_13->DATEOPD,
+                'HN'                   => $va_w->HN,
+                'AN'                   => $va_w->AN,
+                'DATEOPD'              => $va_w->DATEOPD,
                 'TYPE'                 => '5',
                 'CODE'                 => 'WALKIN',
                 'QTY'                  => '1',
                 'RATE'                 => '0.00',
-                'SEQ'                  => $va_13->SEQ,
-                'CAGCODE'              => $va_13->CAGCODE,
-                'DOSE'                 => $va_13->DOSE,
-                'CA_TYPE'              => $va_13->CA_TYPE,
-                'SERIALNO'             => $va_13->SERIALNO,
-                'TOTCOPAY'             => $va_13->TOTCOPAY,
-                'USE_STATUS'           => $va_13->USE_STATUS,
-                'TOTAL'                => $va_13->TOTAL,
-                'QTYDAY'               => $va_13->QTYDAY,
-                'TMLTCODE'             => $va_13->TMLTCODE,
-                'STATUS1'              => $va_13->STATUS1,
-                'BI'                   => $va_13->BI,
-                'CLINIC'               => $va_13->CLINIC,
-                'ITEMSRC'              => $va_13->ITEMSRC,
-                'PROVIDER'             => $va_13->PROVIDER,
-                'GRAVIDA'              => $va_13->GRAVIDA,
-                'GA_WEEK'              => $va_13->GA_WEEK,
-                'DCIP'                 => $va_13->DCIP,
-                'LMP'                  => $va_13->LMP,
-                'SP_ITEM'              => $va_13->SP_ITEM,
-                'icode'                => $va_13->icode,
-                'vstdate'              => $va_13->vstdate,
+                'SEQ'                  => $va_w->SEQ,
+                'CAGCODE'              => $va_w->CAGCODE,
+                'DOSE'                 => $va_w->DOSE,
+                'CA_TYPE'              => $va_w->CA_TYPE,
+                'SERIALNO'             => $va_w->SERIALNO,
+                'TOTCOPAY'             => $va_w->TOTCOPAY,
+                'USE_STATUS'           => $va_w->USE_STATUS,
+                'TOTAL'                => $va_w->TOTAL,
+                'QTYDAY'               => $va_w->QTYDAY,
+                'TMLTCODE'             => $va_w->TMLTCODE,
+                'STATUS1'              => $va_w->STATUS1,
+                'BI'                   => $va_w->BI,
+                'CLINIC'               => $va_w->CLINIC,
+                'ITEMSRC'              => $va_w->ITEMSRC,
+                'PROVIDER'             => $va_w->PROVIDER,
+                'GRAVIDA'              => $va_w->GRAVIDA,
+                'GA_WEEK'              => $va_w->GA_WEEK,
+                'DCIP'                 => $va_w->DCIP,
+                'LMP'                  => $va_w->LMP,
+                'SP_ITEM'              => $va_w->SP_ITEM,
+                'icode'                => $va_w->icode,
+                'vstdate'              => $va_w->vstdate,
                 'user_id'              => $iduser,
                 'd_anaconda_id'        => 'WALKIN'
             ]);
