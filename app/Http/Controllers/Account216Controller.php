@@ -1099,34 +1099,40 @@ class Account216Controller extends Controller
                         from vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
-                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                        LEFT OUTER JOIN ipt i on i.vn = v.vn
+                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype                       
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
                         LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost 
                         WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
-                
-                foreach ($data_opd as $val3) {                        
-                    Fdh_opd::insert([
-                        'HN'                => $val3->HN,
-                        'CLINIC'            => $val3->CLINIC,
-                        'DATEOPD'           => $val3->DATEOPD,
-                        'TIMEOPD'           => $val3->TIMEOPD,
-                        'SEQ'               => $val3->SEQ,
-                        'UUC'               => $val3->UUC,
-                        'DETAIL'            => $val3->DETAIL,
-                        'BTEMP'             => $val3->BTEMP,
-                        'SBP'               => $val3->SBP,
-                        'DBP'               => $val3->DBP,
-                        'PR'                => $val3->PR,
-                        'RR'                => $val3->RR,
-                        'OPTYPE'            => $val3->OPTYPE,
-                        'TYPEIN'            => $val3->TYPEIN,
-                        'TYPEOUT'           => $val3->TYPEOUT,
-                        'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'WALKIN'
-                    ]);
+                // LEFT OUTER JOIN ipt i on i.vn = v.vn
+                foreach ($data_opd as $val3) {   
+                    $count_hn = Fdh_opd::where('SEQ',$val3->SEQ)->count(); 
+                    // if ($count_hn > 0) {
+                    //     # code...
+                    // } else {
+                        Fdh_opd::insert([
+                            'HN'                => $val3->HN,
+                            'CLINIC'            => $val3->CLINIC,
+                            'DATEOPD'           => $val3->DATEOPD,
+                            'TIMEOPD'           => $val3->TIMEOPD,
+                            'SEQ'               => $val3->SEQ,
+                            'UUC'               => $val3->UUC,
+                            'DETAIL'            => $val3->DETAIL,
+                            'BTEMP'             => $val3->BTEMP,
+                            'SBP'               => $val3->SBP,
+                            'DBP'               => $val3->DBP,
+                            'PR'                => $val3->PR,
+                            'RR'                => $val3->RR,
+                            'OPTYPE'            => $val3->OPTYPE,
+                            'TYPEIN'            => $val3->TYPEIN,
+                            'TYPEOUT'           => $val3->TYPEOUT,
+                            'user_id'           => $iduser,
+                            'd_anaconda_id'     => 'WALKIN'
+                        ]);
+                    // }
+                                        
+                    
                 }
                 //D_orf _OK
                 $data_orf_ = DB::connection('mysql2')->select(
@@ -1827,7 +1833,7 @@ class Account216Controller extends Controller
              $i12 = $value2->TITLE;
              $i13 = $value2->FNAME;
              $i14 = $value2->LNAME;
-             $i15 = $value2->IDTYPE;      
+             $i15 = $value2->IDTYPE;     
              $strText_pat     ="\r\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
             //  $ansitxt_pat     = iconv('UTF-8', 'TIS-620', $strText_pat);
              $ansitxt_pat     = iconv('UTF-8', 'UTF-8', $strText_pat);
@@ -1846,7 +1852,7 @@ class Account216Controller extends Controller
          $opd_head_opd     = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
          fwrite($objFopen_opd_opd, $opd_head_opd);
          fwrite($fdh_opd, $opd_head_opd);
-         $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "WALKIN"');
+         $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "WALKIN" GROUP BY SEQ');
          foreach ($opd as $key => $value3) {
              $o1 = $value3->HN;
              $o2 = $value3->CLINIC;
