@@ -1829,13 +1829,14 @@ class Account216Controller extends Controller
              $i14 = $value2->LNAME;
              $i15 = $value2->IDTYPE;      
              $strText_pat     ="\r\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-             $ansitxt_pat     = iconv('UTF-8', 'TIS-620', $strText_pat);
+            //  $ansitxt_pat     = iconv('UTF-8', 'TIS-620', $strText_pat);
+             $ansitxt_pat     = iconv('UTF-8', 'UTF-8', $strText_pat);
              $apifdh_opdpat   = iconv('UTF-8', 'UTF-8', $strText_pat);
              fwrite($objFopen_opd_pat, $ansitxt_pat);
-             fwrite($fdh_pat, $apifdh_opdpat);
+            //  fwrite($fdh_pat, $apifdh_opdpat);
          }
          fclose($objFopen_opd_pat);
-         fclose($fdh_pat);
+        //  fclose($fdh_pat);
  
          //************ 3 opd.txt *****************//
          $file_d_opd       = "EXPORT_WALKIN/".$folder."/OPD.txt";
