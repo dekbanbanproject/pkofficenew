@@ -103,6 +103,7 @@ return array(
     'App\\Http\\Controllers\\AirController' => $baseDir . '/app/Http/Controllers/AirController.php',
     'App\\Http\\Controllers\\AncController' => $baseDir . '/app/Http/Controllers/AncController.php',
     'App\\Http\\Controllers\\ApiController' => $baseDir . '/app/Http/Controllers/ApiController.php',
+    'App\\Http\\Controllers\\ApiFdhController' => $baseDir . '/app/Http/Controllers/ApiFdhController.php',
     'App\\Http\\Controllers\\Api\\MobileController' => $baseDir . '/app/Http/Controllers/Api/MobileController.php',
     'App\\Http\\Controllers\\Api\\ServiceController' => $baseDir . '/app/Http/Controllers/Api/ServiceController.php',
     'App\\Http\\Controllers\\AppmobileController' => $baseDir . '/app/Http/Controllers/AppmobileController.php',

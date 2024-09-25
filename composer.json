@@ -11,7 +11,7 @@
         "codedge/laravel-fpdf": "^1.12",
         "doctrine/dbal": " ^3.0",
         "dompdf/dompdf": "^2.0",
-        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",

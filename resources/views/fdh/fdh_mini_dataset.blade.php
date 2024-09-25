@@ -1,6 +1,22 @@
 @extends('layouts.fdh')
 @section('title', 'PK-OFFICE || FDH')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
     <style>
         #button {
             display: block;
@@ -130,9 +146,11 @@
                         <input type="text" class="form-control" id="password" name="password">
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer text-center">
                     <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="AuthSave">
-                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                        {{-- <i class="pe-7s-diskette btn-icon-wrapper"></i> --}}
+                        <i class="fa-solid fa-fingerprint me-2"></i>
+                        เข้าสู่ระบบ
                     </button>
                 </div>
             </div>
@@ -206,8 +224,9 @@
                 success: function(data) {
                     if (data.status == 200) {
                         Swal.fire({
-                            title: 'เพิ่มข้อมูลสำเร็จ',
-                            text: "You Insert data success",
+                            position: "top-end",
+                            title: 'เข้าสู่ระบบสำเร็จ',
+                            text: "You Login success",
                             icon: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#06D177',

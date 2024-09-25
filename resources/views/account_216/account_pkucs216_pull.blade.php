@@ -135,10 +135,14 @@
                                     <i class="fa-solid fa-spinner text-white me-2"></i>
                                    ประมวลผล
                                </button>
-                                <a href="{{url('account_pkucs216_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                               <a href="{{url('account_pkucs216_sendapi')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                    Claim FDH
+                                </a>  
+                                {{-- <a href="{{url('account_pkucs216_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
-                                </a>   
+                                </a>    --}}
                                 <a href="{{url('account_pkucs216_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                     <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip

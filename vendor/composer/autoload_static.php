@@ -854,6 +854,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\AirController' => __DIR__ . '/../..' . '/app/Http/Controllers/AirController.php',
         'App\\Http\\Controllers\\AncController' => __DIR__ . '/../..' . '/app/Http/Controllers/AncController.php',
         'App\\Http\\Controllers\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController.php',
+        'App\\Http\\Controllers\\ApiFdhController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiFdhController.php',
         'App\\Http\\Controllers\\Api\\MobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/MobileController.php',
         'App\\Http\\Controllers\\Api\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ServiceController.php',
         'App\\Http\\Controllers\\AppmobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppmobileController.php',

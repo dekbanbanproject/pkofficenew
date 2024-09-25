@@ -2878,7 +2878,7 @@ class Fdh_walkinController extends Controller
 
     public function walkin_send_api(Request $request)
     {
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
+        $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y"');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
@@ -3043,7 +3043,7 @@ class Fdh_walkinController extends Controller
                 // 'file' => $pathnew[8], 'file' => $pathnew[9], 'file' => $pathnew[10], 'file' => $pathnew[11], 'file' => $pathnew[12], 'file' => $pathnew[13], 'file' => $pathnew[14], 'file' => $pathnew[15] 
             ]);
 
-            // dd($response);
+            dd($response);
             // dd($response->statusCode());
             // dd($response->successful());
             // Get the response code
