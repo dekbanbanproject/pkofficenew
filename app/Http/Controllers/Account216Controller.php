@@ -1668,7 +1668,7 @@ class Account216Controller extends Controller
                             'DID'            => $va_14->DID,
                             'DIDNAME'        => $va_14->DIDNAME,
                             'AMOUNT'         => $va_14->AMOUNT,
-                            'DRUGPRICE'      => $va_14->DRUGPRICE,
+                            'DRUGPRIC'      => $va_14->DRUGPRICE,
                             'DRUGCOST'       => $va_14->DRUGCOST,
                             'DIDSTD'         => $va_14->DIDSTD,
                             'UNIT'           => $va_14->UNIT,
@@ -1741,16 +1741,12 @@ class Account216Controller extends Controller
     { 
          #delete file in folder ทั้งหมด
         $file = new Filesystem;
-        $file->cleanDirectory('Export_WALKIN'); //ทั้งหมด
-        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        // $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
-
+        $file->cleanDirectory('Export_WALKIN'); //ทั้งหมด 
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
         foreach ($dataexport_ as $key => $v_export) {
             $folder_ = $v_export->folder_name;
         }
         $folder = $folder_;
-
          mkdir ('Export_WALKIN/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
@@ -1759,11 +1755,14 @@ class Account216Controller extends Controller
         header('Content-Disposition: attachment; filename="content.txt"; charset=tis-620″ ;');
 
          //********** 1 ins.txt *****************//
-        $file_d_ins = "Export_WALKIN/".$folder."/INS.txt";
+        $file_d_ins       = "EXPORT_WALKIN/".$folder."/INS.txt";
+        $file_fdh_ins       = "EXPORT_WALKIN_API/".$folder."/INS.txt";
         $objFopen_opd_ins = fopen($file_d_ins, 'w');
+        $fdh_opd_ins      = fopen($file_fdh_ins, 'w');
         // $opd_head_ins = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';  // สปสช
-        $opd_head_ins = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';   // FDH
+        $opd_head_ins     = 'HN|INSCL|SUBTYPE|CID|HCODE|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';   // FDH
         fwrite($objFopen_opd_ins, $opd_head_ins);
+        fwrite($fdh_opd_ins, $opd_head_ins);
         $ins = DB::connection('mysql')->select('SELECT * from fdh_ins where d_anaconda_id = "WALKIN"');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -1786,17 +1785,24 @@ class Account216Controller extends Controller
             $a17 = $value1->SUBINSCL;
             $a18 = $value1->RELINSCL;
             $a19 = $value1->HTYPE;
-            $strText_ins ="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            $ansitxt_pat_ins = iconv('UTF-8', 'TIS-620', $strText_ins);
-            fwrite($objFopen_opd_ins, $ansitxt_pat_ins);
+            $strText_ins ="\r\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
+            $ansitxt_ins = iconv('UTF-8', 'TIS-620', $strText_ins);
+            $apifdh_ins = iconv('UTF-8', 'UTF-8', $strText_ins);
+
+            fwrite($objFopen_opd_ins, $ansitxt_ins);
+            fwrite($fdh_opd_ins, $apifdh_ins);
         }
         fclose($objFopen_opd_ins);
+        fclose($fdh_opd_ins);
 
         //**********2 pat.txt ******************//
-        $file_pat = "Export_WALKIN/".$folder."/PAT.txt";
+        $file_pat         = "EXPORT_WALKIN/".$folder."/PAT.txt";
+        $file_fdh_pat     = "EXPORT_WALKIN_API/".$folder."/PAT.txt";
         $objFopen_opd_pat = fopen($file_pat, 'w');
-        $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
+        $fdh_opd_pat      = fopen($file_fdh_pat, 'w');
+        $opd_head_pat     = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd_pat, $opd_head_pat);
+        fwrite($fdh_opd_pat, $opd_head_pat);
         $pat = DB::connection('mysql')->select('SELECT * from fdh_pat where d_anaconda_id = "WALKIN"');
         foreach ($pat as $key => $value2) {
             $i1 = $value2->HCODE;
@@ -1814,17 +1820,23 @@ class Account216Controller extends Controller
             $i13 = $value2->FNAME;
             $i14 = $value2->LNAME;
             $i15 = $value2->IDTYPE;      
-            $strText_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-            $ansitxt_pat_pat = iconv('UTF-8', 'TIS-620', $strText_pat);
-            fwrite($objFopen_opd_pat, $ansitxt_pat_pat);
+            $strText_pat="\r\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
+            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $strText_pat);
+            $apifdh_pat = iconv('UTF-8', 'UTF-8', $strText_pat);
+            fwrite($objFopen_opd_pat, $ansitxt_pat);
+            fwrite($fdh_opd_pat, $apifdh_pat);
         }
         fclose($objFopen_opd_pat);
+        fclose($fdh_opd_pat);
 
         //************ 3 opd.txt *****************//
-        $file_d_opd = "Export_WALKIN/".$folder."/OPD.txt";
+        $file_d_opd       = "EXPORT_WALKIN/".$folder."/OPD.txt";
+        $file_fdh_opd     = "EXPORT_WALKIN_API/".$folder."/OPD.txt";
         $objFopen_opd_opd = fopen($file_d_opd, 'w');
-        $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        $fdh_opd          = fopen($file_fdh_opd, 'w');
+        $opd_head_opd     = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd_opd, $opd_head_opd);
+        fwrite($fdh_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('SELECT * from fdh_opd where d_anaconda_id = "WALKIN"');
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
@@ -1833,17 +1845,23 @@ class Account216Controller extends Controller
             $o4 = $value3->TIMEOPD; 
             $o5 = $value3->SEQ; 
             $o6 = $value3->UUC;  
-            $strText_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
-            $ansitxt_pat_opd = iconv('UTF-8', 'TIS-620', $strText_opd);
-            fwrite($objFopen_opd_opd, $ansitxt_pat_opd);
+            $strText_opd="\r\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
+            $ansitxt_opd = iconv('UTF-8', 'TIS-620', $strText_opd);
+            $apifdh_opd = iconv('UTF-8', 'UTF-8', $strText_opd);
+            fwrite($objFopen_opd_opd, $ansitxt_opd);
+            fwrite($fdh_opd, $apifdh_opd);
         }
         fclose($objFopen_opd_opd);
+        fclose($fdh_opd);
 
         //****************** 4 orf.txt **************************//
-        $file_d_orf = "Export_WALKIN/".$folder."/ORF.txt";
+        $file_d_orf       = "EXPORT_WALKIN/".$folder."/ORF.txt";
+        $file_fdh_orf     = "EXPORT_WALKIN_API/".$folder."/ORF.txt";
         $objFopen_opd_orf = fopen($file_d_orf, 'w');
+        $fdh_orf          = fopen($file_fdh_orf, 'w');
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd_orf, $opd_head_orf);
+        fwrite($fdh_orf, $opd_head_orf);
         $orf = DB::connection('mysql')->select('SELECT * from fdh_orf where d_anaconda_id = "WALKIN"');
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
@@ -1852,11 +1870,14 @@ class Account216Controller extends Controller
             $p4 = $value4->REFER; 
             $p5 = $value4->REFERTYPE; 
             $p6 = $value4->SEQ;  
-            $strText_orf ="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
-            $ansitxt_pat_orf = iconv('UTF-8', 'TIS-620', $strText_orf);
-            fwrite($objFopen_opd_orf, $ansitxt_pat_orf);
+            $strText_orf ="\r\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
+            $ansitxt_orf = iconv('UTF-8', 'TIS-620', $strText_orf);
+            $apifdh_orf = iconv('UTF-8', 'UTF-8', $strText_orf);
+            fwrite($objFopen_opd_orf, $ansitxt_orf);
+            fwrite($objFopen_opd_orf, $apifdh_orf);
         }
         fclose($objFopen_opd_orf);
+        fclose($fdh_orf);
 
         //****************** 5 odx.txt **************************//
         $file_d_odx = "Export_WALKIN/".$folder."/ODX.txt";
@@ -1873,7 +1894,7 @@ class Account216Controller extends Controller
             $m6 = $value5->DRDX; 
             $m7 = $value5->PERSON_ID; 
             $m8 = $value5->SEQ; 
-            $strText_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
+            $strText_odx="\r\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
             $ansitxt_pat_odx = iconv('UTF-8', 'TIS-620', $strText_odx);
             fwrite($objFopen_opd_odx, $ansitxt_pat_odx);
         }
@@ -1893,7 +1914,7 @@ class Account216Controller extends Controller
             $n5 = $value6->DROPID; 
             $n6 = $value6->PERSON_ID; 
             $n7 = $value6->SEQ;  
-            $strText_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
+            $strText_oop="\r\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
             $ansitxt_pat_oop = iconv('UTF-8', 'TIS-620', $strText_oop);
             fwrite($objFopen_opd_oop, $ansitxt_pat_oop);
         }
@@ -1919,7 +1940,7 @@ class Account216Controller extends Controller
             $j11 = $value7->ADM_W;
             $j12 = $value7->UUC;
             $j13 = $value7->SVCTYPE;    
-            $strText_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
+            $strText_ipd="\r\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
             $ansitxt_pat_ipd = iconv('UTF-8', 'TIS-620', $strText_ipd);
             fwrite($objFopen_opd_ipd, $ansitxt_pat_ipd);
         }
@@ -1935,7 +1956,7 @@ class Account216Controller extends Controller
              $k1 = $value8->AN;
              $k2 = $value8->REFER;
              $k3 = $value8->REFERTYPE; 
-             $strText_irf="\n".$k1."|".$k2."|".$k3;
+             $strText_irf="\r\n".$k1."|".$k2."|".$k3;
              $ansitxt_pat_irf = iconv('UTF-8', 'TIS-620', $strText_irf);
              fwrite($objFopen_opd_irf, $ansitxt_pat_irf);
          }
@@ -1952,7 +1973,7 @@ class Account216Controller extends Controller
             $h2 = $value9->DIAG;
             $h3 = $value9->DXTYPE;
             $h4 = $value9->DRDX; 
-            $strText_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
+            $strText_idx="\r\n".$h1."|".$h2."|".$h3."|".$h4;
             $ansitxt_pat_idx = iconv('UTF-8', 'TIS-620', $strText_idx);
             fwrite($objFopen_opd_idx, $ansitxt_pat_idx);
         }
@@ -1973,7 +1994,7 @@ class Account216Controller extends Controller
             $b6 = $value10->TIMEIN;
             $b7 = $value10->DATEOUT;
             $b8 = $value10->TIMEOUT;           
-            $strText_iop ="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
+            $strText_iop ="\r\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
             $ansitxt_pat_iop = iconv('UTF-8', 'TIS-620', $strText_iop);
             fwrite($objFopen_opd_iop, $ansitxt_pat_iop);
         }
@@ -1982,7 +2003,7 @@ class Account216Controller extends Controller
         //********************** .11 cht.txt *****************************//
         $file_d_cht = "Export_WALKIN/".$folder."/CHT.txt";
         $objFopen_opd_cht = fopen($file_d_cht, 'w');
-        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
+        $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ|OPD_MEMO|INVOICE_NO|INVOICE_LT';
         fwrite($objFopen_opd_cht, $opd_head_cht);
         $cht = DB::connection('mysql')->select('SELECT * from fdh_cht where d_anaconda_id = "WALKIN"');
         foreach ($cht as $key => $value11) {
@@ -1994,7 +2015,10 @@ class Account216Controller extends Controller
             $f6 = $value11->PTTYPE;
             $f7 = $value11->PERSON_ID; 
             $f8 = $value11->SEQ;
-            $strText_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
+            $f9 = $value11->OPD_MEMO;
+            $f10 = $value11->INVOICE_NO;
+            $f11 = $value11->INVOICE_LT;
+            $strText_cht="\r\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8."|".$f9."|".$f10."|".$f11;
             $ansitxt_pat_cht = iconv('UTF-8', 'TIS-620', $strText_cht);
             fwrite($objFopen_opd_cht, $ansitxt_pat_cht);
         }
@@ -2014,7 +2038,7 @@ class Account216Controller extends Controller
             $e5 = $value12->AMOUNT;
             $e6 = $value12->PERSON_ID;
             $e7 = $value12->SEQ; 
-            $strText_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
+            $strText_cha="\r\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
             $ansitxt_pat_cha = iconv('UTF-8', 'TIS-620', $strText_cha);
             fwrite($objFopen_opd_cha, $ansitxt_pat_cha);
         }
@@ -2045,7 +2069,7 @@ class Account216Controller extends Controller
             $d16 = $value13->AESTATUS;
             $d17 = $value13->DALERT;
             $d18 = $value13->TALERT;        
-            $strText_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
+            $strText_aer="\r\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
             $ansitxt_pat_aer = iconv('UTF-8', 'TIS-620', $strText_aer);
             fwrite($objFopen_opd_aer, $ansitxt_pat_aer);
         }
@@ -2085,7 +2109,7 @@ class Account216Controller extends Controller
             $c25 = $value14->DCIP;
             $c26 = $value14->LMP;
             $c27 = $value14->SP_ITEM;           
-            $strText_adp ="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+            $strText_adp ="\r\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
             $ansitxt_pat_adp = iconv('UTF-8', 'TIS-620', $strText_adp);
             fwrite($objFopen_opd_adp, $ansitxt_pat_adp);
         }
@@ -2094,7 +2118,7 @@ class Account216Controller extends Controller
         //*********************** 15.dru.txt ****************************//
         $file_d_dru = "Export_WALKIN/".$folder."/DRU.txt";
         $objFopen_opd_dru = fopen($file_d_dru, 'w');
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
         fwrite($objFopen_opd_dru, $opd_head_dru);
         $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "WALKIN"');
         foreach ($dru as $key => $value15) {
@@ -2107,7 +2131,7 @@ class Account216Controller extends Controller
             $g7 = $value15->DID;
             $g8 = $value15->DIDNAME;
             $g9 = $value15->AMOUNT;
-            $g10 = $value15->DRUGPRICE;
+            $g10 = $value15->DRUGPRIC;
             $g11 = $value15->DRUGCOST;
             $g12 = $value15->DIDSTD;
             $g13 = $value15->UNIT;
@@ -2120,8 +2144,9 @@ class Account216Controller extends Controller
             $g20 = $value15->TOTAL;
             $g21 = $value15->SIGCODE;
             $g22 = $value15->SIGTEXT;  
-            $g23 = $value15->SIGTEXT;      
-            $strText_dru ="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
+            $g23 = $value15->PROVIDER;   
+            $g24 = $value15->SP_ITEM;   
+            $strText_dru ="\r\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;
             $ansitxt_pat_dru = iconv('UTF-8', 'TIS-620', $strText_dru);
             fwrite($objFopen_opd_dru, $ansitxt_pat_dru);
         }
@@ -2184,7 +2209,7 @@ class Account216Controller extends Controller
             $L5 = $value16->DATEIN; 
             $L6 = $value16->TIMEIN; 
             $L7 = $value16->QTYDAY; 
-            $strText_lvd ="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
+            $strText_lvd ="\r\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
             $ansitxt_pat_lvd = iconv('UTF-8', 'TIS-620', $strText_lvd);
             fwrite($objFopen_opd_lvd, $ansitxt_pat_lvd);
         }
@@ -2239,7 +2264,6 @@ class Account216Controller extends Controller
             $folder = $v_export->folder_name;
         }
         $filename = $folder . ".zip";
-
         $zip = new ZipArchive;
         if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
             $files = File::files(public_path("Export_WALKIN/" . $folder . "/"));

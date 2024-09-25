@@ -198,7 +198,7 @@
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                 @if ($activeclaim == 'Y')
-                                                    @if ($item->debit_total == '' || $item->pdx =='')
+                                                    @if ($item->debit_total == '' || $item->pdx =='' || $item->claim_code =='')
                                                         <td class="text-center" width="5%">
                                                             <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                         </td> 

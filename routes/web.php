@@ -3278,7 +3278,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'audit_approve_codenew', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew'])->name('audit.audit_approve_codenew');
   Route::match(['get', 'post'], 'audit_approve_codenew_process', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_process'])->name('audit.audit_approve_codenew_process');
   Route::match(['get', 'post'], 'audit_approve_codenew_excel', [App\Http\Controllers\PreauditController::class, 'audit_approve_codenew_excel'])->name('audit.audit_approve_codenew_excel');
-
+  Route::match(['get', 'post'], 'audit_pdx_walkin', [App\Http\Controllers\PreauditController::class, 'audit_pdx_walkin'])->name('audit.audit_pdx_walkin');
+  Route::match(['get', 'post'], 'audit_pdx_walkindetail/{month}/{year}', [App\Http\Controllers\PreauditController::class, 'audit_pdx_walkindetail'])->name('audit.audit_pdx_walkindetail');
+  
   Route::match(['get', 'post'], 'authen_excel', [App\Http\Controllers\PreauditController::class, 'authen_excel'])->name('audit.authen_excel');
   Route::match(['get', 'post'], 'authen_excel_save', [App\Http\Controllers\PreauditController::class, 'authen_excel_save'])->name('audit.authen_excel_save');
   Route::match(['get', 'post'], 'authen_excel_process', [App\Http\Controllers\PreauditController::class, 'authen_excel_process'])->name('claim.authen_excel_process'); //

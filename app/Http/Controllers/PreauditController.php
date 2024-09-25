@@ -934,47 +934,52 @@ class PreauditController extends Controller
         $end = (''.$yearnew.'-09-30');
         // dd($end);
         if ($startdate == '') { 
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn  
-                    ,sum(debit) as sum_total 
-                    FROM d_fdh   
-                    WHERE projectcode ="OFC" AND debit > 0 
-                    AND hn <>""
-                    AND (an IS NULL OR an ="")
-                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
-                    GROUP BY month(vstdate)
-            ');  
-            // AND (pdx IS NULL OR pdx ="") 
-            // AND projectcode ="OFC"  
-            // AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")  
-            $data['fdh_ofc_all']       = DB::connection('mysql')->select(
-                'SELECT * FROM d_fdh 
-                    WHERE projectcode ="OFC" AND debit > 0 
-                    AND hn <>"" AND (pdx IS NULL OR pdx ="") 
-                    AND (an IS NULL OR an ="") 
-                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                   
-            '); 
+            $data['fdh_ofc']    = DB::connection('mysql10')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                ,count(DISTINCT v.vn) as countvn ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn  
+                LEFT JOIN rcpt_debt rr on rr.vn = o.vn
+                LEFT JOIN ktb_edc_transaction k on k.vn = o.vn
+                WHERE o.pttype IN("O1","O2","O3","O4","O5") 
+                AND (o.an IS NULL OR o.an ="")
+                AND o.vstdate BETWEEN "'.$start.'" AND "'.$end.'"    
+                GROUP BY month(o.vstdate) 
+            ');             
+            // $data['fdh_ofc_all']       = DB::connection('mysql')->select(
+            //     'SELECT * FROM d_fdh 
+            //         WHERE projectcode ="OFC" AND debit > 0 
+            //         AND hn <>"" AND (pdx IS NULL OR pdx ="") 
+            //         AND (an IS NULL OR an ="") 
+            //         AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"                    
+            // '); 
             // $data['fdh_ofc_m']        = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"") GROUP BY vn'); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
-                'SELECT * FROM d_fdh 
-                WHERE projectcode ="OFC" AND debit > 0
-                AND hn <>"" AND (pdx IS NULL OR pdx ="") 
-                AND (an IS NULL OR an ="")
-                AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" 
- 
-            '); 
-            
+            $data['fdh_ofc_momth']    = DB::connection('mysql10')->select(
+                'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn
+                LEFT JOIN patient p ON p.hn = v.hn  
+                LEFT JOIN rcpt_debt rr on rr.vn = o.vn
+                LEFT JOIN ktb_edc_transaction k on k.vn = o.vn
+                WHERE o.pttype IN("O1","O2","O3","O4","O5") 
+                AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="") 
+                AND month(o.vstdate) ="'.$m.'" AND year(o.vstdate) ="'.$yy.'"    
+                GROUP BY o.vn ORDER BY v.vn DESC
+            ');                    
+            // SELECT * FROM d_fdh 
+            // WHERE projectcode ="OFC" AND debit > 0
+            // AND hn <>"" AND (pdx IS NULL OR pdx ="") 
+            // AND (an IS NULL OR an ="")
+            // AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'"             
         } else {
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn,count(pdx) as countpdx,count(DISTINCT vn)-count(pdx) as count_no_diag ,sum(debit) as sum_total  
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" 
-                    AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")
-                    GROUP BY month(vstdate)
-            '); 
-                
+            // $data['fdh_ofc']    = DB::connection('mysql')->select(
+            //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+            //         ,count(DISTINCT vn) as countvn,count(pdx) as countpdx,count(DISTINCT vn)-count(pdx) as count_no_diag ,sum(debit) as sum_total  
+            //         FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" 
+            //         AND (an IS NULL OR an ="") AND (hn IS NOT NULL OR hn <>"")
+            //         GROUP BY month(vstdate)
+            // ');                 
             }   
             // AND (pdx IS NULL OR pdx ="")        
         return view('audit.audit_pdx',$data,[
@@ -988,27 +993,51 @@ class PreauditController extends Controller
         $enddate = $request->enddate;
  
         $date = date('Y-m-d');
-    
+        $yy = date('Y');
+        $m = date('m');
         $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         // if ($startdate == '') { 
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn
-                    ,count(DISTINCT authen) as countauthen
-                    ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" AND debit > 0
-                    AND (an IS NULL OR an ="")
-                    GROUP BY month(vstdate)
+            // $data['fdh_ofc']    = DB::connection('mysql')->select(
+            //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+            //         ,count(DISTINCT vn) as countvn
+            //         ,count(DISTINCT authen) as countauthen
+            //         ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
+            //         FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+            //         AND projectcode ="OFC" AND debit > 0
+            //         AND (an IS NULL OR an ="")
+            //         GROUP BY month(vstdate)
+            // ');  
+            $data['fdh_ofc']    = DB::connection('mysql10')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                ,count(DISTINCT v.vn) as countvn  ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn 
+                LEFT JOIN rcpt_debt rr on rr.vn = o.vn
+                LEFT JOIN ktb_edc_transaction k on k.vn = o.vn 
+                WHERE o.pttype IN("O1","O2","O3","O4","O5") 
+                AND (o.an IS NULL OR o.an ="")
+                AND o.vstdate BETWEEN "'.$start.'" AND "'.$end.'"    
+                GROUP BY month(o.vstdate) 
             ');  
-         
-            $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND debit > 0 GROUP BY vn'); 
-            $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$month.'" AND debit > 0 AND year(vstdate) ="'.$year.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
-       
-                     
+            $data['fdh_ofc_momth']    = DB::connection('mysql10')->select(
+                'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn
+                LEFT JOIN patient p ON p.hn = v.hn  
+                LEFT JOIN rcpt_debt rr on rr.vn = o.vn
+                LEFT JOIN ktb_edc_transaction k on k.vn = o.vn
+                WHERE o.pttype IN("O1","O2","O3","O4","O5") 
+                AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="") 
+                AND month(o.vstdate) ="'.$month.'" AND year(o.vstdate) ="'.$year.'"    
+                GROUP BY o.vn ORDER BY o.vn DESC
+            '); 
+            // $data['fdh_ofc_m']       = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") AND debit > 0 GROUP BY vn'); 
+            // $data['fdh_ofc_momth']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$month.'" AND debit > 0 AND year(vstdate) ="'.$year.'" AND projectcode ="OFC" AND (pdx IS NULL OR pdx ="") AND (an IS NULL OR an ="") GROUP BY vn'); 
+                            
         return view('audit.audit_pdx_detail',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate,
@@ -1252,6 +1281,106 @@ class PreauditController extends Controller
             }   
                      
         return view('audit.audit_only',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    } 
+    public function audit_pdx_walkin(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $yy = date('Y');
+        $m = date('m');
+        // dd($m);
+        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30');
+      
+            $data['walkin']    = DB::connection('mysql10')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                ,count(DISTINCT v.vn) as countvn ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn 
+                LEFT JOIN visit_pttype vp ON vp.vn = o.vn
+                WHERE o.pttype IN("W1") AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")   
+                AND (o.an IS NULL OR o.an ="")
+                AND o.vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+                GROUP BY month(o.vstdate) 
+            ');            
+         
+            $data['walkin_momth']    = DB::connection('mysql10')->select(
+                'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                LEFT JOIN visit_pttype vp ON vp.vn = o.vn  
+                WHERE o.pttype IN("W1") AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
+                AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="") 
+                AND month(o.vstdate) ="'.$m.'" AND year(o.vstdate) ="'.$yy.'"    
+                GROUP BY o.vn ORDER BY v.vn DESC
+            ');                    
+                  
+  
+            // AND (pdx IS NULL OR pdx ="")        
+        return view('audit.audit_pdx_walkin',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    } 
+    public function audit_pdx_walkindetail(Request $request,$month,$year)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+ 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $yy = date('Y');
+        $m = date('m');
+        // dd($m);
+        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30');
+      
+            $data['walkin']    = DB::connection('mysql10')->select(
+                'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
+                ,count(DISTINCT v.vn) as countvn ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn 
+                LEFT JOIN visit_pttype vp ON vp.vn = o.vn
+                WHERE o.pttype IN("W1") AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")   
+                AND (o.an IS NULL OR o.an ="")
+                AND o.vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+                GROUP BY month(o.vstdate) 
+            ');            
+         
+            $data['walkin_momth']    = DB::connection('mysql10')->select(
+                'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                LEFT JOIN visit_pttype vp ON vp.vn = o.vn  
+                WHERE o.pttype IN("W1") AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
+                AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="") 
+                AND month(o.vstdate) ="'.$month.'" AND year(o.vstdate) ="'.$year.'"    
+                GROUP BY o.vn ORDER BY v.vn DESC
+            ');                    
+                  
+  
+            // AND (pdx IS NULL OR pdx ="")        
+        return view('audit.audit_pdx_walkindetail',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);

@@ -93,8 +93,8 @@
        
             <div class="row">
                 <div class="col-md-3">
-                    <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
+                    <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit WALKIN</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit WALKIN</p>
                 </div>
                 <div class="col"></div> 
             </div>
@@ -105,30 +105,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">DIAG OFC</h4>
+                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">DIAG WALKIN</h4>
                                 </div>
                                 <div class="col"></div>
-                                {{-- <div class="col-md-9 text-end">
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                        data-date-autoclose="true" data-provide="datepicker"
-                                        data-date-container='#datepicker1'>
-                                        <input type="text" class="form-control card_audit_4" name="startdate"
-                                            id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $startdate }}" required />
-                                        <input type="text" class="form-control card_audit_4" name="enddate"
-                                            placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $enddate }}" />
-
-                                        <button type="button"
-                                            class="ladda-button me-2 btn-pill btn btn-primary cardacc Process_A"
-                                            data-url="{{ url('pre_audit_process_a') }}">
-                                            <i class="fa-solid fa-sack-dolla"></i>
-                                            ประมวลผลใหม่
-                                        </button>
-                                    </div>
-                                </div> --}}
+                                
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
@@ -149,14 +129,15 @@
                                             </thead>
                                             <tbody>
                                                 <?php $jj = 1; ?>
-                                                @foreach ($fdh_ofc as $item)
+                                                @foreach ($walkin as $item)
                                                 <?php 
                                                     $no_app = DB::connection('mysql10')->select(
                                                         'SELECT year(v.vstdate) as years ,month(v.vstdate) as months,year(v.vstdate) as days 
                                                         ,count(DISTINCT v.vn) as countvn_no  ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_totalnopdx 
                                                         FROM ovst o
-                                                        LEFT JOIN vn_stat v ON v.vn = o.vn  
-                                                        WHERE v.pttype IN("O1","O2","O3","O4","O5") AND (v.pdx IS NULL OR v.pdx ="") 
+                                                        LEFT JOIN vn_stat v ON v.vn = o.vn 
+                                                        LEFT JOIN visit_pttype vp ON vp.vn = o.vn 
+                                                        WHERE v.pttype IN("W1") AND (v.pdx IS NULL OR v.pdx ="") AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
                                                         AND (o.an IS NULL OR o.an ="") AND month(v.vstdate) = "'.$item->months.'" AND year(v.vstdate) = "'.$item->years.'" 
                                                         
                                                     ');  
@@ -202,7 +183,7 @@
                                                         @foreach ($no_app as $item_sub)
                                                                 @if ($item_sub->sum_totalnopdx > 0)
                                                                     <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
-                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_detail/' . $item->months . '/' . $item->years) }}" target="_blank">
+                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_pdx_walkindetail/' . $item->months . '/' . $item->years) }}" target="_blank">
                                                                             {{ number_format($item_sub->sum_totalnopdx, 2) }}
                                                                         </a> 
                                                                     </td> 
@@ -249,7 +230,7 @@
                                         </thead>
                                         <tbody>
                                             <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_momth as $item_m)
+                                            @foreach ($walkin_momth as $item_m)
                                             <?php  ?>
                                             <tr>
                                                 <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
