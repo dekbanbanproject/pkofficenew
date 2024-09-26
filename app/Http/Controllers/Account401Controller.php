@@ -1632,7 +1632,7 @@ class Account401Controller extends Controller
                             'DID'            => $va_14->DID,
                             'DIDNAME'        => $va_14->DIDNAME, 
                             'AMOUNT'         => $va_14->AMOUNT,
-                            'DRUGPRICE'       => $va_14->DRUGPRIC,
+                            'DRUGPRICE'       => $va_14->DRUGPRICE,
                             'DRUGCOST'       => $va_14->DRUGCOST,
                             'DIDSTD'         => $va_14->DIDSTD,
                             'UNIT'           => $va_14->UNIT,
