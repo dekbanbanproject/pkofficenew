@@ -2011,8 +2011,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_pkucs216_export', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_export'])->name('acc.account_pkucs216_export'); //
   Route::match(['get', 'post'], 'account_pkucs216_zip', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_zip'])->name('acc.account_pkucs216_zip'); //
   
-  Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
-  // Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\ApiFdhController::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
+  // Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
+  Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\ApiFdhController::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
 
   Route::match(['get', 'post'], 'account_pkucs217_pull', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pull'])->name('acc.account_pkucs217_pull'); //
   Route::match(['get', 'post'], 'account_pkucs217_search', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_search'])->name('acc.account_pkucs217_search'); //
@@ -2202,6 +2202,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_401_send_api', [App\Http\Controllers\Account401Controller::class, 'account_401_send_api'])->name('acc.account_401_send_api'); //
   Route::match(['get', 'post'], 'account_401_claimswitch', [App\Http\Controllers\Account401Controller::class, 'account_401_claimswitch'])->name('acc.account_401_claimswitch'); //
   Route::match(['get', 'post'], 'account_401_claim_zip', [App\Http\Controllers\Account401Controller::class, 'account_401_claim_zip'])->name('acc.account_401_claim_zip'); //
+  Route::match(['get', 'post'], 'account_401_rep', [App\Http\Controllers\Account401Controller::class, 'account_401_rep'])->name('acc.account_401_rep'); //
+  Route::match(['get', 'post'], 'account_401_repsave', [App\Http\Controllers\Account401Controller::class, 'account_401_repsave'])->name('acc.account_401_repsave'); //
+  Route::match(['get', 'post'], 'account_401_repsend', [App\Http\Controllers\Account401Controller::class, 'account_401_repsend'])->name('acc.account_401_repsend'); //
 
   Route::match(['get', 'post'], 'account_402_dash', [App\Http\Controllers\Account402Controller::class, 'account_402_dash'])->name('acc.account_402_dash'); //
   Route::match(['get', 'post'], 'account_402_pull', [App\Http\Controllers\Account402Controller::class, 'account_402_pull'])->name('acc.account_402_pull'); //

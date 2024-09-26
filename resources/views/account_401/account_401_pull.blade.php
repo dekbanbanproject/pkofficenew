@@ -138,10 +138,10 @@
                                     <i class="fa-solid fa-upload me-2"></i>
                                     ส่ง New Eclaim
                                 </button> --}}
-                                <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                {{-- <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
-                                </a>   
+                                </a>    --}}
                                 <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                      <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip
@@ -299,10 +299,10 @@
                                                                 <span class="bg-success badge">{{ $count_claim }}</span> 
                                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
                                                             </th>
+                                                            <th class="text-center">rep_pay</th>
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
-                                                            <th class="text-center">spsch</th>  
-                                                           
+                                                            <th class="text-center">spsch</th>                                                             
                                                             <th class="text-center">ลูกหนี้</th>   
                                                         </tr>
                                                     </thead>
@@ -411,7 +411,15 @@
                                                                         <span class="bg-success badge me-2">{{ $item->active_claim }}</span> 
                                                                     @endif 
                                                                 </td>  
-
+                                                                
+                                                                <td class="text-center" width="6%">
+                                                                    @if ($item->rep_pay =='')
+                                                                        <span class="bg-danger badge me-2">{{ $item->rep_pay }}</span> 
+                                                                    @else
+                                                                        <span class="bg-success badge me-2">{{ $item->rep_pay }}</span> 
+                                                                    @endif 
+                                                                    
+                                                                </td> 
                                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 

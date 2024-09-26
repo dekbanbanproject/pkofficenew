@@ -103,7 +103,11 @@ return new class extends Migration
                 $table->text('nonpay')->nullable();// 
                 $table->string('projectcode')->nullable();// 
                 $table->string('debit_drug_ct')->nullable();// 
-
+               
+                $table->string('rep_error')->nullable();// 
+                $table->string('rep_pay')->nullable();// 
+                $table->string('rep_nopay')->nullable();// 
+                $table->string('rep_doc')->nullable();// 
                 $table->timestamps();
             });
         }

@@ -313,7 +313,7 @@ class Account216Controller extends Controller
                 AND vstdate BETWEEN "'.$newday.'" AND "'.$datenow.'"
                 AND a.debit_total > 0
                 group by a.vn
-                order by a.vn asc;
+                order by a.vstdate DESC;
             ');
             // AND a.stamp = "N" 
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
@@ -342,7 +342,7 @@ class Account216Controller extends Controller
                 WHERE a.account_code="1102050101.216"
                  AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.debit_total > 0
                 group by a.vn
-                order by a.vn asc;
+                order by a.vstdate DESC;
             ');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"');
@@ -1839,10 +1839,10 @@ class Account216Controller extends Controller
              $ansitxt_pat     = iconv('UTF-8', 'UTF-8', $strText_pat);
              $apifdh_opdpat   = iconv('UTF-8', 'UTF-8', $strText_pat);
              fwrite($objFopen_opd_pat, $ansitxt_pat);
-            //  fwrite($fdh_pat, $apifdh_opdpat);
+             fwrite($fdh_pat, $apifdh_opdpat);
          }
          fclose($objFopen_opd_pat);
-        //  fclose($fdh_pat);
+         fclose($fdh_pat);
  
          //************ 3 opd.txt *****************//
          $file_d_opd       = "EXPORT_WALKIN/".$folder."/OPD.txt";
@@ -2384,7 +2384,7 @@ class Account216Controller extends Controller
             $i14 = $value2->LNAME;
             $i15 = $value2->IDTYPE;      
             $strText_pat="\r\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $strText_pat);
+            $ansitxt_pat = iconv('UTF-8', 'UTF-8', $strText_pat);
             $apifdh_pat = iconv('UTF-8', 'UTF-8', $strText_pat);
             fwrite($objFopen_opd_pat, $ansitxt_pat);
             fwrite($fdh_opd_pat, $apifdh_pat);
@@ -3254,7 +3254,9 @@ class Account216Controller extends Controller
                         ]
                      ]
             ]);
-
+            dd($response);
+            $responseCode = $response->getStatusCode();
+            dd($responseCode);
             // $response = $client->request('POST', $url, [
             //     // 'form_params' => [
             //     //     'field_name' => 'abc',
@@ -3351,8 +3353,8 @@ class Account216Controller extends Controller
             // ]);
             // dd($response);
             // // Get the response code
-            $responseCode = $response->getStatusCode();
-            dd($responseCode);
+            // $responseCode = $response->getStatusCode();
+            // dd($responseCode);
             // return response()->json(['response_code' => $responseCode]);
             #สำหรับทดสอบ  https://uat-fdh.inet.co.th/api/v1/data_hub/16_files
             #Product      https://fdh.moph.go.th/api/v1/data_hub/16_files

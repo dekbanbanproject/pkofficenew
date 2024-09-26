@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->longtext('blob')->nullable();//       “SE58SU5T”
                 $table->string('size')->nullable();//       "32"
                 $table->string('encoding')->nullable();//   “UTF-8”
-                $table->string('claim')->nullable();//
+                $table->string('claim')->nullable();// 
                 $table->timestamps();
             });
         }

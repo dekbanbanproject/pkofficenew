@@ -17,7 +17,7 @@ return new class extends Migration
         {
             Schema::create('dapi_lvd', function (Blueprint $table) {
                 $table->bigIncrements('dapi_lvd_id'); 
-                $table->string('blobName')->nullable();//   "DRU.txt” 
+                $table->string('blobName')->nullable();//   "LVD.txt” 
                 $table->string('blobType')->nullable();//   “text/plain”
                 $table->longtext('blob')->nullable();//       “SE58SU5T”
                 $table->string('size')->nullable();//       "32"

@@ -1,4 +1,4 @@
-@extends('layouts.pkclaim')
+@extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || Up-Rep')
  
 @section('content')
@@ -82,10 +82,16 @@
     $count_meettingroom = StaticController::count_meettingroom();
     ?>
     <div class="container-fluid">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
-
+                <div class="spinner"> 
                 </div>
             </div>
         </div>
@@ -94,9 +100,9 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="main-card mb-3 card">
+                <div class="card card_audit_4c mb-3">
                     <div class="grid-menu-col">
-                        <form action="{{ route('claim.ofc_401_repsave') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('acc.account_401_repsave') }}" method="POST" enctype="multipart/form-data" id="Upstmdata">
                             {{-- id="upstmdata" --}}
                             @csrf
                             <div class="row">
@@ -106,14 +112,15 @@
                                     <div class="mb-3 mt-3">
                                         <label for="formFileLg" class="form-label">UP REP EXCEL </label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
-                                            type="file" required>
+                                            type="file">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0)  
-                                        <a href="{{ url('ofc_401_repsend') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                    @if ($countc > 0) 
+                                    {{-- href="{{ url('account_401_repsend') }}"  --}}
+                                        <button class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata_new">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
-                                        </a>
+                                        </button>
                                     @else
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -146,7 +153,7 @@
         <div class="row">
  
             <div class="col-xl-12 col-md-6">
-                <div class="main-card card p-3">
+                <div class="card p-3 card_audit_4c">
                     <div class="grid-menu-col"> 
                             <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -215,35 +222,35 @@
                 format: 'yyyy-mm-dd'
             });
 
-            var bar = $('.bar');
-            var percent = $('.percent');
-            $('form').ajaxForm({
-                beforeSend: function() {
-                    var percentVal = '0%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
-                },
-                uploadProgress: function(event, position, total, percentComplete) {
-                    var percentVal = percentComplete+'%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
-                },
-                complete: function(xhr) { 
-                    Swal.fire({
-                        title: 'UP STM สำเร็จ',
-                        text: "You UP STM success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177',
-                        // cancelButtonColor: '#d33',
-                        confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "{{ url('ofc_401_rep') }}";
-                        }
-                    })
-                }
-            })
+            // var bar = $('.bar');
+            // var percent = $('.percent');
+            // $('form').ajaxForm({
+            //     beforeSend: function() {
+            //         var percentVal = '0%';
+            //         bar.width(percentVal);
+            //         percent.html(percentVal);
+            //     },
+            //     uploadProgress: function(event, position, total, percentComplete) {
+            //         var percentVal = percentComplete+'%';
+            //         bar.width(percentVal);
+            //         percent.html(percentVal);
+            //     },
+            //     complete: function(xhr) { 
+            //         Swal.fire({
+            //             title: 'UP STM สำเร็จ',
+            //             text: "You UP STM success",
+            //             icon: 'success',
+            //             showCancelButton: false,
+            //             confirmButtonColor: '#06D177',
+            //             // cancelButtonColor: '#d33',
+            //             confirmButtonText: 'เรียบร้อย'
+            //         }).then((result) => {
+            //             if (result.isConfirmed) {
+            //                 window.location = "{{ url('ofc_401_rep') }}";
+            //             }
+            //         })
+            //     }
+            // })
 
             $('#Upstmti').on('submit', function(e) {
                 e.preventDefault();
@@ -294,7 +301,7 @@
                 });
             });
 
-            $('#upstmdata').on('submit',function(e){
+            $('#Upstmdata').on('submit',function(e){
                     e.preventDefault();
 
                     var form = this;
@@ -314,8 +321,9 @@
 
                         } else {
                             Swal.fire({
-                                title: 'ส่งข้อมูลสำเร็จ',
-                                text: "You Send data success",
+                                position: "top-end",
+                                title: 'อัพ STM สำเร็จ',
+                                text: "You Up STM success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
@@ -323,7 +331,7 @@
                                 confirmButtonText: 'เรียบร้อย'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                window.location="{{url('ofc_401_rep')}}";
+                                window.location="{{url('account_401_rep')}}";
                                 }
                             })
                         }
@@ -351,6 +359,7 @@
 
                         } else {
                             Swal.fire({
+                                position: "top-end",
                                 title: 'ส่งข้อมูลสำเร็จ',
                                 text: "You Send data success",
                                 icon: 'success',
@@ -366,6 +375,62 @@
                         }
                       }
                     });
+            });
+
+            $('#Senddata_new').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({ position: "top-end",
+                        title: 'ต้องการส่งข้อมูลใช่ไหม ?',
+                        text: "You Send data success",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.account_401_repsend') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({ 
+                                                position: "top-end",
+                                                title: 'ส่งข้อมูลสำเร็จ',
+                                                text: "You Send data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
             });
  
         });
