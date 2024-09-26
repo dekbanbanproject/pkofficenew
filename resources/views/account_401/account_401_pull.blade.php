@@ -289,7 +289,7 @@
                                                             <th class="text-center">Dent</th>
                                                             <th class="text-center" style="background-color: #fad6b8">pdx</th>  
                                                             {{-- <th class="text-center">icd10</th>   --}}
-                                                            <th class="text-center" >vn</th>
+                                                            {{-- <th class="text-center" >vn</th> --}}
                                                             <th class="text-center" >hn</th>
                                                             <th class="text-center" >cid</th>
                                                             <th class="text-center">ptname</th>
@@ -392,7 +392,7 @@
                                                                     @endif 
                                                                 </td>
                                                                 {{-- <td class="text-start" width="5%">{{ $item->icd10 }}</td>  --}}
-                                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                                 <td class="p-2" >{{ $item->ptname }}</td> 
