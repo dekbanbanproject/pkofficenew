@@ -223,6 +223,7 @@
                                                 <th class="text-center">hn</th> 
                                                 <th class="text-center">vstdate</th>
                                                 <th class="text-center">ptname</th> 
+                                                <th class="text-center">Authen Code</th>
                                                 <th class="text-center">pdx</th> 
                                                 {{-- <th class="text-center">ERROR</th> --}}
                                                 <th class="text-center">income</th>   
@@ -237,6 +238,7 @@
                                                 <td class="text-center" width="10%">{{ $item_m->hn }} </td> 
                                                 <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
                                                 <td class="p-2">{{ $item_m->ptname }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->claim_code }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
                                                 {{-- <td class="text-center" style="width: 5%">{{ $item_m->error_c }}</td> --}}
                                                 <td class="text-center" width="10%">{{ $item_m->income }} </td> 

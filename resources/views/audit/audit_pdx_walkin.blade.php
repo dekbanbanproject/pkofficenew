@@ -223,8 +223,8 @@
                                                 <th class="text-center">hn</th> 
                                                 <th class="text-center">vstdate</th>
                                                 <th class="text-center">ptname</th> 
-                                                <th class="text-center">pdx</th> 
-                                                {{-- <th class="text-center">ERROR</th> --}}
+                                                <th class="text-center">Authen Code</th>
+                                                <th class="text-center">pdx</th>  
                                                 <th class="text-center">income</th>   
                                             </tr>
                                         </thead>
@@ -237,6 +237,7 @@
                                                 <td class="text-center" width="10%">{{ $item_m->hn }} </td> 
                                                 <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
                                                 <td class="p-2">{{ $item_m->ptname }} </td>
+                                                <td class="text-center" width="10%">{{ $item_m->claim_code }} </td>
                                                 <td class="text-center" width="10%">{{ $item_m->pdx }} </td>
                                                 {{-- <td class="text-center" style="width: 5%">{{ $item_m->error_c }}</td> --}}
                                                 <td class="text-center" width="10%">{{ $item_m->income }} </td> 
@@ -250,41 +251,38 @@
                     </div>
                 </div> 
             </div>
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-xl-12">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG ทั้งหมด</h4>  
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG วันนี้ทั้งหมด</h4>  
                                 <div class="table-responsive">                           
                                     <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">ลำดับ</th> 
-                                                <th class="text-center">HN</th>  
-                                                <th class="text-center">PDX</th>
-                                                <th class="text-center">ERROR</th>
-                                                <th class="text-center">วันที่รับบริการ</th>
-                                                <th class="text-center">ชื่อ - สกุล</th>                                            
-                                                <th class="text-center">ลูกหนี้</th>
-                                                <th class="text-center">ชำระเงินเอง</th> 
-                                                <th class="text-center">Ap HOSxP</th> 
-                                                <th class="text-center">cc</th>
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">hn</th> 
+                                                <th class="text-center">cid</th> 
+                                                <th class="text-center">vstdate</th>
+                                                <th class="text-center">ptname</th> 
+                                                <th class="text-center">Authen Code</th>
+                                                <th class="text-center">pdx</th>  
+                                                <th class="text-center">income</th>   
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_all as $item_n) 
-                                                <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->error_c }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
-                                                    <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td>  
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td>  
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td> 
-                                                    <td class="p-2">{{ $item_n->cc }}</td>
-                                                </tr>
+                                            <?php $jd = 1; ?>
+                                            @foreach ($walkin_today as $item_d) 
+                                            <tr>
+                                                <td class="text-center" style="width: 5%">{{ $jd++ }}</td>
+                                                <td class="text-center" width="10%">{{ $item_d->hn }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_d->cid }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_d->vstdate }} </td>
+                                                <td class="p-2">{{ $item_d->ptname }} </td>
+                                                <td class="text-center" width="10%">{{ $item_d->claim_code }} </td>
+                                                <td class="text-center" width="10%">{{ $item_d->pdx }} </td> 
+                                                <td class="text-center" width="10%">{{ $item_d->income }} </td> 
+                                            </tr>
                                             @endforeach
                 
                                         </tbody>
@@ -294,7 +292,7 @@
                         </div>
                     </div>
                 </div> 
-            </div> --}}
+            </div>
     </div>
 
 

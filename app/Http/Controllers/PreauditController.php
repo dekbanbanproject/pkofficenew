@@ -1294,6 +1294,7 @@ class PreauditController extends Controller
         $y = date('Y') + 543;
         $yy = date('Y');
         $m = date('m');
+
         // dd($m);
         $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
@@ -1317,7 +1318,7 @@ class PreauditController extends Controller
          
             $data['walkin_momth']    = DB::connection('mysql10')->select(
                 'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
-               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income,vp.claim_code
                 FROM ovst o
                 LEFT JOIN vn_stat v ON v.vn = o.vn
                 LEFT JOIN patient p ON p.hn = v.hn
@@ -1326,8 +1327,20 @@ class PreauditController extends Controller
                 AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="") 
                 AND month(o.vstdate) ="'.$m.'" AND year(o.vstdate) ="'.$yy.'"    
                 GROUP BY o.vn ORDER BY v.vn DESC
-            ');                    
-                  
+            ');     
+            $data['walkin_today']    = DB::connection('mysql10')->select(
+                'SELECT v.hn,v.vstdate,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income,vp.claim_code
+                FROM ovst o
+                LEFT JOIN vn_stat v ON v.vn = o.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                LEFT JOIN visit_pttype vp ON vp.vn = o.vn  
+                WHERE o.pttype IN("W1") AND v.income > 0
+                AND (o.an IS NULL OR o.an ="") AND (v.pdx IS NULL OR v.pdx ="")  
+                AND o.vstdate ="'.$date.'"     
+                GROUP BY o.vn ORDER BY v.vn DESC
+            ');                       
+            // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")    
   
             // AND (pdx IS NULL OR pdx ="")        
         return view('audit.audit_pdx_walkin',$data,[
@@ -1367,7 +1380,7 @@ class PreauditController extends Controller
          
             $data['walkin_momth']    = DB::connection('mysql10')->select(
                 'SELECT v.hn,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,v.pdx
-               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income 
+               ,(v.income-v.discount_money-v.rcpt_money) as debit,v.income,vp.claim_code
                 FROM ovst o
                 LEFT JOIN vn_stat v ON v.vn = o.vn
                 LEFT JOIN patient p ON p.hn = v.hn
