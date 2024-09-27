@@ -236,13 +236,15 @@ class Account802Controller extends Controller
                  ,c.subinscl 
                  from acc_debtor a
                
-                 left join checksit_hos c on c.an = a.an
-                 WHERE a.account_code="1102050102.802" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                
+                 WHERE a.account_code="1102050102.802" 
+                 and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                  AND a.stamp = "N"
                  group by a.an
                  order by a.dchdate desc; 
              '); 
          }  
+        //  left join checksit_hos c on c.an = a.an
          return view('account_802.account_802_pull',[
              'startdate'     =>     $startdate,
              'enddate'       =>     $enddate,

@@ -41,6 +41,9 @@ use App\Models\D_apiwalkin_opd;
 use App\Models\D_walkin;
 use App\Models\D_walkin_drug;
 use App\Models\Audit_approve_code;
+use App\Models\Ovstdiag;
+use App\Models\Ovst;
+use App\Models\Vn_stat;
 
 use App\Models\Fdh_sesion;
 use App\Models\Fdh_ins;
@@ -61,7 +64,7 @@ use App\Models\Fdh_irf;
 use App\Models\Fdh_lvd;
 use App\Models\D_ofc_401;
 use App\Models\D_dru_out;
-use App\Models\D_ofc_repexcel;
+use App\Models\Audit_217;
 use App\Models\D_fdh;
 
 use Auth;
@@ -1398,6 +1401,162 @@ class PreauditController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     } 
+
+    public function diag_z017(Request $request)
+    {
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $date        = date('Y-m-d');
+        $y           = date('Y') + 543;
+        $newdays     = date('Y-m-d', strtotime($date . ' -2 days')); //ย้อนหลัง 2 วัน
+        $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+      
+        if ($startdate == '') {
+            
+            $data_z017 = DB::connection('mysql10')->select(
+                'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                 from ovst ov 
+                    left outer join patient pt on pt.hn=ov.hn 
+                    left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
+                    left outer join kskdepartment sp on sp.depcode=ov.cur_dep 
+                    left outer join ovstost oost on oost.ovstost=ov.ovstost 
+                    left outer join icd101 icd1 on icd1.code=odx.icd10 
+                    left outer join icd101 ix on ix.code=substring(odx.icd10,1,3)  
+                    left outer join pttype pty on pty.pttype=ov.pttype 
+                    left outer join vn_lock vk on vk.vn = ov.vn 
+                    left outer join ovstist st on st.ovstist = ov.ovstist  
+                    left outer join vn_stat vt on vt.vn=ov.vn  
+                    left outer join ovst_drgs od on od.vn = ov.vn 
+                    left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
+                    left outer join vn_opd_complete c on c.vn=ov.vn  
+                    left outer join ovst_seq ovq on ovq.vn = ov.vn  
+                    where (ov.vstdate="'.$date.'") AND ov.spclty = "16"
+                    AND odx.icd10 IS NULL 
+                    order by ov.vsttime  
+            ');
+            // AND odx.icd10 IS NULL 
+        } else {
+           
+            $data_z017 = DB::connection('mysql10')->select(
+                'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                 from ovst ov 
+                    left outer join patient pt on pt.hn=ov.hn 
+                    left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
+                    left outer join kskdepartment sp on sp.depcode=ov.cur_dep 
+                    left outer join ovstost oost on oost.ovstost=ov.ovstost 
+                    left outer join icd101 icd1 on icd1.code=odx.icd10 
+                    left outer join icd101 ix on ix.code=substring(odx.icd10,1,3)  
+                    left outer join pttype pty on pty.pttype=ov.pttype 
+                    left outer join vn_lock vk on vk.vn = ov.vn 
+                    left outer join ovstist st on st.ovstist = ov.ovstist  
+                    left outer join vn_stat vt on vt.vn=ov.vn  
+                    left outer join ovst_drgs od on od.vn = ov.vn 
+                    left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
+                    left outer join vn_opd_complete c on c.vn=ov.vn  
+                    left outer join ovst_seq ovq on ovq.vn = ov.vn  
+                    where ov.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND ov.spclty = "16"
+                    AND odx.icd10 IS NULL 
+                    order by ov.vsttime 
+                  
+            ');
+            // AND odx.icd10 IS NULL 
+            // Audit_217::truncate();
+            foreach ($data_z017 as $key => $value_1) {                
+                $check = Audit_217::where('vn', $value_1->vn)->count();
+                    if ($check > 0) {   
+                    } else {
+                        Audit_217::insert([
+                            'vn'         => $value_1->vn, 
+                            'icd10'      => 'Z017',
+                            'hn'         => $value_1->hn,
+                            'vstdate'    => $value_1->vstdate,
+                            'vsttime'    => $value_1->vsttime, 
+                            'diagtype'   => $value_1->diagtype,
+                            'hcode'      => $value_1->hcode,
+                            'doctor'     => $value_1->doctor, 
+                            'episode'    => $value_1->episode, 
+                            'staff'      => $value_1->staff, 
+                            'ptname'     => $value_1->ptname, 
+                        ]);
+                    }
+               
+            }
+           
+        }
+
+        $data_z017_new = Audit_217::get();
+
+        return view('audit.diag_z017', [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'data_z017'     => $data_z017,
+            'data_z017_new' => $data_z017_new
+        ]);
+    }
+
+    public function diag_z017_process(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        // dd($vn);
+        $data_z017 = Audit_217::whereIn('audit_217_id',explode(",",$id))->get();
+        // $data_z017 = DB::connection('mysql10')->select(
+        //     'SELECT ov.vn,"Z017" as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
+        //     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+        //      from ovst ov 
+        //         left outer join patient pt on pt.hn=ov.hn 
+        //         left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1"  
+        //         where ov.vn IN("'.$vn.'") 
+        //         GROUP BY ov.vn 
+        // ');
+            
+        foreach ($data_z017 as $key => $value_1) { 
+                $check = Ovstdiag::where('vn', $value_1->vn)->count();               
+                if ($check > 0) { 
+                } else { 
+                    $maxid     = Ovstdiag::max('ovst_diag_id');
+                    $maxid_new = $maxid+1;
+                    Ovstdiag::insert([
+                        'ovst_diag_id' => $maxid_new,
+                        'vn'           => $value_1->vn, 
+                        'icd10'        => $value_1->icd10,
+                        'hn'           => $value_1->hn,
+                        'vstdate'      => $value_1->vstdate,
+                        'vsttime'      => $value_1->vsttime, 
+                        'diagtype'     => $value_1->diagtype,
+                        'hcode'        => $value_1->hcode,
+                        'doctor'       => $value_1->doctor, 
+                        'episode'      => $value_1->episode, 
+                        'staff'        => $value_1->staff, 
+                    ]);
+                }
+
+                $check_vn_stat = Vn_stat::where('vn', $value_1->vn)->count();
+                if ($check_vn_stat > 0) {
+                    Vn_stat::where('vn', $value_1->vn)->update([
+                        'pdx'         => $value_1->icd10,
+                        'dx_doctor'   => $value_1->doctor
+                    ]);
+                }
+                $check_ov = Vn_stat::where('vn', $value_1->vn)->count();
+                if ($check_ov > 0) {
+                    Ovst::where('vn', $value_1->vn)->update([ 
+                        'doctor'   => $value_1->doctor
+                    ]);
+                }
+                Audit_217::where('audit_217_id', $value_1->audit_217_id)->update([
+                    'active'   => 'Y'
+                ]);
+               
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
 
    
    

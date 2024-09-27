@@ -117,6 +117,16 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
+ .dcheckbox_{         
+    width: 20px;
+    height: 20px;       
+    /* border-radius: 2em 2em 2em 2em; */
+    border: 10px solid rgb(250, 128, 124);
+    /* color: teal; */
+    /* border-color: teal; */
+    box-shadow: 0 0 10px rgb(250, 128, 124);
+    /* box-shadow: 0 0 10px teal; */
+} 
  
 </style>
 <style>
@@ -467,7 +477,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('audit_pdx') }}"> <span>ไม่ลง PDX OFC</span></a> </li>
                                 <li><a href="{{ url('audit_pdx_walkin') }}"> <span>ไม่ลง PDX WALKIN</span></a> </li> 
                                 <li><a href="{{ url('authen_excel') }}"> <span>Excel => hos</span></a> </li>   
-                                <li><a href="{{ url('authen_update') }}"> <span>สปสช => hos</span></a> </li>  
+                                {{-- <li><a href="{{ url('authen_update') }}"> <span>สปสช => hos</span></a> </li>   --}}
+                                <li><a href="{{ url('diag_z017') }}"> <span>Diag Z017</span></a> </li> 
                             </ul> 
                         </li>
                         <li>

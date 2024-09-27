@@ -10,7 +10,7 @@ class Ovst extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql10';
     protected $table = 'ovst';
     protected $primaryKey = 'hos_guid';
     public $timestamps = false;     

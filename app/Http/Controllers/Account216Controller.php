@@ -710,6 +710,7 @@ class Account216Controller extends Controller
                 SELECT U1.debit_walkin,U1.uc_money,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U1.dchdate
                 from acc_1102050101_216 U1             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                group by U1.vn
         ');
         $datashow = DB::select('
                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME

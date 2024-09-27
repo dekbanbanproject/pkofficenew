@@ -109,7 +109,7 @@
                 <div class="card card_audit_4c">
                     <div class="card-body">    
                         <div class="row mb-2">
-                            <div class="col-md-3 text-start"> 
+                            <div class="col-md-6 text-start"> 
                               @if ($activeclaim == 'Y')
                                 <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
@@ -122,18 +122,23 @@
                                 {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
                                 <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
+                                    <i class="fa-solid fa-spinner text-warning me-2"></i>
+                                   ประมวลผล
+                               </button>
+                               <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                <i class="fa-regular fa-file-zipper text-white me-2"></i> 
+                               Zip
+                           </a> 
                             </div>
                            
                             <div class="col"></div>
-                            <div class="col-md-7 text-end">
+                            <div class="col-md-5 text-end">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์ 
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
-                                     <i class="fa-solid fa-spinner text-warning me-2"></i>
-                                    ประมวลผล
-                                </button>
+                               
                                 {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
                                     <i class="fa-solid fa-upload me-2"></i>
                                     ส่ง New Eclaim
@@ -142,10 +147,10 @@
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
                                 </a>    --}}
-                                <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                                {{-- <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
                                      <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip
-                                </a> 
+                                </a>  --}}
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -280,8 +285,8 @@
                                                             <th width="5%" class="text-center">ลำดับ</th> 
                                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                                             <th class="text-center" style="background-color: #fad6b8">
-                                                                Approve
-                                                                <span class="bg-success badge">{{ $count_no }}</span>                                                                 
+                                                                
+                                                                <span class="bg-success badge">{{ $count_no }}</span>  Approv                                                               
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
                                                             {{-- <th class="text-center">ยานอก</th> --}}
@@ -295,11 +300,11 @@
                                                             <th class="text-center">ptname</th>
                                                             <th class="text-center">ตั้งลูกหนี้</th>
                                                             <th class="text-center"> 
-                                                                เคลม
-                                                                <span class="bg-success badge">{{ $count_claim }}</span> 
+                                                                
+                                                                <span class="bg-success badge">{{ $count_claim }}</span> เคลม
                                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
                                                             </th>
-                                                            <th class="text-center">rep_pay</th>
+                                                            <th class="text-center">Rep</th>
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
                                                             <th class="text-center">spsch</th>                                                             

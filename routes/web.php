@@ -3290,6 +3290,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'authen_excel_process', [App\Http\Controllers\PreauditController::class, 'authen_excel_process'])->name('claim.authen_excel_process'); //
   Route::match(['get', 'post'], 'authen_update', [App\Http\Controllers\PreauditController::class, 'authen_update'])->name('audit.authen_update');
 
+  Route::match(['get', 'post'], 'diag_z017', [App\Http\Controllers\PreauditController::class, 'diag_z017'])->name('audit.diag_z017');
+  Route::match(['get', 'post'], 'diag_z017_process', [App\Http\Controllers\PreauditController::class, 'diag_z017_process'])->name('audit.diag_z017_process');
+
   // **************************** ทาลัสซีเมีย **********************************************
   Route::match(['get', 'post'], 'talassemaie', [App\Http\Controllers\PreauditController::class, 'talassemaie'])->name('audit.talassemaie');
   Route::match(['get', 'post'], 'talassemaie_detail/{month}/{year}', [App\Http\Controllers\PreauditController::class, 'talassemaie_detail'])->name('audit.talassemaie_detail');
