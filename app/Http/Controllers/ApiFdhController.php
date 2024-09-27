@@ -306,7 +306,7 @@ class ApiFdhController extends Controller
                 }
             }
             $status = $result_send_fame_outp['status'];
-            
+
           //    dd($status);
              if ($status = '200') {
                       return response()->json([
