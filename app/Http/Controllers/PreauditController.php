@@ -1534,6 +1534,7 @@ class PreauditController extends Controller
                         'staff'        => $value_1->staff, 
                     ]);
                 }
+                // 4250123456
 
                 $check_vn_stat = Vn_stat::where('vn', $value_1->vn)->count();
                 if ($check_vn_stat > 0) {
