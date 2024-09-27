@@ -231,6 +231,62 @@ class PreauditController extends Controller
             'enddate'          => $enddate, 
         ]);
     }
+    public function authen_excel_process(Request $request)
+    { 
+        $startdate   = $request->startdate;
+        $enddate     = $request->enddate;
+        $data_vn_1 = DB::connection('mysql2')->select(
+            'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
+            ,concat(p.pname,p.fname," ",p.lname) as ptname
+            ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit,v.income
+            FROM vn_stat v
+            LEFT JOIN visit_pttype vs on vs.vn = v.vn
+            LEFT JOIN ovst o on o.vn = v.vn 
+            LEFT JOIN patient p on p.hn=v.hn
+            LEFT JOIN pttype pt on pt.pttype=v.pttype
+            LEFT JOIN opduser op on op.loginname = o.staff
+            WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="")  
+            AND v.income > 0 
+            GROUP BY o.vn 
+        ');
+        // Visit_import_date::truncate();
+        Visit_pttype_import::truncate();
+        
+        // $add = new Visit_import_date();
+        // $add->startdate  = $startdate;
+        // $add->enddate    = $enddate;
+        // $add->save();
+    
+        foreach ($data_vn_1 as $key => $value_1) {                
+            // $check = Visit_pttype_import::where('vn', $value_1->vn)->count();
+            //     if ($check > 0) {   
+                    // Check_sit_auto::where('vn', $value_1->vn)->update([  
+                    //     'vstdate'    => $value_1->vstdate,
+                    //     'pttype'     => $value_1->pttype,
+                    //     'debit'      => $value_1->debit, 
+                    //     'debit'      => $value_1->income,
+                    // ]);              
+                // } else {
+                    Visit_pttype_import::insert([
+                        'vn'         => $value_1->vn, 
+                        'hn'         => $value_1->hn,
+                        'pid'        => $value_1->cid,
+                        'vstdate'    => $value_1->vstdate,
+                        'hometel'    => $value_1->hometel, 
+                        'ptname'     => $value_1->ptname,
+                        'pttype'     => $value_1->pttype,
+                        'hcode'      => $value_1->hospmain, 
+                    ]);
+                // }
+           
+        }
+
+        return response()->json([
+            'status'    => '200',
+        ]);
+    }
     public function authen_excel_save(Request $request)
     { 
             $this->validate($request, [
@@ -366,64 +422,7 @@ class PreauditController extends Controller
                 'status'    => '200',
             ]);
     }
-    public function authen_excel_process(Request $request)
-    { 
-        $startdate   = $request->startdate;
-        $enddate     = $request->enddate;
-        $data_vn_1 = DB::connection('mysql2')->select(
-            'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
-            ,concat(p.pname,p.fname," ",p.lname) as ptname
-            ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit,v.income
-            FROM vn_stat v
-            LEFT JOIN visit_pttype vs on vs.vn = v.vn
-            LEFT JOIN ovst o on o.vn = v.vn 
-            LEFT JOIN patient p on p.hn=v.hn
-            LEFT JOIN pttype pt on pt.pttype=v.pttype
-            LEFT JOIN opduser op on op.loginname = o.staff
-            WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="")  
-            AND v.income > 0 
-            GROUP BY o.vn 
-        ');
-        Visit_import_date::truncate();
-        Visit_pttype_import::truncate();
-        
-        $add = new Visit_import_date();
-        $add->startdate  = $startdate;
-        $add->enddate    = $enddate;
-        $add->save();
-        // AND p.birthday <> "'.$startdate.'" 
-        // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-        // AND (vp.claim_code IS NULL OR vp.claim_code ="")
-        foreach ($data_vn_1 as $key => $value_1) {                
-            $check = Visit_pttype_import::where('vn', $value_1->vn)->count();
-                if ($check > 0) {   
-                    // Check_sit_auto::where('vn', $value_1->vn)->update([  
-                    //     'vstdate'    => $value_1->vstdate,
-                    //     'pttype'     => $value_1->pttype,
-                    //     'debit'      => $value_1->debit, 
-                    //     'debit'      => $value_1->income,
-                    // ]);              
-                } else {
-                    Visit_pttype_import::insert([
-                        'vn'         => $value_1->vn, 
-                        'hn'         => $value_1->hn,
-                        'pid'        => $value_1->cid,
-                        'vstdate'    => $value_1->vstdate,
-                        'hometel'    => $value_1->hometel, 
-                        'ptname'     => $value_1->ptname,
-                        'pttype'     => $value_1->pttype,
-                        'hcode'      => $value_1->hospmain, 
-                    ]);
-                }
-           
-        }
-
-        return response()->json([
-            'status'    => '200',
-        ]);
-    }
+   
 
     public function pre_audit(Request $request)
     {

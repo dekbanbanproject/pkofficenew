@@ -294,7 +294,7 @@ class ApiFdhController extends Controller
                 $response = $client->send($request, $options); 
                 $response_gb = $response->getBody();
                 $result_send_fame_outp = json_decode($response_gb, true);
-                #echo "try";
+               
             } catch (\GuzzleHttp\Exception\RequestException $e) {
                 if ($e->hasResponse()) {
                     $errorResponse = json_decode($e->getResponse()->getBody(), true);
@@ -306,6 +306,7 @@ class ApiFdhController extends Controller
                 }
             }
             $status = $result_send_fame_outp['status'];
+            
           //    dd($status);
              if ($status = '200') {
                       return response()->json([

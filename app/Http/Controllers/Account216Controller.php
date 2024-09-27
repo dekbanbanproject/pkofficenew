@@ -1010,8 +1010,8 @@ class Account216Controller extends Controller
                     ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID,v.hcode AS HCODE
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
-                    ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME
-                    ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),ca.claimcode) PERMITNO
+                    ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME                    
+                    ,vp.claim_code PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
                     ,"" HTYPE
                     FROM vn_stat v
@@ -1022,10 +1022,11 @@ class Account216Controller extends Controller
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                     LEFT OUTER JOIN patient px on px.hn = v.hn     
-                    LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
+                          
                     WHERE v.vn IN("'.$va1->vn.'")  
                     GROUP BY v.vn 
                 ');
+                // ,ifnull(if(i.an is null,r.sss_approval_code,ap.claim_code),vp.claimcode) PERMITNO
                 // ,"2" HTYPE
                 foreach ($data_ins_ as $va_01) { 
                     foreach ($data_ins_ as $va_01) {
@@ -1422,7 +1423,7 @@ class Account216Controller extends Controller
                         'IREFTYPE'          => $va_12->IREFTYPE,
                         'REFMAINO'          => $va_12->REFMAINO,
                         'OREFTYPE'          => $va_12->OREFTYPE,
-                        'UCAE'              => $va_12->UCAE,
+                        'UCAE'              => "N",
                         'EMTYPE'            => $va_12->EMTYPE,
                         'SEQ'               => $va_12->SEQ,
                         'AESTATUS'          => $va_12->AESTATUS,
@@ -1432,6 +1433,7 @@ class Account216Controller extends Controller
                         'd_anaconda_id'     => 'WALKIN'
                     ]); 
                 } 
+                // 'UCAE'              => $va_12->UCAE,
                 //D_adp ทั่วไป
                 $data_adp_ = DB::connection('mysql2')->select(
                     'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
