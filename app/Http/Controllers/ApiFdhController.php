@@ -160,11 +160,36 @@ class ApiFdhController extends Controller
     public function account_pkucs216_sendapi()
     { 
       
-        $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.Auth::user()->id.'"');
-        foreach ($data_token_ as $key => $val_to) {
-            $token_   = $val_to->api_neweclaim_token;
-        }
-        $fdh_jwt = $token_;
+     //    $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.Auth::user()->id.'"');
+     //    foreach ($data_token_ as $key => $val_to) {
+     //        $token_   = $val_to->api_neweclaim_token;
+     //    }
+     //    $fdh_jwt = $token_;
+
+        $username        = 'pradit.10978';
+        $password        = '8Uk&8Fr&';
+        $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
+        $basic_auth = base64_encode("$username:$password");
+        $context = stream_context_create(array(
+            'http' => array(
+                'header' => "Authorization: Basic ".base64_encode("$username:$password")
+            )
+        ));
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user=' . $username . '&password_hash=' . $password_hash . '&hospital_code=10978',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+            ),
+        ));
+        $token = curl_exec($curl);
 
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
         foreach ($dataexport_ as $key => $v_export) {
@@ -270,7 +295,7 @@ class ApiFdhController extends Controller
         //     'Content-Type' => 'application/json',
         // ];
         $headers = [
-            'Authorization' => 'Bearer '.$fdh_jwt
+            'Authorization' => 'Bearer '.$token
         ];
         // $data = [
         // 'name' => $request->input('name'),

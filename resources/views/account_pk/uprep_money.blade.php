@@ -117,14 +117,20 @@
     use Illuminate\Support\Facades\DB;
     $count_meettingroom = StaticController::count_meettingroom();
     ?>
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-
-                </div>
+  <div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <div class="row"> 
             {{-- <div class="col"></div> --}}
             <div class="col-md-4">
@@ -135,11 +141,11 @@
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-3 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}" required/>  
                 </div> 
             </div>
@@ -159,7 +165,7 @@
 
         <div class="row"> 
             <div class="col-xl-12 col-md-6">
-                <div class="main-card card p-3">
+                <div class="card card_audit_4c p-3">
                     <div class="grid-menu-col"> 
                             <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -538,7 +544,7 @@
         </div>
     </div> --}}
 
-
+</div>
 @endsection
 @section('footer')
 <script src="{{ asset('pdfupload/pdf_up.js') }}"></script> 

@@ -75,6 +75,7 @@
                 </div>
             </div>
         </div>
+        
         <form action="{{ route('acc.account_pkucs216_pull') }}" method="GET">
             @csrf
         <div class="row "> 
@@ -113,49 +114,41 @@
                     <div class="card-body "> 
                       
                         <div class="row mb-3">
-                            <div class="col-md-3 text-start"> 
+                            <div class="col-md-7 text-start"> 
                                 @if ($activeclaim == 'Y')
-                                  <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" onclick="check()">Check</button>
                                   <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
-                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc" onclick="uncheck()">Uncheck</button>
                                 @else
-                                  <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" onclick="check()">Check</button>
                                   <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc" onclick="uncheck()">Uncheck</button>
                                 @endif
-                                  
-                              </div>
-                            <div class="col"></div>
-                            <div class="col-md-7 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
-                                    <i class="fa-solid fa-user me-2"></i>
-                                    ตรวจสอบสิทธิ์
-                                </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_pkucs216_claim')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc Claim" data-url="{{url('account_pkucs216_claim')}}">
                                     <i class="fa-solid fa-spinner text-white me-2"></i>
                                    ประมวลผล
                                </button>
-                               {{-- <a href="{{url('account_pkucs216_sendapi')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
-                                    API FDH
-                                </a>   --}}
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="Apifdh">
-                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
-                                    API FDH
+                               <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc" id="Apifdh">
+                                <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                API FDH
+                            </button>
+                            <a href="{{url('account_pkucs216_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc">
+                                <i class="fa-regular fa-file-zipper text-white me-2"></i> 
+                                Zip
+                            </a> 
+                              </div>
+                            <div class="col"></div>
+                            <div class="col-md-4 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์
                                 </button>
-                                {{-- <a href="{{url('account_pkucs216_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-solid fa-file-export text-white me-2"></i>
-                                    Export Txt
-                                </a>    --}}
-                                <a href="{{url('account_pkucs216_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-regular fa-file-zipper text-white me-2"></i> 
-                                    Zip
-                                </a> 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_pkucs216_stam')}}">
+                        
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc Savestamp" data-url="{{url('account_pkucs216_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_216_destroy')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc Destroystamp" data-url="{{url('account_216_destroy')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
@@ -164,7 +157,7 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                <table id="example21" class="table table-hover table-sm dt-responsive nowrap"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
@@ -297,7 +290,7 @@
         </div>
 
        
-    </div>
+        </div>
     </div>
   
 
@@ -362,6 +355,22 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
+            var table = $('#example21').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
+            var table = $('#example22').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });

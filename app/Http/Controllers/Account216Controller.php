@@ -1711,39 +1711,46 @@ class Account216Controller extends Controller
                 } 
                 $walk_ = DB::connection('mysql')->select('SELECT * FROM fdh_adp WHERE d_anaconda_id = "WALKIN" GROUP BY HN');
                 foreach ($walk_ as $key => $va_w) {
-                    Fdh_adp::insert([
-                        'HN'                   => $va_w->HN,
-                        'AN'                   => $va_w->AN,
-                        'DATEOPD'              => $va_w->DATEOPD,
-                        'TYPE'                 => '5',
-                        'CODE'                 => 'WALKIN',
-                        'QTY'                  => '1',
-                        'RATE'                 => '0.00',
-                        'SEQ'                  => $va_w->SEQ,
-                        'CAGCODE'              => $va_w->CAGCODE,
-                        'DOSE'                 => $va_w->DOSE,
-                        'CA_TYPE'              => $va_w->CA_TYPE,
-                        'SERIALNO'             => $va_w->SERIALNO,
-                        'TOTCOPAY'             => $va_w->TOTCOPAY,
-                        'USE_STATUS'           => $va_w->USE_STATUS,
-                        'TOTAL'                => $va_w->TOTAL,
-                        'QTYDAY'               => $va_w->QTYDAY,
-                        'TMLTCODE'             => $va_w->TMLTCODE,
-                        'STATUS1'              => $va_w->STATUS1,
-                        'BI'                   => $va_w->BI,
-                        'CLINIC'               => $va_w->CLINIC,
-                        'ITEMSRC'              => $va_w->ITEMSRC,
-                        'PROVIDER'             => $va_w->PROVIDER,
-                        'GRAVIDA'              => $va_w->GRAVIDA,
-                        'GA_WEEK'              => $va_w->GA_WEEK,
-                        'DCIP'                 => $va_w->DCIP,
-                        'LMP'                  => $va_w->LMP,
-                        'SP_ITEM'              => $va_w->SP_ITEM,
-                        'icode'                => $va_w->icode,
-                        'vstdate'              => $va_w->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'WALKIN'
-                    ]);
+                    $chect_proj  = Fdh_adp::where('SEQ',$va_w->SEQ)->where('CODE','WALKIN')->count();
+                     
+                    if ($chect_proj > 0) {
+                        # code...
+                    } else {
+                        Fdh_adp::insert([
+                            'HN'                   => $va_w->HN,
+                            'AN'                   => $va_w->AN,
+                            'DATEOPD'              => $va_w->DATEOPD,
+                            'TYPE'                 => '5',
+                            'CODE'                 => 'WALKIN',
+                            'QTY'                  => '1',
+                            'RATE'                 => '0.00',
+                            'SEQ'                  => $va_w->SEQ,
+                            'CAGCODE'              => $va_w->CAGCODE,
+                            'DOSE'                 => $va_w->DOSE,
+                            'CA_TYPE'              => $va_w->CA_TYPE,
+                            'SERIALNO'             => $va_w->SERIALNO,
+                            'TOTCOPAY'             => $va_w->TOTCOPAY,
+                            'USE_STATUS'           => $va_w->USE_STATUS,
+                            'TOTAL'                => $va_w->TOTAL,
+                            'QTYDAY'               => $va_w->QTYDAY,
+                            'TMLTCODE'             => $va_w->TMLTCODE,
+                            'STATUS1'              => $va_w->STATUS1,
+                            'BI'                   => $va_w->BI,
+                            'CLINIC'               => $va_w->CLINIC,
+                            'ITEMSRC'              => $va_w->ITEMSRC,
+                            'PROVIDER'             => $va_w->PROVIDER,
+                            'GRAVIDA'              => $va_w->GRAVIDA,
+                            'GA_WEEK'              => $va_w->GA_WEEK,
+                            'DCIP'                 => $va_w->DCIP,
+                            'LMP'                  => $va_w->LMP,
+                            'SP_ITEM'              => $va_w->SP_ITEM,
+                            'icode'                => $va_w->icode,
+                            'vstdate'              => $va_w->vstdate,
+                            'user_id'              => $iduser,
+                            'd_anaconda_id'        => 'WALKIN'
+                        ]);
+                    }
+                                       
                 }
                  
          }
@@ -2926,7 +2933,7 @@ class Account216Controller extends Controller
         return response()->download(public_path($filename));
       
     }
-    public function account_pkucs216_sendapi(Request $request)
+    public function account_pkucs216_sendapi_(Request $request)
     {  
         // $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.Auth::user()->id.'"');
         // foreach ($data_token_ as $key => $val_to) {

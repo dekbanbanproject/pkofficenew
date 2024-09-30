@@ -278,7 +278,7 @@
                                             <div class="table-responsive">
                                                 {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                                 {{-- <table id="example" class="table table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;"> --}}
-                                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                                                    <table id="example21" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
                                                     <thead>
                                                         <tr>
                                                           
@@ -1203,6 +1203,22 @@
         $(document).ready(function() {
             $('#example7').DataTable();
             $('#example8').DataTable();
+            var table = $('#example21').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
+            var table = $('#example22').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });

@@ -350,7 +350,7 @@ class Account401Controller extends Controller
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
-        $newday = date('Y-m-d', strtotime($datenow . ' -10 Day')); //ย้อนหลัง 1 สัปดาห์
+        $newday = date('Y-m-d', strtotime($datenow . ' -5 Day')); //ย้อนหลัง 1 สัปดาห์
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
         if ($startdate == '') {
