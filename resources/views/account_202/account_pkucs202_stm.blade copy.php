@@ -1,6 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
-
+ 
 @section('content')
     <script>
         function TypeAdmin() {
@@ -8,94 +8,101 @@
         }
     </script>
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y')+543;
-    $yb =  date('Y')+542;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
     ?>
-
-     <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
-
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .is-hide {
-            display: none;
-        }
+    <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 10px #ddd solid;
+               border-top: 10px #1fdab1 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(390deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               } 
     </style>
-
-    <?php
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
-    ?>
-
-<div class="tabs-animation">
-    <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
+    
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
         </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
         </div>
-    </div>
+        {{-- <div class="container-fluid"> --}}
+            <!-- start page title -->
+            {{-- <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0" style="color:rgb(10, 151, 85)">Detail STM 1102050101.202</h4>
     
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Detail STM</a></li>
+                                <li class="breadcrumb-item active">1102050101.202</li>
+                            </ol>
+                        </div>
+    
+                    </div>
+                </div>
+            </div> --}}
+            <!-- end page title -->
+        {{-- </div> --}}
+         <!-- container-fluid -->
+        
          <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
                     <div class="card-body"> 
 
-                        <div class="table-responsive">  
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <div class="table-responsive"> 
+                            {{-- <table id="example21" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
+                                <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="text-center">ลำดับ</th>
@@ -163,28 +170,28 @@
 
 @endsection
 @section('footer')
+
 <script>
-    $(document).ready(function() {
+        $(document).ready(function() { 
 
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-        $('#datepicker2').datepicker({
-            format: 'yyyy-mm-dd'
-        });
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
 
-        $('#example').DataTable();
-        $('#hospcode').select2({
-            placeholder: "--เลือก--",
-            allowClear: true
+             $('#example').DataTable();
+            $('#example20').DataTable();
+            var table = $('#example21').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
+            
         });
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-    });
-</script>
-
-@endsection
+    </script>
+    @endsection

@@ -12,18 +12,21 @@
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
  
-       <!-- jquery.vectormap css -->
-       <link href="{{ asset('assets_ubi/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
-       <!-- DataTables -->
-       <link href="{{ asset('assets_ubi/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+      
+       <!-- DataTables --> 
+       <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+       <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+       <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- DataTables -->
+ 
        <!-- Responsive datatable examples -->
-       <link href="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+       <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
        <!-- Bootstrap Css -->
-       <link href="{{ asset('assets_ubi/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+       {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
+       <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> 
        <!-- Icons Css -->
-       <link href="{{ asset('assets_ubi/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-       <!-- App Css-->
-       <link href="assets_ubi/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+       <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+      
        <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
        <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
        <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
@@ -32,8 +35,11 @@
         <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+         <!-- App Css-->
+       <link href="{{ asset('assets_ubi/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
        {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
        <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}"> 
+
  
 </head>
 <style>
@@ -92,97 +98,139 @@
     }
 </style>
 <style>
-body {
-    /* background: */
-    /* url(/pkbackoffice/public/images/bg7.png);  */
-    /* -webkit-background-size: cover; */
-    background-color: rgb(245, 240, 240);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    /* background-size: cover; */
-    background-size: 100% 100%;
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* width: 100vw;   ให้เต็มพอดี */
-    /* height: 100vh; ให้เต็มพอดี  */
-}
+    body {         
+        background-color: rgb(255, 255, 255);
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        background-size: 100% 100%; 
+        font-size: 13px;
+    }
+    /* Logo หมุน Start */
+    @keyframes colorShift {
+        0% {
+            background-color: #22dcdf
+        }
+        50% {
+            background-color: #2ed82e
+        }
+        100% {
+            background-color: #e95a5a
+        }
+    }
+    .loadingIcon {
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgb(255, 255, 255);
+        /* border-bottom: 4px solid transparent; */
+        border-radius: 100%;
+        animation: 6s infinite linear spin;
+    }
+    .loadingIcon2 {
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgb(255, 255, 255);
+        /* border-bottom: 4px solid transparent; */
+        border-radius: 100%;
+        animation: 3s infinite linear spin;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    #container_spin {
+        width: 250px;
+        height: 250px;
+    }
+    @keyframes animation {
+        0% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -105;
+        }
+        50% {
+            stroke-dasharray: 80 10;
+            stroke-dashoffset: -160;
+        }
+        100% {
+            stroke-dasharray: 1 98;
+            stroke-dashoffset: -300;
+        }
+    }
+    #spinner {
+        transform-origin: center;
+        animation-name: animation;
+        animation-duration: 2.5s;
+        animation-timing-function: cubic-bezier;
+        animation-iteration-count: infinite;
+    }
+    /* Logo หมุน END */
 
-.Bgsidebar {
-    background-image: url('/pkbackoffice/public/images/bgside.jpg');
-    background-repeat: no-repeat;
-}
-
-.Bgheader {
-    background-image: url('/pkbackoffice/public/images/bgheader.jpg');
-    background-repeat: no-repeat;
-}
-.myTable tbody tr{
-    font-size:13px;
-    height: 13px;
-}
-.card_pink{
-    border-radius: 3em 3em 3em 3em;
-    box-shadow: 0 0 10px pink;
-}
-.card_audit_2b{
-    border-radius: 0em 0em 3em 3em;
-    box-shadow: 0 0 10px rgb(250, 128, 124);
-}
-.card_audit_4c{
-    border-radius: 2em 2em 2em 2em;
-    box-shadow: 0 0 15px rgb(250, 128, 124);
-    border:solid 1px #80acfd;
-}
-.card_audit_4{
-    border-radius: 3em 3em 3em 3em;
-    box-shadow: 0 0 10px rgb(250, 128, 124);
-}
-.dcheckbox_{         
-    width: 20px;
-    height: 20px;       
-    /* border-radius: 2em 2em 2em 2em; */
-    border: 10px solid rgb(250, 128, 124);
-    /* color: teal; */
-    /* border-color: teal; */
-    box-shadow: 0 0 10px rgb(250, 128, 124);
-    /* box-shadow: 0 0 10px teal; */
-}
-@keyframes colorShift {
-    0% {
-        background-color: #22dcdf
-    }
-    50% {
-        background-color: #2ed82e
-    }
-    100% {
-        background-color: #e95a5a
-    }
-}
-.loadingIcon {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgb(255, 255, 255);
-    /* border-bottom: 4px solid transparent; */
-    border-radius: 100%;
-    animation: 6s infinite linear spin;
-}
-.loadingIcon2 {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgb(255, 255, 255);
-    /* border-bottom: 4px solid transparent; */
-    border-radius: 100%;
-    animation: 3s infinite linear spin;
-}
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
+            
+            .card_pink{
+                border-radius: 3em 3em 3em 3em;
+                box-shadow: 0 0 10px pink;
+            }
+            .card_audit_2b{
+                border-radius: 0em 0em 3em 3em;
+                box-shadow: 0 0 10px rgb(250, 128, 124);
+            }
+            .card_audit_4c{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 15px rgb(250, 128, 124);
+                border:solid 1px #80acfd;
+            }
+            .card_audit_4{
+                border-radius: 3em 3em 3em 3em;
+                box-shadow: 0 0 10px rgb(250, 128, 124);
+            }
+            .dcheckbox_{         
+                width: 20px;
+                height: 20px;       
+                /* border-radius: 2em 2em 2em 2em; */
+                border: 10px solid rgb(250, 128, 124);
+                /* color: teal; */
+                /* border-color: teal; */
+                box-shadow: 0 0 10px rgb(250, 128, 124);
+                /* box-shadow: 0 0 10px teal; */
+            }
+            @keyframes colorShift {
+                0% {
+                    background-color: #22dcdf
+                }
+                50% {
+                    background-color: #2ed82e
+                }
+                100% {
+                    background-color: #e95a5a
+                }
+            }
+            .loadingIcon {
+                width: 40px;
+                height: 40px;
+                border: 2px solid rgb(255, 255, 255);
+                /* border-bottom: 4px solid transparent; */
+                border-radius: 100%;
+                animation: 6s infinite linear spin;
+            }
+            .loadingIcon2 {
+                width: 40px;
+                height: 40px;
+                border: 2px solid rgb(255, 255, 255);
+                /* border-bottom: 4px solid transparent; */
+                border-radius: 100%;
+                animation: 3s infinite linear spin;
+            }
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
 </style>
 <?php
 if (Auth::check()) {
@@ -1629,8 +1677,7 @@ if (Auth::check()) {
         </div>
  
         <div class="main-content">
-            <div class="page-content">
-               
+            <div class="page-content">               
                     @yield('content') 
             </div>
 
@@ -1709,95 +1756,140 @@ if (Auth::check()) {
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
-
-    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('js/select2.min.js') }}"></script> 
+    
+    <!-- JAVASCRIPT -->
+    <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>       
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script> 
-    <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js"
-        integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
     <!-- jquery.vectormap map -->
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
     <!-- Required datatable js -->
-    <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>        
+    {{-- <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script> --}}
+    {{-- <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script> --}}
+    <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>    
     <!-- Responsive examples -->
-    <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>    
-    <script src="{{ asset('pkclaim/js/app.js') }}"></script> --}}
+    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+    <!-- Datatable init js -->
+    {{-- <script src="assets/js/pages/datatables.init.js"></script> --}}
+    {{-- <script src="assets/js/app.js"></script> --}}
+      <!-- Datatable init js -->
+      <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
+      <script src="{{ asset('assets_ubi/js/app.js') }}"></script> 
+      {{-- <script src="{{ asset('pkclaim/js/app.js') }}"></script>  --}}
 
-          <!-- JAVASCRIPT -->
-          <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/metismenu/metisMenu.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/simplebar/simplebar.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/node-waves/waves.min.js') }}"></script>
-          <script src="{{ asset('js/select2.min.js') }}"></script>
-          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-          <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
-          <!-- apexcharts -->
-          {{-- <script src="{{ asset('assets_ubi/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
-  
-          <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js"
-              integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
-              crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <!-- JAVASCRIPT -->
+    <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/node-waves/waves.min.js') }}"></script>
+    <!-- Required datatable js -->
+    <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>    
+    <!-- Responsive examples -->
+    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+    <!-- Datatable init js -->
+    <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
+    <script src="{{ asset('assets_ubi/js/app.js') }}"></script> --}}
 
-          <!-- jquery.vectormap map -->
-          <script src="{{ asset('assets_ubi/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
-  
-          <!-- Required datatable js -->
-          <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+                {{-- <!-- JAVASCRIPT --> 
+                <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
+                <script src="{{ asset('js/select2.min.js') }}"></script>       
+                <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+                <!-- jquery.vectormap map -->
+                <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
+        
+                <!-- Required datatable js -->
+                <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
           
-          <!-- Responsive examples -->
-          <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-          <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-  
-          {{-- <script src="{{ asset('assets_ubi/js/pages/dashboard.init.js') }}"></script>   --}}
-          <script src="{{ asset('assets_ubi/js/app.js') }}"></script>
+                <!-- Buttons examples -->
+                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+                <!-- Responsive examples -->
+                <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>  
+                <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
+                <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>      
+                <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>            
+                <!-- App js -->
+                <script src="{{ asset('pkclaim/js/app.js') }}"></script> --}}
  
-          {{-- <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script> --}}
-          {{-- <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script> --}}
-          {{-- <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script> --}}
  
+
     @yield('footer')
 
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            $('#example3').DataTable();
-            var table = $('#example219').DataTable({
-                scrollY: '60vh',
-                scrollCollapse: true,
-                scrollX: true,
-                "autoWidth": false,
-                "pageLength": 10,
-                "lengthMenu": [10,25,50,100,150,200,300,400,500],
-            });
-            var table = $('#example20').DataTable({
-                scrollY: '60vh',
-                scrollCollapse: true,
-                scrollX: true,
-                "autoWidth": false,
-                "pageLength": 10,
-                "lengthMenu": [10,25,50,100,150,200,300,400,500],
-            });
+            // $('#example').DataTable();
+            // $('#example2').DataTable();
+            // $('#example3').DataTable();
+            // var table = $('#example24').DataTable({
+            //     scrollY: '60vh',
+            //     scrollCollapse: true,
+            //     scrollX: true,
+            //     "autoWidth": false,
+            //     "pageLength": 10,
+            //     "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            // });
+            // var table = $('#example25').DataTable({
+            //     scrollY: '60vh',
+            //     scrollCollapse: true,
+            //     scrollX: true,
+            //     "autoWidth": false,
+            //     "pageLength": 10,
+            //     "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            // });
 
             $.ajaxSetup({
                 headers: {

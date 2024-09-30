@@ -3437,7 +3437,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'gas_check_tank_update', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tank_update'])->name('prs.gas_check_tank_update'); //
   Route::match(['get', 'post'], 'gas_check_destroy/{id}', [App\Http\Controllers\MedicalgasController::class, 'gas_check_destroy'])->name('prs.gas_check_destroy'); //
   Route::match(['get', 'post'], 'gas_qrcode', [App\Http\Controllers\MedicalgasController::class, 'gas_qrcode'])->name('prs.gas_qrcode'); //
-  Route::match(['get', 'post'], 'gas_check', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
+  // Route::match(['get', 'post'], 'gas_check', [App\Http\Controllers\MedicalgasController::class, 'gas_check'])->name('prs.gas_check'); //
 
   Route::match(['get', 'post'], 'gas_check_tanksub', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub'])->name('prs.gas_check_tanksub'); //
   Route::match(['get', 'post'], 'gas_check_tanksub_add', [App\Http\Controllers\MedicalgasController::class, 'gas_check_tanksub_add'])->name('prs.gas_check_tanksub_add'); //

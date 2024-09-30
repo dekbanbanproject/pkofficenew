@@ -1126,7 +1126,6 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
@@ -1223,7 +1222,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-            var table = $('#example219').DataTable({
+            var table = $('#example21').DataTable({
                 scrollY: '60vh',
                 scrollCollapse: true,
                 scrollX: true,

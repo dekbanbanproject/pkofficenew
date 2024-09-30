@@ -1,7 +1,26 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
+ 
 @section('content')
-    <style>
+    <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
+        }
+    </script>
+    <?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+    
+    ?>
+     
+     <style>
         #button {
             display: block;
             margin: 20px auto;
@@ -31,15 +50,15 @@
         .spinner {
             width: 250px;
             height: 250px;
-            border: 10px #ddd solid;
-            border-top: 10px #ff8897 solid;
+            border: 5px #ddd solid;
+            border-top: 10px #12c6fd solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }
 
         @keyframes sp-anime {
             100% {
-                transform: rotate(390deg);
+                transform: rotate(360deg);
             }
         }
 
@@ -47,23 +66,11 @@
             display: none;
         }
     </style>
- <script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-<?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
 
-    $strDate = date('Y-m-d');
+    <?php
+        $ynow = date('Y')+543;
+        $yb =  date('Y')+542;
+        $strDate = date('Y-m-d');
     $strYear = date("Y",strtotime($strDate))+543;
     $strMonth= date("n",strtotime($strDate));
     // // $strDay= date("j",strtotime($strDate));
@@ -72,49 +79,27 @@
     $strMonthThai=$strMonthCut[$strMonth];
     // // return $strDay.' '.$strMonthThai.'  พ.ศ. '.$strYear;
     $monthyear = $strMonthThai.'  พ.ศ. '.$strYear;
-    // return $monthyear;
-    // return $strMonthThai.'  พ.ศ. '.$strYear;
-?>
-    <div class="tabs-animation">
+    ?>
 
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
-            </div>
-        </div>
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-           
-                    <!-- start page title -->
-                    <div class="row"> 
-                            <div class="col-md-6">
-                                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.216</h4>
-                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.216 เดือน {{$monthyear}}</p>
-                            </div>
-                            <div class="col"></div>
-                           
-                    </div> 
-        </div> <!-- container-fluid -->
+<div class="tabs-animation">
+     
+        
+   
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card_audit_4c">
+                    <div class="card-body">
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.216</h4>
+                        <p class="card-title-desc">
+                            รายละเอียดข้อมูล ผัง 1102050101.216 เดือน {{$monthyear}}
+                        </p>
 
-        <div class="row"> 
-            <div class="col-xl-7 col-md-7">
-                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
-                    <div class="table-responsive p-3">                                
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="example21" class="table dt-responsive nowrap w-100">
                             <thead>
                                 <tr> 
                                     <th class="text-center">เดือน</th> 
                                     <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
-                                    <th class="text-center">ตั้งลูกหนี้</th>  
-                                    {{-- <th class="text-center">ลูกหนี้ Walkin</th>  --}}
+                                    <th class="text-center">ตั้งลูกหนี้</th>   
                                     <th class="text-center">Statement</th>
                                     <th class="text-center">ยกยอดไปเดือนนี้</th> 
                                 </tr>
@@ -225,92 +210,20 @@
                                 
                                 </tr>  
                         </table>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="col-xl-5 col-md-5">
-                <div class="card card_audit_4c" style="background-color: rgb(235, 242, 247)">   
-                    <div class="table-responsive p-3">                                
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center">HCODE</th>  
-                                    <th class="text-center">ลูกหนี้กรณีส่งต่อ</th> 
-                                    <th class="text-center">ลูกหนี้CT</th>  
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    $number = 1; 
-                                    $total11 = 0;
-                                    $total22 = 0;
-                                    $total33 = 0;
-                                    $total44 = 0;
-                                    $total55 = 0;$total66 = 0;
-                                ?>
-                                @foreach ($data_hospcode as $item_h)  
-                                    <?php
-                                            $y = $item_h->years;
-                                                $ynew = $y + 543;
-                                            // ลูกหนี้กรณีส่งต่อ
-                                            $datas = DB::select(
-                                                'SELECT count(DISTINCT vn) as Can,SUM(debit_total) as sumdebit
-                                                    FROM acc_1102050101_203
-                                                    WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
-                                                    AND hospcode = "'.$item_h->hospcode.'" 
-                                            ');
-                                            foreach ($datas as $key => $value) {
-                                                $count_N     = $value->Can;
-                                                $sum_toklong = $value->sumdebit;
-                                            }
-                                            // ลูกหนี้กรณี CT
-                                            $datas = DB::select(
-                                                'SELECT count(DISTINCT vn) as Canct,SUM(ct_price) as sumctdebit
-                                                    FROM acc_1102050101_203
-                                                    WHERE month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
-                                                    AND hospcode = "'.$item_h->hospcode.'" 
-                                            ');
-                                            foreach ($datas as $key => $value) {
-                                                $count_ct     = $value->Canct;
-                                                $sum_ct       = $value->sumctdebit;
-                                            }
-                                    ?>                                
-                                        <tr>
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td>  
-                                            <td class="p-2">{{$item_h->hname}}</td>       
-                                            <td class="text-end" width="20%" style="color:rgb(238, 36, 86)">{{ number_format($sum_toklong, 2) }}</td> 
-                                            <td class="text-end" width="15%" style="color:rgb(237, 100, 255)">{{ number_format($sum_ct, 2) }}</td>  
-                                        </tr>
-                                        <?php 
-                                                $total11 = $total11 + $sum_toklong;
-                                                $total22 = $total22 + $sum_ct; 
-                                            ?>
-                                    
-                                @endforeach
 
-                            </tbody>
-                            <tr style="background-color: #f3fca1">
-                                <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #f82c25"><label for="" style="color: #FFFFFF">{{ number_format($total11, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #ed4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total22, 2) }}</label></td> 
-                            </tr> 
-                               
-                        </table>
-                    </div>
-                </div>
-            </div> --}}
-        </div> 
-    
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div>
+            <div class="col"></div>
+        </div>
+        
+        
         <div class="row">
             <div class="col-xl-12">
                     <div class="card card_audit_4c">                   
                         <div class="card-body">                     
-                            <div class="table-responsive">
-                                
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <div class="table-responsive">                                
+                                <table id="scroll-vertical-datatable" class="table dt-responsive nowrap w-100">
                                     <thead>
                                         <tr>
                                             <th class="text-center">ลำดับ</th> 
@@ -334,7 +247,7 @@
                                         $total333 = 0;
                                         $total444 = 0;
                                         $total555 = 0; $total666 = 0;
-                                    ?>
+                                        ?>
                                         @foreach ($data as $item)
                                         <?php $number++; ?> 
                                             <tr>
@@ -380,173 +293,9 @@
 
 
 
+    </div>
+
 @endsection
 @section('footer')
-
-    <script>
-        $(document).ready(function() {
-
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            $('#example').DataTable();
-            $('#hospcode').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-        });
-        $('.Pulldata').click(function() { 
-                var vn = $(this).val();
-                // alert(vn);
-                Swal.fire({
-                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
-                        text: "You Sync Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Sync it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show();  
-                                
-                                $.ajax({
-                                    url: "{{ url('account_307_sync') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {vn},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ดึงข้อมูลสำเร็จ',
-                                                text: "You Sync data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-
-                                        } else if (data.status == 100) { 
-                                            Swal.fire({
-                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                                text: "Please enter the number of the book.",
-                                                icon: 'warning',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                   
-                                                }
-                                            })
-                                            
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-        });
-         
-        $('.PulldataAll').click(function() { 
-                var months = $('#months').val();
-                var year = $('#year').val();
-                // alert(startdate);
-                Swal.fire({
-                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
-                        text: "You Sync Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Sync it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show();  
-                                
-                                $.ajax({
-                                    url: "{{ url('account_307_syncall') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {months,year},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
-                                                text: "You Sync data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-
-                                        } else if (data.status == 100) { 
-                                            Swal.fire({
-                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                                text: "Please enter the number of the book.",
-                                                icon: 'warning',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                   
-                                                }
-                                            })
-                                            
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-        });
-        
-                  
-    </script>
+ 
 @endsection
