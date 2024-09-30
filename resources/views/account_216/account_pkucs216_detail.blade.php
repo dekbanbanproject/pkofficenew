@@ -188,8 +188,8 @@
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
                                             <td class="text-end" width="10%" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</td>  
                                             {{-- <td class="text-end" width="10%" style="color:rgb(253, 60, 47)">{{ number_format($sum_debit_walkin, 2) }}</td>  --}}
-                                            <td class="text-end" style="color:rgb(4, 161, 135)" width="10%">{{ number_format($sum_stm_money, 2) }}</td> 
-                                            <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
+                                            <td class="text-end" style="color:rgb(4, 161, 135)" width="15%">{{ number_format($sum_stm_money, 2) }}</td> 
+                                            <td class="text-end" style="color:rgb(224, 128, 17)" width="15%">0.00</td> 
                                         </tr>
                                     <?php
                                             $total1 = $total1 + $sum_N;
@@ -223,7 +223,8 @@
                     <div class="card card_audit_4c">                   
                         <div class="card-body">                     
                             <div class="table-responsive">                                
-                                <table id="scroll-vertical-datatable" class="table dt-responsive nowrap w-100">
+                                {{-- <table id="scroll-vertical-datatable" class="table dt-responsive nowrap w-100"> --}}
+                                 <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th class="text-center">ลำดับ</th> 

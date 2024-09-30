@@ -82,7 +82,7 @@
         <div class="row"> 
             <div class="col-md-4"> 
                 <h5 class="card-title" style="color:green">Process data 1102050101.401</h5>
-                <p class="card-title-desc">ประมวลผลข้อมูล ผัง 1102050101.401</p>
+                <p class="card-title-desc">ประมวลผลข้อมูล ตั้งลูกหนี้/เคลม ผัง 1102050101.401</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -111,22 +111,22 @@
                         <div class="row mb-2">
                             <div class="col-md-6 text-start"> 
                               @if ($activeclaim == 'Y')
-                                <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
-                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc" onclick="uncheck()">Uncheck</button>
                               @else
-                                <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc" onclick="uncheck()">Uncheck</button>
                               @endif
                                 {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
                                 <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
                                     <i class="fa-solid fa-spinner text-warning me-2"></i>
                                    ประมวลผล
                                </button>
-                               <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
+                               <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc">
                                 <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                Zip
                            </a> 
@@ -134,7 +134,7 @@
                            
                             <div class="col"></div>
                             <div class="col-md-5 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sit">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" id="Check_sit">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์ 
                                 </button>
@@ -151,11 +151,11 @@
                                      <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip
                                 </a>  --}}
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_401_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary btn-sm cardacc Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button> 
