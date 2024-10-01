@@ -92,14 +92,16 @@ class PlanController extends Controller
         // $data['plan_control'] = Plan_control::get();
         $data['plan_control'] = DB::connection('mysql')->select('
             SELECT 
-            plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
-            ,p.plan_price_total,p.plan_req_no
+            p.plan_control_id,p.billno,p.plan_obj,p.plan_name,p.plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME,p.plan_reqtotal
+            ,p.plan_price_total,p.plan_req_no,pa.budget_price,(SELECT SUM(budget_price) budget_price FROM plan_control_activity WHERE plan_control_id = p.plan_control_id) sum_budget_price
             FROM
             plan_control p
+            LEFT OUTER JOIN plan_control_activity pa ON pa.plan_control_id = p.plan_control_id
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
             LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
            
             WHERE p.plan_strategic_id = "'.$id.'" AND p.hos_group IN("1","2")
+            GROUP BY p.plan_control_id
             ORDER BY p.plan_control_id ASC
         ');  
         // WHERE p.plan_type = "'.$id.'"  
@@ -138,13 +140,16 @@ class PlanController extends Controller
         $data['plan_control_type']  = Plan_control_type::get();
         $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
-        $data['plan_strategic'] = Plan_strategic::get();
-        
+        $data['plan_strategic']     = Plan_strategic::get();
+        $data['budget_year']        = DB::table('budget_year')->where('active','True')->get();
+        $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']         = $bgs_year->leave_year_id;
+
         return view('plan.plan_control_add', $data,[
             'id'    =>  $id
         ]);
     }
-    public function plan_control_edit(Request $request,$id)
+    public function plan_control_edit(Request $request,$id,$idmain)
     {
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
@@ -165,7 +170,9 @@ class PlanController extends Controller
         //     WHERE p.plan_control_id = "'.$id.'"
         // ');  
 
-        return view('plan.plan_control_edit', $data);
+        return view('plan.plan_control_edit', $data,[
+            'idmain'   => $idmain
+        ]);
     }
     public static function refnumber()
     {
@@ -200,6 +207,8 @@ class PlanController extends Controller
         $add->user_id               = $request->input('user_id'); 
         $add->plan_strategic_id     = $request->input('plan_strategic_id');
         $add->hos_group             = $request->input('hos_group');
+        $add->plan_year             = $request->input('plan_year');
+        
         $add->save();
 
         return response()->json([
@@ -459,6 +468,14 @@ class PlanController extends Controller
             $update = Plan_control_activity::find($activity_id); 
             $update->budget_price        = $price_old->budget_price + $activity_price_new; 
             $update->save(); 
+ 
+            $check_price = Plan_control::where('plan_control_id',$plan_control_id)->first();
+            Plan_control::where('plan_control_id',$plan_control_id)->update([ 
+                'plan_price'      =>  ((int)$check_price->plan_price) + ($activity_price_new),
+                
+            ]);
+
+
         } else {
             $add2 = new Plan_control_budget();
             $add2->plan_control_id               = $plan_control_id; 
@@ -472,6 +489,16 @@ class PlanController extends Controller
             $update = Plan_control_activity::find($activity_id); 
             $update->budget_price        = $price_old->budget_price + $activity_price_new; 
             $update->save(); 
+
+
+            $check_price = Plan_control::where('plan_control_id',$plan_control_id)->first();
+            Plan_control::where('plan_control_id',$plan_control_id)->update([ 
+                'plan_price'      =>  ((int)$check_price->plan_price) + ($activity_price_new),
+                
+            ]);
+
+
+
 
         }
         
@@ -978,32 +1005,34 @@ class PlanController extends Controller
     // Plan_control_money
     public function plan_control_repmoney(Request $request)
     { 
-        $maxno_ = Plan_control_money::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+        $id =  $request->input('update_plan_control_id'); 
+        // dd($id);
+        // $planid = $request->input('update_plan_control_id');
+        $check_price = Plan_control::where('plan_control_id',$id)->first();
+        // $maxno_ = Plan_control::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+
+        $check = Plan_control::where('plan_control_id',$id)->count();
+        // dd($check_price->plan_req_no);
+        if ($check > 0) {
+            Plan_control::where('plan_control_id',$id)->update([
+                'plan_req_no'        =>  ((int)$check_price->plan_req_no) + 1,
+                'plan_reqtotal'      =>  ((int)$check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')),
+                'plan_price_total'   =>  ((int)$check_price->plan_price) - (((int)$check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')))
+            ]);
+        } else {
+             
+        }
+
+        $maxno_ = Plan_control_money::where('plan_control_id',$id)->max('plan_control_money_no');
         $maxno = $maxno_+1;
         $add = new Plan_control_money();
-        $add->plan_control_id                = $request->input('update_plan_control_id'); 
+        $add->plan_control_id                = $id; 
         $add->plan_control_money_no          = $maxno;
         $add->plan_control_moneydate         = $request->input('plan_control_moneydate');
         $add->plan_control_moneyprice        = $request->input('plan_control_moneyprice');
         $add->plan_control_moneyuser_id      = $request->input('plan_control_moneyuser_id');
         $add->plan_control_moneycomment      = $request->input('plan_control_moneycomment'); 
         $add->save();
-
-        $planid = $request->input('update_plan_control_id');
-        $check_price = Plan_control::where('plan_control_id',$planid)->first();
-        // $maxno_ = Plan_control::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
-
-        $check = Plan_control::where('plan_control_id',$planid)->count();
-        // dd($request->plan_price);
-        if ($check > 0) {
-            Plan_control::where('plan_control_id',$planid)->update([
-                'plan_req_no'        =>  ($check_price->plan_req_no) + 1,
-                'plan_reqtotal'      =>  ($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')),
-                'plan_price_total'   =>  ($check_price->plan_price) - (($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')))
-            ]);
-        } else {
-             
-        }
         
 
         return response()->json([

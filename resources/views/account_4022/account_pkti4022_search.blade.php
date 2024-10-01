@@ -86,7 +86,7 @@ $pos = strrpos($url, '/') + 1;
             {{-- <div class="col-12"> --}}
                 {{-- <div class="page-title-box d-sm-flex align-items-center justify-content-between"> --}}
                     <div class="col-md-4">
-                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.4011</h4>
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.4022</h4>
                         <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                     </div>
                     <div class="col"></div>
@@ -190,8 +190,8 @@ $pos = strrpos($url, '/') + 1;
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #06b9a2" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #0a0a0a">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #06b9a2" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #fca1a1"></td> 
                             </tr> 
                         </table>

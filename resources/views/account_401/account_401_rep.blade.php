@@ -102,7 +102,7 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card card_audit_4c mb-3">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.account_401_repsave') }}" method="POST" enctype="multipart/form-data" id="Upstmdata">
+                        <form action="{{ route('acc.account_401_repsave') }}" method="POST" enctype="multipart/form-data">
                             {{-- id="upstmdata" --}}
                             @csrf
                             <div class="row">
@@ -115,19 +115,21 @@
                                             type="file">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0) 
-                                    {{-- href="{{ url('account_401_repsend') }}"  --}}
-                                        <button class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata_new">
-                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
-                                                ส่งข้อมูล
-                                        </button>
+                                    @if ($countc < 1) 
+                                    <button type="submit"
+                                    class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="UP STM"></i>
+                                    UP STM
+                                </button>
+                                </form>
+                                       
                                     @else
-                                        <button type="submit"
-                                            class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="UP STM"></i>
-                                            UP STM
-                                        </button>
+                                    <a class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata_new">
+                                        <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
+                                            ส่งข้อมูล
+                                    </a>
+                                       
                                     @endif
                                     
                                     
@@ -135,7 +137,7 @@
                                 <div class="col"></div>
 
                             </div>
-                        </form>
+                      
                     </div>
                 </div>
                 <div class="form-group">

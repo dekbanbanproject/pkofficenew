@@ -186,8 +186,8 @@ class Account603Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select('
-                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate,a.dchdate as dchdate,v.vstdate 
                     ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
                     ,ec.name as account_name 
@@ -225,8 +225,49 @@ class Account603Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
             // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->whereBetween('dchdate', [$startdate, $enddate])->count();
             $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->count();
-                    if ($check == 0) {
+                    // if ($check == 0) {
+                    //     if ($value->pttype == '31' || $value->pttype == '36' || $value->pttype == '37' || $value->pttype == '38' || $value->pttype == '39') {
+                    //         Acc_debtor::insert([
+                    //             'hn'                 => $value->hn,
+                    //             'an'                 => $value->an,
+                    //             'vn'                 => $value->vn,
+                    //             'cid'                => $value->cid,
+                    //             'ptname'             => $value->ptname,
+                    //             'pttype'             => $value->pttype,
+                    //             'vstdate'            => $value->vstdate,
+                    //             'rxdate'             => $value->regdate,
+                    //             'dchdate'            => $value->dchdate,
+                    //             'acc_code'           => $value->code,
+                    //             'account_code'       => $value->account_code,
+                    //             'account_name'       => $value->account_name,
+                    //             // 'income_group'       => $value->income_group,
+                    //             'income'             => $value->income,
+                    //             'uc_money'           => $value->uc_money,
+                    //             'discount_money'     => $value->discount_money,
+                    //             'paid_money'         => $value->paid_money,
+                    //             'rcpt_money'         => $value->rcpt_money,
+                    //             'debit'              => $value->debit,
+                    //             'debit_drug'         => $value->debit_drug,
+                    //             'debit_instument'    => $value->debit_instument,
+                    //             'debit_toa'          => $value->debit_toa,
+                    //             'debit_refer'        => $value->debit_refer,
+                    //             'fokliad'            => $value->fokliad,
+                    //             'debit_total'        => $value->debit,
+                    //             'max_debt_amount'    => $value->max_debt_money,
+                    //             'acc_debtor_userid'  => Auth::user()->id
+                    //         ]);
+                    //     } 
+                    // } 
+                    if ($check > 0) {
                         if ($value->pttype == '31' || $value->pttype == '36' || $value->pttype == '37' || $value->pttype == '38' || $value->pttype == '39') {
+                            Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->update([
+                                'vn'            => $value->vn,
+                                'debit_total'   => $value->debit,
+                            ]);
+                        }
+                    } else {
+                        if ($value->pttype == '31' || $value->pttype == '36' || $value->pttype == '37' || $value->pttype == '38' || $value->pttype == '39') {
+
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
@@ -257,7 +298,8 @@ class Account603Controller extends Controller
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);
                         } 
-                    } 
+                    }
+                    
         }
 
         return response()->json([ 

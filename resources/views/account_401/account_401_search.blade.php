@@ -174,14 +174,14 @@
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73;color: #FFFFFF">{{ number_format($total4,2)}}</td>                                             
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total4,2)}}</td>                                             
                                             {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #276ed8;color: #FFFFFF">{{ number_format($total6,2)}}</td> 
-                                            <td class="text-end" style="background-color: #8c3ee4;color: #FFFFFF">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" style="background-color: #059b75;color: #FFFFFF">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{ number_format($total6,2)}}</td> 
+                                            <td class="text-end" style="background-color: #8c3ee4;color: #af25e6">{{ number_format($total7,2)}}</td> 
+                                            <td class="text-end" style="background-color: #059b75;color: #078d9e">{{ number_format($total8,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  

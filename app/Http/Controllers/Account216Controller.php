@@ -253,35 +253,38 @@ class Account216Controller extends Controller
             $startdate   = (''.$year_old.'-10-01');
             $enddate     = (''.$yearnew.'-09-30'); 
             // dd($startdate);
-            $datashow = DB::select('
-                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
-                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.216"
-                    group by month(a.vstdate)                     
-                    order by a.vstdate desc;
-            ');  
+            $datashow = DB::select(
+                'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME
+                from acc_1102050101_216 U1      
+                left outer join leave_month l on l.MONTH_ID = month(U1.vstdate)       
+                WHERE U1.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                group by month(U1.vstdate)  
+            '); 
+            // $datashow = DB::select(
+            //     ' SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+            //         ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+            //         ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+            //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+            //         FROM acc_debtor a
+            //         left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+            //         WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+            //         and account_code="1102050101.216"
+            //         group by month(a.vstdate)                     
+            //         order by a.vstdate desc;
+            // '); 
+             
         } else {
           
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
             $enddate      = $bg->date_end; 
             // dd($startdate);
-            $datashow = DB::select('
-                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.216" 
-                    group by month(a.vstdate)                    
-                    order by a.vstdate desc;
+            $datashow = DB::select(
+                'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME
+                from acc_1102050101_216 U1      
+                left outer join leave_month l on l.MONTH_ID = month(U1.vstdate)       
+                WHERE U1.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                group by month(U1.vstdate) 
             ');
         }
         // dd($startdate);
@@ -640,34 +643,43 @@ class Account216Controller extends Controller
                         'stamp' => 'Y'
                     ]);
         foreach ($data as $key => $value) {
-            Acc_1102050101_216::insert([
-                'vn'                => $value->vn,
-                'hn'                => $value->hn,
-                'an'                => $value->an,
-                'cid'               => $value->cid,
-                'ptname'            => $value->ptname,
-                'vstdate'           => $value->vstdate,
-                'regdate'           => $value->regdate,
-                'dchdate'           => $value->dchdate,
-                'pttype'            => $value->pttype,
-                'acc_code'          => $value->acc_code,
-                'account_code'      => $value->account_code,
-                'rw'                 => $value->rw,
-                'adjrw'              => $value->adjrw,
-                'total_adjrw_income' => $value->total_adjrw_income,
-                'debit_drug'         => $value->debit_drug,
-                'debit_instument'    => $value->debit_instument,
-                'debit_toa'          => $value->debit_toa,
-                'debit_refer'        => $value->debit_refer,
-                'debit_walkin'       => $value->debit_walkin,
-                'income'             => $value->income,
-                'uc_money'           => $value->uc_money,
-                'discount_money'     => $value->discount_money,
-                'rcpt_money'         => $value->rcpt_money, 
-                'debit'              => $value->debit,
-                'debit_total'        => $value->debit_total,
-                'acc_debtor_userid'  => $value->acc_debtor_userid
-            ]);
+            $check = Acc_1102050101_216::where('vn', $value->vn)->count();
+           if ($check > 0) {
+            # code...
+           } else {
+                Acc_1102050101_216::insert([
+                    'vn'                => $value->vn,
+                    'hn'                => $value->hn,
+                    'an'                => $value->an,
+                    'cid'               => $value->cid,
+                    'ptname'            => $value->ptname,
+                    'vstdate'           => $value->vstdate,
+                    'regdate'           => $value->regdate,
+                    'dchdate'           => $value->dchdate,
+                    'pttype'            => $value->pttype,
+                    'acc_code'          => $value->acc_code,
+                    'account_code'      => $value->account_code,
+                    'rw'                 => $value->rw,
+                    'adjrw'              => $value->adjrw,
+                    'total_adjrw_income' => $value->total_adjrw_income,
+                    'debit_drug'         => $value->debit_drug,
+                    'debit_instument'    => $value->debit_instument,
+                    'debit_toa'          => $value->debit_toa,
+                    'debit_refer'        => $value->debit_refer,
+                    'debit_walkin'       => $value->debit_walkin,
+                    'income'             => $value->income,
+                    'uc_money'           => $value->uc_money,
+                    'discount_money'     => $value->discount_money,
+                    'rcpt_money'         => $value->rcpt_money, 
+                    'debit'              => $value->debit,
+                    'debit_total'        => $value->debit_total,
+                    'acc_debtor_userid'  => $value->acc_debtor_userid
+                ]);
+           }
+           
+           
+
+
         }
         
         return response()->json([
@@ -712,27 +724,16 @@ class Account216Controller extends Controller
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 group by U1.vn
         ');
-        $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
-                ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
-                ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
-                FROM acc_debtor a
-                left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                WHERE month(a.vstdate) = "'.$months.'" AND year(a.vstdate) = "'.$year.'" 
-                and account_code="1102050101.216"                    
-                order by a.vstdate desc;
+   
+        $datashow = DB::select(
+            'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME,SUM(debit_total) debit_total
+          
+                from acc_1102050101_216 U1      
+                left outer join leave_month l on l.MONTH_ID = month(U1.vstdate)
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"  
         ');
-        // $data_hospcode = DB::select('
-        //         SELECT 
-        //             U1.hospcode,U2.name as hname,month(U1.vstdate) as months,year(U1.vstdate) as years,COUNT(DISTINCT U1.vn) as Cvn,SUM(U1.income) as S_income,SUM(U1.uc_money) as S_uc_money
-        //             ,SUM(U1.debit) as S_debit,SUM(U1.debit_total) as S_debit_total,SUM(U1.sauntang) as S_sauntang
-        //         from acc_1102050101_216 U1    
-        //         LEFT OUTER JOIN hospcode U2 ON U2.hospcode = U1.hospcode         
-        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-        //         GROUP BY U1.hospcode 
-        // ');
-  
+      
+        // ,(SELECT SUM(debit_total) FROM acc_1102050101_216 WHERE month(vstdate) = month(U1.vstdate) AND year(vstdate) = year(U1.vstdate) AND (stm_money IS NOT NULL OR stm_money <> "")) as stm_Total
         return view('account_216.account_pkucs216_detail', $data, [ 
             'data'            => $data,
             'datashow'        => $datashow,

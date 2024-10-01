@@ -1433,8 +1433,10 @@ class AirController extends Controller
                     'status'     => '60'
                 ]);
             } else { 
-                                
-                    $check_nos = Air_repaire::where('air_repaire_no',$request->air_repaire_no)->where('air_list_num',$request->air_list_num)->count();                
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;       
+
+                    $check_nos = Air_repaire::where('budget_year',$bg_yearnow)->where('air_repaire_no',$request->air_repaire_no)->where('air_list_num',$request->air_list_num)->count();                
                     if ($check_nos > 0) {
                         $edit_repaire = $request->air_pro_edit;
 
@@ -1445,6 +1447,7 @@ class AirController extends Controller
                             $adds                          = new Air_repaire();
                             $adds->repaire_date            = $date_now;
                             $adds->repaire_time            = $mm;
+                            $adds->budget_year             = $bg_yearnow;
                             $adds->air_num                 = $request->air_num;
                             $adds->air_type_id             = $request->air_type_id;
                             $adds->air_repaire_no          = $request->air_repaire_no;
@@ -1650,9 +1653,6 @@ class AirController extends Controller
                                     'detail'      =>'air_repaire_id'.'-'.$air_repaire_id
                                 ]); 
 
-
-
-
                         } else { 
                         }
 
@@ -1661,6 +1661,7 @@ class AirController extends Controller
                         $add                          = new Air_repaire();
                         $add->repaire_date            = $date_now;
                         $add->repaire_time            = $mm;
+                        $add->budget_year             = $bg_yearnow;
                         $add->air_num                 = $request->air_num;
                         $add->air_type_id             = $request->air_type_id;
                         $add->air_repaire_no          = $request->air_repaire_no;

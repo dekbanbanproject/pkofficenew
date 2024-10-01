@@ -1521,7 +1521,7 @@ if (Auth::check()) {
                                     <a href="{{ url('upstm_tixml_sss') }}" class="dropdown-item">SSS(Xml-ไต)OK</a>
                                     <a href="{{ url('upstm_sss_xml') }}" class="dropdown-item">SSS(Xml)</a> 
                                    
-                                    <div class="dropdown">
+                                    {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
                                             REPORT STM ALL<div class="arrow-down"></div>
@@ -1541,13 +1541,35 @@ if (Auth::check()) {
                                             <a href="{{ url('upstm_bkk_opd') }}" class="dropdown-item">BKK OPD 803</a> 
                                             <a href="{{ url('upstm_bkk_ipd') }}" class="dropdown-item">BKK IPD 804</a>  
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
 
                                 
                             </li>
                             @endif
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
+                                >
+                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i>REPORT<div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">           
+                                            <a href="{{ url('upstm_ucs_ipd') }}" class="dropdown-item">UCS IPD 202</a>
+                                            <a href="{{ url('upstm_ucs_opd216') }}" class="dropdown-item">UCS OPD 216</a>
+                                            <a href="{{ url('upstm_ucs_ipd217') }}" class="dropdown-item">UCS IPD 217</a> 
+                                            <a href="{{ url('upstm_ucs_ti') }}" class="dropdown-item">UCS ไต 2166</a> 
+                                            <a href="{{ url('upstm_sss_ti') }}" class="dropdown-item">SSS ไต 3099</a> 
+                                            <a href="{{ url('upstm_ofc_ti') }}" class="dropdown-item">OFC ไต 4011</a> 
+                                            <a href="{{ url('upstm_lgo_ti') }}" class="dropdown-item">LGO ไต 8011</a> 
+                                            <a href="{{ url('upstm_ofc_opd') }}" class="dropdown-item">OFC OPD 401</a> 
+                                            <a href="{{ url('upstm_ofc_ipd') }}" class="dropdown-item">OFC IPD 402</a> 
+                                            <a href="{{ url('upstm_lgo_opd') }}" class="dropdown-item">LGO OPD 801</a> 
+                                            <a href="{{ url('upstm_lgo_ipd') }}" class="dropdown-item">LGO IPD 802</a> 
+                                            <a href="{{ url('upstm_bkk_opd') }}" class="dropdown-item">BKK OPD 803</a> 
+                                            <a href="{{ url('upstm_bkk_ipd') }}" class="dropdown-item">BKK IPD 804</a>  
+                                </div> 
+                            </li>
                             {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button"
                                 >

@@ -229,12 +229,12 @@
                             </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
-                                    <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #f557da"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">0.00</label></td> 
-                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
+                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #000000">{{ number_format($total3, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #f557da"><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #000000">0.00</label></td> 
+                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #000000">0.00</label></td> 
                                 
                                 </tr>  
                         </table>
@@ -311,8 +311,8 @@
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #f82c25"><label for="" style="color: #FFFFFF">{{ number_format($total11, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #ed4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total22, 2) }}</label></td> 
+                                <td class="text-center" style="background-color: #f82c25"><label for="" style="color: #000000">{{ number_format($total11, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #ed4efc" ><label for="" style="color: #000000">{{ number_format($total22, 2) }}</label></td> 
                             </tr> 
                                
                         </table>
@@ -340,6 +340,7 @@
                                             <th class="text-center">pttype</th>  
                                             <th class="text-center">pdx</th> 
                                             <th class="text-center">dx0</th> 
+                                            <th class="text-center">referin_no</th> 
                                             <th class="text-center">income</th>
                                             <th class="text-center">ชำระเงินเอง</th> 
                                             <th class="text-center">ตั้งลูกหนี้</th>
@@ -370,6 +371,7 @@
                                                 <td class="text-center" width="5%">{{ $item->pttype }}</td>   
                                                 <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->pdx }}</td> 
                                                 <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->dx0 }}</td> 
+                                                <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->referin_no }}</td>
                                                 {{-- <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>                                          --}}
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td> 
@@ -393,12 +395,12 @@
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total111, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total222, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total666, 2) }}</label> </td>
-                                    <td class="text-center" style="background-color: #f557da"><label for="" style="color: #FFFFFF">{{ number_format($total333, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total444, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total555, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total111, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total222, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #c5224b"><label for="" style="color: #000000">{{ number_format($total666, 2) }}</label> </td>
+                                    <td class="text-center" style="background-color: #f557da"><label for="" style="color: #000000">{{ number_format($total333, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #0ea080"><label for="" style="color: #000000">{{ number_format($total444, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: #f89625"><label for="" style="color: #000000">{{ number_format($total555, 2) }}</label></td>
                                     <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
                                 </tr>  
                              

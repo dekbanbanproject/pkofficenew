@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('air_repaire', function (Blueprint $table) {
                 $table->bigIncrements('air_repaire_id');
+                $table->char('budget_year', length: 50)->nullable();  //   
                 $table->date('repaire_date')->nullable();  //
                 $table->time('repaire_time')->nullable();  //
                 $table->char('air_repaire_no', length: 150)->nullable();  //  เลขที่แจ้ง

@@ -87,18 +87,18 @@
    
         <div class="row">
             <div class="col-md-8">
-                {{-- <div class="card card_audit_4c">
-                    <div class="card-body"> --}}
+                <div class="card card_audit_4c">
+                    <div class="card-body">
                         <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.216</h4>
                         <p class="card-title-desc">
                             รายละเอียดข้อมูล ผัง 1102050101.216 เดือน {{$monthyear}}
                         </p>
 
-                        {{-- <table id="example21" class="table dt-responsive nowrap w-100">
+                        <table id="example21" class="table dt-responsive nowrap w-100">
                             <thead>
                                 <tr> 
                                     <th class="text-center">เดือน</th> 
-                          
+                                    <th class="text-center">ลูกหนี้ที่ต้องตั้ง</th> 
                                     <th class="text-center">ตั้งลูกหนี้</th>   
                                     <th class="text-center">Statement</th>
                                     <th class="text-center">ยกยอดไปเดือนนี้</th> 
@@ -113,40 +113,106 @@
                                     $total4 = 0;
                                     $total5 = 0;$total6 = 0;
                                 ?>
-                                @foreach ($datashow as $item2)
+                                @foreach ($datashow as $item)
                                     <?php
                                         $number++;
-                                        $y = $item2->year;
+                                        $y = $item->year;
                                             $ynew = $y + 543;
                                         // ลูกหนี้ทั้งหมด
-                                       
+                                        $datas = DB::select('
+                                            SELECT count(DISTINCT vn) as Can
+                                                ,SUM(debit_total) as sumdebit
+                                                from acc_debtor
+                                                WHERE account_code="1102050101.216"
+                                                AND stamp = "N" AND debit_total > 0
+                                                AND month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                        ');
+                                        foreach ($datas as $key => $value) {
+                                            $count_N = $value->Can;
+                                            $sum_N = $value->sumdebit;
+                                        }
+                                        // ตั้งลูกหนี้ OPD
+                                        $datasum_ = DB::select('
+                                            SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
+                                            from acc_1102050101_216
+                                            where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                        
+                                        ');   
+                                        foreach ($datasum_ as $key => $value2) {
+                                            $sum_Y = $value2->debit_total;
+                                            $count_Y = $value2->Cvit;
+                                        }
+
+                                        $total_sumY   = $sum_Y ;
+                                        $total_countY = $count_Y;
+
+                                        // ตั้งลูกหนี้ OPD ตามข้อตกลง
+                                        $datasum_ = DB::select('
+                                            SELECT sum(debit_total) as debit_total,sum(debit_walkin) as debit_walkin,count(DISTINCT vn) as Cvit
+                                            from acc_1102050101_216
+                                            where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                            
+                                        ');   
+                                        foreach ($datasum_ as $key => $value5) {
+                                            $sum_toklong            = $value5->debit_total;
+                                            $count_toklong           = $value5->Cvit;
+                                            $sum_debit_walkin        = $value5->debit_walkin;
+                                        }
+                                        
+                                        // STM
+                                        $sumapprove_ = DB::select('
+                                                SELECT sum(stm_money) as stm_money,count(vn) as Countvisit
+                                                    from acc_1102050101_216
+                                                    where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                                    AND (stm_money IS NOT NULL OR stm_money <> "")
+                                        ');                                           
+                                        foreach ($sumapprove_ as $key => $value3) {
+                                            $sum_stm_money = $value3->stm_money; 
+                                            $count_stm     = $value3->Countvisit; 
+                                        } 
+                                        // ยกไป
+                                        $yokpai_ = DB::select('
+                                                SELECT sum(debit_total) as debit_total,count(vn) as Countvi
+                                                    from acc_1102050101_216
+                                                    where month(vstdate) = "'.$months.'" AND year(vstdate) ="'.$year.'"
+                                                    AND (stm_money IS NULL OR stm_money = "")
+                                        ');                                           
+                                        foreach ($yokpai_ as $key => $valpai) {
+                                            $sum_yokpai = $valpai->debit_total; 
+                                            $count_yokpai = $valpai->Countvi; 
+                                        } 
                                     ?>
                             
                                         <tr> 
-                                            <td class="p-2">{{$item2->MONTH_NAME}} {{$ynew}}</td>                 
-                                            <td class="text-end" width="10%" style="color:rgb(186, 75, 250)"> {{ number_format($item2->debit_total, 2) }}</td>                                             
-                                            <td class="text-end" style="color:rgb(4, 161, 135)" width="15%">{{ number_format($item2->stm_Total, 2) }}</td> 
+                                            <td class="p-2">{{$item->MONTH_NAME}} {{$ynew}}</td>                                         
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($sum_N, 2) }}</td>  
+                                            <td class="text-end" width="10%" style="color:rgb(186, 75, 250)"> {{ number_format($sum_Y, 2) }}</td>  
+                                            {{-- <td class="text-end" width="10%" style="color:rgb(253, 60, 47)">{{ number_format($sum_debit_walkin, 2) }}</td>  --}}
+                                            <td class="text-end" style="color:rgb(4, 161, 135)" width="15%">{{ number_format($sum_stm_money, 2) }}</td> 
                                             <td class="text-end" style="color:rgb(224, 128, 17)" width="15%">0.00</td> 
                                         </tr>
                                     <?php
-                                            
-                                            $total2 = $total2 + $debit_total;  
-                                            $total4 = $total4 + $stm_Total; 
+                                            $total1 = $total1 + $sum_N;
+                                            $total2 = $total2 + $sum_Y; 
+                                            $total3 = $total3 + $sum_debit_walkin; 
+                                            $total4 = $total4 + $sum_stm_money; 
                                     ?>
                                 @endforeach
 
                             </tbody>
                                 <tr style="background-color: #f3fca1">
-                                    <td colspan="1" class="text-end" style="background-color: #fca1a1"></td> 
-                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>  
+                                    <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td> 
+                                    {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #000000">{{ number_format($total3, 2) }}</label></td> --}}
                                     <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td>
                                     <td class="text-end" style="background-color: #f89625"><label for="" style="color: #000000">0.00</label></td>  
                                 
                                 </tr>  
-                        </table> --}}
+                        </table>
 
-                    {{-- </div> <!-- end card body--> --}}
-                {{-- </div> <!-- end card --> --}}
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
             </div>
             <div class="col"></div>
         </div>

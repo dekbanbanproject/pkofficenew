@@ -118,18 +118,19 @@
                                 <button class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
                                 <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc" onclick="uncheck()">Uncheck</button>
-                              @endif
-                                {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
-                                <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
+                              @endif 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
-                                    <i class="fa-solid fa-spinner text-warning me-2"></i>
+                                    <i class="fa-solid fa-spinner me-2"></i>
                                    ประมวลผล
                                </button>
                                <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc">
-                                <i class="fa-regular fa-file-zipper text-white me-2"></i> 
-                               Zip
-                           </a> 
+                                        <i class="fa-regular fa-file-zipper text-white me-2"></i> 
+                                    Zip
+                                </a> 
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc" id="Apinhso">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                    API NHSO
+                                </button>
                             </div>
                            
                             <div class="col"></div>
@@ -147,10 +148,7 @@
                                     <i class="fa-solid fa-file-export text-white me-2"></i>
                                     Export Txt
                                 </a>    --}}
-                                {{-- <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                     <i class="fa-regular fa-file-zipper text-white me-2"></i> 
-                                    Zip
-                                </a>  --}}
+                            
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary btn-sm cardacc Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
@@ -278,7 +276,8 @@
                                             <div class="table-responsive">
                                                 {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                                 {{-- <table id="example" class="table table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;"> --}}
-                                                    <table id="example21" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                                                    {{-- <table id="example21" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;"> --}}
+                                                        <table id="scroll-vertical-datatable" class="table dt-responsive nowrap w-100">
                                                     <thead>
                                                         <tr>
                                                           
@@ -292,6 +291,7 @@
                                                             {{-- <th class="text-center">ยานอก</th> --}}
                                                             <th class="text-center">กายภาพ</th>
                                                             <th class="text-center">Dent</th>
+                                                            <th class="text-center">CT</th>
                                                             <th class="text-center" style="background-color: #fad6b8">pdx</th>  
                                                             {{-- <th class="text-center">icd10</th>   --}}
                                                             {{-- <th class="text-center" >vn</th> --}}
@@ -304,10 +304,11 @@
                                                                 <span class="bg-success badge">{{ $count_claim }}</span> เคลม
                                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
                                                             </th>
-                                                            <th class="text-center">Rep</th>
+                                                         
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
-                                                            <th class="text-center">spsch</th>                                                             
+                                                            <th class="text-center">spsch</th>   
+                                                            <th class="text-center">Rep</th>                                                          
                                                             <th class="text-center">ลูกหนี้</th>   
                                                         </tr>
                                                     </thead>
@@ -332,19 +333,18 @@
                                                             }
                                                             } else {
                                                                 $drugmark = '';
-                                                            }
-                                                            
-                                                            
-                                                            
-                                                            $data_dent = Opitemrece217::where('vn',$item->vn)->where('income',"=","13")->sum('sum_price');
-                                                            
+                                                            }                                                           
+                                                                                                                        
+                                                            $data_dent = Opitemrece217::where('vn',$item->vn)->where('income',"=","13")->sum('sum_price');                                                            
                                                             $datas_kay = Opitemrece217::where('vn',$item->vn)->where('income',"=","14")->sum('sum_price');
+                                                            $data_ct   = Opitemrece217::where('vn',$item->vn)->where('income',"=","08")->sum('sum_price');
                                                          
                                                             if ($datas_kay > 0) {
                                                                 $kayas = $datas_kay;
                                                             } else {
                                                                 $kayas = '';
                                                             }
+                                                             
                                                             
                                                         ?>
                                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
@@ -361,11 +361,11 @@
                                                                     <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                                 @endif
                                                                                                                                      
-                                                                <td class="text-center" width="15%">
+                                                                <td class="text-center" width="8%">
                                                                     @if ($item->approval_code != NULL)
-                                                                        <span class="bg-success badge">{{ $item->approval_code }}</span> 
+                                                                        <span class="bg-success badge text-center">{{ $item->approval_code }}</span> 
                                                                     @else
-                                                                        <span class="bg-warning badge">-</span> 
+                                                                        <span class="bg-warning badge text-center">-</span> 
                                                                     @endif 
                                                                 </td>  
                                                                 {{-- <td class="text-center" width="5%">
@@ -377,16 +377,23 @@
                                                                 </td>  --}}
                                                                 <td class="text-center" width="5%">
                                                                     @if ($kayas > 0)
-                                                                        <span class="bg-success badge">{{ $kayas }}</span> 
+                                                                        <span class="bg-success badge text-center">{{ $kayas }}</span> 
                                                                     @else
-                                                                        <span class="bg-danger badge">-</span> 
+                                                                        <span class="bg-danger badge text-center">-</span> 
                                                                     @endif 
                                                                 </td> 
                                                                 <td class="text-center" width="5%">
                                                                     @if ($data_dent > 0)
-                                                                        <span class="bg-info badge">{{ $data_dent }}</span> 
+                                                                        <span class="bg-info badge text-center">{{ $data_dent }}</span> 
                                                                     @else
-                                                                        <span class="bg-danger badge">-</span> 
+                                                                        <span class="bg-danger badge text-center">-</span> 
+                                                                    @endif 
+                                                                </td> 
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($data_ct > 0)
+                                                                        <span class="bg-info badge text-center">{{ $data_ct }}</span> 
+                                                                    @else
+                                                                        <span class="bg-danger badge text-center">-</span> 
                                                                     @endif 
                                                                 </td> 
                                                                 <td class="text-start" width="5%">
@@ -400,7 +407,7 @@
                                                                 {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                                <td class="p-2" >{{ $item->ptname }}</td> 
+                                                                <td class="p-2">{{ $item->ptname }}</td> 
 
                                                                 <td class="text-center" width="5%">
                                                                     @if ($item->stamp =='N')
@@ -417,19 +424,28 @@
                                                                     @endif 
                                                                 </td>  
                                                                 
+                                                               
+                                                                <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
+                                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
+                                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                                 <td class="text-center" width="6%">
                                                                     @if ($item->rep_pay =='')
-                                                                        <span class="bg-danger badge me-2">{{ $item->rep_pay }}</span> 
+                                                                        <span class="bg-danger badge me-2">*-*</span> 
                                                                     @else
-                                                                        <span class="bg-success badge me-2">{{ $item->rep_pay }}</span> 
+                                                                        <span class="bg-success badge me-2">{{ number_format($item->rep_pay, 2) }}</span> 
                                                                     @endif 
                                                                     
                                                                 </td> 
-                                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
-                                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
-                                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                               
-                                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td>  
+                                                                <td class="text-center" width="8%">
+                                                                    @if ($item->debit_total < $item->rep_pay)
+                                                                        <span class="bg-danger badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
+                                                                    @elseif($item->debit_total == $item->rep_pay)
+                                                                        <span class="bg-success badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
+                                                                    @else
+                                                                        <span class="bg-info badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
+                                                                    @endif
+                                                                   
+                                                                </td>  
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -1661,6 +1677,66 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
+            });
+
+            $('#Apinhso').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+
+                // url: "{{ route('acc.account_401_api') }}",
+                // url: "{{ route('acc.account_401_send_api') }}",
+                Swal.fire({
+                    position: "top-end",
+                        title: 'ต้องการส่งข้อมูล NHSO ใช่ไหม ?',
+                        text: "You Warn Send NHSO Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.account_401_api') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                position: "top-end",
+                                                title: 'ส่งข้อมูล NHSO สำเร็จ',
+                                                text: "You Send data NHSO success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
             });
         });
     </script>

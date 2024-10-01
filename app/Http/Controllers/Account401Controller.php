@@ -419,7 +419,7 @@ class Account401Controller extends Controller
                 $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
                 $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
                 $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
         }
         
         // $data_activeclaim        = Acc_function::where('pang','1102050101.401')->get();
@@ -1704,8 +1704,8 @@ class Account401Controller extends Controller
              fwrite($objFopen_opd_ins, $ansitxt_ins);
          }
          fclose($objFopen_opd_ins);
-        
-        Dapi_ins::where('claim','=','OFC_401')->delete();
+         Dapi_ins::truncate();
+        // Dapi_ins::where('claim','=','OFC_401')->delete();
          $fread_file_ins         = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
          $fread_file_ins_endcode = base64_encode($fread_file_ins);
          $read_file_ins_size     = filesize($file_d_ins);
@@ -1745,8 +1745,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_pat, $ansitxt_pat_pat);
         }
         fclose($objFopen_opd_pat);
-        // D_apiofc_pat::truncate();
-        Dapi_pat::where('claim','=','OFC_401')->delete();
+        Dapi_pat::truncate();
+        // Dapi_pat::where('claim','=','OFC_401')->delete();
         $fread_file_pat         = fread(fopen($file_pat,"r"),filesize($file_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size     = filesize($file_pat);
@@ -1777,8 +1777,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_opd, $ansitxt_pat_opd);
         }
         fclose($objFopen_opd_opd);
-        // D_apiofc_opd::truncate();
-        Dapi_opd::where('claim','=','OFC_401')->delete();
+        Dapi_opd::truncate();
+        // Dapi_opd::where('claim','=','OFC_401')->delete();
         $fread_file_opd         = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size     = filesize($file_d_opd);
@@ -1809,8 +1809,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_orf, $ansitxt_pat_orf);
         }
         fclose($objFopen_opd_orf); 
-        // D_apiofc_orf::truncate();
-        Dapi_orf::where('claim','=','OFC_401')->delete();
+        Dapi_orf::truncate();
+        // Dapi_orf::where('claim','=','OFC_401')->delete();
         $fread_file_orf         = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size     = filesize($file_d_orf);
@@ -1843,8 +1843,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_odx, $ansitxt_odx);
         }
         fclose($objFopen_opd_odx); 
-        // D_apiofc_odx::truncate();
-        Dapi_odx::where('claim','=','OFC_401')->delete();
+        Dapi_odx::truncate();
+        // Dapi_odx::where('claim','=','OFC_401')->delete();
         $fread_file_odx         = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size     = filesize($file_d_odx);
@@ -1876,8 +1876,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_oop, $ansitxt_oop);
         }
         fclose($objFopen_opd_oop);
-        // D_apiofc_oop::truncate();
-        Dapi_oop::where('claim','=','OFC_401')->delete();
+        Dapi_oop::truncate();
+        // Dapi_oop::where('claim','=','OFC_401')->delete();
         $fread_file_oop         = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size     = filesize($file_d_oop);
@@ -1915,7 +1915,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_ipd, $ansitxt_pat_ipd);
         }
         fclose($objFopen_opd_ipd);
-        Dapi_ipd::where('claim','=','OFC_401')->delete(); 
+        Dapi_ipd::truncate();
+        // Dapi_ipd::where('claim','=','OFC_401')->delete(); 
         $fread_file_ipd         = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size     = filesize($file_d_ipd);
@@ -1943,8 +1944,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_irf, $ansitxt_pat_irf);
         }
         fclose($objFopen_opd_irf);
-        // D_apiofc_irf::truncate();
-        Dapi_irf::where('claim','=','OFC_401')->delete(); 
+        Dapi_irf::truncate();
+        // Dapi_irf::where('claim','=','OFC_401')->delete(); 
         $fread_file_irf         = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size     = filesize($file_d_irf);
@@ -1973,8 +1974,8 @@ class Account401Controller extends Controller
              fwrite($objFopen_opd_idx, $ansitxt_pat_idx);
          }
          fclose($objFopen_opd_idx);
-        // D_apiofc_idx::truncate();
-        Dapi_idx::where('claim','=','OFC_401')->delete(); 
+        Dapi_idx::truncate();
+        // Dapi_idx::where('claim','=','OFC_401')->delete(); 
         $fread_file_idx         = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size     = filesize($file_d_idx);
@@ -2007,8 +2008,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_iop, $ansitxt_pat_iop);
         }
         fclose($objFopen_opd_iop);
-        // D_apiofc_iop::truncate();
-        Dapi_iop::where('claim','=','OFC_401')->delete(); 
+        Dapi_iop::truncate();
+        // Dapi_iop::where('claim','=','OFC_401')->delete(); 
         $fread_file_iop         = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size     = filesize($file_d_iop);
@@ -2041,8 +2042,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_cht, $ansitxt_pat_cht);
         }
         fclose($objFopen_opd_cht);
-        Dapi_cht::where('claim','=','OFC_401')->delete(); 
-        // D_apiofc_cht::truncate();
+        // Dapi_cht::where('claim','=','OFC_401')->delete(); 
+        Dapi_cht::truncate();
         $fread_file_cht         = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size     = filesize($file_d_cht);
@@ -2074,8 +2075,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_cha, $ansitxt_pat_cha);
         }
         fclose($objFopen_opd_cha);
-        // D_apiofc_cha::truncate();
-        Dapi_cha::where('claim','=','OFC_401')->delete(); 
+        Dapi_cha::truncate();
+        // Dapi_cha::where('claim','=','OFC_401')->delete(); 
         $fread_file_cha         = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size     = filesize($file_d_cha);
@@ -2118,8 +2119,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_aer, $ansitxt_pat_aer);
         }
         fclose($objFopen_opd_aer);          
-        //  D_apiofc_aer::truncate();
-         Dapi_aer::where('claim','=','OFC_401')->delete(); 
+         Dapi_aer::truncate();
+        //  Dapi_aer::where('claim','=','OFC_401')->delete(); 
          $fread_file_aer         = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size     = filesize($file_d_aer);
@@ -2171,8 +2172,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_adp, $ansitxt_pat_adp);
         }
         fclose($objFopen_opd_adp);  
-        // D_apiofc_adp::truncate();
-        Dapi_adp::where('claim','=','OFC_401')->delete(); 
+        Dapi_adp::truncate();
+        // Dapi_adp::where('claim','=','OFC_401')->delete(); 
         $fread_file_adp         = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size     = filesize($file_d_adp);
@@ -2204,8 +2205,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_lvd, $ansitxt_pat_lvd);
         }
         fclose($objFopen_opd_lvd);
-        // D_apiofc_ldv::truncate(); 
-        Dapi_lvd::where('claim','=','OFC_401')->delete(); 
+        Dapi_lvd::truncate(); 
+        // Dapi_lvd::where('claim','=','OFC_401')->delete(); 
         $fread_file_lvd         = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
         $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
         $read_file_lvd_size     = filesize($file_d_lvd);
@@ -2254,8 +2255,8 @@ class Account401Controller extends Controller
             fwrite($objFopen_opd_dru, $ansitxt_dru);
         }
         fclose($objFopen_opd_dru);
-        // D_apiofc_dru::truncate();
-        Dapi_dru::where('claim','=','OFC_401')->delete(); 
+        Dapi_dru::truncate();
+        // Dapi_dru::where('claim','=','OFC_401')->delete(); 
         $fread_file_dru         = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size      = filesize($file_d_dru);
@@ -2275,23 +2276,34 @@ class Account401Controller extends Controller
     public function account_401_send_api(Request $request)
     {  
         $iduser = Auth::user()->id;
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
+        $data_token_ = DB::connection('mysql')->select('SELECT new_eclaim_token FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
         foreach ($data_token_ as $key => $val_to) {
             // $username     = $val_to->api_neweclaim_user;
             // $password     = $val_to->api_neweclaim_pass;
-            $token        = $val_to->new_eclaim_token;
+            $token_        = $val_to->new_eclaim_token;
         } 
+        $username        = '6508634296688';
+        $password        = 'd12345';        
+        $response = Http::withHeaders([ 
+            'User-Agent:<platform>/<version> <10978>',
+            'Accept' => 'application/json',
+        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+            'username'    =>  $username ,
+            'password'    =>  $password 
+        ]);        
+   
+        $token = $response->json('token');
         // dd($token);
-          
-        $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
-        // $data_table = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
-        foreach ($data_table as $key => $val_t) {        
-                $data_all_ = DB::connection('mysql')->select('
-                SELECT * FROM '.$val_t.'
-                ');                
-                foreach ($data_all_ as $val_field) {
-                    $blob[] = $val_field->blob;
-                    $size[] = $val_field->size;                     
+        // $token = 'b4df8b7c-c8c2-445a-a904-960aa4a1a1c9';
+        
+        // $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
+        $data_table = array("dapi_ins","dapi_pat","dapi_opd","dapi_orf","dapi_odx","dapi_oop","dapi_ipd","dapi_irf","dapi_idx","dapi_iop","dapi_cht","dapi_cha","dapi_aer","dapi_adp","dapi_lvd","dapi_dru");
+        foreach ($data_table as $key => $val_t) {  
+            $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');       
+                // $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.' WHERE claim ="OFC_401"');                
+                foreach ($data_all_ as $val_field) { 
+                        $blob[] = $val_field->blob;
+                        $size[] = $val_field->size;  
                  }     
             }
  
@@ -2422,10 +2434,9 @@ class Account401Controller extends Controller
             ];        
             // dd($postData_send);
             $headers_send  = [
-                'Authorization : Bearer '.$token,
+                'Authorization : Bearer ' . $token,
                 'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'
-                    
+                'User-Agent:<platform>/<version><10978>'                    
             ];
 
             curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
@@ -2439,7 +2450,7 @@ class Account401Controller extends Controller
             
             $content = $server_output;
             $result = json_decode($content, true);
-            // dd($result);
+            dd($result);
             #echo "<BR>";
             @$status = $result['status'];
             #echo "<BR>";
@@ -3002,7 +3013,7 @@ class Account401Controller extends Controller
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
         // dd($file_);
-            try{                
+            // try{                
                 // Cheet 2  originalName
                 // $spreadsheet = IOFactory::createReader($the_file);
                 // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
@@ -3143,20 +3154,21 @@ class Account401Controller extends Controller
                 // }
                 
                 
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
+            // } catch (Exception $e) {
+            //     $error_code = $e->errorInfo[1];
+            //     return back()->withErrors('There was a problem uploading the data!');
+            // }
             // return redirect()->back();
-            return response()->json([
-                'status'    => '200',
-            ]);
+            return redirect()->route('acc.account_401_rep');
+            // return response()->json([
+            //     'status'    => '200',
+            // ]);
     }
     public function account_401_repsend(Request $request)
     {
 
         try{
-            $data_ = DB::connection('mysql')->select(' SELECT * FROM d_ofc_repexcel');
+            $data_ = DB::connection('mysql')->select('SELECT * FROM d_ofc_repexcel');
                 foreach ($data_ as $key => $value) {
                     if ($value->b != '') {
                         $check = D_ofc_rep::where('rep_a','=',$value->a)->where('no_b','=',$value->b)->count();

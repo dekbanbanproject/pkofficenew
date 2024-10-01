@@ -132,18 +132,19 @@ $refnumber = PlanController::refnumber();
                                                 <input id="plan_name" class="form-control form-control-sm" name="plan_name" >
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="">รพ./รพ.สต./สสอ.</label>
                                                 <div class="form-group">
                                                     <select name="hos_group" id="hos_group" class="form-control form-control-sm" style="width: 100%"> 
                                                         {{-- <option value="">-เลือก-</option> --}}
                                                         <option value="1">-รพ.สต-</option>
-                                                        <option value="2">-สสอ.-</option>
-
-                                                        {{-- <option value="3">-รพ.-</option> --}}
+                                                        <option value="2">-สสอ.-</option> 
+                                                        <option value="3">-รพ.-</option>
                                                     </select>
                                                 </div>
                                             </div>
+
+
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-md-3 ">
@@ -176,7 +177,7 @@ $refnumber = PlanController::refnumber();
                                                     <input id="plan_price" class="form-control form-control-sm" name="plan_price" >
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 ">
+                                            <div class="col-md-2">
                                                 <label for="">แหล่งงบ </label>
                                                 <div class="form-group">
                                                     <select name="plan_type" id="plan_type" class="form-control form-control-sm" style="width: 100%"> 
@@ -185,6 +186,20 @@ $refnumber = PlanController::refnumber();
                                                              <option value="{{$item2->plan_control_type_id}}" selected>{{$item2->plan_control_typename}}</option>
                                                         @else
                                                             <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                        @endif 
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label for="">ปีงบประมาณ </label>
+                                                <div class="form-group">
+                                                    <select name="plan_year" id="plan_year" class="form-control form-control-sm" style="width: 100%"> 
+                                                        @foreach ($budget_year as $item2)
+                                                        @if ($bg_yearnow == $item2->leave_year_id)
+                                                             <option value="{{$item2->leave_year_id}}" selected>{{$item2->leave_year_id}}</option>
+                                                        @else
+                                                            <option value="{{$item2->leave_year_id}}">{{$item2->leave_year_id}}</option>
                                                         @endif 
                                                         @endforeach
                                                     </select>
@@ -219,7 +234,7 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             
-                                            <input type="hidden" id="plan_control_id" name="plan_control_id">
+                                            <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$id}}">
 
                                             <div class="col-md-3 ">
                                                 <label for="">ผู้รับผิดชอบ </label>
@@ -299,12 +314,14 @@ $refnumber = PlanController::refnumber();
                     var plan_strategic_id      = $('#plan_strategic_id').val();
                     var plan_control_id        = $('#plan_control_id').val();
                     var hos_group              = $('#hos_group').val();
+                    var plan_year              = $('#plan_year').val();
+                    
                 $.ajax({
                     url: "{{ route('p.plan_control_save') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group,plan_year
                     },
                     success: function(data) {
                         if (data.status == 200) {

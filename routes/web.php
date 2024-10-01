@@ -2014,6 +2014,9 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   // Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
   Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\ApiFdhController::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
 
+
+  Route::match(['get', 'post'], 'account_401_api', [App\Http\Controllers\ApiSpschController::class, 'account_401_api'])->name('acc.account_401_api'); //
+
   Route::match(['get', 'post'], 'account_pkucs217_pull', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_pull'])->name('acc.account_pkucs217_pull'); //
   Route::match(['get', 'post'], 'account_pkucs217_search', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_search'])->name('acc.account_pkucs217_search'); //
   Route::match(['get', 'post'], 'account_pkucs217_checksit', [App\Http\Controllers\Account217Controller::class, 'account_pkucs217_checksit'])->name('acc.account_pkucs217_checksit'); //
@@ -2623,7 +2626,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'plan_control', [App\Http\Controllers\PlanController::class, 'plan_control'])->name('p.plan_control'); //
   Route::match(['get', 'post'], 'plan_control_add/{id}', [App\Http\Controllers\PlanController::class, 'plan_control_add'])->name('p.plan_control_add'); //
-  Route::match(['get', 'post'], 'plan_control_edit/{id}', [App\Http\Controllers\PlanController::class, 'plan_control_edit'])->name('p.plan_control_edit'); //
+  Route::match(['get', 'post'], 'plan_control_edit/{id}/{idmain}', [App\Http\Controllers\PlanController::class, 'plan_control_edit'])->name('p.plan_control_edit'); //
   Route::match(['get', 'post'], 'plan_control_save', [App\Http\Controllers\PlanController::class, 'plan_control_save'])->name('p.plan_control_save'); //
   Route::match(['get', 'post'], 'plan_control_update', [App\Http\Controllers\PlanController::class, 'plan_control_update'])->name('p.plan_control_update'); //
   Route::match(['get', 'post'], 'plan_control_moneyedit/{id}', [App\Http\Controllers\PlanController::class, 'plan_control_moneyedit'])->name('p.plan_control_moneyedit'); //

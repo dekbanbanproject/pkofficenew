@@ -159,13 +159,7 @@ class ApiFdhController extends Controller
     
     public function account_pkucs216_sendapi()
     { 
-      
-     //    $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" AND user_id = "'.Auth::user()->id.'"');
-     //    foreach ($data_token_ as $key => $val_to) {
-     //        $token_   = $val_to->api_neweclaim_token;
-     //    }
-     //    $fdh_jwt = $token_;
-
+    
         $username        = 'pradit.10978';
         $password        = '8Uk&8Fr&';
         $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
@@ -302,13 +296,13 @@ class ApiFdhController extends Controller
         // 'job' => $request->input('job'),
         // ];    
         // POST request using the created object
-     //    $postResponse = $client->post($url, [
-     //        'headers' => $headers,
-     //        'json'    => $options,
-     //    ]);
-        // Get the response code
-     //    $responseCode = $postResponse->getStatusCode();
-     //    return response()->json(['response_code' => $responseCode]);
+          //    $postResponse = $client->post($url, [
+          //        'headers' => $headers,
+          //        'json'    => $options,
+          //    ]);
+          // Get the response code
+          //    $responseCode = $postResponse->getStatusCode();
+          //    return response()->json(['response_code' => $responseCode]);
             #สำหรับทดสอบ  https://uat-fdh.inet.co.th/api/v1/data_hub/16_files
             #Product      https://fdh.moph.go.th/api/v1/data_hub/16_files
             #v1 = API นำเข้า 16 แฟ้ม แบบไม่มีหัวคอลัมน์
@@ -332,7 +326,7 @@ class ApiFdhController extends Controller
             }
             $status = $result_send_fame_outp['status'];
 
-          //    dd($status);
+               //    dd($status);
              if ($status = '200') {
                       return response()->json([
                               'status'    => '200'
@@ -342,20 +336,167 @@ class ApiFdhController extends Controller
                     'status'    => '100'
                ]);
              }
-             
+              
+     } 
+     // public function account_pkucs216_sendapi()
+     // { 
+    
+     //    $username        = 'pradit.10978';
+     //    $password        = '8Uk&8Fr&';
+     //    $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
+     //    $basic_auth = base64_encode("$username:$password");
+     //    $context = stream_context_create(array(
+     //        'http' => array(
+     //            'header' => "Authorization: Basic ".base64_encode("$username:$password")
+     //        )
+     //    ));
+     //    $curl = curl_init();
+     //    curl_setopt_array($curl, array(
+     //        CURLOPT_URL => 'https://fdh.moph.go.th/token?Action=get_moph_access_token&user=' . $username . '&password_hash=' . $password_hash . '&hospital_code=10978',
+     //        CURLOPT_RETURNTRANSFER => true,
+     //        CURLOPT_ENCODING => '',
+     //        CURLOPT_MAXREDIRS => 10,
+     //        CURLOPT_TIMEOUT => 0,
+     //        CURLOPT_FOLLOWLOCATION => true,
+     //        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+     //        CURLOPT_CUSTOMREQUEST => 'POST',
+     //        CURLOPT_HTTPHEADER => array(
+     //            'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
+     //        ),
+     //    ));
+     //    $token = curl_exec($curl);
 
-           
-            #ส่ง api
-            // if (@$result_send_fame_outp['status']=='200') {
-            //     return response()->json([
-            //         'status'    => '200'
-            //     ]);
-            // } else {
-            //     # code...
-            // }            
- 
-        // return response()->json([
-        //     'status'    => '200'
-        // ]);
-   } 
+     //    $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "WALKIN"');
+     //    foreach ($dataexport_ as $key => $v_export) {
+     //        $folder = $v_export->folder_name;
+     //    }
+     //    // $pathdir_fdh_utf8 = "EXPORT_WALKIN_API/".$folder."_fdh_utf8/";
+     //    $pathdir_fdh_utf8 = "EXPORT_WALKIN_API/".$folder. "/";
+
+     //    //Create Client object to deal with
+     //    $client = new Client(); 
+
+     //    $options = [
+     //        'multipart' => [
+     //             [
+     //                  'name' => 'type',
+     //                  'contents' => 'txt'
+     //             ],
+                      
+     //                  [
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'OPD.txt'),
+     //                       'filename' => 'OPD.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],
+     //                  [
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'ORF.txt'),
+     //                       'filename' => 'ORF.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'ODX.txt'),
+     //                       'filename' => 'ODX.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'OOP.txt'),
+     //                       'filename' => 'OOP.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'CHA.txt'),
+     //                       'filename' => 'CHA.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'ADP.txt'),
+     //                       'filename' => 'ADP.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'INS.txt'),
+     //                       'filename' => 'INS.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'PAT.txt'),
+     //                       'filename' => 'PAT.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'CHT.txt'),
+     //                       'filename' => 'CHT.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'AER.txt'),
+     //                       'filename' => 'AER.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ],[
+     //                       'name' => 'file',
+     //                       'contents' => file_get_contents($pathdir_fdh_utf8.'DRU.txt'),
+     //                       'filename' => 'DRU.txt',
+     //                       'headers' => [
+     //                            'Content-Type' => 'text/plain'
+     //                       ]
+     //                  ]
+     //             ]
+     //        ];
+      
+     //    $headers = [
+     //        'Authorization' => 'Bearer '.$token
+     //    ];
+       
+     //        $request = new Request('POST', 'https://fdh.moph.go.th/api/v2/data_hub/16_files', $headers);
+     //        try {
+     //            $response = $client->send($request, $options); 
+     //            $response_gb = $response->getBody();
+     //            $result_send_fame_outp = json_decode($response_gb, true);
+               
+     //        } catch (\GuzzleHttp\Exception\RequestException $e) {
+     //            if ($e->hasResponse()) {
+     //                $errorResponse = json_decode($e->getResponse()->getBody(), true);
+     //                json_encode($errorResponse, JSON_PRETTY_PRINT);
+     //                #echo "if";
+     //            } else {
+     //                json_encode(['error' => 'Unknown error occurred'], JSON_PRETTY_PRINT);
+     //                #echo "else";
+     //            }
+     //        }
+     //        $status = $result_send_fame_outp['status'];
+
+     //           //    dd($status);
+     //         if ($status = '200') {
+     //                  return response()->json([
+     //                          'status'    => '200'
+     //                ]);
+     //         } else {
+     //           return response()->json([
+     //                'status'    => '100'
+     //           ]);
+     //         }
+              
+     // } 
  }

@@ -123,6 +123,7 @@ $refnumber = PlanController::refnumber();
                                         <div class="btn-actions-pane-right">   
                                         <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> 
                                         <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
+                                        {{-- <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}"> --}}
                                     </div>  
                                     </div>                 
                                     <div class="card-body"> 
@@ -231,6 +232,9 @@ $refnumber = PlanController::refnumber();
                                                 </div>
                                             </div>
                                             <input type="hidden" id="plan_control_id" name="plan_control_id" value="{{$plan_control->plan_control_id}}">
+                                            <input type="hidden" id="idmain" name="idmain" value="{{$idmain}}">
+                                            
+
                                             <div class="col-md-3">
                                                 <label for="">ผู้รับผิดชอบ </label>
                                                 <div class="form-group">
@@ -309,12 +313,14 @@ $refnumber = PlanController::refnumber();
                     var plan_strategic_id      = $('#plan_strategic_id').val();
                     var plan_control_id        = $('#plan_control_id').val();
                     var hos_group              = $('#hos_group').val();
+                    var idmain                 = $('#idmain').val();
+                    
                 $.ajax({
                     url: "{{ route('p.plan_control_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group
+                        plan_name,datepicker1,datepicker2,plan_price,department,plan_type,user_id,billno,plan_control_id,plan_strategic_id,hos_group,idmain
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -330,7 +336,7 @@ $refnumber = PlanController::refnumber();
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                        window.location="{{url('plan_control_sub') }}"+'/'+ plan_control_id;
+                                        window.location="{{url('plan_control_sub') }}"+'/'+ idmain;
                                     // window.location
                                     //     .reload();
                                 }

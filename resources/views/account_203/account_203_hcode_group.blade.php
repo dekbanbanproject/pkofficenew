@@ -144,10 +144,10 @@
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #FCA533" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>
                                     {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
-                                    <td class="text-end" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #FC7373"><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td>
                                     <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
                                 </tr>  
                             </table>

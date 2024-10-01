@@ -505,7 +505,9 @@
                                             <th class="text-center">สถานะ</th> 
                                             <th class="text-center"> แผนงาน/โครงการ</th> 
                                             <th class="text-center">งบประมาณ</th> 
+                                        
                                             <th class="text-center">เบิก</th> 
+                                            <th class="text-center">ครั้ง</th> 
                                             <th class="text-center">คงเหลือ</th> 
                                             <th width="10%" class="text-center">จัดการ</th> 
                                         </tr>
@@ -598,9 +600,19 @@
                                                         </div>
                                                     </div> 
                                                 </td> 
-                                                <td class="text-center" width="8%">{{ number_format($plan_price, 2) }}</td>
+                                                <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
+                                                {{-- <td class="text-center" width="8%">{{ number_format($va->sum_budget_price, 2) }}</td> --}}
+                                           
+                                                <td class="text-center" width="5%">{{$va->plan_reqtotal}}</td>
                                                 <td class="text-center" width="5%">{{$va->plan_req_no}}</td>
-                                                <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
+                                                <td class="text-center" width="8%">
+                                                    @if ($va->plan_price_total =='')
+                                                    {{$va->plan_price_total}}
+                                                    @else
+                                                    {{ number_format($va->plan_price_total, 2) }}
+                                                    @endif
+                                                   
+                                                </td>
                                                 <td width="5%">
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
@@ -644,7 +656,7 @@
                                                                     <i class="fa-solid fa-signature me-3 mb-1" ></i>
                                                                     <label for="" style="color: rgb(7, 110, 194);font-size:13px">เสนอ ผอ. อนุมัติ</label>
                                                                 </a>
-                                                                <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id) }}"
+                                                                <a type="button" href="{{ url('plan_control_edit/' . $va->plan_control_id.'/'.$id) }}"
                                                                     class="dropdown-item menu btn btn-outline-warning btn-sm" data-bs-toggle="tooltip"
                                                                     data-bs-placement="left" title="แก้ไข">
                                                                     <i class="fa-solid fa-pen-to-square me-3 mb-1" style="color: rgb(252, 185, 0);font-size:13px"></i>
@@ -944,7 +956,7 @@
                              
                         </div>
                         <div class="col-md-3"> 
-                            <input type="text" id="plan_control_moneydate" class="form-control" data-toggle="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-language="th-th" autocomplete="off" value="{{ $datenow }}">
+                            <input type="text" id="plan_control_moneydate" class="form-control" data-toggle="datepicker" data-date-format="yyyy-mm-dd" data-provide="datepicker" data-date-language="th-th" data-date-autoclose="true" autocomplete="off" value="{{ $datenow }}">
            
                         </div>
                         <div class="col-md-1 text-start"><i class="fa-solid fa-calendar-days mt-2"></i> </div>
@@ -1135,6 +1147,7 @@
         </div>
     </div>
 
+
 @endsection
 @section('footer')
     <script>
@@ -1284,12 +1297,12 @@
             });
 
             $('#SaveMoneyBtn').click(function() {
-                var plan_control_money_no = $('#plan_control_money_no').val();
-                var plan_control_moneydate = $('#plan_control_moneydate').val();
-                var plan_control_moneyprice = $('#plan_control_moneyprice').val();
+                var plan_control_money_no     = $('#plan_control_money_no').val();
+                var plan_control_moneydate    = $('#plan_control_moneydate').val();
+                var plan_control_moneyprice   = $('#plan_control_moneyprice').val();
                 var plan_control_moneyuser_id = $('#plan_control_moneyuser_id').val();
                 var plan_control_moneycomment = $('#plan_control_moneycomment').val();
-                var update_plan_control_id = $('#update_plan_control_id').val();
+                var update_plan_control_id    = $('#update_plan_control_id').val();
                 
                 $.ajax({
                     url: "{{ route('p.plan_control_repmoney') }}",

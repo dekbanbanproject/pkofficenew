@@ -439,67 +439,67 @@
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total2}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/10/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total2 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total3}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/11/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total3 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total4}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/12/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total4 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total5}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/1/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total5 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total6}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/2/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total6 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total7}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/3/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total7 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total8}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/4/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total8 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total9}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/5/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total9 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total10}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/6/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total10 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total11}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/7/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total11 }}</label></span>  
                                     </a> 
                                 </td>
                                 <td class="text-center" style="background-color: #06b78b" >
                                     {{-- <label for="" style="color: #FFFFFF;font-size:16px"> {{$total12}} </label> --}}
-                                    <a href="{{url('air_plan_year_print/1/9/'.$bg_yearnow)}}" target="_blank">
+                                    <a href="{{url('air_plan_year_print/1/8/'.$bg_yearnow)}}" target="_blank">
                                         <span class="badge bg-warning me-2"><i class="fa-solid fa-print text-white me-2 ms-2"></i> <label style="color: #FFFFFF;font-size:16px" class="me-2 mt-2">{{$total12 }}</label></span>  
                                     </a> 
                                 </td>
