@@ -1700,7 +1700,7 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('acc.account_401_api') }}",
+                                    url: "{{ route('acc.account_401_send_api') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

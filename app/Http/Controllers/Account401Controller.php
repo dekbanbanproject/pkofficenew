@@ -2276,12 +2276,12 @@ class Account401Controller extends Controller
     public function account_401_send_api(Request $request)
     {  
         $iduser = Auth::user()->id;
-        $data_token_ = DB::connection('mysql')->select('SELECT new_eclaim_token FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
-        foreach ($data_token_ as $key => $val_to) {
-            // $username     = $val_to->api_neweclaim_user;
-            // $password     = $val_to->api_neweclaim_pass;
-            $token_        = $val_to->new_eclaim_token;
-        } 
+        // $data_token_ = DB::connection('mysql')->select('SELECT new_eclaim_token FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
+        // foreach ($data_token_ as $key => $val_to) {
+        //     // $username     = $val_to->api_neweclaim_user;
+        //     // $password     = $val_to->api_neweclaim_pass;
+        //     $token_        = $val_to->new_eclaim_token;
+        // } 
         $username        = '6508634296688';
         $password        = 'd12345';        
         $response = Http::withHeaders([ 
@@ -2312,8 +2312,8 @@ class Account401Controller extends Controller
             $postData_send = [
                 "fileType" => "txt",
                 "maininscl" => "OFC",
-                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
                 "dataTypes" => ["OP","IP"],
                 "opRefer" => false, 
                     "file" => [ 
@@ -2434,9 +2434,9 @@ class Account401Controller extends Controller
             ];        
             // dd($postData_send);
             $headers_send  = [
-                'Authorization : Bearer ' . $token,
+                'Authorization' => 'Bearer ' .$token,
                 'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'                    
+                'User-Agent:<platform>/<version><10978>'                     
             ];
 
             curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
@@ -2457,7 +2457,7 @@ class Account401Controller extends Controller
             @$message = $result['message'];
             #echo "<BR>";
            
-        
+            // dd($message);
         return response()->json([
             'status'    => '200'
         ]);

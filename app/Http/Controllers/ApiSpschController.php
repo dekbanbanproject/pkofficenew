@@ -192,7 +192,7 @@ class ApiSpschController extends Controller
                         $size[] = $val_field->size;  
                  }     
             }
-          $postData_send = [
+        $postData_send = [
                "fileType" => "txt",
                "maininscl" => "OFC",
                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
@@ -314,42 +314,37 @@ class ApiSpschController extends Controller
                        ]                        
                        ,"lab" => null
                    ] 
-          ];   
+        ];   
        
-          $headers = [
+        $headers = [
                'Authorization' => 'Bearer ' .$token,
                'Content-Type: application/json',            
-               'User-Agent:<platform>/<version><10978>'    
-          ];
-         
-          $request = new Request('POST', 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', $headers);
-          // try {
-               $response    = $client->send($request, $postData_send); 
-               $response_gb = $response->getBody();
-               $result      = json_decode($response_gb, true);
-               @$status     = $result['status'];
-          // } catch (\GuzzleHttp\Exception\RequestException $e) {
-          //      if ($e->hasResponse()) {
-          //      $errorResponse = json_decode($e->getResponse()->getBody(), true);
-          //      json_encode($errorResponse, JSON_PRETTY_PRINT);
-          //      #echo "if";
-          //      } else {
-          //      json_encode(['error' => 'Unknown error occurred'], JSON_PRETTY_PRINT);
-          //      #echo "else";
-          //      }
-          // }
-          // $status = $result['status'];
-
-               //    dd($status);
-          if (@$status = '200') {
+               'User-Agent:<platform>/<version><10978>'   
+        ];         
+        $request = new Request('POST', 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', $headers);
+        try {
+               $response_s              = $client->send($request, $postData_send); 
+               $response_gb           = $response_s->getBody();
+               $result_send_fame_outp = json_decode($response_gb, true);
+            //   dd($result_send_fame_outp);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            if ($e->hasResponse()) {
+            $errorResponse = json_decode($e->getResponse()->getBody(), true);
+            json_encode($errorResponse, JSON_PRETTY_PRINT); 
+            } else {
+            json_encode(['error' => 'Unknown error occurred'], JSON_PRETTY_PRINT); 
+            }
+        }
+        $status_s              = @$result_send_fame_outp['status'];
+        if ($status_s = '200') {
                     return response()->json([
-                         'status'    => '200'
-               ]);
-          } else {
-               return response()->json([
+                        'status'    => '200'
+            ]);
+        } else {
+            return response()->json([
                     'status'    => '100'
-               ]);
-          }
+            ]);
+        }
               
      } 
       
