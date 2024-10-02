@@ -130,7 +130,7 @@ use SoapClient;
 // use File;
 // use SplFileObject;
 use Arr;
-// use Storage;
+use CURLFILE;
 use GuzzleHttp\Client; 
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
@@ -2368,14 +2368,15 @@ class Account401Controller extends Controller
             } 
             // dd($blob[5]);
             
-            $client = new Client();
-            $headers_api  = [
-                'Authorization' => 'Bearer '.$token,
-                'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'                     
-            ];
+            // $client = new Client();
+            // $headers  = [
+            //     'Authorization' => 'Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'                     
+            // ];
             // dd($headers_api);
-            $postData_send = [
+            $curl = curl_init();
+            $options = [
                 "fileType" => "txt",
                 "maininscl" => "OFC",
                 "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
@@ -2498,38 +2499,43 @@ class Account401Controller extends Controller
                         ,"lab" => null
                     ] 
             ];        
-            // dd($postData_send);
-            
-
+            // dd($options);
            
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-            $api_send = curl_init();
-            curl_setopt($api_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
-            curl_setopt($api_send, CURLOPT_POST, 1);
-            curl_setopt($api_send, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($api_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-            curl_setopt($api_send, CURLOPT_HTTPHEADER, $headers_api);  
-            $server_output     = curl_exec ($api_send);
-            // dd($server_output);
-            $statusCode = curl_getinfo($api_send, CURLINFO_HTTP_CODE);            
-            $content = $server_output;
-            $result = json_decode($content, true);
-            dd($result);
-          
-            @$status = $result['status'];
-          
-            @$message = $result['message'];
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('file'=> new CURLFILE($options)),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization' => 'Bearer '.$token,
+                    'Content-Type: application/json',            
+                    'User-Agent:<platform>/<version><10978>'
+                ),
+              ));
+              
+              $response = curl_exec($curl);
+              
+              curl_close($curl);
+              dd($response); 
+            //   echo $response;
+            // $api_send = curl_init();
+            // curl_setopt($api_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            // curl_setopt($api_send, CURLOPT_POST, 1);
+            // curl_setopt($api_send, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($api_send, CURLOPT_POSTFIELDS, json_encode($options, JSON_UNESCAPED_SLASHES));
+            // curl_setopt($api_send, CURLOPT_HTTPHEADER, $headers);  
+            // $server_output     = curl_exec ($api_send); 
+            // $statusCode = curl_getinfo($api_send, CURLINFO_HTTP_CODE);            
+            // $content = $server_output;
+            // $result = json_decode($content, true);
+            // dd($result); 
+            // @$status = $result['status']; 
+            // @$message = $result['message'];
          
            
             // dd($message);
