@@ -159,18 +159,24 @@ class ApiSpschController extends Controller
     
     public function account_401_api()
     { 
-    
-     $username        = '6508634296688';
-     $password        = 'd12345';        
-     $response = Http::withHeaders([ 
-         'User-Agent:<platform>/<version> <10978>',
-         'Accept' => 'application/json',
-     ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
-         'username'    =>  $username ,
-         'password'    =>  $password 
-     ]);        
-
-     $token = $response->json('token');
+        $iduser = Auth::user()->id;
+    //  $username        = '6508634296688';
+    //  $password        = 'd12345';        
+    //  $response_a = Http::withHeaders([ 
+    //      'User-Agent:<platform>/<version> <10978>',
+    //      'Accept' => 'application/json',
+    //  ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+    //      'username'    =>  $username ,
+    //      'password'    =>  $password 
+    //  ]);        
+    // $token = $response_a->json('token');
+    $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
+    foreach ($data_token_ as $key => $val_to) {
+        $username     = $val_to->api_neweclaim_user;
+        $password     = $val_to->api_neweclaim_pass;
+        $token        = $val_to->new_eclaim_token;
+    } 
+     
      // dd($token);
 
         $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "OFC_401"');
@@ -178,7 +184,7 @@ class ApiSpschController extends Controller
             $folder = $v_export->folder_name;
         }
         // $pathdir_fdh_utf8 = "EXPORT_WALKIN_API/".$folder."_fdh_utf8/";
-        $pathdir_fdh_utf8 = "Export_OFC/".$folder. "/";
+        $pathdir_utf8 = "Export_OFC/".$folder. "/";
 
         //Create Client object to deal with
         // $client = new Client(); 
@@ -344,144 +350,263 @@ class ApiSpschController extends Controller
         //             'status'    => '100'
         //     ]);
         // }
-            $client = new Client();
+            // $client = new Client();
 
-            $headers  = [
-                'Authorization' => 'Bearer '.$token,
-                'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'                     
-            ];
+            // $headers  = [
+            //     'Authorization' => 'Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'                     
+            // ];
             // dd($headers_api);
-            $options = [
-                "fileType" => "txt",
-                "maininscl" => "OFC",
-                "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
-                "dataTypes" => ["OP","IP"],
-                "opRefer" => false,                 
-                    "file" => [ 
-                        "ins" => [
-                            "blobName"  => "INS.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[0],
-                            "size"      => $size[0],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"pat" => [
-                            "blobName"  => "PAT.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[1],
-                            "size"      => $size[1],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"opd" => [
-                            "blobName"  => "OPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[2],
-                            "size"      => $size[2],
-                            "encoding"  => "UTF-8"
-                        ] 
-                        ,"orf" => [
-                            "blobName"  => "ORF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[3],
-                            "size"      => $size[3],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"odx" => [
-                            "blobName"  => "ODX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[4],
-                            "size"      => $size[4],
-                            "encoding"  => "UTF-8"
-                        ]  
-                        ,"oop" => [
-                            "blobName"  => "OOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[5],
-                            "size"      => $size[5],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"ipd" => [
-                            "blobName"  => "IPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[6],
-                            "size"      => $size[6],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"irf" => [
-                            "blobName"  => "IRF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[7],
-                            "size"      => $size[7],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"idx" => [
-                            "blobName"  => "IDX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[8],
-                            "size"      => $size[8],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"iop" => [
-                            "blobName"  => "IOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[9],
-                            "size"      => $size[9],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cht" => [
-                            "blobName"  => "CHT.txt",
-                            "blobType"  => "text",
-                            "blob"      => $blob[10],
-                            "size"      => $size[10],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cha" => [
-                            "blobName"  => "CHA.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[11],
-                            "size"      => $size[11],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"aer" => [
-                            "blobName"  => "AER.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[12],
-                            "size"      => $size[12],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"adp" => [
-                            "blobName"  => "ADP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[13],
-                            "size"      => $size[13],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"lvd" => [
-                            "blobName"  => "LVD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[14],
-                            "size"      => $size[14],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"dru" => [
-                            "blobName" => "DRU.txt",
-                            "blobType" => "text/plain",
-                            "blob"     => $blob[15],
-                            "size"     => $size[15],
-                            "encoding" => "UTF-8"
-                        ]                        
-                        ,"lab" => null
-                    ] 
-            ];        
-            // dd($options);
-            
+            // $options = [
+            //     "fileType" => "txt",
+            //     "maininscl" => "OFC",
+            //     "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+            //     "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
+            //     "dataTypes" => ["OP","IP"],
+            //     "opRefer" => false,                 
+            //         "file" => [ 
+            //             "ins" => [
+            //                 "blobName"  => "INS.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[0],
+            //                 "size"      => $size[0],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"pat" => [
+            //                 "blobName"  => "PAT.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[1],
+            //                 "size"      => $size[1],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"opd" => [
+            //                 "blobName"  => "OPD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[2],
+            //                 "size"      => $size[2],
+            //                 "encoding"  => "UTF-8"
+            //             ] 
+            //             ,"orf" => [
+            //                 "blobName"  => "ORF.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[3],
+            //                 "size"      => $size[3],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"odx" => [
+            //                 "blobName"  => "ODX.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[4],
+            //                 "size"      => $size[4],
+            //                 "encoding"  => "UTF-8"
+            //             ]  
+            //             ,"oop" => [
+            //                 "blobName"  => "OOP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[5],
+            //                 "size"      => $size[5],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"ipd" => [
+            //                 "blobName"  => "IPD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[6],
+            //                 "size"      => $size[6],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"irf" => [
+            //                 "blobName"  => "IRF.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[7],
+            //                 "size"      => $size[7],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"idx" => [
+            //                 "blobName"  => "IDX.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[8],
+            //                 "size"      => $size[8],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"iop" => [
+            //                 "blobName"  => "IOP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[9],
+            //                 "size"      => $size[9],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"cht" => [
+            //                 "blobName"  => "CHT.txt",
+            //                 "blobType"  => "text",
+            //                 "blob"      => $blob[10],
+            //                 "size"      => $size[10],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"cha" => [
+            //                 "blobName"  => "CHA.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[11],
+            //                 "size"      => $size[11],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"aer" => [
+            //                 "blobName"  => "AER.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[12],
+            //                 "size"      => $size[12],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"adp" => [
+            //                 "blobName"  => "ADP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[13],
+            //                 "size"      => $size[13],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"lvd" => [
+            //                 "blobName"  => "LVD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[14],
+            //                 "size"      => $size[14],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"dru" => [
+            //                 "blobName" => "DRU.txt",
+            //                 "blobType" => "text/plain",
+            //                 "blob"     => $blob[15],
+            //                 "size"     => $size[15],
+            //                 "encoding" => "UTF-8"
+            //             ]                        
+            //             ,"lab" => null
+            //         ] 
+            // ];    
+            $client = new Client(); 
 
+            $options = [
+                'multipart' => [
+                    [
+                        'name' => 'type',
+                        'contents' => 'txt'
+                    ],
+                      
+                      [
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'OPD.txt'),
+                           'filename' => 'OPD.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],
+                      [
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'ORF.txt'),
+                           'filename' => 'ORF.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'ODX.txt'),
+                           'filename' => 'ODX.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'OOP.txt'),
+                           'filename' => 'OOP.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'CHA.txt'),
+                           'filename' => 'CHA.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'ADP.txt'),
+                           'filename' => 'ADP.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'INS.txt'),
+                           'filename' => 'INS.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'PAT.txt'),
+                           'filename' => 'PAT.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'CHT.txt'),
+                           'filename' => 'CHT.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'AER.txt'),
+                           'filename' => 'AER.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ],[
+                           'name' => 'file',
+                           'contents' => file_get_contents($pathdir_utf8.'DRU.txt'),
+                           'filename' => 'DRU.txt',
+                           'headers' => [
+                                'Content-Type' => 'text/plain'
+                           ]
+                      ]
+                 ]
+            ];                
+            $headers = [
+                'Authorization' => 'Bearer '.$token
+            ];
+            // $request = new Request('POST', 'https://fdh.moph.go.th/api/v2/data_hub/16_files', $headers);
             $request = new Request('POST', 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', $headers);
-            $res = $client->sendAsync($request, $options)->wait();
+            // $res = $client->sendAsync($request, $options)->wait();
             // echo $res->getBody();
-            dd($res->getBody());
+            // dd($res->getBody());
+            // try {
+                $response = $client->send($request, $options); 
+                $response_gb = $response->getBody();
+                $result_send_fame_outp = json_decode($response_gb, true);
+               
+            // } catch (\GuzzleHttp\Exception\RequestException $e) {
+            //     if ($e->hasResponse()) {
+            //         $errorResponse = json_decode($e->getResponse()->getBody(), true);
+            //         json_encode($errorResponse, JSON_PRETTY_PRINT);
+            //         #echo "if";
+            //     } else {
+            //         json_encode(['error' => 'Unknown error occurred'], JSON_PRETTY_PRINT);
+            //         #echo "else";
+            //     }
+            // }
+            // dd($response_gb);
+            $status = $result_send_fame_outp['status'];
+            dd($status);
+
+             if ($status = '200') {
+                      return response()->json([
+                              'status'    => '200'
+                    ]);
+             } else {
+               return response()->json([
+                    'status'    => '100'
+               ]);
+             }
               
      } 
       

@@ -2346,16 +2346,23 @@ class Account401Controller extends Controller
         //     // $password     = $val_to->api_neweclaim_pass;
         //     $token_        = $val_to->new_eclaim_token;
         // } 
-        $username        = '6508634296688';
-        $password        = 'd12345';        
-        $response = Http::withHeaders([ 
-            'User-Agent:<platform>/<version> <10978>',
-            'Accept' => 'application/json',
-        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
-            'username'    =>  $username ,
-            'password'    =>  $password 
-        ]);  
-        $token = $response->json('token');
+        // $username        = '6508634296688';
+        // $password        = 'd12345';        
+        // $response = Http::withHeaders([ 
+        //     'User-Agent:<platform>/<version> <10978>',
+        //     'Accept' => 'application/json',
+        // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+        //     'username'    =>  $username ,
+        //     'password'    =>  $password 
+        // ]);  
+        // $token = $response->json('token');
+
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->new_eclaim_token;
+        } 
         // dd($token);  
         $data_table = array("dapi_ins","dapi_pat","dapi_opd","dapi_orf","dapi_odx","dapi_oop","dapi_ipd","dapi_irf","dapi_idx","dapi_iop","dapi_cht","dapi_cha","dapi_aer","dapi_adp","dapi_lvd","dapi_dru");
         // dd($data_table);
@@ -2367,22 +2374,14 @@ class Account401Controller extends Controller
                  }     
             } 
             // dd($blob[5]);
-            
-            // $client = new Client();
-            // $headers  = [
-            //     'Authorization' => 'Bearer '.$token,
-            //     'Content-Type: application/json',            
-            //     'User-Agent:<platform>/<version><10978>'                     
-            // ];
-            // dd($headers_api);
-            $curl = curl_init();
-            $options = [
+            $fame_send = curl_init();
+            $postData_send = [
                 "fileType" => "txt",
                 "maininscl" => "OFC",
-                "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
+                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
                 "dataTypes" => ["OP","IP"],
-                "opRefer" => false,                 
+                "opRefer" => false, 
                     "file" => [ 
                         "ins" => [
                             "blobName"  => "INS.txt",
@@ -2499,30 +2498,170 @@ class Account401Controller extends Controller
                         ,"lab" => null
                     ] 
             ];        
+            // dd($postData_send);
+            $headers_send  = [
+                'Authorization : Bearer '.$token,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>' 
+            ];
+
+            curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($fame_send, CURLOPT_POST, 1);
+            curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
+  
+            $server_output     = curl_exec ($fame_send);
+            $statusCode = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
+            // dd($statusCode);
+            $content = $server_output;
+            $result = json_decode($content, true);
+            dd($result);
+            #echo "<BR>";
+            @$status = $result['status'];
+            #echo "<BR>";
+            @$message = $result['message'];
+            #echo "<BR>";
+            // $client = new Client();
+            // $headers  = [
+            //     'Authorization' => 'Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'                     
+            // ];
+            // dd($headers_api);
+            // $curl = curl_init();
+            // $options = [
+            //     "fileType" => "txt",
+            //     "maininscl" => "OFC",
+            //     "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+            //     "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
+            //     "dataTypes" => ["OP","IP"],
+            //     "opRefer" => false,                 
+            //         "file" => [ 
+            //             "ins" => [
+            //                 "blobName"  => "INS.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[0],
+            //                 "size"      => $size[0],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"pat" => [
+            //                 "blobName"  => "PAT.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[1],
+            //                 "size"      => $size[1],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"opd" => [
+            //                 "blobName"  => "OPD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[2],
+            //                 "size"      => $size[2],
+            //                 "encoding"  => "UTF-8"
+            //             ] 
+            //             ,"orf" => [
+            //                 "blobName"  => "ORF.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[3],
+            //                 "size"      => $size[3],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"odx" => [
+            //                 "blobName"  => "ODX.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[4],
+            //                 "size"      => $size[4],
+            //                 "encoding"  => "UTF-8"
+            //             ]  
+            //             ,"oop" => [
+            //                 "blobName"  => "OOP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[5],
+            //                 "size"      => $size[5],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"ipd" => [
+            //                 "blobName"  => "IPD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[6],
+            //                 "size"      => $size[6],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"irf" => [
+            //                 "blobName"  => "IRF.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[7],
+            //                 "size"      => $size[7],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"idx" => [
+            //                 "blobName"  => "IDX.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[8],
+            //                 "size"      => $size[8],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"iop" => [
+            //                 "blobName"  => "IOP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[9],
+            //                 "size"      => $size[9],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"cht" => [
+            //                 "blobName"  => "CHT.txt",
+            //                 "blobType"  => "text",
+            //                 "blob"      => $blob[10],
+            //                 "size"      => $size[10],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"cha" => [
+            //                 "blobName"  => "CHA.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[11],
+            //                 "size"      => $size[11],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"aer" => [
+            //                 "blobName"  => "AER.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[12],
+            //                 "size"      => $size[12],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"adp" => [
+            //                 "blobName"  => "ADP.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[13],
+            //                 "size"      => $size[13],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"lvd" => [
+            //                 "blobName"  => "LVD.txt",
+            //                 "blobType"  => "text/plain",
+            //                 "blob"      => $blob[14],
+            //                 "size"      => $size[14],
+            //                 "encoding"  => "UTF-8"
+            //             ]
+            //             ,"dru" => [
+            //                 "blobName" => "DRU.txt",
+            //                 "blobType" => "text/plain",
+            //                 "blob"     => $blob[15],
+            //                 "size"     => $size[15],
+            //                 "encoding" => "UTF-8"
+            //             ]                        
+            //             ,"lab" => null
+            //         ] 
+            // ];        
             // dd($options);
-           
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('file'=> new CURLFILE($options)),
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization' => 'Bearer '.$token,
-                    'Content-Type: application/json',            
-                    'User-Agent:<platform>/<version><10978>'
-                ),
-              ));
-              
-              $response = curl_exec($curl);
-              
-              curl_close($curl);
-              dd($response); 
-            //   echo $response;
+            
+            // $response_send = Http::withHeaders([ 
+            //     'User-Agent:<platform>/<version> <10978>',
+            //     'Accept' => 'application/json',
+            // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+            //     'file'    =>  $options   
+            // ]);  
+            // $token = $response_send->json('token');
             // $api_send = curl_init();
             // curl_setopt($api_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
             // curl_setopt($api_send, CURLOPT_POST, 1);
