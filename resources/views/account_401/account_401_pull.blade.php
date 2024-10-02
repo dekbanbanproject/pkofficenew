@@ -283,8 +283,7 @@
                                                           
                                                             <th width="5%" class="text-center">ลำดับ</th> 
                                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
-                                                            <th class="text-center" style="background-color: #fad6b8">
-                                                                
+                                                            <th class="text-center" style="background-color: #fad6b8">                                                                
                                                                 <span class="bg-success badge">{{ $count_no }}</span>  Approv                                                               
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
@@ -303,8 +302,7 @@
                                                                 
                                                                 <span class="bg-success badge">{{ $count_claim }}</span> เคลม
                                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
-                                                            </th>
-                                                         
+                                                            </th>                                                         
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
                                                             <th class="text-center">spsch</th>   

@@ -27,7 +27,7 @@ use function is_array;
  *
  * @implements PromiseInterface<T>
  */
-final class Awaitable implements PromiseInterface
+final readonly class Awaitable implements PromiseInterface
 {
     private State $state;
 
@@ -49,7 +49,7 @@ final class Awaitable implements PromiseInterface
      *
      * @param iterable<Tk, Awaitable<Tv>> $awaitables
      *
-     * @return Generator<Tk, Awaitable<Tv>, void, void>
+     * @return Generator<Tk, Awaitable<Tv>, null, void>
      */
     public static function iterate(iterable $awaitables): Generator
     {
@@ -117,6 +117,8 @@ final class Awaitable implements PromiseInterface
 
     /**
      * @return bool True if the operation has completed.
+     *
+     * @psalm-mutation-free
      */
     public function isComplete(): bool
     {

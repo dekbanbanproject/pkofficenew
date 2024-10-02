@@ -8,6 +8,7 @@ use Psl\Str;
 use Psl\Type;
 use Psl\Type\Exception\AssertException;
 use Psl\Type\Exception\CoercionException;
+use Throwable;
 
 use function is_array;
 use function is_iterable;
@@ -20,9 +21,11 @@ use function is_iterable;
  *
  * @internal
  */
-final class NonEmptyDictType extends Type\Type
+final readonly class NonEmptyDictType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param Type\TypeInterface<Tk> $key_type
      * @param Type\TypeInterface<Tv> $value_type
      */
@@ -40,32 +43,46 @@ final class NonEmptyDictType extends Type\Type
     public function coerce(mixed $value): array
     {
         if (is_iterable($value)) {
-            $key_trace   = $this->getTrace()
-                ->withFrame(Str\format('non-empty-dict<%s, _>', $this->key_type->toString()));
-            $value_trace = $this->getTrace()
-                ->withFrame(Str\format('non-empty-dict<_, %s>', $this->value_type->toString()));
-
-            $key_type = $this->key_type->withTrace($key_trace);
-            $value_type = $this->value_type->withTrace($value_trace);
+            $key_type = $this->key_type;
+            $value_type = $this->value_type;
 
             $result = [];
 
-            /**
-             * @var Tk $k
-             * @var Tv $v
-             */
-            foreach ($value as $k => $v) {
-                $result[$key_type->coerce($k)] = $value_type->coerce($v);
+            $k = $v = null;
+            $trying_key = true;
+            $iterating = true;
+
+            try {
+                /**
+                 * @var Tk $k
+                 * @var Tv $v
+                 */
+                foreach ($value as $k => $v) {
+                    $iterating = false;
+                    $trying_key = true;
+                    $k_result = $key_type->coerce($k);
+                    $trying_key = false;
+                    $v_result = $value_type->coerce($v);
+
+                    $result[$k_result] = $v_result;
+                    $iterating = true;
+                }
+            } catch (Throwable $e) {
+                throw match (true) {
+                    $iterating => CoercionException::withValue(null, $this->toString(), PathExpression::iteratorError($k), $e),
+                    $trying_key => CoercionException::withValue($k, $this->toString(), PathExpression::iteratorKey($k), $e),
+                    !$trying_key => CoercionException::withValue($v, $this->toString(), PathExpression::path($k), $e)
+                };
             }
 
             if ($result === []) {
-                throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+                throw CoercionException::withValue($value, $this->toString());
             }
 
             return $result;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -78,32 +95,42 @@ final class NonEmptyDictType extends Type\Type
     public function assert(mixed $value): array
     {
         if (is_array($value)) {
-            $key_trace   = $this->getTrace()
-                ->withFrame(Str\format('non-empty-dict<%s, _>', $this->key_type->toString()));
-            $value_trace = $this->getTrace()
-                ->withFrame(Str\format('non-empty-dict<_, %s>', $this->value_type->toString()));
-
-            $key_type = $this->key_type->withTrace($key_trace);
-            $value_type = $this->value_type->withTrace($value_trace);
+            $key_type = $this->key_type;
+            $value_type = $this->value_type;
 
             $result = [];
 
-            /**
-             * @var Tk $k
-             * @var Tv $v
-             */
-            foreach ($value as $k => $v) {
-                $result[$key_type->assert($k)] = $value_type->assert($v);
+            $k = $v = null;
+            $trying_key = true;
+
+            try {
+                /**
+                 * @var Tk $k
+                 * @var Tv $v
+                 */
+                foreach ($value as $k => $v) {
+                    $trying_key = true;
+                    $k_result = $key_type->assert($k);
+                    $trying_key = false;
+                    $v_result = $value_type->assert($v);
+
+                    $result[$k_result] = $v_result;
+                }
+            } catch (AssertException $e) {
+                throw match ($trying_key) {
+                    true => AssertException::withValue($k, $this->toString(), PathExpression::iteratorKey($k), $e),
+                    false => AssertException::withValue($v, $this->toString(), PathExpression::path($k), $e)
+                };
             }
 
             if ($result === []) {
-                throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+                throw AssertException::withValue($value, $this->toString());
             }
 
             return $result;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

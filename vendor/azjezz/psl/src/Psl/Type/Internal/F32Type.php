@@ -18,7 +18,7 @@ use function Psl\Type;
  *
  * @internal
  */
-final class F32Type extends Type\Type
+final readonly class F32Type extends Type\Type
 {
     /**
      * @ara-assert-if-true f32 $value
@@ -39,15 +39,13 @@ final class F32Type extends Type\Type
      */
     public function coerce(mixed $value): float
     {
-        $float = Type\float()
-            ->withTrace($this->getTrace()->withFrame($this->toString()))
-            ->coerce($value);
+        $float = Type\float()->coerce($value);
 
         if ($float >= MATH\FLOAT32_MIN && $float <= MATH\FLOAT32_MAX) {
             return $float;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -67,7 +65,7 @@ final class F32Type extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

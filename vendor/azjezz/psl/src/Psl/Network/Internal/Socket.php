@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psl\Network\Internal;
 
+use Psl\DateTime\Duration;
 use Psl\IO;
 use Psl\IO\Exception;
 use Psl\IO\Internal;
@@ -35,6 +36,14 @@ final class Socket implements Network\StreamSocketInterface
     /**
      * {@inheritDoc}
      */
+    public function reachedEndOfDataSource(): bool
+    {
+        return $this->handle->reachedEndOfDataSource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function tryRead(?int $max_bytes = null): string
     {
         return $this->handle->tryRead($max_bytes);
@@ -43,7 +52,7 @@ final class Socket implements Network\StreamSocketInterface
     /**
      * {@inheritDoc}
      */
-    public function read(?int $max_bytes = null, ?float $timeout = null): string
+    public function read(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         return $this->handle->read($max_bytes, $timeout);
     }
@@ -59,7 +68,7 @@ final class Socket implements Network\StreamSocketInterface
     /**
      * {@inheritDoc}
      */
-    public function write(string $bytes, ?float $timeout = null): int
+    public function write(string $bytes, ?Duration $timeout = null): int
     {
         return $this->handle->write($bytes, $timeout);
     }

@@ -15,7 +15,7 @@ use function is_object;
  *
  * @internal
  */
-final class ObjectType extends Type
+final readonly class ObjectType extends Type
 {
     /**
      * @psalm-assert-if-true T $value
@@ -36,7 +36,7 @@ final class ObjectType extends Type
             return $value;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -52,7 +52,7 @@ final class ObjectType extends Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

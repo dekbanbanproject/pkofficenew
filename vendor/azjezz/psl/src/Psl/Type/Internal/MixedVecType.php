@@ -13,7 +13,7 @@ use Psl\Type\Exception\CoercionException;
  *
  * @internal
  */
-final class MixedVecType extends Type\Type
+final readonly class MixedVecType extends Type\Type
 {
     /**
      * @psalm-assert-if-true list<Tv> $value
@@ -31,7 +31,7 @@ final class MixedVecType extends Type\Type
     public function coerce(mixed $value): iterable
     {
         if (! is_iterable($value)) {
-            throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+            throw CoercionException::withValue($value, $this->toString());
         }
 
         if (is_array($value)) {
@@ -69,7 +69,7 @@ final class MixedVecType extends Type\Type
     public function assert(mixed $value): array
     {
         if (! is_array($value) || ! array_is_list($value)) {
-            throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+            throw AssertException::withValue($value, $this->toString());
         }
 
         return $value;

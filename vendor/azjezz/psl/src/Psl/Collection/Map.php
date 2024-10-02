@@ -22,14 +22,33 @@ use function count;
  *
  * @implements MapInterface<Tk, Tv>
  */
-final class Map implements MapInterface
+final readonly class Map implements MapInterface
 {
     /**
-     * @param array<Tk, Tv> $elements
+     * @var array<Tk, Tv> $elements
      */
-    public function __construct(
-        private readonly array $elements
-    ) {
+    private array $elements;
+
+    /**
+     * @param array<Tk, Tv> $elements
+     *
+     * @psalm-mutation-free
+     */
+    public function __construct(array $elements)
+    {
+        $this->elements = $elements;
+    }
+
+    /**
+     * Creates and returns a default instance of {@see Map}.
+     *
+     * @return static A default instance of {@see Map}.
+     *
+     * @pure
+     */
+    public static function default(): static
+    {
+        return new self([]);
     }
 
     /**
@@ -44,8 +63,20 @@ final class Map implements MapInterface
      */
     public static function fromArray(array $elements): Map
     {
-        /** @psalm-suppress ImpureMethodCall - conditionally pure */
         return new self($elements);
+    }
+
+    /**
+     * @template Tsk of array-key
+     * @template Tsv
+     *
+     * @param array<Tsk, Tsv> $items
+     *
+     * @return Map<Tsk, Tsv>
+     */
+    public static function fromItems(iterable $items): Map
+    {
+        return self::fromArray(iterator_to_array($items));
     }
 
     /**
@@ -201,7 +232,7 @@ final class Map implements MapInterface
      *
      * @psalm-mutation-free
      */
-    public function at(string|int $k): mixed
+    public function at(int|string $k): mixed
     {
         if (!array_key_exists($k, $this->elements)) {
             throw Exception\OutOfBoundsException::for($k);
@@ -223,6 +254,18 @@ final class Map implements MapInterface
     }
 
     /**
+     * Alias of `contains`.
+     *
+     * @param Tk $k
+     *
+     * @psalm-mutation-free
+     */
+    public function containsKey(int|string $k): bool
+    {
+        return $this->contains($k);
+    }
+
+    /**
      * Returns the value at the specified key in the current map.
      *
      * @param Tk $k
@@ -231,7 +274,7 @@ final class Map implements MapInterface
      *
      * @psalm-mutation-free
      */
-    public function get(string|int $k): mixed
+    public function get(int|string $k): mixed
     {
         return $this->elements[$k] ?? null;
     }

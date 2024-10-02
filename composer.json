@@ -26,7 +26,8 @@
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.3",
         "simplesoftwareio/simple-qrcode": "^4.2",
-        "yajra/laravel-datatables": "10.0"
+        "yajra/laravel-datatables": "10.0",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

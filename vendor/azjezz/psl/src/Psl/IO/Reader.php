@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Psl\IO;
 
+use Psl\Async;
+use Psl\DateTime\Duration;
 use Psl\Str;
 
 use function strlen;
@@ -16,7 +18,7 @@ final class Reader implements ReadHandleInterface
 {
     use ReadHandleConvenienceMethodsTrait;
 
-    private ReadHandleInterface $handle;
+    private readonly ReadHandleInterface $handle;
 
     private bool $eof = false;
     private string $buffer = '';
@@ -29,9 +31,36 @@ final class Reader implements ReadHandleInterface
     /**
      * {@inheritDoc}
      */
-    public function readFixedSize(int $size, ?float $timeout = null): string
+    public function reachedEndOfDataSource(): bool
     {
-        $timer = new Internal\OptionalIncrementalTimeout(
+        if ($this->eof) {
+            return true;
+        }
+
+        if ($this->buffer !== '') {
+            return false;
+        }
+
+        // @codeCoverageIgnoreStart
+        try {
+            $this->buffer = $this->handle->read();
+            if ($this->buffer === '') {
+                return $this->eof = $this->handle->reachedEndOfDataSource();
+            }
+        } catch (Exception\ExceptionInterface) {
+            // ignore; it'll be thrown again when attempting a real read.
+        }
+        // @codeCoverageIgnoreEnd
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function readFixedSize(int $size, ?Duration $timeout = null): string
+    {
+        $timer = new Async\OptionalIncrementalTimeout(
             $timeout,
             function (): void {
                 // @codeCoverageIgnoreStart
@@ -66,30 +95,13 @@ final class Reader implements ReadHandleInterface
     }
 
     /**
-     * @param null|positive-int $desired_bytes
-     *
-     * @throws Exception\AlreadyClosedException If the handle has been already closed.
-     * @throws Exception\RuntimeException If an error occurred during the operation.
-     * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
-     */
-    private function fillBuffer(?int $desired_bytes, ?float $timeout): void
-    {
-        $chunk = $this->handle->read($desired_bytes, $timeout);
-        if ($chunk === '') {
-            $this->eof = true;
-        }
-
-        $this->buffer .= $chunk;
-    }
-
-    /**
      * Read a single byte from the handle.
      *
      * @throws Exception\AlreadyClosedException If the handle has been already closed.
      * @throws Exception\RuntimeException If an error occurred during the operation, or reached end of file.
      * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function readByte(?float $timeout = null): string
+    public function readByte(?Duration $timeout = null): string
     {
         if ($this->buffer === '' && !$this->eof) {
             $this->fillBuffer(null, $timeout);
@@ -102,7 +114,6 @@ final class Reader implements ReadHandleInterface
         $ret = $this->buffer[0];
         if ($ret === $this->buffer) {
             $this->buffer = '';
-            $this->eof = true;
             return $ret;
         }
 
@@ -118,9 +129,9 @@ final class Reader implements ReadHandleInterface
      * @throws Exception\RuntimeException If an error occurred during the operation.
      * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function readLine(?float $timeout = null): ?string
+    public function readLine(?Duration $timeout = null): ?string
     {
-        $timer = new Internal\OptionalIncrementalTimeout(
+        $timer = new Async\OptionalIncrementalTimeout(
             $timeout,
             static function (): void {
                 // @codeCoverageIgnoreStart
@@ -154,7 +165,7 @@ final class Reader implements ReadHandleInterface
      * @throws Exception\RuntimeException If an error occurred during the operation.
      * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function readUntil(string $suffix, ?float $timeout = null): ?string
+    public function readUntil(string $suffix, ?Duration $timeout = null): ?string
     {
         $buf = $this->buffer;
         $idx = strpos($buf, $suffix);
@@ -164,7 +175,7 @@ final class Reader implements ReadHandleInterface
             return substr($buf, 0, $idx);
         }
 
-        $timer = new Internal\OptionalIncrementalTimeout(
+        $timer = new Async\OptionalIncrementalTimeout(
             $timeout,
             static function () use ($suffix): void {
                 // @codeCoverageIgnoreStart
@@ -198,7 +209,7 @@ final class Reader implements ReadHandleInterface
     /**
      * {@inheritDoc}
      */
-    public function read(?int $max_bytes = null, ?float $timeout = null): string
+    public function read(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         if ($this->eof) {
             return '';
@@ -246,33 +257,17 @@ final class Reader implements ReadHandleInterface
     }
 
     /**
-     * @throws Exception\RuntimeException If an error occurred during the operation.
-     * @throws Exception\AlreadyClosedException If the handle has been already closed.
+     * @param null|positive-int $desired_bytes
      *
-     * @return bool true if EOL has been reached, false otherwise.
+     * @throws Exception\AlreadyClosedException If the handle has been already closed.
+     * @throws Exception\RuntimeException If an error occurred during the operation.
+     * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function isEndOfFile(): bool
+    private function fillBuffer(?int $desired_bytes, ?Duration $timeout): void
     {
-        if ($this->eof) {
-            return true;
+        $this->buffer .= $chunk = $this->handle->read($desired_bytes, $timeout);
+        if ($chunk === '') {
+            $this->eof = $this->handle->reachedEndOfDataSource();
         }
-
-        if ($this->buffer !== '') {
-            return false;
-        }
-
-        // @codeCoverageIgnoreStart
-        try {
-            $this->buffer = $this->handle->read();
-            if ($this->buffer === '') {
-                $this->eof = true;
-                return true;
-            }
-        } catch (Exception\ExceptionInterface) {
-            // ignore; it'll be thrown again when attempting a real read.
-        }
-        // @codeCoverageIgnoreEnd
-
-        return false;
     }
 }

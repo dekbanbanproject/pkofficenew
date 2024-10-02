@@ -134,9 +134,7 @@
                                                     <td class="text-center" width="7%" >{{$item->check_date_b}} </td> 
                                                     <td class="text-center" width="7%" >{{$item->gas_check_body_name}} </td> 
                                                     <td class="text-center" width="7%" >{{$item->gas_check_valve_name}} </td> 
-                                                    <td class="text-center" width="7%" >{{$item->gas_check_pressure_name}} </td>  
-
-                                                    {{-- <td class="text-center" width="7%">{{$item->active}}</td>   --}}
+                                                    <td class="text-center" width="7%" >{{$item->gas_check_pressure_name}} </td>   
                                                 </tr>
                                             @else
                                                 <tr style="font-size:13px">                                             
@@ -146,7 +144,6 @@
                                                     <td class="text-center" width="7%"></td>  
                                                     <td class="text-center" width="7%"></td> 
                                                     <td class="text-center" width="7%"></td>  
-                                                    {{-- <td class="text-center" width="7%"></td> --}}
                                                 </tr>
                                             @endif
                                                 

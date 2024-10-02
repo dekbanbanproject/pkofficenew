@@ -21,9 +21,11 @@ use Throwable;
  *
  * @internal
  */
-final class ConvertedType extends Type\Type
+final readonly class ConvertedType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param TypeInterface<I> $from
      * @param TypeInterface<O> $into
      * @param (Closure(I): O) $converter
@@ -48,15 +50,29 @@ final class ConvertedType extends Type\Type
             return $value;
         }
 
-        $coercedInput = $this->from->coerce($value);
+        $action = 0;
 
         try {
+            $coercedInput = $this->from->coerce($value);
+            $action++;
             $converted = ($this->converter)($coercedInput);
+            $action++;
+            return $this->into->coerce($converted);
         } catch (Throwable $failure) {
-            throw CoercionException::withConversionFailureOnValue($value, $this->toString(), $this->getTrace(), $failure);
+            throw CoercionException::withValue(
+                $value,
+                match ($action) {
+                    0 => $this->from->toString(),
+                    default => $this->into->toString(),
+                },
+                match ($action) {
+                    0 => PathExpression::coerceInput($value, $this->from->toString()),
+                    1 => PathExpression::convert($coercedInput ?? null, $this->into->toString()),
+                    default => PathExpression::coerceOutput($converted ?? null, $this->into->toString()),
+                },
+                $failure
+            );
         }
-
-        return $this->into->coerce($converted);
     }
 
     /**

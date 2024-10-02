@@ -30,7 +30,7 @@ final class Iterator implements Countable, SeekableIterator
     private array $entries = [];
 
     /**
-     *  Whether or not the current value/key pair has been added to the local entries.
+     *  Whether the current value/key pair has been added to the local entries.
      */
     private bool $saved = true;
 

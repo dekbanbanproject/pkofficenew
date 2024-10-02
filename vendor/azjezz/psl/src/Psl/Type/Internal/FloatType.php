@@ -19,7 +19,7 @@ use function is_string;
  *
  * @internal
  */
-final class FloatType extends Type\Type
+final readonly class FloatType extends Type\Type
 {
     /**
      * @psalm-assert-if-true float $value
@@ -55,7 +55,7 @@ final class FloatType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -69,7 +69,7 @@ final class FloatType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

@@ -17,7 +17,7 @@ use const HASH_HMAC;
  *
  * Example:
  *
- *      Hash\Context::forAlgorithm('md5')
+ *      Hash\Context::forAlgorithm(Hash\Algorithm::Md5)
  *          ->update('The quick brown fox ')
  *          ->update('jumped over the lazy dog.')
  *          ->finalize()
@@ -27,11 +27,12 @@ use const HASH_HMAC;
  */
 final class Context
 {
-    private HashContext $internalContext;
-
-    private function __construct(HashContext $internal_context)
-    {
-        $this->internalContext = $internal_context;
+    /**
+     * @pure
+     */
+    private function __construct(
+        private readonly HashContext $internalContext
+    ) {
     }
 
     /**
@@ -63,9 +64,9 @@ final class Context
     /**
      * Pump data into an active hashing context.
      *
-     * @psalm-mutation-free
-     *
      * @throws Exception\RuntimeException If unable to pump data into the active hashing context.
+     *
+     * @psalm-mutation-free
      */
     public function update(string $data): Context
     {

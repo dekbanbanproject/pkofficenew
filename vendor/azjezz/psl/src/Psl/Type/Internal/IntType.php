@@ -19,7 +19,7 @@ use function ltrim;
  *
  * @internal
  */
-final class IntType extends Type\Type
+final readonly class IntType extends Type\Type
 {
     /**
      * @psalm-assert-if-true int $value
@@ -64,7 +64,7 @@ final class IntType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -78,7 +78,7 @@ final class IntType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

@@ -3004,7 +3004,7 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve
+                SELECT a.an,a.vn,a.hn,a.vstdate,a.dchdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.ip_paytrue,b.total_approve,a.auton
                 ,b.hc_drug+ b.hc+ b.ae + b.ae_drug + b.inst + b.dmis_money2 + b.dmis_drug as total_217
                 from acc_1102050101_217 a
                 LEFT JOIN acc_stm_ucs b ON b.an = a.an  
@@ -3013,7 +3013,7 @@ class AccountPKController extends Controller
                 GROUP BY a.an
         ');
         $data['ucs_217'] = DB::connection('mysql')->select('
-                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae)+ SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total
+                SELECT b.STMDoc,SUM(b.hc_drug) + SUM(b.hc) + SUM(b.ae)+ SUM(b.ae_drug) + SUM(b.inst) + SUM(b.dmis_money2) + SUM(b.dmis_drug) as total,a.auton
                 FROM acc_1102050101_217 a
                 LEFT JOIN acc_stm_ucs b ON b.an = a.an
                 WHERE b.STMDoc LIKE "STM_10978_IPU%" 
@@ -3718,14 +3718,7 @@ class AccountPKController extends Controller
         // $file_ = $request->file('file_stm')->getClientOriginalName(); //ชื่อไฟล์
         // dd($the_file);
             // try{
-                // $a = array('2','3');
-                // foreach($a as $value){
-                //     $table_insert = $sss[0];
-                //     $sheet_read = $sss[1];
-                //     // code($sheet_read)
-                //     // insert_table $table_insert
-                // }
-               
+                 
                 // Cheet 2
                 $spreadsheet = IOFactory::load($the_file->getRealPath()); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(2);
@@ -3788,9 +3781,7 @@ class AccountPKController extends Controller
                     $ak = $sheet->getCell( 'AK' . $row )->getValue();
                     $del_ak = str_replace(",","",$ak);
                     $al = $sheet->getCell( 'AL' . $row )->getValue();
-                    $del_al = str_replace(",","",$al);
-
-                    // $rep_ = $sheet->getCell( 'A' . $row )->getValue();
+                    $del_al = str_replace(",","",$al); 
  
                     $data[] = [
                         'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
@@ -3832,8 +3823,7 @@ class AccountPKController extends Controller
                         'opbkk'                 => $del_ak,
                         'total_approve'         => $del_al, 
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
-                        'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
-                        // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
+                        'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(), 
                         'STMdoc'                =>$file_ 
                     ];
                     $startcount++; 

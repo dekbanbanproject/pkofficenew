@@ -15,9 +15,11 @@ use UnitEnum;
  *
  * @extends Type\Type<T>
  */
-final class UnitEnumType extends Type\Type
+final readonly class UnitEnumType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param class-string<T> $enum
      */
     public function __construct(
@@ -41,7 +43,7 @@ final class UnitEnumType extends Type\Type
             return $value;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -57,7 +59,7 @@ final class UnitEnumType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

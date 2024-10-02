@@ -15,7 +15,7 @@ use Psl\Type\Type;
  *
  * @internal
  */
-final class ClassStringType extends Type
+final readonly class ClassStringType extends Type
 {
     /**
      * @var class-string<T> $classname
@@ -23,6 +23,8 @@ final class ClassStringType extends Type
     private string $classname;
 
     /**
+     * @psalm-mutation-free
+     *
      * @param class-string<T> $classname
      */
     public function __construct(
@@ -50,7 +52,7 @@ final class ClassStringType extends Type
             return $value;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -66,7 +68,7 @@ final class ClassStringType extends Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

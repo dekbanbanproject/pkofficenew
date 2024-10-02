@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psl\IO;
 
+use Psl\DateTime\Duration;
 use Psl\IO;
 
 /**
@@ -27,6 +28,14 @@ final class ReadWriteStreamHandle implements ReadWriteStreamHandleInterface
     /**
      * {@inheritDoc}
      */
+    public function reachedEndOfDataSource(): bool
+    {
+        return $this->handle->reachedEndOfDataSource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function tryRead(?int $max_bytes = null): string
     {
         return $this->handle->tryRead($max_bytes);
@@ -35,7 +44,7 @@ final class ReadWriteStreamHandle implements ReadWriteStreamHandleInterface
     /**
      * {@inheritDoc}
      */
-    public function read(?int $max_bytes = null, ?float $timeout = null): string
+    public function read(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         return $this->handle->read($max_bytes, $timeout);
     }
@@ -51,7 +60,7 @@ final class ReadWriteStreamHandle implements ReadWriteStreamHandleInterface
     /**
      * {@inheritDoc}
      */
-    public function write(string $bytes, ?float $timeout = null): int
+    public function write(string $bytes, ?Duration $timeout = null): int
     {
         return $this->handle->write($bytes, $timeout);
     }

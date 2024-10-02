@@ -19,7 +19,7 @@ use function is_string;
  *
  * @internal
  */
-final class PositiveIntType extends Type\Type
+final readonly class PositiveIntType extends Type\Type
 {
     /**
      * @psalm-assert-if-true positive-int $value
@@ -50,7 +50,7 @@ final class PositiveIntType extends Type\Type
             try {
                 $trimmed = Str\trim_left($str, '0');
             } catch (Str\Exception\InvalidArgumentException $e) {
-                throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+                throw CoercionException::withValue($value, $this->toString());
             }
 
             $int = Str\to_int($trimmed);
@@ -58,10 +58,7 @@ final class PositiveIntType extends Type\Type
                 return $int;
             }
 
-            // Exceptional case "000" -(trim)-> "", but we treat it as 0
-            if ('' === $trimmed && '' !== $str) {
-                CoercionException::withValue($value, $this->toString(), $this->getTrace());
-            }
+            throw CoercionException::withValue($value, $this->toString());
         }
 
         if (is_float($value)) {
@@ -72,7 +69,7 @@ final class PositiveIntType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -88,7 +85,7 @@ final class PositiveIntType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

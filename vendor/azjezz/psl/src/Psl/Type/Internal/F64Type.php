@@ -17,7 +17,7 @@ use function Psl\Type;
  *
  * @internal
  */
-final class F64Type extends Type\Type
+final readonly class F64Type extends Type\Type
 {
     /**
      * @ara-assert-if-true f64 $value
@@ -38,9 +38,7 @@ final class F64Type extends Type\Type
      */
     public function coerce(mixed $value): float
     {
-        return Type\float()
-            ->withTrace($this->getTrace()->withFrame($this->toString()))
-            ->coerce($value);
+        return Type\float()->coerce($value);
     }
 
     /**

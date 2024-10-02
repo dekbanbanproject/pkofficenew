@@ -19,15 +19,17 @@ use function count;
  *
  * @implements VectorInterface<T>
  */
-final class Vector implements VectorInterface
+final readonly class Vector implements VectorInterface
 {
     /**
      * @var list<T> $elements
      */
-    private readonly array $elements;
+    private array $elements;
 
     /**
      * @param array<array-key, T> $elements
+     *
+     * @psalm-mutation-free
      */
     public function __construct(array $elements)
     {
@@ -37,6 +39,18 @@ final class Vector implements VectorInterface
         }
 
         $this->elements = $list;
+    }
+
+    /**
+     * Creates and returns a default instance of {@see Vector}.
+     *
+     * @return static A default instance of {@see Vector}.
+     *
+     * @pure
+     */
+    public static function default(): static
+    {
+        return new self([]);
     }
 
     /**
@@ -52,8 +66,27 @@ final class Vector implements VectorInterface
      */
     public static function fromArray(array $elements): Vector
     {
-        /** @psalm-suppress ImpureMethodCall - safe */
         return new self($elements);
+    }
+
+    /**
+     * Create a vector from the given $items iterable.
+     *
+     * @template Ts
+     *
+     * @param iterable<array-key, Ts> $items
+     *
+     * @return Vector<Ts>
+     */
+    public static function fromItems(iterable $items): Vector
+    {
+        /**
+         * @psalm-suppress InvalidArgument
+         *
+         * @var array<array-key, Ts>
+         */
+        $array = iterator_to_array($items);
+        return self::fromArray($array);
     }
 
     /**
@@ -156,7 +189,7 @@ final class Vector implements VectorInterface
      *
      * @psalm-mutation-free
      */
-    public function at(string|int $k): mixed
+    public function at(int|string $k): mixed
     {
         if (!array_key_exists($k, $this->elements)) {
             throw Exception\OutOfBoundsException::for($k);
@@ -178,6 +211,18 @@ final class Vector implements VectorInterface
     }
 
     /**
+     * Alias of `contains`.
+     *
+     * @param int<0, max> $k
+     *
+     * @psalm-mutation-free
+     */
+    public function containsKey(int|string $k): bool
+    {
+        return $this->contains($k);
+    }
+
+    /**
      * Returns the value at the specified key in the current `Vector`.
      *
      * @param int<0, max> $k
@@ -186,7 +231,7 @@ final class Vector implements VectorInterface
      *
      * @psalm-mutation-free
      */
-    public function get(string|int $k): mixed
+    public function get(int|string $k): mixed
     {
         return $this->elements[$k] ?? null;
     }
@@ -517,7 +562,7 @@ final class Vector implements VectorInterface
              *
              * @return Vector<T>
              */
-            static fn(array $chunk) => Vector::fromArray($chunk)
+            static fn(array $chunk) => static::fromArray($chunk)
         ));
     }
 }

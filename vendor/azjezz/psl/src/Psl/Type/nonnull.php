@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace Psl\Type;
 
 /**
- * @ara-return TypeInterface<nonnull>
+ * @psalm-pure
  *
- * @return TypeInterface<mixed>
+ * @psalm-suppress ImpureStaticVariable - The $instance is always the same and is considered pure.
+ *
+ * @ara-return NonNullType
+ *
+ * @return NonNullType
  */
-function nonnull(): TypeInterface
+function nonnull(): NonNullType
 {
-    return new Internal\NonNullType();
+    /** @var NonNullType $instance */
+    static $instance = new NonNullType();
+
+    return $instance;
 }

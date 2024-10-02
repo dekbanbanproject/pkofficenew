@@ -17,7 +17,7 @@ use function is_string;
  *
  * @internal
  */
-final class StringType extends Type\Type
+final readonly class StringType extends Type\Type
 {
     /**
      * @psalm-assert-if-true string $value
@@ -40,7 +40,7 @@ final class StringType extends Type\Type
             return (string) $value;
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -54,7 +54,7 @@ final class StringType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

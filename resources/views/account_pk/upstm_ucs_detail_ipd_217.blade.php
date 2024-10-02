@@ -166,12 +166,13 @@
                                                         <th class="text-center">income</th> 
                                                         <th class="text-center">ลูกหนี้ที่ตั้ง</th>   
                                                         <th class="text-center">STM 217</th>   
-                                                        <th class="text-center">total_approve</th>   
+                                                        <th class="text-center">total_approve</th> 
+                                                        <th class="text-center">อุทรณ์</th>   
                                                         
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php $number = 0; $total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0; ?>
+                                                    <?php $number = 0; $total1 = 0;$total2 = 0;$total3 = 0;$total4 = 0; $total5 = 0;?>
                                                     @foreach ($datashow as $item)
                                                         <?php $number++; ?>                    
                                                         <tr height="20">
@@ -185,22 +186,24 @@
                                                             <td class="text-center" style="color:rgb(18, 118, 233);font-size:15px" width="10%">{{ number_format($item->debit_total, 2) }}</td>
                                                             <td class="text-center" style="color:rgb(35, 204, 125);font-size:15px" width="10%">{{ number_format($item->total_217, 2) }}</td> 
                                                             <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->total_approve, 2) }}</td>  
-                                                           
+                                                            <td class="text-center" style="color:rgb(10, 151, 85);font-size:15px" width="10%">{{ number_format($item->auton, 2) }}</td>  
                                                         </tr>
                                                         <?php
                                                                 $total1 = $total1 + $item->income;
                                                                 $total2 = $total2 + $item->debit_total;
                                                                 $total3 = $total3 + $item->total_217;  
                                                                 $total4 = $total4 + $item->total_approve;  
+                                                                $total5 = $total5 + $item->auton; 
                                                         ?> 
                                                     @endforeach                    
                                                 </tbody> 
                                                 <tr style="background-color: #f3fca1">
                                                     <td colspan="6" class="text-end" style="background-color: #ffdede"></td>
-                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1,2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2,2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3,2) }}</label> </td>  
-                                                    <td class="text-center" style="background-color: rgb(35, 204, 125)"><label for="" style="color: #FFFFFF">{{ number_format($total4,2) }}</label> </td> 
+                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #000000">{{ number_format($total1,2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #000000">{{ number_format($total2,2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #000000">{{ number_format($total3,2) }}</label> </td>  
+                                                    <td class="text-center" style="background-color: rgb(35, 204, 125)"><label for="" style="color: #000000">{{ number_format($total4,2) }}</label> </td> 
+                                                    <td class="text-center" style="background-color: rgb(35, 204, 125)"><label for="" style="color: #000000">{{ number_format($total5,2) }}</label> </td> 
                                                 </tr>  
                                             </table>
                                         </div>

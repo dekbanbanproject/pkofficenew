@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psl\File;
 
+use Psl\DateTime\Duration;
 use Psl\Filesystem;
 use Psl\IO;
 use Psl\Str;
@@ -25,14 +26,14 @@ final class ReadWriteHandle extends Internal\AbstractHandleWrapper implements Re
      * @throws Exception\NotReadableException If $file exists, and is non-readable.
      * @throws Exception\RuntimeException If unable to create the $file if it does not exist.
      */
-    public function __construct(string $file, WriteMode $write_mode = WriteMode::OPEN_OR_CREATE)
+    public function __construct(string $file, WriteMode $write_mode = WriteMode::OpenOrCreate)
     {
         $is_file = Filesystem\is_file($file);
         if (!$is_file && Filesystem\exists($file)) {
             throw Exception\NotFileException::for($file);
         }
 
-        $must_create = $write_mode === WriteMode::MUST_CREATE;
+        $must_create = $write_mode === WriteMode::MustCreate;
         if ($must_create && $is_file) {
             throw Exception\AlreadyCreatedException::for($file);
         }
@@ -70,6 +71,14 @@ final class ReadWriteHandle extends Internal\AbstractHandleWrapper implements Re
     /**
      * {@inheritDoc}
      */
+    public function reachedEndOfDataSource(): bool
+    {
+        return $this->readWriteHandle->reachedEndOfDataSource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function tryRead(?int $max_bytes = null): string
     {
         return $this->readWriteHandle->tryRead($max_bytes);
@@ -78,7 +87,7 @@ final class ReadWriteHandle extends Internal\AbstractHandleWrapper implements Re
     /**
      * {@inheritDoc}
      */
-    public function read(?int $max_bytes = null, ?float $timeout = null): string
+    public function read(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         return $this->readWriteHandle->read($max_bytes, $timeout);
     }
@@ -94,7 +103,7 @@ final class ReadWriteHandle extends Internal\AbstractHandleWrapper implements Re
     /**
      * {@inheritDoc}
      */
-    public function write(string $bytes, ?float $timeout = null): int
+    public function write(string $bytes, ?Duration $timeout = null): int
     {
         return $this->readWriteHandle->write($bytes, $timeout);
     }

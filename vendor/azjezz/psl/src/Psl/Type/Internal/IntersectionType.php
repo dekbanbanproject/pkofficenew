@@ -19,9 +19,11 @@ use Psl\Type\TypeInterface;
  *
  * @internal
  */
-final class IntersectionType extends Type
+final readonly class IntersectionType extends Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param TypeInterface<Tl> $left_type
      * @param TypeInterface<Tr> $right_type
      */
@@ -68,7 +70,7 @@ final class IntersectionType extends Type
             // ignore
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -85,7 +87,7 @@ final class IntersectionType extends Type
             /** @var Tl&Tr */
             return $this->right_type->assert($value);
         } catch (AssertException) {
-            throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+            throw AssertException::withValue($value, $this->toString());
         }
     }
 

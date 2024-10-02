@@ -23,7 +23,7 @@ interface IndexAccessInterface
      *
      * @psalm-mutation-free
      */
-    public function at(string|int $k): mixed;
+    public function at(int|string $k): mixed;
 
     /**
      * Determines if the specified key is in the current collection.
@@ -35,6 +35,17 @@ interface IndexAccessInterface
     public function contains(int|string $k): bool;
 
     /**
+     * Alias of `contains`.
+     *
+     * @param Tk $k
+     *
+     * @see contains() method
+     *
+     * @psalm-mutation-free
+     */
+    public function containsKey(int|string $k): bool;
+
+    /**
      * Returns the value at the specified key in the current collection.
      *
      * @param Tk $k
@@ -43,5 +54,5 @@ interface IndexAccessInterface
      *
      * @psalm-mutation-free
      */
-    public function get(string|int $k): mixed;
+    public function get(int|string $k): mixed;
 }

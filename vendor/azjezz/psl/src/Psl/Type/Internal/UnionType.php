@@ -17,9 +17,11 @@ use Psl\Type\Exception\CoercionException;
  *
  * @internal
  */
-class UnionType extends Type\Type
+readonly class UnionType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param Type\TypeInterface<Tl> $left_type
      * @param Type\TypeInterface<Tr> $right_type
      */
@@ -62,7 +64,7 @@ class UnionType extends Type\Type
             // ignore
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -86,7 +88,7 @@ class UnionType extends Type\Type
             // ignore
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

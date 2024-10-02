@@ -14,16 +14,21 @@ use Psl\Type;
  * @implements Comparison\Comparable<Option<T>>
  * @implements Comparison\Equable<Option<T>>
  */
-final class Option implements Comparison\Comparable, Comparison\Equable
+final readonly class Option implements Comparison\Comparable, Comparison\Equable
 {
+    /**
+     * @var ?array{T} $option
+     */
+    private null|array $option;
+
     /**
      * @param ?array{T} $option
      *
-     * @internal
+     * @psalm-mutation-free
      */
-    private function __construct(
-        private readonly null|array $option,
-    ) {
+    private function __construct(?array $option)
+    {
+        $this->option = $option;
     }
 
     /**
@@ -34,6 +39,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param Tv $value
      *
      * @return Option<Tv>
+     *
+     * @pure
      */
     public static function some(mixed $value): Option
     {
@@ -44,6 +51,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * Create an option with none value.
      *
      * @return Option<never>
+     *
+     * @pure
      */
     public static function none(): Option
     {
@@ -53,6 +62,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
 
     /**
      * Returns true if the option is a some value.
+     *
+     * @psalm-mutation-free
      */
     public function isSome(): bool
     {
@@ -63,6 +74,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * Returns true if the option is a some and the value inside of it matches a predicate.
      *
      * @param (Closure(T): bool) $predicate
+     *
+     * @param-immediately-invoked-callable $predicate
      */
     public function isSomeAnd(Closure $predicate): bool
     {
@@ -71,6 +84,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
 
     /**
      * Returns true if the option is a none.
+     *
+     * @psalm-mutation-free
      */
     public function isNone(): bool
     {
@@ -86,6 +101,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @throws Exception\NoneException If the option is none.
      *
      * @return T
+     *
+     * @psalm-mutation-free
      */
     public function unwrap(): mixed
     {
@@ -107,6 +124,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param O $default
      *
      * @return T|O
+     *
+     * @psalm-mutation-free
      */
     public function unwrapOr(mixed $default): mixed
     {
@@ -123,6 +142,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @template O
      *
      * @param (Closure(): O) $default
+     *
+     * @param-immediately-invoked-callable $default
      *
      * @return T|O
      */
@@ -143,6 +164,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param Option<Tu> $other
      *
      * @return Option<Tu>
+     *
+     * @psalm-mutation-free
      */
     public function and(Option $other): Option
     {
@@ -162,6 +185,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param Option<T> $option
      *
      * @return Option<T>
+     *
+     * @psalm-mutation-free
      */
     public function or(Option $option): Option
     {
@@ -173,11 +198,31 @@ final class Option implements Comparison\Comparable, Comparison\Equable
     }
 
     /**
+     * Returns the option if it contains a value, otherwise calls $closure and returns the result.
+     *
+     * @param (Closure(): Option<T>) $closure
+     *
+     * @param-immediately-invoked-callable $closure
+     *
+     * @return Option<T>
+     */
+    public function orElse(Closure $closure): Option
+    {
+        if ($this->option !== null) {
+            return $this;
+        }
+
+        return $closure();
+    }
+
+    /**
      * Returns none if the option is none, otherwise calls `$predicate` with the wrapped value and returns:
      *  - Option<T>::some() if `$predicate` returns true (where t is the wrapped value), and
      *  - Option<T>::none() if `$predicate` returns false.
      *
      * @param (Closure(T): bool) $predicate
+     *
+     * @param-immediately-invoked-callable $predicate
      *
      * @return Option<T>
      */
@@ -194,6 +239,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * Returns true if the option is a `Option<T>::some()` value containing the given value.
      *
      * @psalm-assert-if-true T $value
+     *
+     * @psalm-mutation-free
      */
     public function contains(mixed $value): bool
     {
@@ -212,9 +259,14 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param (Closure(T): Ts) $some A closure to be called when the option is some.
      *                               The closure must accept the option value as its only argument and can return a value.
      *                               Example: `fn($value) => $value + 10`
+     *
+     * @param-immediately-invoked-callable $some
+     *
      * @param (Closure(): Ts) $none A closure to be called when the option is none.
      *                              The closure must not accept any arguments and can return a value.
      *                              Example: `fn() => 'Default value'`
+     *
+     * @param-immediately-invoked-callable $none
      *
      * @return Ts The result of calling the appropriate closure.
      */
@@ -230,7 +282,9 @@ final class Option implements Comparison\Comparable, Comparison\Equable
     /**
      * Applies a function to a contained value and returns the original `Option<T>`.
      *
-     * @param (Closure(T): void) $closure
+     * @param (Closure(T): mixed) $closure
+     *
+     * @param-immediately-invoked-callable $closure
      *
      * @return Option<T>
      */
@@ -250,6 +304,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      *
      * @param (Closure(T): Tu) $closure
      *
+     * @param-immediately-invoked-callable $closure
+     *
      * @return Option<Tu>
      */
     public function map(Closure $closure): Option
@@ -268,6 +324,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @template Tu
      *
      * @param (Closure(T): Option<Tu>) $closure
+     *
+     * @param-immediately-invoked-callable $closure
      *
      * @return Option<Tu>
      */
@@ -291,6 +349,9 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @template Tu
      *
      * @param (Closure(T): Tu) $closure
+     *
+     * @param-immediately-invoked-callable $closure
+     *
      * @param Tu $default
      *
      * @return Option<Tu>
@@ -311,7 +372,12 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @template Tu
      *
      * @param (Closure(T): Tu) $closure
-     * @param (Closure(): Tu) $else
+     *
+     * @param-immediately-invoked-callable $closure
+     *
+     * @param (Closure(): Tu) $default
+     *
+     * @param-immediately-invoked-callable $default
      *
      * @return Option<Tu>
      */
@@ -373,6 +439,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @param Option<Tu> $other The Option to zip with.
      * @param (Closure(T, Tu): Tr) $closure The closure to apply to the values.
      *
+     * @param-immediately-invoked-callable $closure
+     *
      * @return Option<Tr> The new `Option` containing the result of applying the closure to the values,
      *                    or `None` if either this or the $other `Option is `None`.
      */
@@ -398,6 +466,8 @@ final class Option implements Comparison\Comparable, Comparison\Equable
      * @throws Type\Exception\AssertException
      *
      * @return array{Option<Tv>, Option<Tr>}
+     *
+     * @psalm-mutation-free
      */
     public function unzip(): array
     {
@@ -405,11 +475,7 @@ final class Option implements Comparison\Comparable, Comparison\Equable
             return [none(), none()];
         }
 
-        // Assertion done in a separate variable to avoid Psalm inferring the type of $this->option as mixed
-        $option = $this->option[0];
-        Type\shape([Type\mixed(), Type\mixed()])->assert($option);
-
-        [$a, $b] = $option;
+        [$a, $b] = $this->option[0];
 
         return [some($a), some($b)];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psl\IO;
 
+use Psl\DateTime\Duration;
 use Psl\Math;
 
 use function str_repeat;
@@ -21,20 +22,32 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
     private int $offset = 0;
     private string $buffer;
     private bool $closed = false;
+    private bool $reachedEof = false;
 
+    /**
+     * @psalm-external-mutation-free
+     */
     public function __construct(string $buffer = '')
     {
         $this->buffer = $buffer;
     }
 
     /**
-     * Read from the handle.
+     * {@inheritDoc}
      *
-     * @param positive-int|null $max_bytes the maximum number of bytes to read.
+     * @psalm-mutation-free
+     */
+    public function reachedEndOfDataSource(): bool
+    {
+        $this->assertHandleIsOpen();
+
+        return $this->reachedEof;
+    }
+
+    /**
+     * {@inheritDoc}
      *
-     * @throws Exception\AlreadyClosedException If the handle has been already closed.
-     *
-     * @return string the read data on success, or an empty string if the end of file is reached.
+     * @psalm-external-mutation-free
      */
     public function tryRead(?int $max_bytes = null): string
     {
@@ -46,6 +59,8 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
 
         $length = strlen($this->buffer);
         if ($this->offset >= $length) {
+            $this->reachedEof = true;
+
             return '';
         }
 
@@ -58,21 +73,19 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
     }
 
     /**
-     * Read from the handle.
+     * {@inheritDoc}
      *
-     * @param positive-int|null $max_bytes the maximum number of bytes to read.
-     *
-     * @throws Exception\AlreadyClosedException If the handle has been already closed.
-     *
-     * @return string the read data on success, or an empty string if the end of file is reached.
+     * @psalm-external-mutation-free
      */
-    public function read(?int $max_bytes = null, ?float $timeout = null): string
+    public function read(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         return $this->tryRead($max_bytes);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-external-mutation-free
      */
     public function seek(int $offset): void
     {
@@ -83,6 +96,8 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-mutation-free
      */
     public function tell(): int
     {
@@ -93,8 +108,10 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-external-mutation-free
      */
-    public function tryWrite(string $bytes, ?float $timeout = null): int
+    public function tryWrite(string $bytes, ?Duration $timeout = null): int
     {
         $this->assertHandleIsOpen();
         $length = strlen($this->buffer);
@@ -118,20 +135,27 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-external-mutation-free
      */
-    public function write(string $bytes, ?float $timeout = null): int
+    public function write(string $bytes, ?Duration $timeout = null): int
     {
         return $this->tryWrite($bytes);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-external-mutation-free
      */
     public function close(): void
     {
         $this->closed = true;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function getBuffer(): string
     {
         return $this->buffer;
@@ -139,6 +163,8 @@ final class MemoryHandle implements CloseSeekReadWriteHandleInterface
 
     /**
      * @throws Exception\AlreadyClosedException If the handle has been already closed.
+     *
+     * @psalm-mutation-free
      */
     private function assertHandleIsOpen(): void
     {

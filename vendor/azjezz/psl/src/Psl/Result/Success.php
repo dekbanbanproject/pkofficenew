@@ -15,17 +15,17 @@ use Psl;
  *
  * @implements  ResultInterface<T>
  */
-final class Success implements ResultInterface
+final readonly class Success implements ResultInterface
 {
     /**
      * @var T
-     *
-     * @readonly
      */
     private mixed $value;
 
     /**
      * @param T $value
+     *
+     * @psalm-mutation-free
      */
     public function __construct(mixed $value)
     {
@@ -40,6 +40,20 @@ final class Success implements ResultInterface
      * @psalm-mutation-free
      */
     public function getResult(): mixed
+    {
+        return $this->value;
+    }
+
+    /**
+     * Unwrap the Result if it is succeeded or return $default value.
+     *
+     * @template D
+     *
+     * @param D $default
+     *
+     * @return T
+     */
+    public function unwrapOr(mixed $default): mixed
     {
         return $this->value;
     }

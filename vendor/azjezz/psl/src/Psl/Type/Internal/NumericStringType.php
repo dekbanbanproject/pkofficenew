@@ -17,7 +17,7 @@ use function is_string;
  *
  * @internal
  */
-final class NumericStringType extends Type\Type
+final readonly class NumericStringType extends Type\Type
 {
     /**
      * @psalm-assert-if-true numeric-string $value
@@ -50,7 +50,7 @@ final class NumericStringType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -67,7 +67,7 @@ final class NumericStringType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

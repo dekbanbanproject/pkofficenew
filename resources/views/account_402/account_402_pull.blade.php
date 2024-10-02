@@ -120,23 +120,17 @@
                                 <h4 class="card-title">Detail Account</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div> --}}
-                            <div class="col-md-3 text-start"> 
+                            <div class="col-md-6 text-start"> 
                                 @if ($activeclaim == 'Y')
-                                  <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" onclick="check()">Check</button>
                                   <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
-                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc" onclick="uncheck()">Uncheck</button>
                                 @else
-                                  <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" onclick="check()">Check</button>
                                   <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button>
+                                  <button class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc" onclick="uncheck()">Uncheck</button>
                                 @endif
-                                  {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
-                                  <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
-                              </div>
-                            <div class="col"></div>
-                            <div class="col-md-7 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-warning cardacc Claim" data-url="{{url('account_402_claim')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc Claim" data-url="{{url('account_402_claim')}}">
                                     <i class="fa-solid fa-sack-dollar me-2"></i>
                                    ประมวลผล
                                </button>
@@ -144,19 +138,30 @@
                                    <i class="fa-solid fa-upload me-2"></i>
                                    ส่ง New Eclaim
                                </button> --}}
-                               <a href="{{url('account_402_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-secondary cardacc">
+                               {{-- <a href="{{url('account_402_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-secondary cardacc">
                                    <i class="fa-solid fa-file-export text-white me-2"></i>
                                    Export Txt
-                               </a>   
-                               <a href="{{url('account_402_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                <i class="fa-solid fa-file-export text-white me-2"></i>
-                                Zip
-                            </a> 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_402_stam')}}">
+                               </a>    --}}
+                               <a href="{{url('account_402_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc">
+                                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                                    Zip
+                                </a> 
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc" id="Apinhso">
+                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                    API NHSO
+                                </button>
+                                  {{-- <button class="ladda-button me-2 btn-pill btn btn-info cardacc" onclick="check()">Check</button>
+                                  <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
+                                  <button class="ladda-button me-2 btn-pill btn btn-danger cardacc" onclick="uncheck()">Uncheck</button> --}}
+                              </div>
+                            <div class="col"></div>
+                            <div class="col-md-5 text-end">
+                                
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc Savestamp" data-url="{{url('account_402_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_402_destroy_all')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc Destroystamp" data-url="{{url('account_402_destroy_all')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
@@ -717,6 +722,66 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
+            });
+
+            $('#Apinhso').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+
+                // url: "{{ route('acc.account_401_api') }}",
+                // url: "{{ route('acc.account_401_send_api') }}",
+                Swal.fire({
+                    position: "top-end",
+                        title: 'ต้องการส่งข้อมูล NHSO ใช่ไหม ?',
+                        text: "You Warn Send NHSO Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('acc.account_402_send_api') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                position: "top-end",
+                                                title: 'ส่งข้อมูล NHSO สำเร็จ',
+                                                text: "You Send data NHSO success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
             });
         });
     </script>

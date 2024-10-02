@@ -22,8 +22,8 @@ compare-benchmark-to-reference:                                                 
 	./vendor/bin/phpbench run --config config/phpbench.json --ref=benchmark_reference
 
 static-analysis:                                                                ## run static analysis checks
-	./vendor/bin/psalm -c config/psalm.xml --show-info=true --no-cache --threads=1
-	./vendor/bin/psalm -c config/psalm.xml tests/static-analysis --no-cache --threads=1
+	./vendor/bin/psalm -c config/psalm.xml --show-info=true --no-cache --threads=2
+	./vendor/bin/psalm -c config/psalm.xml tests/static-analysis --no-cache --threads=2
 
 type-coverage:                                                                  ## send static analysis type coverage metrics to https://shepherd.dev/
 	./vendor/bin/psalm -c config/psalm.xml --shepherd --stats --threads=1
@@ -46,4 +46,7 @@ docs-generate:                                                                  
 docs-check:                                                                     ## checks if docs are up to date
 	php docs/documenter.php check
 
-check: coding-standard-check static-analysis security-analysis unit-tests mutation-tests docs-check  ## run quick checks for local development iterations
+preload-check:                                                                  ## checks if preloader is configured correctly
+	php src/preload.php
+
+check: coding-standard-check static-analysis security-analysis unit-tests mutation-tests docs-check autoload-check  ## run quick checks for local development iterations

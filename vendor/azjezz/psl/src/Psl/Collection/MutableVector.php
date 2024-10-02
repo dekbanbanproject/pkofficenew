@@ -14,6 +14,7 @@ use function array_key_last;
 use function array_keys;
 use function array_values;
 use function count;
+use function iterator_to_array;
 
 /**
  * @template T
@@ -31,12 +32,26 @@ final class MutableVector implements MutableVectorInterface
      * MutableVector constructor.
      *
      * @param array<array-key, T> $elements
+     *
+     * @psalm-mutation-free
      */
     public function __construct(array $elements)
     {
         foreach ($elements as $element) {
             $this->elements[] = $element;
         }
+    }
+
+    /**
+     * Creates and returns a default instance of {@see MutableVector}.
+     *
+     * @return static A default instance of {@see MutableVector}.
+     *
+     * @psalm-external-mutation-free
+     */
+    public static function default(): static
+    {
+        return new self([]);
     }
 
     /**
@@ -52,8 +67,27 @@ final class MutableVector implements MutableVectorInterface
      */
     public static function fromArray(array $elements): MutableVector
     {
-        /** @psalm-suppress ImpureMethodCall - conditionally pure */
         return new self($elements);
+    }
+
+    /**
+     * Create a vector from the given $items iterable.
+     *
+     * @template Ts
+     *
+     * @param iterable<array-key, Ts> $items
+     *
+     * @return MutableVector<Ts>
+     */
+    public static function fromItems(iterable $items): MutableVector
+    {
+        /**
+         * @psalm-suppress InvalidArgument
+         *
+         * @var array<array-key, Ts>
+         */
+        $array = iterator_to_array($items);
+        return self::fromArray($array);
     }
 
     /**
@@ -155,7 +189,7 @@ final class MutableVector implements MutableVectorInterface
      *
      * @psalm-mutation-free
      */
-    public function at(string|int $k): mixed
+    public function at(int|string $k): mixed
     {
         if (!array_key_exists($k, $this->elements)) {
             throw Exception\OutOfBoundsException::for($k);
@@ -177,6 +211,18 @@ final class MutableVector implements MutableVectorInterface
     }
 
     /**
+     * Alias of `contains`.
+     *
+     * @param int<0, max> $k
+     *
+     * @psalm-mutation-free
+     */
+    public function containsKey(int|string $k): bool
+    {
+        return $this->contains($k);
+    }
+
+    /**
      * Returns the value at the specified key in the current `MutableVector`.
      *
      * @param int<0, max> $k
@@ -185,7 +231,7 @@ final class MutableVector implements MutableVectorInterface
      *
      * @psalm-mutation-free
      */
-    public function get(string|int $k): mixed
+    public function get(int|string $k): mixed
     {
         return $this->elements[$k] ?? null;
     }
@@ -255,6 +301,8 @@ final class MutableVector implements MutableVectorInterface
      * @throws Exception\OutOfBoundsException If $k is out-of-bounds.
      *
      * @return MutableVector<T> returns itself
+     *
+     * @psalm-external-mutation-free
      */
     public function set(int|string $k, mixed $v): MutableVector
     {
@@ -281,6 +329,8 @@ final class MutableVector implements MutableVectorInterface
      * @param array<int<0, max>, T> $elements The elements with the new values to set
      *
      * @return MutableVector<T> returns itself
+     *
+     * @psalm-external-mutation-free
      */
     public function setAll(array $elements): MutableVector
     {
@@ -307,6 +357,8 @@ final class MutableVector implements MutableVectorInterface
      * @param int<0, max> $k The key to remove.
      *
      * @return MutableVector<T> returns itself.
+     *
+     * @psalm-external-mutation-free
      */
     public function remove(int|string $k): MutableVector
     {
@@ -323,6 +375,8 @@ final class MutableVector implements MutableVectorInterface
      * Removes all elements from the vector.
      *
      * @return MutableVector<T> Returns itself
+     *
+     * @psalm-external-mutation-free
      */
     public function clear(): MutableVector
     {
@@ -337,6 +391,8 @@ final class MutableVector implements MutableVectorInterface
      * @param T $v The value to add.
      *
      * @return MutableVector<T> Returns itself.
+     *
+     * @psalm-external-mutation-free
      */
     public function add(mixed $v): MutableVector
     {
@@ -346,13 +402,15 @@ final class MutableVector implements MutableVectorInterface
     }
 
     /**
-     * For every element in the provided elements array, add the value into the current vector.
+     * For every element in the provided elements iterable, add the value into the current vector.
      *
-     * @param array<array-key, T> $elements The elements with the new values to add
+     * @param iterable<T> $elements The elements with the new values to add
      *
      * @return MutableVector<T> returns itself.
+     *
+     * @psalm-external-mutation-free
      */
-    public function addAll(array $elements): MutableVector
+    public function addAll(iterable $elements): MutableVector
     {
         foreach ($elements as $item) {
             $this->add($item);
@@ -644,5 +702,99 @@ final class MutableVector implements MutableVectorInterface
              */
             static fn(array $chunk) => MutableVector::fromArray($chunk)
         ));
+    }
+
+
+    /**
+     * Determines if the specified offset exists in the current vector.
+     *
+     * @param mixed $offset An offset to check for.
+     *
+     * @throws Exception\InvalidOffsetException If the offset type is not a positive integer.
+     *
+     * @return bool Returns true if the specified offset exists, false otherwise.
+     *
+     * @psalm-mutation-free
+     *
+     * @psalm-assert int<0, max> $offset
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        if (!is_int($offset) || $offset < 0) {
+            throw new Exception\InvalidOffsetException('Invalid vector read offset type, expected a positive integer.');
+        }
+
+        return $this->contains($offset);
+    }
+
+    /**
+     * Returns the value at the specified offset.
+     *
+     * @param mixed $offset The offset to retrieve.
+     *
+     * @throws Exception\InvalidOffsetException If the offset type is not a positive integer.
+     * @throws Exception\OutOfBoundsException If the offset does not exist.
+     *
+     * @return T|null The value at the specified offset, null if the offset does not exist.
+     *
+     * @psalm-mutation-free
+     *
+     * @psalm-assert int<0, max> $offset
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        if (!is_int($offset) || $offset < 0) {
+            throw new Exception\InvalidOffsetException('Invalid vector read offset type, expected a positive integer.');
+        }
+
+        return $this->at($offset);
+    }
+
+    /**
+     * Sets the value at the specified offset.
+     *
+     * @param mixed $offset The offset to assign the value to.
+     * @param T $value The value to set.
+     *
+     * @psalm-external-mutation-free
+     *
+     * @psalm-assert null|int<0, max> $offset
+     *
+     * @throws Exception\InvalidOffsetException If the offset is not null or a positive integer.
+     * @throws Exception\OutOfBoundsException If the offset is out-of-bounds.
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if (null === $offset) {
+            $this->add($value);
+
+            return;
+        }
+
+        if (!is_int($offset) || $offset < 0) {
+            throw new Exception\InvalidOffsetException('Invalid vector write offset type, expected a positive integer or null.');
+        }
+
+        $this->set($offset, $value);
+    }
+
+    /**
+     * Unsets the value at the specified offset.
+     *
+     * @param mixed $offset The offset to unset.
+     *
+     * @psalm-external-mutation-free
+     *
+     * @psalm-assert array-key $offset
+     *
+     * @throws Exception\InvalidOffsetException If the offset type is not valid.
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        if (!is_int($offset) || $offset < 0) {
+            throw new Exception\InvalidOffsetException('Invalid vector read offset type, expected a positive integer.');
+        }
+
+        $this->remove($offset);
     }
 }

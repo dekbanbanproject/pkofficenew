@@ -947,8 +947,8 @@ class Account401Controller extends Controller
         // $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->where('account_code','=',"1102050101.401")->where('stamp','=',"N")->where('approval_code','<>',"")->get();
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
-                $data_ins_ = DB::connection('mysql2')->select('
-                    SELECT v.hn HN
+                $data_ins_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn HN
                     ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE,v.cid CID,v.hcode AS HCODE
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
@@ -996,8 +996,8 @@ class Account401Controller extends Controller
                     ]);
                 }
                 //D_pat OK
-                $data_pat_ = DB::connection('mysql2')->select('
-                    SELECT v.hcode HCODE,v.hn HN
+                $data_pat_ = DB::connection('mysql2')->select(
+                    'SELECT v.hcode HCODE,v.hn HN
                     ,pt.chwpart CHANGWAT,pt.amppart AMPHUR,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
                     ,pt.sex SEX,pt.marrystatus MARRIAGE ,pt.occupation OCCUPA,lpad(pt.nationality,3,0) NATION,pt.cid PERSON_ID
                     ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
@@ -1007,6 +1007,7 @@ class Account401Controller extends Controller
                     LEFT OUTER JOIN ipt i on i.vn = v.vn 
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn 
                     WHERE v.vn IN("'.$va1->vn.'")
+                    GROUP BY v.hn
                 ');            
                 foreach ($data_pat_ as $va_02) {
                     D_pat::insert([
@@ -1081,8 +1082,8 @@ class Account401Controller extends Controller
                     ]);
                 }
                 //D_orf _OK
-                $data_orf_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN
+                $data_orf_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,v.spclty CLINIC,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
                         ,"0100" REFERTYPE,v.vn SEQ,"" REFERDATE
                         FROM vn_stat v
@@ -1106,8 +1107,8 @@ class Account401Controller extends Controller
                     ]);
                 }
                  // D_odx OK
-                 $data_odx_ = DB::connection('mysql2')->select('
-                        SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEDX,v.spclty as CLINIC,o.icd10 as DIAG,o.diagtype as DXTYPE
+                 $data_odx_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEDX,v.spclty as CLINIC,o.icd10 as DIAG,o.diagtype as DXTYPE
                         ,if(d.licenseno="","-99999",d.licenseno) as DRDX,v.cid as PERSON_ID ,v.vn as SEQ
                         FROM vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
@@ -1136,8 +1137,8 @@ class Account401Controller extends Controller
                     ]);                    
                 }
                  //D_oop OK
-                 $data_oop_ = DB::connection('mysql2')->select('
-                        SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEOPD,v.spclty as CLINIC,o.icd10 as OPER
+                 $data_oop_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn as HN,DATE_FORMAT(v.vstdate,"%Y%m%d") as DATEOPD,v.spclty as CLINIC,o.icd10 as OPER
                         ,if(d.licenseno="","-99999",d.licenseno) as DROPID,pt.cid as PERSON_ID ,v.vn as SEQ ,""SERVPRICE
                         FROM vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
@@ -1163,8 +1164,8 @@ class Account401Controller extends Controller
                     
                 }
                 //D_ipd OK
-                $data_ipd_ = DB::connection('mysql2')->select('
-                        SELECT a.hn HN,a.an AN,DATE_FORMAT(i.regdate,"%Y%m%d") DATEADM,Time_format(i.regtime,"%H%i") TIMEADM
+                $data_ipd_ = DB::connection('mysql2')->select(
+                    'SELECT a.hn HN,a.an AN,DATE_FORMAT(i.regdate,"%Y%m%d") DATEADM,Time_format(i.regtime,"%H%i") TIMEADM
                         ,DATE_FORMAT(i.dchdate,"%Y%m%d") DATEDSC,Time_format(i.dchtime,"%H%i")  TIMEDSC,right(i.dchstts,1) DISCHS
                         ,right(i.dchtype,1) DISCHT,i.ward WARDDSC,i.spclty DEPT,format(i.bw/1000,3) ADM_W,"1" UUC ,"I" SVCTYPE 
                         FROM an_stat a
@@ -1192,8 +1193,8 @@ class Account401Controller extends Controller
                     ]);
                 }                
                 //D_irf OK
-                 $data_irf_ = DB::connection('mysql2')->select('
-                        SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"0100" REFERTYPE
+                 $data_irf_ = DB::connection('mysql2')->select(
+                    'SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"0100" REFERTYPE
                         FROM an_stat a
                         LEFT OUTER JOIN ipt ip on ip.an = a.an
                         LEFT OUTER JOIN referout o on o.vn = a.an
@@ -1211,8 +1212,8 @@ class Account401Controller extends Controller
                     ]);                     
                 }                 
                 //D_idx OK 
-                $data_idx_ = DB::connection('mysql2')->select('
-                        SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
+                $data_idx_ = DB::connection('mysql2')->select(
+                    'SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
                         FROM an_stat v
                         LEFT OUTER JOIN iptdiag o on o.an = v.an
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
@@ -1232,8 +1233,8 @@ class Account401Controller extends Controller
                             
                 }
                 //D_iop OK
-                $data_iop_ = DB::connection('mysql2')->select('
-                        SELECT a.an AN,o.icd9 OPER,o.oper_type as OPTYPE,if(d.licenseno="","-99999",d.licenseno) DROPID,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN,Time_format(o.optime,"%H%i") TIMEIN
+                $data_iop_ = DB::connection('mysql2')->select(
+                    'SELECT a.an AN,o.icd9 OPER,o.oper_type as OPTYPE,if(d.licenseno="","-99999",d.licenseno) DROPID,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN,Time_format(o.optime,"%H%i") TIMEIN
                         ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT,Time_format(o.endtime,"%H%i") TIMEOUT
                         FROM an_stat a
                         LEFT OUTER JOIN iptoprt o on o.an = a.an
@@ -1257,17 +1258,16 @@ class Account401Controller extends Controller
                     ]);
                 }
                 //D_cht OK
-                $data_cht_ = DB::connection('mysql2')->select('
-                    SELECT o.hn HN,o.an AN,DATE_FORMAT(if(a.an is null,o.vstdate,a.dchdate),"%Y%m%d") DATE,round(if(a.an is null,vv.income,a.income),2) TOTAL,""OPD_MEMO,""INVOICE_NO,""INVOICE_LT
-                    ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE,pp.cid PERSON_ID ,o.vn SEQ
-                    FROM ovst o
-                    LEFT OUTER JOIN vn_stat vv on vv.vn = o.vn
-                    LEFT OUTER JOIN an_stat a on a.an = o.an
-                    LEFT OUTER JOIN patient pp on pp.hn = o.hn
-                    LEFT OUTER JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
-                    LEFT OUTER JOIN pttype p on p.pttype = a.pttype 
-                    WHERE o.vn IN("'.$va1->vn.'")  
-                    
+                $data_cht_ = DB::connection('mysql2')->select(
+                        'SELECT o.hn HN,o.an AN,DATE_FORMAT(if(a.an is null,o.vstdate,a.dchdate),"%Y%m%d") DATE,round(if(a.an is null,vv.income,a.income),2) TOTAL,""OPD_MEMO,""INVOICE_NO,""INVOICE_LT
+                        ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE,pp.cid PERSON_ID ,o.vn SEQ
+                        FROM ovst o
+                        LEFT OUTER JOIN vn_stat vv on vv.vn = o.vn
+                        LEFT OUTER JOIN an_stat a on a.an = o.an
+                        LEFT OUTER JOIN patient pp on pp.hn = o.hn
+                        LEFT OUTER JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
+                        LEFT OUTER JOIN pttype p on p.pttype = a.pttype 
+                        WHERE o.vn IN("'.$va1->vn.'")   
                 ');
                 foreach ($data_cht_ as $va_10) {
                     D_cht::insert([
@@ -1287,8 +1287,8 @@ class Account401Controller extends Controller
                     ]);
                 }
                 //D_cha OK
-                $data_cha_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN,if(v1.an is null,"",v1.an) AN ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+                $data_cha_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn HN,if(v1.an is null,"",v1.an) AN ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
                         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM,round(sum(v.sum_price),2) AMOUNT,p.cid PERSON_ID ,ifnull(v.vn,v.an) SEQ
                         FROM opitemrece v
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
@@ -1299,9 +1299,7 @@ class Account401Controller extends Controller
                         LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
                         WHERE v.vn IN("'.$va1->vn.'") 
                         GROUP BY v.vn,CHRGITEM
-
                         UNION ALL
-
                         SELECT v.hn HN,ip.an AN ,if(ip.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(ip.dchdate,"%Y%m%d")) DATE
                         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM,round(sum(v.sum_price),2) AMOUNT,p.cid PERSON_ID ,ifnull(v.vn,v.an) SEQ
                         FROM opitemrece v
@@ -1328,16 +1326,15 @@ class Account401Controller extends Controller
                     ]);
                 } 
                 //D_aer OK
-                $data_aer_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
+                $data_aer_ = DB::connection('mysql2')->select(
+                    'SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
                         ,vv.claim_code AUTHAE
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                         FROM vn_stat v
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
-                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-                  
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype                  
                         WHERE v.vn IN("'.$va1->vn.'") and i.an is null
                         AND i.an is null
                         GROUP BY v.vn
@@ -1347,8 +1344,7 @@ class Account401Controller extends Controller
                         FROM an_stat a
                         LEFT OUTER JOIN ipt_pttype vv on vv.an = a.an
                         LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype  
-                        LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn
-                       
+                        LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn                       
                         WHERE a.vn IN("'.$va1->vn.'")
                         GROUP BY a.an;
                 ');
@@ -1376,8 +1372,8 @@ class Account401Controller extends Controller
                     ]);
                 } 
                 //D_adp
-                $data_adp_ = DB::connection('mysql2')->select(' 
-                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                $data_adp_ = DB::connection('mysql2')->select(
+                    'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                             FROM
                             (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
@@ -1389,7 +1385,7 @@ class Account401Controller extends Controller
                         JOIN nondrugitems n on n.icode = v.icode 
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
-                        WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14")
+                        WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("11","13","14")
                         GROUP BY i.vn,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
                             UNION
@@ -1403,16 +1399,14 @@ class Account401Controller extends Controller
                         FROM opitemrece v
                         JOIN nondrugitems n on n.icode = v.icode 
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("13","14")
+                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("11","13","14")
                         AND v.an is NULL
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate;
                 '); 
-                // and n.nhso_adp_code is not null 
-                // ,n.nhso_adp_type_id TYPE
-                // ,ic.drg_chrgitem_id TYPE
-                                
-                foreach ($data_adp_ as $va_13) {                    
+                                                
+                foreach ($data_adp_ as $va_13) { 
+                    if ($va_13->RATE > 0 && $va_13->QTY > 0) {             
                         D_adp::insert([
                             'HN'                   => $va_13->HN,
                             'AN'                   => $va_13->AN,
@@ -1445,9 +1439,12 @@ class Account401Controller extends Controller
                             'vstdate'              => $va_13->vstdate,
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'OFC_401'
-                        ]);                   
+                        ]); 
+                    } else {
+                        # code...
+                    }                  
                 } 
-                //D_adp กายภาพ
+                //D_adp 20-ค่าบริการทางกายภาพบำบัดและเวชกรรมฟื้นฟู
                 $data_adp_kay = DB::connection('mysql2')->select(
                     'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
@@ -1584,6 +1581,73 @@ class Account401Controller extends Controller
                     ]);                   
                 } 
 
+                //D_adp สปสชเป็น type 19-ค่าหัตถการและวิสัญญี  ใน hosเป็น income = 11
+            $data_adp_visanyee = DB::connection('mysql2')->select(
+                'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new,billcode
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,v.QTY QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
+                        ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = i.an AND income ="11") as rate_new,n.billcode
+                    FROM opitemrece v
+                    JOIN nondrugitems n on n.icode = v.icode 
+                    LEFT OUTER JOIN ipt i on i.an = v.an
+                    AND i.an is not NULL 
+                    WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11")) a 
+                    GROUP BY an,CODE,rate
+                        UNION
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new,billcode
+                        FROM
+                        (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,v.QTY QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                        ,""SP_ITEM,v.icode,v.vstdate,v.income
+                        ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="11") as rate_new,n.billcode
+                    FROM opitemrece v
+                    JOIN nondrugitems n on n.icode = v.icode 
+                    LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("11")
+                    AND v.an is NULL) b 
+                    GROUP BY seq,CODE,rate;
+            '); 
+            foreach ($data_adp_visanyee as $va_22) {  
+                    D_adp::insert([
+                        'HN'                   => $va_22->HN,
+                        'AN'                   => $va_22->AN,
+                        'DATEOPD'              => $va_22->DATEOPD,
+                        'TYPE'                 => $va_22->TYPE,
+                        'CODE'                 => $va_22->billcode,
+                        'QTY'                  => $va_22->QTY,
+                        'RATE'                 => $va_22->RATE,
+                        'SEQ'                  => $va_22->SEQ,
+                        'CAGCODE'              => $va_22->CAGCODE,
+                        'DOSE'                 => $va_22->DOSE,
+                        'CA_TYPE'              => $va_22->CA_TYPE,
+                        'SERIALNO'             => $va_22->SERIALNO,
+                        'TOTCOPAY'             => $va_22->TOTCOPAY,
+                        'USE_STATUS'           => $va_22->USE_STATUS,
+                        'TOTAL'                => $va_22->TOTAL,
+                        'QTYDAY'               => $va_22->QTYDAY,
+                        'TMLTCODE'             => $va_22->TMLTCODE,
+                        'STATUS1'              => $va_22->STATUS1,
+                        'BI'                   => $va_22->BI,
+                        'CLINIC'               => $va_22->CLINIC,
+                        'ITEMSRC'              => $va_22->ITEMSRC,
+                        'PROVIDER'             => $va_22->PROVIDER,
+                        'GRAVIDA'              => $va_22->GRAVIDA,
+                        'GA_WEEK'              => $va_22->GA_WEEK,
+                        'DCIP'                 => $va_22->DCIP,
+                        'LMP'                  => $va_22->LMP,
+                        'SP_ITEM'              => $va_22->SP_ITEM,
+                        'icode'                => $va_22->icode,
+                        'vstdate'              => $va_22->vstdate,
+                        'user_id'              => $iduser,
+                        'd_anaconda_id'        => 'OFC_401'
+                    ]); 
+            }
+
                 //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
@@ -1659,7 +1723,7 @@ class Account401Controller extends Controller
          
         //  D_adp::where('CODE','=','XXXXXX')->delete();
  
-         #delete file in folder ทั้งหมด
+        #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export_OFC'); //ทั้งหมด
         // $file->cleanDirectory('Export_OFC'); //ทั้งหมด
@@ -2290,32 +2354,34 @@ class Account401Controller extends Controller
         ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
             'username'    =>  $username ,
             'password'    =>  $password 
-        ]);        
-   
+        ]);  
         $token = $response->json('token');
-        // dd($token);
-        // $token = 'b4df8b7c-c8c2-445a-a904-960aa4a1a1c9';
-        
-        // $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
+        // dd($token);  
         $data_table = array("dapi_ins","dapi_pat","dapi_opd","dapi_orf","dapi_odx","dapi_oop","dapi_ipd","dapi_irf","dapi_idx","dapi_iop","dapi_cht","dapi_cha","dapi_aer","dapi_adp","dapi_lvd","dapi_dru");
+        // dd($data_table);
         foreach ($data_table as $key => $val_t) {  
-            $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');       
-                // $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.' WHERE claim ="OFC_401"');                
+            $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');                  
                 foreach ($data_all_ as $val_field) { 
                         $blob[] = $val_field->blob;
                         $size[] = $val_field->size;  
                  }     
-            }
- 
+            } 
             // dd($blob[5]);
-            $fame_send = curl_init();
+            
+            $client = new Client();
+            $headers_api  = [
+                'Authorization' => 'Bearer '.$token,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>'                     
+            ];
+            // dd($headers_api);
             $postData_send = [
                 "fileType" => "txt",
                 "maininscl" => "OFC",
                 "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
                 "dataTypes" => ["OP","IP"],
-                "opRefer" => false, 
+                "opRefer" => false,                 
                     "file" => [ 
                         "ins" => [
                             "blobName"  => "INS.txt",
@@ -2433,29 +2499,38 @@ class Account401Controller extends Controller
                     ] 
             ];        
             // dd($postData_send);
-            $headers_send  = [
-                'Authorization' => 'Bearer ' .$token,
-                'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'                     
-            ];
-
-            curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
-            curl_setopt($fame_send, CURLOPT_POST, 1);
-            curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-            curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
-  
-            $server_output     = curl_exec ($fame_send);
-            $statusCode = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
             
+
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+            $api_send = curl_init();
+            curl_setopt($api_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($api_send, CURLOPT_POST, 1);
+            curl_setopt($api_send, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($api_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($api_send, CURLOPT_HTTPHEADER, $headers_api);  
+            $server_output     = curl_exec ($api_send);
+            // dd($server_output);
+            $statusCode = curl_getinfo($api_send, CURLINFO_HTTP_CODE);            
             $content = $server_output;
             $result = json_decode($content, true);
             dd($result);
-            #echo "<BR>";
+          
             @$status = $result['status'];
-            #echo "<BR>";
+          
             @$message = $result['message'];
-            #echo "<BR>";
+         
            
             // dd($message);
         return response()->json([

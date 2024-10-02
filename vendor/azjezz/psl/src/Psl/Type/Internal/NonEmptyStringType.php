@@ -17,7 +17,7 @@ use function is_string;
  *
  * @internal
  */
-final class NonEmptyStringType extends Type\Type
+final readonly class NonEmptyStringType extends Type\Type
 {
     /**
      * @psalm-assert-if-true non-empty-string $value
@@ -51,7 +51,7 @@ final class NonEmptyStringType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -68,7 +68,7 @@ final class NonEmptyStringType extends Type\Type
             return $value;
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

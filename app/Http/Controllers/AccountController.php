@@ -1999,11 +1999,13 @@ class AccountController extends Controller
             
         } else {
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-            $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end;
-            $months_now = date('m');
-            $year_now = date('Y'); 
-            $startdate    =  date_format($bg->date_begin, "%Y");
+            $startdate_    = $bg->date_begin;
+            $enddate_      = $bg->date_end;
+            $months_now    = date('m');
+            $year_now      = date('Y'); 
+            $years_kob    = $bg->leave_year_id;
+            // $startdate2    =  date_format($startdate_, "%Y");
+            $startdate    =  $bg->date_begin;
             $enddate      = $bg->date_end;
             $datashow = DB::connection('mysql2')->select(
                 'SELECT YEAR(v.vstdate) as year
@@ -2052,7 +2054,8 @@ class AccountController extends Controller
                 
                 
             // }
-            $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate . '", "%Y")'); 
+            // $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = date_format("' . $startdate2 . '", "%Y")'); 
+            $data['f_finance_opd']  = DB::connection('mysql')->select('SELECT * from f_finance_opd WHERE year = "' . $years_kob . '"'); 
             $data['main_dep'] = DB::connection('mysql10')->select(
                     'SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months,l.MONTH_NAME,o.main_dep,k.department  
                     ,COUNT(DISTINCT v.vn) AS count_vn,SUM(v.income) AS sum_income

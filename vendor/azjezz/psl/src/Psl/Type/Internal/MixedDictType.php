@@ -7,13 +7,14 @@ namespace Psl\Type\Internal;
 use Psl\Type;
 use Psl\Type\Exception\AssertException;
 use Psl\Type\Exception\CoercionException;
+use Throwable;
 
 /**
  * @extends Type\Type<array<array-key, mixed>>
  *
  * @internal
  */
-final class MixedDictType extends Type\Type
+final readonly class MixedDictType extends Type\Type
 {
     /**
      * @throws CoercionException
@@ -23,7 +24,7 @@ final class MixedDictType extends Type\Type
     public function coerce(mixed $value): array
     {
         if (! is_iterable($value)) {
-            throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+            throw CoercionException::withValue($value, $this->toString());
         }
 
         if (is_array($value)) {
@@ -33,17 +34,28 @@ final class MixedDictType extends Type\Type
         $result = [];
 
         $key_type = Type\array_key();
-        $key_type = $key_type->withTrace($this->getTrace()->withFrame('dict<' . $key_type->toString() . ', _>'));
+        $k = null;
+        $iterating = true;
 
-        /**
-         * @var array-key $k
-         * @var mixed $v
-         *
-         * @psalm-suppress MixedAssignment
-         */
-        foreach ($value as $k => $v) {
-            $result[$key_type->coerce($k)] = $v;
+        try {
+            /**
+             * @var array-key $k
+             * @var mixed $v
+             *
+             * @psalm-suppress MixedAssignment
+             */
+            foreach ($value as $k => $v) {
+                $iterating = false;
+                $result[$key_type->coerce($k)] = $v;
+                $iterating = true;
+            }
+        } catch (Throwable $e) {
+            throw match (true) {
+                $iterating => CoercionException::withValue(null, $this->toString(), PathExpression::iteratorError($k), $e),
+                default => CoercionException::withValue($k, $this->toString(), PathExpression::iteratorKey($k), $e),
+            };
         }
+
 
         return $result;
     }
@@ -58,7 +70,7 @@ final class MixedDictType extends Type\Type
     public function assert(mixed $value): array
     {
         if (! is_array($value)) {
-            throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+            throw AssertException::withValue($value, $this->toString());
         }
 
         return $value;

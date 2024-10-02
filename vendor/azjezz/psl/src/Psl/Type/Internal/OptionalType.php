@@ -15,9 +15,11 @@ use Psl\Type\Exception\CoercionException;
  *
  * @internal
  */
-final class OptionalType extends Type\Type
+final readonly class OptionalType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param Type\TypeInterface<T> $inner
      */
     public function __construct(
@@ -32,7 +34,7 @@ final class OptionalType extends Type\Type
      */
     public function coerce(mixed $value): mixed
     {
-        return $this->inner->withTrace($this->getTrace())->coerce($value);
+        return $this->inner->coerce($value);
     }
 
     /**
@@ -44,7 +46,7 @@ final class OptionalType extends Type\Type
      */
     public function assert(mixed $value): mixed
     {
-        return $this->inner->withTrace($this->getTrace())->assert($value);
+        return $this->inner->assert($value);
     }
 
     /**

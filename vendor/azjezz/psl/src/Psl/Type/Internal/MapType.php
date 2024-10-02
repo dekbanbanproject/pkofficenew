@@ -10,6 +10,7 @@ use Psl\Str;
 use Psl\Type;
 use Psl\Type\Exception\AssertException;
 use Psl\Type\Exception\CoercionException;
+use Throwable;
 
 use function is_iterable;
 use function is_object;
@@ -22,9 +23,11 @@ use function is_object;
  *
  * @internal
  */
-final class MapType extends Type\Type
+final readonly class MapType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param Type\TypeInterface<Tk> $key_type
      * @param Type\TypeInterface<Tv> $value_type
      */
@@ -42,37 +45,47 @@ final class MapType extends Type\Type
     public function coerce(mixed $value): Collection\MapInterface
     {
         if (is_iterable($value)) {
-            $key_trace = $this->getTrace()->withFrame(
-                Str\format('%s<%s, _>', Collection\MapInterface::class, $this->key_type->toString())
-            );
-
-            $value_trace = $this->getTrace()->withFrame(
-                Str\format('%s<_, %s>', Collection\MapInterface::class, $this->value_type->toString())
-            );
-
             /** @var Type\Type<Tk> $key_type */
-            $key_type = $this->key_type->withTrace($key_trace);
+            $key_type = $this->key_type;
             /** @var Type\Type<Tv> $value_type */
-            $value_type = $this->value_type->withTrace($value_trace);
+            $value_type = $this->value_type;
 
             /** @var list<array{Tk, Tv}> $entries */
             $entries = [];
-            /**
-             * @var Tk $k
-             * @var Tv $v
-             */
-            foreach ($value as $k => $v) {
-                $entries[] = [
-                    $key_type->coerce($k),
-                    $value_type->coerce($v),
-                ];
+
+
+            $k = $v = null;
+            $trying_key = true;
+            $iterating = true;
+
+            try {
+                /**
+                 * @var Tk $k
+                 * @var Tv $v
+                 */
+                foreach ($value as $k => $v) {
+                    $iterating = false;
+                    $trying_key = true;
+                    $k_result = $key_type->coerce($k);
+                    $trying_key = false;
+                    $v_result = $value_type->coerce($v);
+
+                    $entries[] = [$k_result, $v_result];
+                    $iterating = true;
+                }
+            } catch (Throwable $e) {
+                throw match (true) {
+                    $iterating => CoercionException::withValue(null, $this->toString(), PathExpression::iteratorError($k), $e),
+                    $trying_key => CoercionException::withValue($k, $this->toString(), PathExpression::iteratorKey($k), $e),
+                    !$trying_key => CoercionException::withValue($v, $this->toString(), PathExpression::path($k), $e)
+                };
             }
 
             /** @var Collection\Map<Tk, Tv> */
             return new Collection\Map(Dict\from_entries($entries));
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -85,38 +98,42 @@ final class MapType extends Type\Type
     public function assert(mixed $value): Collection\MapInterface
     {
         if (is_object($value) && $value instanceof Collection\MapInterface) {
-            $key_trace = $this->getTrace()->withFrame(
-                Str\format('%s<%s, _>', Collection\MapInterface::class, $this->key_type->toString())
-            );
-
-            $value_trace = $this->getTrace()->withFrame(
-                Str\format('%s<_, %s>', Collection\MapInterface::class, $this->value_type->toString())
-            );
-
             /** @var Type\Type<Tk> $key_type */
-            $key_type = $this->key_type->withTrace($key_trace);
+            $key_type = $this->key_type;
             /** @var Type\Type<Tv> $value_type */
-            $value_type = $this->value_type->withTrace($value_trace);
+            $value_type = $this->value_type;
 
             /** @var list<array{Tk, Tv}> $entries */
             $entries = [];
 
-            /**
-             * @var Tk $k
-             * @var Tv $v
-             */
-            foreach ($value as $k => $v) {
-                $entries[] = [
-                    $key_type->assert($k),
-                    $value_type->assert($v),
-                ];
+            $k = $v = null;
+            $trying_key = true;
+
+            try {
+                /**
+                 * @var Tk $k
+                 * @var Tv $v
+                 */
+                foreach ($value as $k => $v) {
+                    $trying_key = true;
+                    $k_result = $key_type->assert($k);
+                    $trying_key = false;
+                    $v_result = $value_type->assert($v);
+
+                    $entries[] = [$k_result, $v_result];
+                }
+            } catch (AssertException $e) {
+                throw match ($trying_key) {
+                    true => AssertException::withValue($k, $this->toString(), PathExpression::iteratorKey($k), $e),
+                    false => AssertException::withValue($v, $this->toString(), PathExpression::path($k), $e)
+                };
             }
 
             /** @var Collection\Map<Tk, Tv> */
             return new Collection\Map(Dict\from_entries($entries));
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

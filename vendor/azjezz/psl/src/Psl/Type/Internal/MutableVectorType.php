@@ -9,6 +9,7 @@ use Psl\Str;
 use Psl\Type;
 use Psl\Type\Exception\AssertException;
 use Psl\Type\Exception\CoercionException;
+use Throwable;
 
 use function is_iterable;
 use function is_object;
@@ -20,9 +21,11 @@ use function is_object;
  *
  * @internal
  */
-final class MutableVectorType extends Type\Type
+final readonly class MutableVectorType extends Type\Type
 {
     /**
+     * @psalm-mutation-free
+     *
      * @param Type\TypeInterface<T> $value_type
      */
     public function __construct(
@@ -38,30 +41,38 @@ final class MutableVectorType extends Type\Type
     public function coerce(mixed $value): Collection\MutableVectorInterface
     {
         if (is_iterable($value)) {
-            $value_trace = $this->getTrace()->withFrame(
-                Str\format('%s<%s>', Collection\MutableVectorInterface::class, $this->value_type->toString())
-            );
-
             /** @var Type\Type<T> $value_type */
-            $value_type = $this->value_type->withTrace($value_trace);
+            $value_type = $this->value_type;
 
             /**
              * @var list<T> $values
              */
             $values = [];
+            $i = $v = null;
+            $iterating = true;
 
-            /**
-             * @var T $v
-             */
-            foreach ($value as $v) {
-                $values[] = $value_type->coerce($v);
+            try {
+                /**
+                 * @var T $v
+                 * @var array-key $i
+                 */
+                foreach ($value as $i => $v) {
+                    $iterating = false;
+                    $values[] = $value_type->coerce($v);
+                    $iterating = true;
+                }
+            } catch (Throwable $e) {
+                throw match (true) {
+                    $iterating => CoercionException::withValue(null, $this->toString(), PathExpression::iteratorError($i), $e),
+                    default => CoercionException::withValue($v, $this->toString(), PathExpression::path($i), $e)
+                };
             }
 
             /** @var Collection\MutableVector<T> */
             return new Collection\MutableVector($values);
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -74,30 +85,32 @@ final class MutableVectorType extends Type\Type
     public function assert(mixed $value): Collection\MutableVectorInterface
     {
         if (is_object($value) && $value instanceof Collection\MutableVectorInterface) {
-            $value_trace = $this->getTrace()->withFrame(
-                Str\format('%s<%s>', Collection\MutableVectorInterface::class, $this->value_type->toString())
-            );
-
             /** @var Type\Type<T> $value_type */
-            $value_type = $this->value_type->withTrace($value_trace);
+            $value_type = $this->value_type;
 
             /**
              * @var list<T> $values
              */
             $values = [];
+            $i = $v = null;
 
-            /**
-             * @var T $v
-             */
-            foreach ($value as $v) {
-                $values[] = $value_type->coerce($v);
+            try {
+                /**
+                 * @var T $v
+                 * @var array-key $i
+                 */
+                foreach ($value as $i => $v) {
+                    $values[] = $value_type->assert($v);
+                }
+            } catch (AssertException $e) {
+                throw AssertException::withValue($v, $this->toString(), PathExpression::path($i), $e);
             }
 
             /** @var Collection\MutableVector<T> */
             return new Collection\MutableVector($values);
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

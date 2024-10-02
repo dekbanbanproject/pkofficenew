@@ -20,11 +20,11 @@ use function mb_strlen;
  *      Str\length('تونس')
  *      => Int(4)
  *
- * @pure
- *
  * @return int<0, max>
+ *
+ * @pure
  */
-function length(string $string, Encoding $encoding = Encoding::UTF_8): int
+function length(string $string, Encoding $encoding = Encoding::Utf8): int
 {
     /** @var int<0, max> */
     return mb_strlen($string, $encoding->value);

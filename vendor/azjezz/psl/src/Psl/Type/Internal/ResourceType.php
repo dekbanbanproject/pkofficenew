@@ -16,8 +16,11 @@ use function is_resource;
  *
  * @internal
  */
-final class ResourceType extends Type\Type
+final readonly class ResourceType extends Type\Type
 {
+    /**
+     * @psalm-mutation-free
+     */
     public function __construct(
         private ?string $kind = null
     ) {
@@ -41,7 +44,7 @@ final class ResourceType extends Type\Type
             }
         }
 
-        throw CoercionException::withValue($value, $this->toString(), $this->getTrace());
+        throw CoercionException::withValue($value, $this->toString());
     }
 
     /**
@@ -64,7 +67,7 @@ final class ResourceType extends Type\Type
             }
         }
 
-        throw AssertException::withValue($value, $this->toString(), $this->getTrace());
+        throw AssertException::withValue($value, $this->toString());
     }
 
     public function toString(): string

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psl\IO;
 
 use Psl;
+use Psl\DateTime\Duration;
 use Psl\Str;
 
 use function strlen;
@@ -17,7 +18,7 @@ trait ReadHandleConvenienceMethodsTrait
     /**
      * Read until there is no more data to read.
      *
-     * It is possible for this to never return, e.g. if called on a pipe or
+     * It is possible for this to never return, e.g. if called on a pipe
      * or socket which the other end keeps open forever. Set a timeout if you
      * do not want this to happen.
      *
@@ -30,13 +31,13 @@ trait ReadHandleConvenienceMethodsTrait
      * @throws Exception\RuntimeException If an error occurred during the operation.
      * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function readAll(?int $max_bytes = null, ?float $timeout = null): string
+    public function readAll(?int $max_bytes = null, ?Duration $timeout = null): string
     {
         $to_read = $max_bytes;
 
         /** @var Psl\Ref<string> $data */
         $data = new Psl\Ref('');
-        $timer = new Internal\OptionalIncrementalTimeout(
+        $timer = new Psl\Async\OptionalIncrementalTimeout(
             $timeout,
             static function () use ($data): void {
                 // @codeCoverageIgnoreStart
@@ -60,7 +61,7 @@ trait ReadHandleConvenienceMethodsTrait
             if ($to_read !== null) {
                 $to_read -= strlen($chunk);
             }
-        } while (($to_read === null || $to_read > 0) && $chunk !== '');
+        } while (($to_read === null || $to_read > 0) && !$this->reachedEndOfDataSource());
 
         return $data->value;
     }
@@ -68,7 +69,7 @@ trait ReadHandleConvenienceMethodsTrait
     /**
      * Read a fixed amount of data.
      *
-     * It is possible for this to never return, e.g. if called on a pipe or
+     * It is possible for this to never return, e.g. if called on a pipe
      * or socket which the other end keeps open forever. Set a timeout if you
      * do not want this to happen.
      *
@@ -78,7 +79,7 @@ trait ReadHandleConvenienceMethodsTrait
      * @throws Exception\RuntimeException If an error occurred during the operation.
      * @throws Exception\TimeoutException If $timeout is reached before being able to read from the handle.
      */
-    public function readFixedSize(int $size, ?float $timeout = null): string
+    public function readFixedSize(int $size, ?Duration $timeout = null): string
     {
         $data = $this->readAll($size, $timeout);
 
