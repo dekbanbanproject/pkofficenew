@@ -190,7 +190,13 @@
                                                     <td class="text-center" style="width: 10%">{{ $item_n->vstdate }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->pttype }}</td>
                                                     <td class="p-2">{{ $item_n->ptname }}</td>  
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->claim_code }}</td>
+                                                    <td class="text-center" style="width: 15%">
+                                                        @if ($item_n->claim_code =='')
+                                                            <span class="bg-danger badge me-2">*_*</span> 
+                                                        @else
+                                                            <span class="bg-success badge me-2">{{ $item_n->claim_code }}</span> 
+                                                        @endif 
+                                                    </td>
                                                     {{-- <td class="text-center" style="width: 5%">{{ $item_n->claimtype }}</td>  --}}
                                                 </tr>
                                             @endforeach

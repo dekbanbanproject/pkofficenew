@@ -136,6 +136,7 @@
                                                     <th class="text-center">ลำดับ</th>
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
+                                                    <th class="text-center">cid</th>
                                                     <th class="text-center">ptname</th>
                                                     <th class="text-center">staff</th>
                                                     <th class="text-center">debt_date</th>
@@ -152,9 +153,10 @@
                                                         <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                         <td class="text-center" width="8%">{{ $item->vn }}</td>  
                                                         <td class="text-center text-primary" width="5%"> {{ $item->hn }} </td>
+                                                        <td class="text-center text-primary" width="10%"> {{ $item->cid }} </td>
                                                         <td class="text-start text-primary"> {{ $item->ptname }} </td>
                                                         <td class="text-start text-success" width="5%"> {{ $item->staff }} </td>
-                                                        <td class="text-center" width="8%"> {{ $item->debt_date }} </td>
+                                                        <td class="text-center" width="8%"> {{ $item->vstdate }} </td>
                                                         <td class="text-center" width="10%" style="color:rgb(23, 121, 233)">{{ number_format($item->amount, 2) }}</td> 
                                                         <td class="text-center" width="10%" style="color:rgb(23, 121, 233)">{{ number_format($item->total_amount, 2) }}</td> 
                                                         <td class="text-center" width="10%" style="color:rgb(23, 121, 233)">{{ $item->sss_approval_code }}</td> 

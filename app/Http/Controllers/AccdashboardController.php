@@ -87,8 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 class AccdashboardController extends Controller
 {
   public function account_pk_dash(Request $request)
-  { ;
-         
+  {    
           $budget_year   = $request->budget_year;
           $yearnew = date('Y');
           $year_old = date('Y')-1;
@@ -149,6 +148,165 @@ class AccdashboardController extends Controller
         $data['sumlooknee'] = $data['sum_201']+$data['sum_202']+$data['sum_203']+$data['sum_209']+$data['sum_216']+$data['sum_2166']+$data['sum_217']+$data['sum_201'];
       
     return view('dashboard.account_pk_dash',$data, [ 
+      'datashow'          =>  $datashow,
+      'startdate'         =>  $startdate,
+      'enddate'           =>  $enddate,
+    ]);
+  }
+  public function account_monitor_main(Request $request)
+  {          
+          $budget_year   = $request->budget_year;
+          $yearnew = date('Y');
+          $year_old = date('Y')-1;
+          $months_old  = ('10');
+          $startdate = (''.$year_old.'-10-01');
+          $enddate = (''.$yearnew.'-09-30');
+            
+            $datenow       = date("Y-m-d");
+            $y             = date('Y') + 543;
+            $dabudget_year = DB::table('budget_year')->where('active','=',true)->get();
+            $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+            $date = date('Y-m-d'); 
+            $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+            $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+            
+            $months_now = date('m');
+            $year_now = date('Y'); 
+              //  dd($dabudget_year);
+            if ($budget_year == '') {  
+               
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC
+                ');    
+            } else {
+                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+                $startdate    = $bg->date_begin;
+                $enddate      = $bg->date_end;
+                // dd($enddate);
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC 
+                ');  
+            }
+        $data['pang']          =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC'); 
+        $data['sum_201']       = DB::table('acc_1102050101_201')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_202']       = DB::table('acc_1102050101_202')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_203']       = DB::table('acc_1102050101_203')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_209']       = DB::table('acc_1102050101_209')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_216']       = DB::table('acc_1102050101_216')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_2166']       = DB::table('acc_1102050101_2166')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_217']       = DB::table('acc_1102050101_217')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
+
+        $datashow = Acc_dashboard::where('months',' month("'. $startdate.'")')->get();
+        $data['sumlooknee'] = $data['sum_201']+$data['sum_202']+$data['sum_203']+$data['sum_209']+$data['sum_216']+$data['sum_2166']+$data['sum_217']+$data['sum_201'];
+      
+    return view('dashboard.account_monitor_main',$data, [ 
+      'datashow'          =>  $datashow,
+      'startdate'         =>  $startdate,
+      'enddate'           =>  $enddate,
+    ]);
+  }
+  public function account_monitor(Request $request)
+  {          
+          $budget_year   = $request->budget_year;
+          $yearnew = date('Y');
+          $year_old = date('Y')-1;
+          $months_old  = ('10');
+          $startdate = (''.$year_old.'-10-01');
+          $enddate = (''.$yearnew.'-09-30');
+            
+            $datenow       = date("Y-m-d");
+            $y             = date('Y') + 543;
+            $dabudget_year = DB::table('budget_year')->where('active','=',true)->get();
+            $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+            $date = date('Y-m-d'); 
+            $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+            $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+            
+            $months_now = date('m');
+            $year_now = date('Y'); 
+              //  dd($dabudget_year);
+            if ($budget_year == '') {                 
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC
+                '); 
+                  $data_today = DB::connection('mysql2')->select(' 
+                      SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                          ,o.vstdate,o.vsttime
+                          ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
+                          ,ptt.pttype_eclaim_id,vp.pttype
+                          ,e.code as acc_code
+                          ,"1102050101.401" as account_code
+                          ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name
+                          ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
+                          ,v.income-v.discount_money-v.rcpt_money as debit
+                          ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                          ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                          ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                          ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
+                          ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                          ,ptt.max_debt_money
+                          ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
+                          ,group_concat(DISTINCT hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                          ,rd.sss_approval_code AS approval_code,rd.amount AS price_ofc,d.cc
+                          from ovst o
+                          left join vn_stat v on v.vn=o.vn
+                          left join patient pt on pt.hn=o.hn
+                          LEFT JOIN visit_pttype vp on vp.vn = v.vn
+                          LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+                          LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                          LEFT JOIN opitemrece op ON op.vn = o.vn
+                          LEFT JOIN ovstdiag ov ON ov.vn = v.vn
+                          LEFT JOIN rcpt_debt rd ON v.vn = rd.vn
+                          LEFT JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                          LEFT JOIN opdscreen d on d.vn = v.vn
+                          WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                          AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")                  
+                          and v.income-v.discount_money-v.rcpt_money <> 0
+                          and (o.an="" or o.an is null) AND pt.cid IS NOT NULL
+                          GROUP BY v.vn
+                  ');   
+            } else {
+                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+                $startdate    = $bg->date_begin;
+                $enddate      = $bg->date_end; 
+                $datashow = DB::select(' 
+                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
+                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
+                        ,sum(a.debit_total) as tung_looknee  
+                        FROM acc_1102050101_202 a 
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND a.account_code ="1102050101.202"
+                        GROUP BY months ORDER BY a.dchdate DESC 
+                ');  
+            }
+        $data['pang']          =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC'); 
+       
+      
+    return view('dashboard.account_monitor',$data, [ 
       'datashow'          =>  $datashow,
       'startdate'         =>  $startdate,
       'enddate'           =>  $enddate,

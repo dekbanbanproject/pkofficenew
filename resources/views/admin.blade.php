@@ -688,7 +688,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
     
             @if ($permiss_account != 0)  
             <div class="col-xl-3 col-md-3">
-                <a href="{{ url('account_pk_dash') }}" target="_blank">
+                <a href="{{ url('account_monitor_main') }}" target="_blank">
                     <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
                         <div class="grid-menu-col">
                             <div class="g-0 row">

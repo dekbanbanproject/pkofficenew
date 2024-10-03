@@ -712,14 +712,31 @@ class MedicalgasController extends Controller
         $data['mm']    = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
+        // $datashow = DB::select(
+        //     'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months,b.check_date
+        //     FROM gas_list a
+        //     LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
+        //     WHERE a.active = "Ready" AND a.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'" 
+        //     GROUP BY a.gas_list_id
+        //     ORDER BY a.gas_list_id ASC
+        // '); 
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,month(b.check_date) as months,b.check_date
-            FROM gas_list a
-            LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
-            WHERE a.active = "Ready" AND a.gas_type ="2" AND a.gas_year = "'.$bg_yearnow.'" 
-            GROUP BY a.gas_list_id
-            ORDER BY a.gas_list_id ASC
-        ');          
+            'SELECT a.gas_list_id,a.gas_list_num,a.gas_list_name,a.size 
+       
+            ,(SELECT month(check_date) FROM gas_check WHERE month(check_date) ="'.$months.'" LIMIT 1) as months
+            ,(SELECT gas_check_body FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_body
+            ,(SELECT gas_check_body_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_body_name
+            ,(SELECT gas_check_valve FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_valve 
+            ,(SELECT gas_check_valve_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_valve_name 
+            ,(SELECT gas_check_pressure FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_pressure
+            ,(SELECT gas_check_pressure_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_pressure_name
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date_b
+            FROM gas_list a 
+            WHERE a.gas_type IN("2") AND a.gas_year = "'.$bg_yearnow.'" 
+            GROUP BY a.gas_list_num
+            ORDER BY a.gas_list_id ASC 
+        ');              
         // AND month(b.check_date) = "'.$month.'"
         // $datashow = DB::select(
         //     'SELECT a.*
@@ -753,6 +770,9 @@ class MedicalgasController extends Controller
                 $datefull      = date('Y-m-d H:m:s');
                 $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
                 $iduser        = Auth::user()->id;
+
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
 
                 $body_    = $request->gas_check_body;
                 if ($body_ == '0') {
@@ -793,7 +813,7 @@ class MedicalgasController extends Controller
                     }
                 } else {
                     Gas_check::insert([
-                        'check_year'               => $y,
+                        'check_year'               => $bg_yearnow,
                         'check_date'               => $date,
                         'check_time'               => $mm,
                         'gas_list_id'              => $gas_list_id,
@@ -910,13 +930,19 @@ class MedicalgasController extends Controller
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date
-            ,(SELECT check_date FROM gas_check WHERE gas_list_id = a.gas_list_id AND check_date ="'.$datenow.'") as check_date_b
-            FROM gas_list a
-            LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
-            WHERE a.gas_type IN("5") AND a.gas_year = "'.$bg_yearnow.'"  
+            'SELECT a.gas_list_id,a.gas_list_num,a.gas_list_name,a.size 
+            ,(SELECT gas_check_body FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_body
+            ,(SELECT gas_check_body_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_body_name
+            ,(SELECT gas_check_valve FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_valve 
+            ,(SELECT gas_check_valve_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_valve_name 
+            ,(SELECT gas_check_pressure FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_pressure
+            ,(SELECT gas_check_pressure_name FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as gas_check_pressure_name
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date_b
+            FROM gas_list a 
+            WHERE a.gas_type IN("5") AND a.gas_year = "'.$bg_yearnow.'" 
             GROUP BY a.gas_list_num
-            ORDER BY a.gas_list_id ASC
+            ORDER BY a.gas_list_id ASC 
         ');          
         // ,b.check_date
         return view('support_prs.gas.gas_check_nitrus_add',$data,[
@@ -929,6 +955,7 @@ class MedicalgasController extends Controller
     public function gas_check_nitrus_save(Request $request)
     {
         if ($request->ajax()) {
+            // dd($request->action);
             if ($request->action == 'Edit') {
                 $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->first();
                 $gas_list_id   = $idgas->gas_list_id; 
@@ -942,10 +969,13 @@ class MedicalgasController extends Controller
                 $m             = date('H');
                 $mm            = date('H:m:s');
                 $datefull      = date('Y-m-d H:m:s');
-                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
-                $iduser        = Auth::user()->id;
                 // dd($gas_list_id);
 
+                $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
+                $iduser        = Auth::user()->id;
+                // dd($check);
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
                 // $active    = $request->active;
                 $body_    = $request->gas_check_body;
                 if ($body_ == '0') {
@@ -967,17 +997,7 @@ class MedicalgasController extends Controller
                 } else {
                     $pressure  = 'ไม่พร้อมใช้';
                 }
-                // if ($active_ == '0') {
-                //     $active  = 'พร้อมใช้';
-                // } elseif($active_ == '1') {
-                //     $active  = 'NotReady';
-                // } elseif($active_ == '2') {
-                //     $active  = 'รอเติม';
-                // } elseif($active_ == '3') {
-                //     $active  = 'ยืมคืน';
-                // } else {
-                //     $active  = 'จำหน่าย';
-                // }
+                
 
                 if ($check > 0) {
                     Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([ 
@@ -999,7 +1019,7 @@ class MedicalgasController extends Controller
                     }
                 } else {
                     Gas_check::insert([ 
-                        'check_year'               => $y,
+                        'check_year'               => $bg_yearnow,
                         'check_date'               => $date,
                         'check_time'               => $mm,
                         'gas_list_id'              => $gas_list_id,
@@ -1138,15 +1158,25 @@ class MedicalgasController extends Controller
         $data['mm']    = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
         $iduser        = Auth::user()->id;
+        // $datashow = DB::select(
+        //     'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date
+        //     ,(SELECT check_date FROM gas_check WHERE gas_list_id = a.gas_list_id AND check_date ="'.$datenow.'") as check_date_b
+        //     FROM gas_list a
+        //     LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
+        //     WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"  
+        //     GROUP BY a.gas_list_num
+        //     ORDER BY a.gas_list_id ASC
+        // ');    
         $datashow = DB::select(
-            'SELECT a.*,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name,b.gas_check_pressure,b.gas_check_pressure_name,b.check_date
-            ,(SELECT check_date FROM gas_check WHERE gas_list_id = a.gas_list_id AND check_date ="'.$datenow.'") as check_date_b
-            FROM gas_list a
-            LEFT JOIN gas_check b ON b.gas_list_id = a.gas_list_id
-            WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"  
-            GROUP BY a.gas_list_num
-            ORDER BY a.gas_list_id ASC
-        ');          
+            'SELECT a.gas_list_id,a.gas_list_num,a.gas_list_name,a.size
+            ,(SELECT active FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as active 
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date
+            ,(SELECT check_date FROM gas_check WHERE gas_list_num = a.gas_list_num AND check_date ="'.$datenow.'") as check_date_b
+                FROM gas_list a 
+                WHERE a.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'" 
+                GROUP BY a.gas_list_num
+                ORDER BY a.gas_list_id ASC 
+        ');            
         // ,b.check_date
         return view('support_prs.gas.gas_check_o2_add',$data,[
             'startdate'     => $startdate,
@@ -1174,6 +1204,8 @@ class MedicalgasController extends Controller
                 $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
                 $iduser        = Auth::user()->id;
                 // dd($gas_list_id);
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
 
                 $active    = $request->active;
                 // if ($active_ == '0') {
@@ -1186,9 +1218,7 @@ class MedicalgasController extends Controller
                 //     $active  = 'ยืมคืน';
                 // } else {
                 //     $active  = 'จำหน่าย';
-                // }
-
-               
+                // }               
                 
                 if ($check > 0) {
                     Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->update([  
@@ -1202,7 +1232,7 @@ class MedicalgasController extends Controller
                     ]);
                 } else {
                     Gas_check::insert([
-                        'check_year'               => $y,
+                        'check_year'               => $bg_yearnow,
                         'check_date'               => $date,
                         'check_time'               => $mm,
                         'gas_list_id'              => $gas_list_id,

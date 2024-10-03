@@ -132,13 +132,17 @@ class PreauditController extends Controller
             }                       
 
             $data['authen_excel'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
                 FROM vn_stat v
                 LEFT JOIN visit_pttype vp ON vp.vn = v.vn
                 LEFT JOIN patient p ON p.hn = v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
+                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") 
+          
+                AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
                 GROUP BY v.vn  
             ');
+            // WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
+
 
             // $data['authen_excel_date'] = DB::connection('mysql2')->select(
             //     'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
@@ -402,6 +406,7 @@ class PreauditController extends Controller
         foreach ($data_authen_excel as $key => $value) {
             Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
                 'claim_code'     => $value->claimcode,  
+                'auth_code'      => $value->claimcode, 
             ]);  
         }
         $data_authen_excel_ti = DB::connection('mysql')->select(
@@ -412,6 +417,7 @@ class PreauditController extends Controller
         foreach ($data_authen_excel_ti as $key => $valueti) {
             Visit_pttype::where('vn', $valueti->vn)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([   
                 'claim_code'     => $valueti->claimcode,  
+                'auth_code'      => $valueti->claimcode, 
             ]);  
         }
         Visit_pttype_import::truncate();
@@ -491,11 +497,33 @@ class PreauditController extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        
-            
-            $data['ofc_data']  = DB::connection('mysql')->select(
-                'SELECT * FROM audit_approve_code  
-            ');   
+                    
+        // $data['ofc_data']  = DB::connection('mysql')->select(
+        //     'SELECT * FROM audit_approve_code  
+        // ');   
+        $data['ofc_data'] = DB::connection('mysql2')->select(
+            'SELECT v.vn,o.an,v.hn,v.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.pttype,v.vstdate,v.age_y,(v.income-v.discount_money-v.rcpt_money) as debit,rd.*  
+                                   
+                    FROM vn_stat v
+                    LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                    LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                    LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                    LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
+                    LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                    LEFT OUTER JOIN rcpt_print r on r.vn =v.vn
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
+                    LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate                        
+                    LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn  
+                    LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                    LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
+
+                WHERE o.vstdate ="'.$date.'"
+                AND v.pttype in("O1","O2","O3","O4","O5")                    
+                AND v.pttype not in ("OF","FO") AND rd.sss_approval_code IS NOT NULL                         
+                AND o.an is null 
+                GROUP BY o.vn
+        '); 
            
                 
         return view('audit.audit_approve_codenew',$data,[
@@ -652,37 +680,19 @@ class PreauditController extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') { 
+    
             // $data['fdh_ofc']    = DB::connection('mysql')->select(
             //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-            //         ,count(DISTINCT vn) as countvn
-            //         ,count(DISTINCT authen) as countauthen
-            //         ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve
+            //         ,count(DISTINCT vn) as countvn  
             //         ,sum(debit) as sum_total 
-            //         FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-            //         AND projectcode ="OFC" AND debit > 0 
+            //         FROM d_fdh   
+            //         WHERE projectcode ="OFC" AND debit > 0 
             //         AND (an IS NULL OR an ="") 
-            //         AND (hn IS NOT NULL OR hn <>"")
-            //         GROUP BY month(vstdate)
-            // ');  
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn  
-                    ,sum(debit) as sum_total 
-                    FROM d_fdh   
-                    WHERE projectcode ="OFC" AND debit > 0 
-                    AND (an IS NULL OR an ="") 
                    
-                    AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
-                    GROUP BY month(vstdate)
-            '); 
-            // AND (an IS NULL OR an ="")     AND hn <>"" 
-            // $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) BETWEEN "'.$newDate.'" AND "'.$m.'" AND projectcode ="OFC" AND authen IS NULL AND an IS NULL GROUP BY vn'); 
-            // $data['fdh_ofc_m']       = DB::connection('mysql')->select(
-            //     'SELECT * FROM d_fdh 
-            //     WHERE projectcode ="OFC" AND debit > 0 
-            //     AND hn<>"" AND (authen IS NULL OR authen ="") 
-            //     AND (an IS NULL OR an ="") AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"           
-            //     '); 
+            //         AND vstdate BETWEEN "'.$start.'" AND "'.$end.'"  
+            //         GROUP BY month(vstdate)
+            // '); 
+            
             $data['fdh_ofc_all']  = DB::connection('mysql')->select(
                 'SELECT * FROM d_fdh 
                     WHERE projectcode ="OFC"  
@@ -692,23 +702,64 @@ class PreauditController extends Controller
                     AND vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
                    
             '); 
-                // $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
-                //     'SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" 
-                //     AND projectcode ="OFC" AND debit > 0 AND hn<>"" 
-                //     AND (authen IS NULL OR authen ="") 
-                //     AND (an IS NULL OR an ="")  
-                // '); 
-                $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
-                    'SELECT * FROM d_fdh 
-                    WHERE projectcode ="OFC" 
-                    AND hn <>""
-                    AND (authen IS NULL OR authen ="") 
-                    AND (an IS NULL OR an ="")
-                    AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" AND debit > 0
-     
-                '); 
-            // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
-            // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            
+                
+            $data['fdh_ofc_momth']    = DB::connection('mysql')->select(
+                'SELECT * FROM d_fdh 
+                WHERE projectcode ="OFC" 
+                AND hn <>""
+                AND (authen IS NULL OR authen ="") 
+                AND (an IS NULL OR an ="")
+                AND month(vstdate) ="'.$m.'" AND year(vstdate) ="'.$yy.'" AND debit > 0
+    
+            '); 
+              
+            $data['fdh_ofc'] = DB::connection('mysql2')->select(
+                'SELECT year(o.vstdate) as years ,month(o.vstdate) as months,year(o.vstdate) as days ,count(DISTINCT o.vn) as countvn ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total
+                        FROM vn_stat v
+                        LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
+                        LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN rcpt_print r on r.vn =v.vn
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
+                        LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate                        
+                        LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn  
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
+
+                    WHERE o.vstdate BETWEEN "'.$start.'" and "'.$end.'"
+                    AND v.pttype in("O1","O2","O3","O4","O5")                    
+                    AND v.pttype not in ("OF","FO")                          
+                    AND o.an is null 
+                    GROUP BY month(o.vstdate)
+            '); 
+            $data['fdh_ofc_day'] = DB::connection('mysql2')->select(
+                'SELECT v.vn,o.an,v.hn,v.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.pttype,v.vstdate,v.age_y,(v.income-v.discount_money-v.rcpt_money) as debit,rd.*  
+                                       
+                        FROM vn_stat v
+                        LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
+                        LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN rcpt_print r on r.vn =v.vn
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
+                        LEFT OUTER JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate                        
+                        LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn  
+                        LEFT OUTER JOIN ovst ot on ot.vn = v.vn
+                        LEFT OUTER JOIN ovstost ovv on ovv.ovstost = ot.ovstost
+
+                    WHERE o.vstdate ="'.$date.'"
+                    AND v.pttype in("O1","O2","O3","O4","O5")                    
+                    AND v.pttype not in ("OF","FO") AND rd.sss_approval_code IS NULL                         
+                    AND o.an is null 
+                    GROUP BY o.vn
+            '); 
+            
+
             
         } else {
             $data['fdh_ofc']    = DB::connection('mysql')->select(

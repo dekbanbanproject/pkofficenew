@@ -1852,10 +1852,11 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'upstm_save', [App\Http\Controllers\AccountPKController::class, 'upstm_save'])->name('acc.upstm_save'); //
   Route::match(['get', 'post'], 'upstm_import', [App\Http\Controllers\AccountPKController::class, 'upstm_import'])->name('acc.upstm_import'); //
 
-
   Route::match(['get', 'post'], 'account_pk_dash', [App\Http\Controllers\AccdashboardController::class, 'account_pk_dash'])->name('acc.account_pk_dash'); //
   Route::match(['get', 'post'], 'account_dash_save', [App\Http\Controllers\AccdashboardController::class, 'account_dash_save'])->name('acc.account_dash_save'); //
   Route::match(['get', 'post'], 'account_dashline', [App\Http\Controllers\AccdashboardController::class, 'account_dashline'])->name('acc.account_dashline'); //
+  Route::match(['get', 'post'], 'account_monitor', [App\Http\Controllers\AccdashboardController::class, 'account_monitor'])->name('acc.account_monitor'); //
+  Route::match(['get', 'post'], 'account_monitor_main', [App\Http\Controllers\AccdashboardController::class, 'account_monitor_main'])->name('acc.account_monitor_main'); //
 
   Route::match(['get', 'post'], 'chang_pttype_IPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_IPD'])->name('acc.chang_pttype_IPD'); //ย้ายผัง
   Route::match(['get', 'post'], 'chang_pttype_OPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_OPD'])->name('acc.chang_pttype_OPD'); //ย้ายผัง

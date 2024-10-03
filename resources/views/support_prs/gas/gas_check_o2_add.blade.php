@@ -121,6 +121,9 @@
                                                     // $gas_check_valve_name     = '';
                                                     // $gas_check_pressure_name  = '';
                                                 // }
+                                                if ($item->active == 'Ready') {
+                                                    $active = 'พร้อมใช้';
+                                                }
                                                 
                                            
                                             ?>
@@ -129,7 +132,7 @@
                                                     <td class="text-center" width="7%" >{{ $item->gas_list_num }} </td> 
                                                     <td class="text-center" width="7%">{{$item->size}}</td> 
                                                     <td class="text-center" width="7%" >{{$item->check_date_b}} </td> 
-                                                    <td class="text-center" width="7%">{{$item->active}}</td>  
+                                                    <td class="text-center" width="7%">{{$active}}</td>  
                                                 </tr>
                                             @else
                                                 <tr style="font-size:13px">                                             

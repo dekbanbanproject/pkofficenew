@@ -268,7 +268,7 @@ if (Auth::check()) {
                     <!-- LOGO -->
                     <div class="navbar-brand-box" >
                       
-                        <a href="{{url('account_pk_dash')}}" class="logo logo-dark"> 
+                        <a href="{{url('account_monitor_main')}}" class="logo logo-dark"> 
                             <span class="logo-sm me-2"> 
                                 <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
@@ -279,7 +279,7 @@ if (Auth::check()) {
                             </span>
                         </a>
  
-                        <a href="{{url('account_pk_dash')}}" class="logo logo-light">
+                        <a href="{{url('account_monitor_main')}}" class="logo logo-light">
                             <span class="logo-sm me-2"> 
                                 <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
@@ -881,10 +881,28 @@ if (Auth::check()) {
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
                         <ul class="navbar-nav">
 
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ url('account_pk_dash') }}">
                                     <i class="ri-dashboard-line me-2"></i> Dashboard
                                 </a>
+                            </li> --}}
+                            {{-- <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
+                                >
+                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i>Monitor<div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">     --}}
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
+                                >
+                                    <i class="ri-dashboard-line me-2" style="font-size: 20px;color:pink"></i>Monitor <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('account_pk_dash') }}" class="dropdown-item">dashboard</a> 
+                                    <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a> 
+                                </div>
+                                
                             </li>
 
                             {{-- <li class="nav-item dropdown">
