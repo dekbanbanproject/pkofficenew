@@ -28,7 +28,7 @@ return new class extends Migration
                 $table->string('filter_tank_name')->nullable(); // 
                 $table->string('tube')->nullable(); // 3.หลอด UV
                 $table->string('tube_name')->nullable(); // 
-                $table->string('solinoi_vaw')->nullable(); // 4.โซลินอยวาล
+                $table->string('solinoi_vaw')->nullable(); // 4.โซลินอยวาล์ว
                 $table->string('solinoi_vaw_name')->nullable(); // 
                 $table->string('lowplessor_swith')->nullable(); // 5.โลเพรสเซอร์สวิส
                 $table->string('lowplessor_swith_name')->nullable(); //  

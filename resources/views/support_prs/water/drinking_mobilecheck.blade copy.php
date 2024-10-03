@@ -131,20 +131,9 @@ $loter = $date.''.$time
         </div>
     </div> 
     <div class="row"> 
-        <div class="col text-center">   
-            <p style="color:rgb(255, 255, 255);font-size:18px">วันที่ {{Datethai($date_now)}} เวลา:{{$mm}}</p>
-        </div> 
-    </div>
-    <div class="row"> 
-        <div class="col text-center">   
-            <p style="color:rgb(255, 255, 255);font-size:18px">ที่ตั้ง {{$location_name}} ชั้น :{{$class}} ({{$detail}})  </p>
-        </div>
-      
-    </div>
-    {{-- <div class="row"> 
         <div class="col text-center">
             <div class="form-group">
-                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Save_data"> 
+                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Insert_data"> 
                     <i class="fa-solid fa-floppy-disk me-2"></i>
                         บันทึกข้อมูล
                 </button>
@@ -153,20 +142,25 @@ $loter = $date.''.$time
                     ยกเลิก
                 </a>
             </div>
-        </div> 
-    </div>  --}}
+        </div>
+       
+        
+    </div> 
    
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-xl-12">
             <div class="card card_prs_4">
                 <div class="card-body"> 
  
-                    <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
-                    <input type="hidden" id="water_filter_id" name="water_filter_id" value="{{$water_filter_id}}"> 
-                     
-
-                   
-                    <div class="row">
+                    {{-- <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
+                    <input type="hidden" id="gas_list_id" name="gas_list_id" value="{{$gas_list_id}}"> 
+                    <input type="hidden" id="gas_list_num" name="gas_list_num" value="{{$gas_list_num}}">
+                    <input type="hidden" id="gas_list_name" name="gas_list_name" value="{{$gas_list_name}}">
+                    <input type="hidden" id="class_edit" name="class_edit" value="{{$class}}">
+                    <input type="hidden" id="dot_name" name="dot_name" value="{{$dot_name}}">                   
+                     <input type="hidden" id="location_name" name="location_name" value="{{$location_name}}"> --}}
+                  
+                     <div class="row">
                         <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ไส้กรอง</p>
                         </div>
@@ -176,7 +170,7 @@ $loter = $date.''.$time
                                 <option value="N">ไม่พร้อมใช้งาน</option>
                             </select>
                         </div> 
-                        
+                       
                     </div>
                     <div class="row">
                         <div class="col-6 text-start"> 
@@ -188,7 +182,7 @@ $loter = $date.''.$time
                                 <option value="N">ไม่พร้อมใช้งาน</option>
                             </select>
                         </div> 
-                        
+                       
                     </div>
                     <div class="row">
                         <div class="col-6 text-start"> 
@@ -200,7 +194,7 @@ $loter = $date.''.$time
                                 <option value="N">ไม่พร้อมใช้งาน</option>
                             </select>
                         </div> 
-                       
+                        
                     </div>
                     <div class="row">
                         <div class="col-6 text-start"> 
@@ -259,18 +253,6 @@ $loter = $date.''.$time
                     </div>
                     <div class="row">
                         <div class="col-6 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ข้อต่อและท่อ</p>
-                        </div>
-                        <div class="col text-start">   
-                            <select name="pipes" id="pipes" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
-                                <option value="Y">พร้อมใช้งาน</option>
-                                <option value="N">ไม่พร้อมใช้งาน</option>
-                            </select>
-                        </div>  
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ถังเก็บน้ำกรอง</p>
                         </div>
                         <div class="col text-start">   
@@ -280,26 +262,25 @@ $loter = $date.''.$time
                             </select>
                         </div>  
                     </div>
-                 
+                    
+                    {{-- <div class="row mt-4 mb-4">                         
+                        <div class="col text-center">
+                            <button type="button" class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Save_data"> 
+                                <i class="fa-solid fa-floppy-disk text-white me-2"></i>
+                               บันทึกข้อมูล
+                            </button>  
+                            <a href="{{url('gas_control_add')}}" class="ladda-button me-2 btn-pill btn btn-danger bt_prs">  
+                                <i class="fa-solid fa-xmark me-2"></i>
+                                ยกเลิก
+                            </a> 
+                        </div>
+                
+                    </div> --}}
+                    
                 </div>
             </div> 
         </div>
     </div>
-
-    <div class="row mt-2"> 
-        <div class="col text-center">
-            <div class="form-group">
-                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Save_data"> 
-                    <i class="fa-solid fa-floppy-disk me-2"></i>
-                        บันทึกข้อมูล
-                </button>
-                <a href="{{ url('drinking_water_check') }}" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-danger bt_prs">
-                    <i class="fa-solid fa-xmark me-2"></i>
-                    ยกเลิก
-                </a>
-            </div>
-        </div> 
-    </div> 
        
     </div>
     </div>
@@ -382,18 +363,17 @@ $loter = $date.''.$time
                   });
             });
 
-            $('#Save_data').click(function() {
-                var filter            = $('#filter').val(); 
-                var filter_tank       = $('#filter_tank').val(); 
-                var tube              = $('#tube').val(); 
-                var solinoi_vaw       = $('#solinoi_vaw').val(); 
-                var lowplessor_swith  = $('#lowplessor_swith').val(); 
-                var hiplessor_swith   = $('#hiplessor_swith').val(); 
-                var water_in          = $('#water_in').val(); 
-                var hot_clod          = $('#hot_clod').val(); 
-                var storage_tank      = $('#storage_tank').val(); 
-                var water_filter_id   = $('#water_filter_id').val(); 
-                var pipes             = $('#pipes').val(); 
+            $('#Insert_data').click(function() {
+                var filter = $('#filter').val(); 
+                var filter_tank = $('#filter_tank').val(); 
+                var tube = $('#tube').val(); 
+                var solinoi_vaw = $('#solinoi_vaw').val(); 
+                var lowplessor_swith = $('#lowplessor_swith').val(); 
+                var hiplessor_swith = $('#hiplessor_swith').val(); 
+                var water_in = $('#water_in').val(); 
+                var hot_clod = $('#hot_clod').val(); 
+                var storage_tank = $('#storage_tank').val(); 
+                var storage_tank = $('#storage_tank').val(); 
                 
                 Swal.fire({
                     position: "top-end",
@@ -414,7 +394,7 @@ $loter = $date.''.$time
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
-                                        filter,filter_tank,tube,solinoi_vaw,lowplessor_swith,hiplessor_swith,water_in,hot_clod,storage_tank ,water_filter_id,pipes                  
+                                        filter,filter_tank,tube,solinoi_vaw,lowplessor_swith,hiplessor_swith,water_in,hot_clod,storage_tank                   
                                     },
                                     success: function(data) {
                                         if (data.status == 200) { 
@@ -448,7 +428,6 @@ $loter = $date.''.$time
                             }
                 })
             });
-
 
             
           

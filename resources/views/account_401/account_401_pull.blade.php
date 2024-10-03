@@ -1583,7 +1583,7 @@
                                 
                             }
                 })
-        });
+            });
 
             $('#destroy').on('click', function(e) {           
                     if($(this).is(':checked',true))  

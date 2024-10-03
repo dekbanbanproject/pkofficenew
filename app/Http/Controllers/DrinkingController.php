@@ -156,9 +156,23 @@ class DrinkingController extends Controller
         $year = date('Y'); 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
-        $datashow = DB::select('SELECT * FROM water_filter WHERE water_year = "'.$bg_yearnow.'" AND active ="Y" ORDER BY water_filter_id ASC'); 
+        // $datashow = DB::select('SELECT * FROM water_check WHERE water_year = "'.$bg_yearnow.'" ORDER BY water_check_id ASC'); 
+        $datashow = DB::select(
+            'SELECT a.*
+              ,(SELECT location_name FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as location_name
+              ,(SELECT class FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as class
+              ,(SELECT detail FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as detail
+            FROM water_check a 
+            WHERE a.check_year = "'.$bg_yearnow.'" AND a.check_date BETWEEN "'.$newweek.'" AND "'.$datenow.'"
+            GROUP BY a.water_code
+            ORDER BY a.water_check_id ASC 
+        ');    
         // WHERE active="Y"
         return view('support_prs.water.drinking_water_check',[
             'startdate'     => $startdate,
@@ -445,31 +459,39 @@ class DrinkingController extends Controller
             $wt     = Auth::user()->per_water; 
 
             if ($wt == 'on') {
-                    $datenow   = date('Y-m-d');
-                    $months    = date('m');
-                    $year      = date('Y'); 
-                    $startdate = $request->startdate;
-                    $enddate   = $request->enddate;
-                    $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน
-                    // $iduser    = Auth::user()->id;
+                    $datenow      = date('Y-m-d');
+                    $months       = date('m');
+                    $year         = date('Y'); 
+                    $data['mm']   = date('H:m:s');
+                    $startdate    = $request->startdate;
+                    $enddate      = $request->enddate;
+                    $newweek      = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+                    $newDate      = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน 
                 
                     $data_detail = Water_check::leftJoin('users', 'water_check.user_id', '=', 'users.id') 
                     ->leftJoin('water_filter', 'water_filter.water_filter_id', '=', 'water_check.water_filter_id') 
                     ->where('water_check.water_filter_id', '=', $id)
                     ->get();
 
+                    $data['date_now']                = date('Y-m-d');
                     $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
                     $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
                     $data['users_tech_out_id']       = $users_tech_out_->id;   
                     $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
-                    $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
+                    $data['air_maintenance_list']    = DB::table('air_maintenance_list')->get();
                     $data['users']                   = DB::table('users')->get();
                     $data['air_type']                = DB::table('air_type')->get();
                     $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
                     $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+                    // $data_detail_                    = Water_filter::where('water_filter_id', '=', $id)->first();
                     $data_detail_                    = Water_filter::where('water_filter_id', '=', $id)->first();
-                   
+                    $data['water_filter_id']         = $data_detail_->water_filter_id;
+                    $data['water_code']              = $data_detail_->water_code;
+                    $data['water_name']              = $data_detail_->water_name;
+                    $data['location_name']           = $data_detail_->location_name;
+                    $data['class']                   = $data_detail_->class;
+                    $data['detail']                  = $data_detail_->detail;
+
                     $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
                     // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
                     return view('support_prs.water.drinking_check_add',$data, [ 
@@ -482,11 +504,210 @@ class DrinkingController extends Controller
                 return view('support_prs.water.drinking_check_null'); 
             }
  
-        } else {
-          
+        } else { 
                 return view('support_prs.water.air_repaire_null'); 
+        } 
+    }
+    public function drinking_check_save(Request $request)
+    {
+        $date          = date('Y-m-d');
+        $y             = date('Y')+543;
+        $m             = date('H');
+        $mm            = date('H:m:s');
+        $datefull      = date('Y-m-d H:m:s');
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $water_filter_id           = $request->water_filter_id;
+        $data_detail_              = Water_filter::where('water_filter_id', '=', $water_filter_id)->first();
+        $water_filterid            = $data_detail_->water_filter_id;
+        $water_code                = $data_detail_->water_code;
+        $water_name                = $data_detail_->water_name;
+        $location_name             = $data_detail_->location_name;
+        $class                     = $data_detail_->class;
+        $detail                    = $data_detail_->detail;
+
+        if ($request->filter == 'Y') {
+            $filter_name   ='พร้อมใช้งาน';
+        } else {
+            $filter_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->filter_tank == 'Y') {
+            $filter_tank_name   ='พร้อมใช้งาน';
+        } else {
+            $filter_tank_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->tube == 'Y') {
+            $tube_name     ='พร้อมใช้งาน';
+        } else {
+            $tube_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->solinoi_vaw == 'Y') {
+            $solinoi_vaw_name     ='พร้อมใช้งาน';
+        } else {
+            $solinoi_vaw_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->lowplessor_swith == 'Y') {
+            $lowplessor_swith_name     ='พร้อมใช้งาน';
+        } else {
+            $lowplessor_swith_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->hiplessor_swith == 'Y') {
+            $hiplessor_swith_name     ='พร้อมใช้งาน';
+        } else {
+            $hiplessor_swith_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->water_in == 'Y') {
+            $water_in_name     ='พร้อมใช้งาน';
+        } else {
+            $water_in_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->hot_clod == 'Y') {
+            $hot_clod_name     ='พร้อมใช้งาน';
+        } else {
+            $hot_clod_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->pipes == 'Y') {
+            $pipes_name     ='พร้อมใช้งาน';
+        } else {
+            $pipes_name   ='ไม่พร้อมใช้งาน';
+        }
+        if ($request->storage_tank == 'Y') {
+            $storage_tank_name     ='พร้อมใช้งาน';
+        } else {
+            $storage_tank_name   ='ไม่พร้อมใช้งาน';
+        }
+        $iduser    = Auth::user()->id;
+        $name_         = User::where('id', '=',$iduser)->first();
+        $name_check    = $name_->fname. '  '.$name_->lname;
+
+        $add                       = new Water_check();
+        $add->check_year           = $bg_yearnow;
+        $add->check_date           = $date;
+        $add->check_time           = $mm;
+        $add->water_filter_id      = $water_filterid;
+        $add->water_code           = $water_code;
+        $add->water_name           = $water_name; 
+        $add->filter                = $request->filter; 
+        $add->filter_name           = $filter_name; 
+        $add->filter_tank           = $request->filter_tank;  
+        $add->filter_tank_name      = $filter_tank_name;  
+        $add->tube                  = $request->tube; 
+        $add->tube_name             = $tube_name; 
+        $add->solinoi_vaw           = $request->solinoi_vaw; 
+        $add->solinoi_vaw_name      = $solinoi_vaw_name; 
+        $add->lowplessor_swith      = $request->lowplessor_swith; 
+        $add->lowplessor_swith_name = $lowplessor_swith_name; 
+        $add->hiplessor_swith       = $request->hiplessor_swith;
+        $add->hiplessor_swith_name  = $hiplessor_swith_name;  
+        $add->water_in              = $request->water_in; 
+        $add->water_in_name         = $water_in_name; 
+        $add->hot_clod              = $request->hot_clod; 
+        $add->hot_clod_name         = $hot_clod_name; 
+        $add->pipes                 = $request->pipes;  
+        $add->pipes_name            = $pipes_name;  
+        $add->storage_tank          = $request->storage_tank;  
+        $add->storage_tank_name     = $storage_tank_name;  
+        $add->user_id               = $iduser;
+        $add->save();
+
+        if ($request->filter == 'Y' || $request->filter_tank == 'Y' || $request->tube == 'Y' || $request->solinoi_vaw == 'Y' || $request->lowplessor_swith == 'Y' || $request->hiplessor_swith == 'Y' || $request->water_in == 'Y' || $request->hot_clod == 'Y' || $request->pipes == 'Y' || $request->storage_tank == 'Y') {
+            $active = 'Y';
+            $active_show = 'พร้อมใช้งาน';
+            Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
+        } else {
+            $active = 'N';
+            $active_show = 'ไม่พร้อมใช้งาน';
+            Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
         }
          
+                    function DateThailine($strDate)
+                    {
+                        $strYear = date("Y", strtotime($strDate)) + 543;
+                        $strMonth = date("n", strtotime($strDate));
+                        $strDay = date("j", strtotime($strDate));
+                        $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                        $strMonthThai = $strMonthCut[$strMonth];
+                        return "$strDay $strMonthThai $strYear";
+                    }
+                    $header = "ตรวจสอบเครื่องผลิตน้ำดื่ม";                                    
+                    $message =  $header. 
+                    "\n" . "วันที่ตรวจสอบ: " . DateThailine($date).
+                    "\n" . "เวลา : " . $mm ."". 
+                    "\n" . "อาคาร : " . $location_name .  
+                    "\n" . "ชั้น : " . $class .  
+                    "\n" . "จุดตรวจเช็ค : " . $detail .  
+                    "\n" . "ไส้กรอง : " . $filter_name .  
+                    "\n" . "ถังกรองน้ำ : " . $filter_tank_name . 
+                    "\n" . "หลอด UV : " . $tube_name . 
+                    "\n" . "โซลินอยวาล์ว : " . $solinoi_vaw_name.
+                    "\n" . "โลเพรสเซอร์สวิส : " . $lowplessor_swith_name.
+                    "\n" . "ไฮเพรสเซอร์สวิส : " . $hiplessor_swith_name.
+                    "\n" . "สายน้ำเข้า : " . $water_in_name.
+                    "\n" . "ก๊อกน้ำร้อน-เย็น : " . $hot_clod_name.
+                    "\n" . "ข้อต่อและท่อ : " . $pipes_name.
+                    "\n" . "ถังเก็บน้ำกรอง : " . $storage_tank_name.
+                    "\n" . "ผู้ตรวจสอบ : " . $name_check;
+                    // "\n" . "สถานะ : " . $active_show;
+
+                    $linesend_tech = "YNWHjzi9EA6mr5myMrcTvTaSlfOMPHMOiCyOfeSJTHr"; //ช่างซ่อม
+                    $linesend      = "u0prMwfXLUod8Go1E0fJUxmMaLUmC40tBgcHgbHFgNG";  // พรส  
+
+                    if ($linesend == null) {
+                        $test = '';
+                    } else {
+                        $test = $linesend;
+                    }
+                    if ($test !== '' && $test !== null) {
+                        $chOne = curl_init();
+                        curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($chOne, CURLOPT_POST, 1);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test . '',);
+                        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($chOne);
+                        if (curl_error($chOne)) {
+                            echo 'error:' . curl_error($chOne);
+                        } else {
+                            $result_ = json_decode($result, true);                        
+                        }
+                        curl_close($chOne); 
+                    }
+
+                    if ($linesend_tech == null) {
+                        $test2 = '';
+                    } else {
+                        $test2 = $linesend_tech;
+                    }
+                    if ($test2 !== '' && $test2 !== null) {
+                        $chOne_tech = curl_init();
+                        curl_setopt($chOne_tech, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($chOne_tech, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($chOne_tech, CURLOPT_POST, 1);
+                        curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($chOne_tech, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt($chOne_tech, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers2 = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $test2 . '',);
+                        curl_setopt($chOne_tech, CURLOPT_HTTPHEADER, $headers2);
+                        curl_setopt($chOne_tech, CURLOPT_RETURNTRANSFER, 1);
+                        $result2 = curl_exec($chOne_tech);
+                        if (curl_error($chOne_tech)) {
+                            echo 'error:' . curl_error($chOne_tech);
+                        } else {
+                            $result_2 = json_decode($result2, true);                        
+                        }
+                        curl_close($chOne_tech); 
+                    }
+
+        return response()->json([
+            'status'     => '200'
+        ]);
     }
 
     // Tank Main

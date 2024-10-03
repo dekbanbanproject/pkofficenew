@@ -47,20 +47,20 @@
     <div class="row"> 
         <div class="col-md-4">
            
-            <h4 style="color:rgb(255, 255, 255)">ทะเบียนเครื่องผลิตน้ำดื่ม</h4> 
+            <h4 style="color:rgb(255, 255, 255)">รายการตรวสอบเครื่องผลิตน้ำดื่ม</h4> 
         </div>
         <div class="col"></div>
       
         <div class="col-md-7 text-end">
       
-            <a href="{{url('drinking_check')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
+            {{-- <a href="{{url('drinking_check')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-circle-plus text-white me-2"></i>
                ทำรายการ
-            </a>  
-            <a href="{{url('drinking_mobilecheck')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
+            </a>   --}}
+            {{-- <a href="{{url('drinking_mobilecheck')}}" target="_blank" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs"> 
                 <i class="fa-solid fa-mobile-screen-button text-white me-2"></i>
                 ทำรายการ
-            </a> 
+            </a>  --}}
       
         </div>
 </div> 
@@ -85,39 +85,39 @@
                                 <tr>
                                   
                                     <th width="3%" class="text-center">ลำดับ</th>  
-                                    <th class="text-center" width="3%">สถานะ</th> 
-                                    <th class="text-center" width="3%">รูปภาพ</th>  
+                                    {{-- <th class="text-center" width="3%">สถานะ</th>  --}}
+                                    {{-- <th class="text-center" width="3%">รูปภาพ</th>   --}}
                                     <th class="text-center" width="5%">รหัสครุภัณฑ์</th>  
                                     <th class="text-center" >รายการ</th> 
                                     <th class="text-center" >อาคาร/ชั้น</th> 
                                     <th class="text-center" >หน่วยงาน</th>  
-                                    <th class="text-center">จัดการ</th> 
+                                    {{-- <th class="text-center">จัดการ</th>  --}}
                                 </tr>
                             </thead>
-                            {{-- <tbody>
+                            <tbody>
                                 <?php $i = 1; ?>
                                 @foreach ($datashow as $item) 
-                                    <tr id="tr_{{$item->water_filter_id}}">                                                  
+                                    <tr id="tr_{{$item->water_check_id}}">                                                  
                                         <td class="text-center" width="3%">{{ $i++ }}</td>  
-                                        <td class="text-center" width="3%">
+                                        {{-- <td class="text-center" width="3%">
                                             @if ($item->active == 'Y') 
                                                 <span class="badge bg-success">พร้อมใช้งาน</span> 
                                             @else 
                                                 <span class="badge bg-danger">ไม่พร้อมใช้งาน</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
                                       
-                                        @if ( $item->water_img == Null )
+                                        {{-- @if ( $item->water_img == Null )
                                         <td class="text-center" width="3%"><img src="{{asset('assets/images/defailt_img.jpg')}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white"></td> 
                                         @else
                                         <td class="text-center" width="3%"><img src="{{asset('storage/water/'.$item->water_img)}}" height="20px" width="20px" alt="Image" class="img-thumbnail bt_prs" style="background: white">  </td>                                
-                                        @endif
+                                        @endif --}}
  
-                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_num }}</td>  
+                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_code }}</td>  
                                         <td class="p-2">{{ $item->water_name }}</td>  
                                         <td class="p-2">{{ $item->location_name }} / ชั้น {{ $item->class }}</td>  
                                         <td class="p-2">{{ $item->detail }}</td>                                          
-                                        <td class="text-center" width="5%">
+                                        {{-- <td class="text-center" width="5%">
  
                                             <div class="btn-group me-1">
                                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -148,11 +148,11 @@
                                                     
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
 
                                     </tr>
                                 @endforeach
-                            </tbody> --}}
+                            </tbody>
                         </table>
                     </div>
                 </p>

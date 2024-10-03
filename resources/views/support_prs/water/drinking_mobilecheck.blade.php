@@ -131,9 +131,20 @@ $loter = $date.''.$time
         </div>
     </div> 
     <div class="row"> 
+        <div class="col text-center">   
+            <p style="color:rgb(255, 255, 255);font-size:18px">วันที่ {{Datethai($date_now)}} เวลา:{{$mm}}</p>
+        </div> 
+    </div>
+    <div class="row"> 
+        <div class="col text-center">   
+            <p style="color:rgb(255, 255, 255);font-size:18px">ที่ตั้ง {{$location_name}} ชั้น :{{$class}} ({{$detail}})  </p>
+        </div>
+      
+    </div>
+    {{-- <div class="row"> 
         <div class="col text-center">
             <div class="form-group">
-                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Insert_data"> 
+                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Save_data"> 
                     <i class="fa-solid fa-floppy-disk me-2"></i>
                         บันทึกข้อมูล
                 </button>
@@ -142,111 +153,153 @@ $loter = $date.''.$time
                     ยกเลิก
                 </a>
             </div>
-        </div>
-       
-        
-    </div> 
+        </div> 
+    </div>  --}}
    
-    <div class="row mt-2">
+    <div class="row">
         <div class="col-xl-12">
             <div class="card card_prs_4">
                 <div class="card-body"> 
  
-                    {{-- <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
-                    <input type="hidden" id="gas_list_id" name="gas_list_id" value="{{$gas_list_id}}"> 
-                    <input type="hidden" id="gas_list_num" name="gas_list_num" value="{{$gas_list_num}}">
-                    <input type="hidden" id="gas_list_name" name="gas_list_name" value="{{$gas_list_name}}">
-                    <input type="hidden" id="class_edit" name="class_edit" value="{{$class}}">
-                    <input type="hidden" id="dot_name" name="dot_name" value="{{$dot_name}}">                   
-                     <input type="hidden" id="location_name" name="location_name" value="{{$location_name}}"> --}}
-                  
-                    <div class="row">
-                        <div class="col text-center"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">222</p>
-                        </div> 
-                    </div>
-                    <div class="row">
-                        <div class="col text-center"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2"> ชั้น 222 จุดตรวจ 222</p>
-                        </div> 
-                    </div>
+                    <input type="hidden" id="check_date" name="check_date" value="{{$date_now}}">
+                    <input type="hidden" id="water_filter_id" name="water_filter_id" value="{{$water_filter_id}}"> 
+                     
 
                    
                     <div class="row">
-                        <div class="col-8 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">Oxygen Control</p>
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ไส้กรอง</p>
                         </div>
-                        <div class="col text-start">  
-                            <input type="text" class="form-control" id="oxygen_check" name="oxygen_check" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
+                        <div class="col text-start">   
+                            <select name="filter" id="filter" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
                         </div> 
-                        {{-- <div class="col-2 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">inH2O</p>
-                        </div> --}}
+                        
                     </div>
                     <div class="row">
-                        <div class="col-8 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">Nitrous oxide Control</p>
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ถังกรองน้ำ</p>
                         </div>
                         <div class="col text-start">  
-                            <input type="text" class="form-control" id="nitrous_oxide_check" name="nitrous_oxide_check" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
+                            <select name="filter_tank" id="filter_tank" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
                         </div> 
-                        {{-- <div class="col-2 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">bar</p>
-                        </div> --}}
+                        
                     </div>
                     <div class="row">
-                        <div class="col-8 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">Pneumatic Air Control</p>
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">หลอด UV</p>
                         </div>
-                        <div class="col text-start">  
-                            <input type="text" class="form-control" id="pneumatic_air_check" name="pneumatic_air_check" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
-                        </div> 
-                        {{-- <div class="col-2 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">bar</p>
-                        </div> --}}
-                    </div>
-                    <div class="row">
-                        <div class="col-8 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">Vacuum Control</p>
-                        </div>
-                        <div class="col text-start">  
-                            <input type="text" class="form-control" id="vacuum_check" name="vacuum_check" style="color:rgb(19, 154, 233);font-size:16px;background-color: white"> 
-                        </div> 
-                        {{-- <div class="col-2 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">bar</p>
-                        </div> --}}
-                    </div>
-                    <div class="row">
-                        <div class="col-8 text-start"> 
-                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">สถานะ</p>
-                        </div>
-                        <div class="col text-start">  
-                            {{-- <input type="text" class="form-control" id="pneumatic_air_check" name="pneumatic_air_check" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">  --}}
-                            <select name="active_edit" id="active_edit" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
-                                <option value="Ready">พร้อมใช้งาน</option>
-                                <option value="NotReady">ไม่พร้อมใช้งาน</option>
+                        <div class="col text-start">   
+                            <select name="tube" id="tube" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
                             </select>
                         </div> 
                        
                     </div>
-                    <div class="row mt-4 mb-4">                         
-                        <div class="col text-center">
-                            <button type="button" class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Save_data"> 
-                                <i class="fa-solid fa-floppy-disk text-white me-2"></i>
-                               บันทึกข้อมูล
-                            </button>  
-                            <a href="{{url('gas_control_add')}}" class="ladda-button me-2 btn-pill btn btn-danger bt_prs">  
-                                <i class="fa-solid fa-xmark me-2"></i>
-                                ยกเลิก
-                            </a> 
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">โซลินอยวาล</p>
                         </div>
-                
+                        <div class="col text-start">  
+                            <select name="solinoi_vaw" id="solinoi_vaw" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
                     </div>
-                    
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">โลเพรสเซอร์สวิส</p>
+                        </div>
+                        <div class="col text-start">   
+                            <select name="lowplessor_swith" id="lowplessor_swith" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ไฮเพรสเซอร์สวิส</p>
+                        </div>
+                        <div class="col text-start">   
+                            <select name="hiplessor_swith" id="hiplessor_swith" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">สายน้ำเข้า</p>
+                        </div>
+                        <div class="col text-start">  
+                            <select name="water_in" id="water_in" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ก๊อกน้ำร้อน-เย็น</p>
+                        </div>
+                        <div class="col text-start">   
+                            <select name="hot_clod" id="hot_clod" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ข้อต่อและท่อ</p>
+                        </div>
+                        <div class="col text-start">   
+                            <select name="pipes" id="pipes" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 text-start"> 
+                            <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ถังเก็บน้ำกรอง</p>
+                        </div>
+                        <div class="col text-start">   
+                            <select name="storage_tank" id="storage_tank" class="form-control" style="color:rgb(19, 154, 233);font-size:16px;background-color: white">
+                                <option value="Y">พร้อมใช้งาน</option>
+                                <option value="N">ไม่พร้อมใช้งาน</option>
+                            </select>
+                        </div>  
+                    </div>
+                 
                 </div>
             </div> 
         </div>
     </div>
+
+    <div class="row mt-2"> 
+        <div class="col text-center">
+            <div class="form-group">
+                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Save_data"> 
+                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                        บันทึกข้อมูล
+                </button>
+                <a href="{{ url('drinking_water_check') }}" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-danger bt_prs">
+                    <i class="fa-solid fa-xmark me-2"></i>
+                    ยกเลิก
+                </a>
+            </div>
+        </div> 
+    </div> 
        
     </div>
     </div>
@@ -328,6 +381,74 @@ $loter = $date.''.$time
                     }
                   });
             });
+
+            $('#Save_data').click(function() {
+                var filter            = $('#filter').val(); 
+                var filter_tank       = $('#filter_tank').val(); 
+                var tube              = $('#tube').val(); 
+                var solinoi_vaw       = $('#solinoi_vaw').val(); 
+                var lowplessor_swith  = $('#lowplessor_swith').val(); 
+                var hiplessor_swith   = $('#hiplessor_swith').val(); 
+                var water_in          = $('#water_in').val(); 
+                var hot_clod          = $('#hot_clod').val(); 
+                var storage_tank      = $('#storage_tank').val(); 
+                var water_filter_id   = $('#water_filter_id').val(); 
+                var pipes             = $('#pipes').val(); 
+                
+                Swal.fire({
+                    position: "top-end",
+                        title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
+                        text: "You Warn Save Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Save it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('prs.drinking_check_save') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        filter,filter_tank,tube,solinoi_vaw,lowplessor_swith,hiplessor_swith,water_in,hot_clod,storage_tank ,water_filter_id,pipes                  
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                position: "top-end",
+                                                title: 'บันทึกข้อมูลสำเร็จ',
+                                                text: "You Save data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    // window.location.reload();
+                                                    window.location="{{url('drinking_water_check')}}";
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
 
             
           

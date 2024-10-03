@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('water_name')->nullable(); // 
            
                 $table->decimal('water_price',total: 12, places: 2)->nullable(); //   
-                $table->string('size')->nullable(); // 
+                $table->string('detail')->nullable(); // 
                 $table->string('unit_id')->nullable(); // 
                 $table->string('brand_id')->nullable(); // 
                 $table->string('size')->nullable(); // 
