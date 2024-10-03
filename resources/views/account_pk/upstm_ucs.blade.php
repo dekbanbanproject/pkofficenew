@@ -99,7 +99,7 @@
         <div class="row">
 
             <div class="col"></div>
-            <div class="col-xl-8 col-md-6">
+            <div class="col-xl-6 col-md-6">
                 <div class="card card_audit_4c">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" enctype="multipart/form-data"> 
@@ -148,7 +148,7 @@
         <div class="row">
 
             <div class="col"></div>
-            <div class="col-xl-8 col-md-6">
+            <div class="col-xl-6 col-md-6">
                 <div class="card p-3 card_audit_4c">
                     <div class="grid-menu-col">
 

@@ -88,37 +88,7 @@ class AccdashboardController extends Controller
 {
   public function account_pk_dash(Request $request)
   { ;
-        // if ($startdate != '') {
-        //   Acc_dashboard::truncate();
-        //     $data =  DB::connection('mysql2')->select('              
-        //           SELECT 
-        //             month(v.vstdate) as months,year(v.vstdate) as year,pt.hipdata_code,count(distinct v.vn) as count_vn
-        //             ,sum(v.income) as income
-        //             ,sum(v.discount_money) as discount_money
-        //             ,sum(v.rcpt_money) as rcpt_money
-        //             ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as debit 
-        //             from hos.vn_stat v 
-        //             LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn 
-        //             LEFT JOIN hos.pttype pt on v.pttype=pt.pttype 
-        //             WHERE v.vstdate BETWEEN "'. $startdate.'" AND "'. $enddate.'"
-        //             AND pt.hipdata_code <> ""
-        //             GROUP BY month(v.vstdate),pt.hipdata_code 
-        //             ORDER BY v.vstdate desc
-        //     ');
-          
-        //     foreach ($data as $key => $value) { 
-        //       Acc_dashboard::insert([
-        //           'months'                 => $value->months,
-        //           'year'                   => $value->year,
-        //           'hipdata_code'           => $value->hipdata_code,
-        //           'count_vn'               => $value->count_vn,
-        //           'income'                 => $value->income,
-        //           'discount_money'         => $value->discount_money,
-        //           'rcpt_money'             => $value->rcpt_money,
-        //           'debit'                  => $value->debit,                
-        //       ]);
-        //     }  
-        // }
+         
           $budget_year   = $request->budget_year;
           $yearnew = date('Y');
           $year_old = date('Y')-1;
@@ -139,12 +109,7 @@ class AccdashboardController extends Controller
             $year_now = date('Y'); 
               //  dd($dabudget_year);
             if ($budget_year == '') {  
-                // $yearnew = date('Y');
-                // $year_old = date('Y')-1;
-                // $months_old  = ('10');
-                // $startdate = (''.$year_old.'-10-01');
-                // $enddate = (''.$yearnew.'-09-30');
-
+               
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
                         ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
