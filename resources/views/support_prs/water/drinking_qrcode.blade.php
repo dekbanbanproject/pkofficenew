@@ -1,3 +1,5 @@
+ 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,22 +42,21 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
                
                         <?php $i = 0; ?>
-                        @foreach ($dataprint_main as $key => $item)
+                        @foreach ($dataprint as $key => $item)
                         <?php $i++; ?>
                             <div class="col-md-2 text-center mt-4">
                                 <div class="card mb-5 mt-5"
                                     style="max-width: 25rem;border-color:rgb(193, 20, 236);background-color:rgb(218, 250, 248);border-radius: 2em 2em 2em 2em">
                                     <div class="body"><br>
-                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/air_repaire/' . $item->air_list_id) !!}
+                                        {!! QrCode::size(112)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/drinking_check_add/' . $item->water_filter_id) !!}
                                         <hr style="color:rgb(193, 20, 236)">
-                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> {{ $item->air_list_num }} <br>
-                                            สแกนเพื่อซ่อม</p>
+                                        <p style="font-size: 17px;color:rgb(193, 20, 236)"> {{ $item->water_code }} <br>
+                                            สแกนเพื่อตรวจสอบ</p>
                                     </div>
                                 </div>
-                            </div>
-                           
-                            
+                            </div> 
                         @endforeach
+ 
                       
             </div>
             
@@ -70,3 +71,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
     </body>
 
 </html>
+
+        
+                     

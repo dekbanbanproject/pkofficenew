@@ -435,9 +435,9 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('drinking_water_day')}}" id="topnav-layout-verti"
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('drinking_water_check')}}" id="topnav-layout-verti"
                                             role="button">
-                                            <span key="t-vertical">ตรวจสอบ(รายวัน)</span>  
+                                            <span key="t-vertical">ตรวจสอบ</span>  
                                         </a> 
                                     </div>
                                     {{-- <div class="dropdown">

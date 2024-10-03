@@ -3480,6 +3480,15 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'water_check/{id}', [App\Http\Controllers\DrinkingController::class, 'water_check'])->name('prs.water_check'); //
   Route::match(['get', 'post'], 'drinking_water_qrcode_only/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_water_qrcode_only'])->name('prs.drinking_water_qrcode_only'); //
   Route::match(['get', 'post'], 'drinking_water_day', [App\Http\Controllers\DrinkingController::class, 'drinking_water_day'])->name('prs.drinking_water_day'); //
+  Route::match(['get', 'post'], 'drinking_water_check', [App\Http\Controllers\DrinkingController::class, 'drinking_water_check'])->name('prs.drinking_water_check'); //
+  Route::match(['get', 'post'], 'drinking_check', [App\Http\Controllers\DrinkingController::class, 'drinking_check'])->name('prs.drinking_check'); //
+  Route::match(['get', 'post'], 'drinking_mobilecheck', [App\Http\Controllers\DrinkingController::class, 'drinking_mobilecheck'])->name('prs.drinking_mobilecheck'); //
+  Route::match(['get', 'post'], 'drinking_check_save', [App\Http\Controllers\DrinkingController::class, 'drinking_check_save'])->name('prs.drinking_check_save'); //
+  Route::match(['get', 'post'], 'drinking_check_edit/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_check_edit'])->name('prs.drinking_check_edit'); //
+  Route::match(['get', 'post'], 'drinking_check_update', [App\Http\Controllers\DrinkingController::class, 'drinking_check_update'])->name('prs.drinking_check_update'); //
+  Route::match(['get', 'post'], 'drinking_qrcode', [App\Http\Controllers\DrinkingController::class, 'drinking_qrcode'])->name('prs.drinking_qrcode'); //
+  Route::match(['get', 'post'], 'drinking_check_add/{id}', [App\Http\Controllers\DrinkingController::class, 'drinking_check_add'])->name('prs.drinking_check_add'); //
+  Route::match(['get', 'post'], 'drinking_check_null', [App\Http\Controllers\DrinkingController::class, 'drinking_check_null'])->name('prs.drinking_check_null'); //
 
   Route::match(['get', 'post'], 'document', [App\Http\Controllers\DocumentController::class, 'document'])->name('d.document'); //
   Route::match(['get', 'post'], 'document_save', [App\Http\Controllers\DocumentController::class, 'document_save'])->name('d.document_save'); //

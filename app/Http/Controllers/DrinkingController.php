@@ -38,7 +38,7 @@ use App\Models\Cctv_list;
 use App\Models\Air_report_ploblems;
 use App\Models\Air_repaire_supexcel;
 use App\Models\Air_repaire_excel;
-use App\Models\Article_status;
+use App\Models\Water_check;
 use App\Models\Water_filter;
 use App\Models\Gas_list;
 use App\Models\Gas_check;
@@ -140,51 +140,71 @@ class DrinkingController extends Controller
             'datashow'      => $datashow,
         ]);
     }
-    // public function gas_check_list(Request $request)
-    // {
-    //     $datenow   = date('Y-m-d');
-    //     $months    = date('m');
-    //     $year      = date('Y'); 
-    //     $startdate = $request->startdate;
-    //     $enddate   = $request->enddate;
-    //     $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-    //     $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
-    //     $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
-    //     $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-    //     $bg_yearnow    = $bgs_year->leave_year_id;
+    public function drinking_qrcode(Request $request)
+    {  
+            $dataprint = Water_filter::get();
 
-    //     if ($startdate =='') {
-    //         $datashow = DB::select(
-    //             'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
-    //             ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
-    //             ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
-    //             ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
-    //             FROM gas_check b
-    //             LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
-    //             LEFT JOIN users p ON p.id = a.user_id 
-    //             WHERE b.check_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" AND a.gas_year = "'.$bg_yearnow.'"
-    //             ORDER BY b.gas_check_id DESC 
-    //         '); 
-    //     } else {
-    //         $datashow = DB::select(
-    //             'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
-    //             ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
-    //             ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
-    //             ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname 
-    //             FROM gas_check b
-    //             LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
-    //             LEFT JOIN users p ON p.id = a.user_id 
-    //             WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.gas_year = "'.$bg_yearnow.'"
-    //             ORDER BY b.gas_check_id DESC  
-    //         '); 
-    //     }
-     
-    //     return view('support_prs.gas.gas_check_list',[
-    //         'startdate'     => $startdate,
-    //         'enddate'       => $enddate, 
-    //         'datashow'      => $datashow,
-    //     ]);
-    // }
+        return view('support_prs.water.drinking_qrcode', [
+            'dataprint'  =>  $dataprint
+        ]);
+
+    }  
+    public function drinking_water_check(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $datashow = DB::select('SELECT * FROM water_filter WHERE water_year = "'.$bg_yearnow.'" AND active ="Y" ORDER BY water_filter_id ASC'); 
+        // WHERE active="Y"
+        return view('support_prs.water.drinking_water_check',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,
+        ]);
+    }
+    public function drinking_mobilecheck(Request $request)
+    {
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y'); 
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
+        $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $data['date_now']   = date('Y-m-d');
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_type']       = $data_->gas_type;
+        $data['budget_year']        = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $data['product_unit']       = Product_unit::get();
+        $data['product_brand']      = DB::table('product_brand')->get();
+        $data['building_data']      = DB::table('building_data')->get();
+        $data_                  = DB::table('gas_dot_control')->where('gas_dot_control_id','1')->first();
+        $data['gas_list_id']    = $data_->gas_list_id;
+        $data['gas_list_num']   = $data_->gas_list_num;
+        $data['gas_list_name']  = $data_->gas_list_name;
+        $data['gas_type']       = $data_->gas_type;
+        $data['dot']            = $data_->dot;
+        $data['dot_name']       = $data_->dot_name;
+        $data['location_id']    = $data_->location_id;
+        $data['location_name']  = $data_->location_name;
+        $data['detail']         = $data_->detail;
+        $data['class']          = $data_->class; 
+
+        $m             = date('H');
+        $data['mm']    = date('H:m:s');
+        $datefull = date('Y-m-d H:m:s');
+        return view('support_prs.water.drinking_mobilecheck',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            // 'data_edit'     => $data_edit,
+        ]);
+    }
     public function drinking_water_add(Request $request)
     {
         $datenow   = date('Y-m-d');
@@ -415,6 +435,58 @@ class DrinkingController extends Controller
         return response()->json([
             'status'     => '200'
         ]);
+    }
+    public function drinking_check_add(Request $request, $id)
+    {  
+        if (Auth::check()) {
+            $type      = Auth::user()->type;
+            $iduser    = Auth::user()->id;
+            $iddep     = Auth::user()->dep_subsubtrueid;
+            $wt     = Auth::user()->per_water; 
+
+            if ($wt == 'on') {
+                    $datenow   = date('Y-m-d');
+                    $months    = date('m');
+                    $year      = date('Y'); 
+                    $startdate = $request->startdate;
+                    $enddate   = $request->enddate;
+                    $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+                    $newDate   = date('Y-m-d', strtotime($datenow . ' -5 months')); //ย้อนหลัง 5 เดือน
+                    // $iduser    = Auth::user()->id;
+                
+                    $data_detail = Water_check::leftJoin('users', 'water_check.user_id', '=', 'users.id') 
+                    ->leftJoin('water_filter', 'water_filter.water_filter_id', '=', 'water_check.water_filter_id') 
+                    ->where('water_check.water_filter_id', '=', $id)
+                    ->get();
+
+                    $users_tech_out_                 = DB::table('users')->where('id','=',$iduser)->first();
+                    $data['users_tech_out']          = $users_tech_out_->fname.'  '.$users_tech_out_->lname; 
+                    $data['users_tech_out_id']       = $users_tech_out_->id;   
+                    $data['air_repaire_ploblem']     = DB::table('air_repaire_ploblem')->get();
+                    $data['air_maintenance_list']     = DB::table('air_maintenance_list')->get();
+                    $data['users']                   = DB::table('users')->get();
+                    $data['air_type']                = DB::table('air_type')->get();
+                    $data['users_tech']              = DB::table('users')->where('dep_id','=','1')->get();
+                    $data['air_tech']                = DB::table('air_tech')->where('air_type','=','IN')->get();
+                    $data_detail_                    = Water_filter::where('water_filter_id', '=', $id)->first();
+                   
+                    $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE TECH_RECEIVE_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'" ORDER BY REPAIR_ID ASC'); 
+                    // $air_no = DB::connection('mysql6')->select('SELECT * from informrepair_index WHERE REPAIR_SYSTEM ="1" AND REPAIR_STATUS ="RECEIVE" ORDER BY REPAIR_ID ASC'); 
+                    return view('support_prs.water.drinking_check_add',$data, [ 
+                    'data_detail'   => $data_detail,
+                    'data_detail_'  => $data_detail_,
+                    'air_no'        => $air_no,
+                    'id'            => $id
+                ]); 
+            } else {
+                return view('support_prs.water.drinking_check_null'); 
+            }
+ 
+        } else {
+          
+                return view('support_prs.water.air_repaire_null'); 
+        }
+         
     }
 
     // Tank Main
@@ -691,7 +763,6 @@ class DrinkingController extends Controller
 
         return response()->json(['status' => '200']);
     } 
-
     //Thank Sub 
     public function gas_check_tanksub(Request $request)
     {
@@ -880,8 +951,7 @@ class DrinkingController extends Controller
             // return request()->json($request);
         }
     }
-    
- 
+     
     public function gas_control_addsub(Request $request)
     {
         $datenow   = date('Y-m-d');
@@ -928,9 +998,7 @@ class DrinkingController extends Controller
         $data['location_id']    = $data_->location_id;
         $data['location_name']  = $data_->location_name;
         $data['detail']         = $data_->detail;
-        $data['class']          = $data_->class;
-       
-        
+        $data['class']          = $data_->class; 
 
         $m             = date('H');
         $data['mm']    = date('H:m:s');
