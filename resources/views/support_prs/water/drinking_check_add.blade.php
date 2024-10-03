@@ -133,7 +133,7 @@ $loter = $date.''.$time
     <div class="row"> 
         <div class="col text-center">
             <div class="form-group">
-                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Insert_data"> 
+                <button type="button" class="mb-2 me-2 ladda-button me-2 btn-pill btn btn-info bt_prs" id="Save_data"> 
                     <i class="fa-solid fa-floppy-disk me-2"></i>
                         บันทึกข้อมูล
                 </button>
@@ -173,7 +173,7 @@ $loter = $date.''.$time
 
                    
                     <div class="row">
-                        <div class="col-8 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ไส้กรอง</p>
                         </div>
                         <div class="col text-start">   
@@ -187,7 +187,7 @@ $loter = $date.''.$time
                         </div> --}}
                     </div>
                     <div class="row">
-                        <div class="col-8 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ถังกรองน้ำ</p>
                         </div>
                         <div class="col text-start">  
@@ -226,7 +226,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-5 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">โลเพรสเซอร์สวิส</p>
                         </div>
                         <div class="col text-start">   
@@ -237,7 +237,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-5 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ไฮเพรสเซอร์สวิส</p>
                         </div>
                         <div class="col text-start">   
@@ -248,7 +248,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-5 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">สายน้ำเข้า</p>
                         </div>
                         <div class="col text-start">  
@@ -259,7 +259,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-5 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ก๊อกน้ำร้อน-เย็น</p>
                         </div>
                         <div class="col text-start">   
@@ -270,7 +270,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-5 text-start"> 
+                        <div class="col-6 text-start"> 
                             <p style="color:rgb(19, 154, 233);font-size:16px" class="mt-2">ถังเก็บน้ำกรอง</p>
                         </div>
                         <div class="col text-start">   
@@ -281,7 +281,7 @@ $loter = $date.''.$time
                         </div>  
                     </div>
                     
-                    <div class="row mt-4 mb-4">                         
+                    {{-- <div class="row mt-4 mb-4">                         
                         <div class="col text-center">
                             <button type="button" class="ladda-button me-2 btn-pill btn btn-success bt_prs" id="Save_data"> 
                                 <i class="fa-solid fa-floppy-disk text-white me-2"></i>
@@ -291,9 +291,8 @@ $loter = $date.''.$time
                                 <i class="fa-solid fa-xmark me-2"></i>
                                 ยกเลิก
                             </a> 
-                        </div>
-                
-                    </div>
+                        </div>                
+                    </div> --}}
                     
                 </div>
             </div> 
