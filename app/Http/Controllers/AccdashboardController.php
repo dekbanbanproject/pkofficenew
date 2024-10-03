@@ -222,92 +222,126 @@ class AccdashboardController extends Controller
   }
   public function account_monitor(Request $request)
   {          
-          $budget_year   = $request->budget_year;
-          $yearnew = date('Y');
-          $year_old = date('Y')-1;
-          $months_old  = ('10');
-          $startdate = (''.$year_old.'-10-01');
-          $enddate = (''.$yearnew.'-09-30');
-            
-            $datenow       = date("Y-m-d");
-            $y             = date('Y') + 543;
-            $dabudget_year = DB::table('budget_year')->where('active','=',true)->get();
+            $startdate   = $request->startdate;
+            $enddate   = $request->enddate;
+            $yearnew = date('Y');
+            $year_old = date('Y')-1;
+            $months_old  = ('10');           
+            $datenow          = date("Y-m-d");
+            $y                = date('Y') + 543;
+            $dabudget_year    = DB::table('budget_year')->where('active','=',true)->get();
             $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-            $date = date('Y-m-d'); 
-            $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-            $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-            $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-            
-            $months_now = date('m');
-            $year_now = date('Y'); 
-              //  dd($dabudget_year);
-            if ($budget_year == '') {                 
-                $datashow = DB::select(' 
-                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
-                        ,sum(a.debit_total) as tung_looknee  
-                        FROM acc_1102050101_202 a 
-                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND a.account_code ="1102050101.202"
-                        GROUP BY months ORDER BY a.dchdate DESC
-                '); 
-                  $data_today = DB::connection('mysql2')->select(' 
-                      SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                          ,o.vstdate,o.vsttime
-                          ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
-                          ,ptt.pttype_eclaim_id,vp.pttype
-                          ,e.code as acc_code
-                          ,"1102050101.401" as account_code
-                          ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name
-                          ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
-                          ,v.income-v.discount_money-v.rcpt_money as debit
-                          ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                          ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                          ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                          ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
-                          ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                          ,ptt.max_debt_money
-                          ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
-                          ,group_concat(DISTINCT hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
-                          ,rd.sss_approval_code AS approval_code,rd.amount AS price_ofc,d.cc
-                          from ovst o
-                          left join vn_stat v on v.vn=o.vn
-                          left join patient pt on pt.hn=o.hn
-                          LEFT JOIN visit_pttype vp on vp.vn = v.vn
-                          LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-                          LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                          LEFT JOIN opitemrece op ON op.vn = o.vn
-                          LEFT JOIN ovstdiag ov ON ov.vn = v.vn
-                          LEFT JOIN rcpt_debt rd ON v.vn = rd.vn
-                          LEFT JOIN hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                          LEFT JOIN opdscreen d on d.vn = v.vn
-                          WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                          AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")                  
-                          and v.income-v.discount_money-v.rcpt_money <> 0
-                          and (o.an="" or o.an is null) AND pt.cid IS NOT NULL
-                          GROUP BY v.vn
+            $date             = date('Y-m-d'); 
+            $newday           = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1
+            $newweek          = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+            $newDate          = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+            $newyear          = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+            $bgs_year         = DB::table('budget_year')->where('years_now','Y')->first();
+            $bg_yearnow       = $bgs_year->leave_year_id; 
+            $months_now       = date('m');
+            $year_now         = date('Y');  
+
+            if ($startdate == '') {       
+                  $data['data_today'] = DB::connection('mysql2')->select(
+                    'SELECT o.vstdate,o.vsttime,p.cid,o.hn,o.vn,v.hospmain,concat(p.pname,p.fname," ",p.lname) as ptname,t.pttype as pttype,tc.ar_opd as pang,tc.name as pangname 
+                    ,o.pttypeno,v.pdx,s.name as spclty_name,sti.name as ovstist_name,k.department as department_name,st.name as ost_name,v.income,oq.promote_visit  
+                    , hd.name as hospital_department_name,pw.name as pt_walk_name,o.oqueue,vt.visit_type_name,v.age_y,v.age_m,v.age_d,i3.an,ou.name as staff_name,o.pt_priority
+                    , p3.name as pt_priority_name ,oq.pttype_check_status_id,pcs.pttype_check_status_name,ou1.name as pttype_check_staff_name,ps1.name as pt_subtype_name
+                    , (v.count_in_day+1) as count_in_day,(v.count_in_month+1) as count_in_month,(v.count_in_year+1) as count_in_year,v.rcpt_money,v.paid_money,oc.cc as cc
+                    ,oc.bps,oc.bpd,oc.temperature,oc.bw,oc.bmi,IFNULL(vpt.claim_code,vpt.auth_code) as authen,vpt.claim_code
+                    
+                    from ovst o  
+                    left outer join vn_stat v   on v.vn = o.vn  
+                    left outer join opdscreen oc  on oc.vn = o.vn  
+                    left outer join patient p  on p.hn = o.hn  
+                    left outer join pttype t on t.pttype = o.pttype  
+                    left outer join pttype_eclaim tc on tc.code = t.pttype_eclaim_id
+                    left outer join icd101 i on i.code = v.main_pdx  
+                    left outer join spclty s on s.spclty = o.spclty  
+                    left outer join ovstist sti on sti.ovstist = o.ovstist  
+                    left outer join ovstost st on st.ovstost = o.ovstost 
+                    left outer join ovst_seq oq on oq.vn = o.vn  
+                    left outer join opduser ou1 on ou1.loginname = oq.pttype_check_staff 
+                    left outer join ovst_nhso_send oo1 on oo1.vn = o.vn  
+                    left outer join kskdepartment k on k.depcode = o.cur_dep 
+                    left outer join kskdepartment k2 on k2.depcode = oq.register_depcode  
+                    left outer join kskdepartment kk3 on kk3.depcode = o.main_dep 
+                    left outer join hospital_department hd on hd.id = oq.hospital_department_id 
+                    left outer join sub_spclty ssp on ssp.sub_spclty_id = oq.sub_spclty_id 
+                    left outer join pt_walk pw on pw.walk_id = oc.walk_id  
+                    left outer join patient_opd_file pf on pf.hn = o.hn  
+                    left outer join kskdepartment k3 on k3.depcode = pf.last_depcode 
+                    left outer join visit_type vt on vt.visit_type = o.visit_type 
+                    left outer join ipt i3  on i3.vn = o.vn 
+                    left outer join opduser ou on ou.loginname = o.staff 
+                    left outer join pt_priority p3 on p3.id = o.pt_priority 
+                    left outer join pt_subtype ps1 on ps1.pt_subtype = o.pt_subtype 
+                    left outer join pttype_check_status pcs on pcs.pttype_check_status_id = oq.pttype_check_status_id  
+                    left outer join ovst_eclaim oe on oe.vn = o.vn 
+                    left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype 
+                    where o.vstdate BETWEEN "'.$datenow.'" AND "'.$datenow.'"
+                    and (o.anonymous_visit is null or o.anonymous_visit = "N") 
+                    order by tc.ar_opd ASC
                   ');   
+                  $data_total_        =  DB::connection('mysql2')->select('SELECT SUM(income) as income,SUM(discount_money) as discount_money,SUM(rcpt_money) as rcpt_money FROM vn_stat WHERE vstdate BETWEEN "'.$datenow.'" AND "'.$datenow.'"'); 
+                  foreach ($data_total_ as $key => $val) {
+                     $data['data_total']  = ($val->income)-($val->discount_money)-($val->rcpt_money);
+                  }
+               
             } else {
-                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-                $startdate    = $bg->date_begin;
-                $enddate      = $bg->date_end; 
-                $datashow = DB::select(' 
-                        SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
-                        ,count(DISTINCT a.an) as total_an,l.MONTH_NAME
-                        ,sum(a.debit_total) as tung_looknee  
-                        FROM acc_1102050101_202 a 
-                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND a.account_code ="1102050101.202"
-                        GROUP BY months ORDER BY a.dchdate DESC 
-                ');  
+                // $bg           = DB::table('budget_year')->where('leave_year_id','=',$bg_yearnow)->first();
+                // $startdate    = $bg->date_begin;
+                // $enddate      = $bg->date_end; 
+                $data_total_        =  DB::connection('mysql2')->select('SELECT SUM(income) as income,SUM(discount_money) as discount_money,SUM(rcpt_money) as rcpt_money FROM vn_stat WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"'); 
+                  foreach ($data_total_ as $key => $val) {
+                     $data['data_total']  = ($val->income)-($val->discount_money)-($val->rcpt_money);
+                  }
+                $data['data_today'] = DB::connection('mysql2')->select(
+                  'SELECT o.vstdate,o.vsttime,p.cid,o.hn,o.vn,v.hospmain,concat(p.pname,p.fname," ",p.lname) as ptname,t.pttype as pttype,tc.ar_opd as pang,tc.name as pangname 
+                  ,o.pttypeno,v.pdx,s.name as spclty_name,sti.name as ovstist_name,k.department as department_name,st.name as ost_name,v.income,oq.promote_visit  
+                  , hd.name as hospital_department_name,pw.name as pt_walk_name,o.oqueue,vt.visit_type_name,v.age_y,v.age_m,v.age_d,i3.an,ou.name as staff_name,o.pt_priority
+                  , p3.name as pt_priority_name ,oq.pttype_check_status_id,pcs.pttype_check_status_name,ou1.name as pttype_check_staff_name,ps1.name as pt_subtype_name
+                  , (v.count_in_day+1) as count_in_day,(v.count_in_month+1) as count_in_month,(v.count_in_year+1) as count_in_year,v.rcpt_money,v.paid_money,oc.cc as cc
+                  ,oc.bps,oc.bpd,oc.temperature,oc.bw,oc.bmi,IFNULL(vpt.claim_code,vpt.auth_code) as authen,vpt.claim_code
+                  
+                  from ovst o  
+                  left outer join vn_stat v   on v.vn = o.vn  
+                  left outer join opdscreen oc  on oc.vn = o.vn  
+                  left outer join patient p  on p.hn = o.hn  
+                  left outer join pttype t on t.pttype = o.pttype  
+                  left outer join pttype_eclaim tc on tc.code = t.pttype_eclaim_id
+                  left outer join icd101 i on i.code = v.main_pdx  
+                  left outer join spclty s on s.spclty = o.spclty  
+                  left outer join ovstist sti on sti.ovstist = o.ovstist  
+                  left outer join ovstost st on st.ovstost = o.ovstost 
+                  left outer join ovst_seq oq on oq.vn = o.vn  
+                  left outer join opduser ou1 on ou1.loginname = oq.pttype_check_staff 
+                  left outer join ovst_nhso_send oo1 on oo1.vn = o.vn  
+                  left outer join kskdepartment k on k.depcode = o.cur_dep 
+                  left outer join kskdepartment k2 on k2.depcode = oq.register_depcode  
+                  left outer join kskdepartment kk3 on kk3.depcode = o.main_dep 
+                  left outer join hospital_department hd on hd.id = oq.hospital_department_id 
+                  left outer join sub_spclty ssp on ssp.sub_spclty_id = oq.sub_spclty_id 
+                  left outer join pt_walk pw on pw.walk_id = oc.walk_id  
+                  left outer join patient_opd_file pf on pf.hn = o.hn  
+                  left outer join kskdepartment k3 on k3.depcode = pf.last_depcode 
+                  left outer join visit_type vt on vt.visit_type = o.visit_type 
+                  left outer join ipt i3  on i3.vn = o.vn 
+                  left outer join opduser ou on ou.loginname = o.staff 
+                  left outer join pt_priority p3 on p3.id = o.pt_priority 
+                  left outer join pt_subtype ps1 on ps1.pt_subtype = o.pt_subtype 
+                  left outer join pttype_check_status pcs on pcs.pttype_check_status_id = oq.pttype_check_status_id  
+                  left outer join ovst_eclaim oe on oe.vn = o.vn 
+                  left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype 
+                  where o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                  and (o.anonymous_visit is null or o.anonymous_visit = "N") 
+                  order by tc.ar_opd ASC
+                '); 
             }
         $data['pang']          =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC'); 
        
       
-    return view('dashboard.account_monitor',$data, [ 
-      'datashow'          =>  $datashow,
+    return view('dashboard.account_monitor',$data, [  
       'startdate'         =>  $startdate,
       'enddate'           =>  $enddate,
     ]);

@@ -52,7 +52,7 @@
             width: 250px;
             height: 250px;
             border: 5px #ddd solid;
-            border-top: 10px #12c6fd solid;
+            border-top: 10px rgb(250, 128, 124) solid;
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }
@@ -94,25 +94,33 @@
                             <li class="nav-item">
                                 <a href="#tab-minimal-1" data-bs-toggle="tab" class="nav-link active minimal-tab-btn-1">
                                     <div class="widget-number">
-                                        <span>$ 0.00</span>
+                                        <span>$ {{ number_format($data_total, 2) }}</span>
                                     </div>
                                     <div class="tab-subheading">
                                         <span class="pe-2 opactiy-6">
                                             <i class="fa fa-comment-dots"></i>
                                         </span>
-                                        ข้อมูลรายวันแยกตามผังบัญชี
+                                        ข้อมูลรายวัน
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#tab-minimal-2" data-bs-toggle="tab" class="nav-link minimal-tab-btn-2">
-                                    <div class="widget-number">
+                                    {{-- <div class="widget-number">
                                         <span class="pe-2 text-success">
                                             <i class="fa fa-angle-up"></i>
                                         </span>
-                                        <span>45,311,2563</span>
+                                        <span>$ {{ number_format($data_total, 2) }}</span>
+                                    </div> --}}
+                                    <div class="widget-number text-danger">
+                                        <span>$ {{ number_format($data_total, 2) }}</span>
                                     </div>
-                                    <div class="tab-subheading">ข้อมูลแยกตามกองทุน</div>
+                                    <div class="tab-subheading">
+                                        <span class="pe-2 opactiy-6">
+                                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                                        </span>
+                                        ข้อมูลรายวันแยกตามผังบัญชี
+                                    </div>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -136,8 +144,8 @@
 
                                 <div class="row"> 
                                     <div class="col-md-4"> 
-                                        <h5 class="card-title" style="color:green">Process data To Day</h5>
-                                        <p class="card-title-desc">ประมวลผลข้อมูล ตั้งลูกหนี้/เคลม วันนี้</p>
+                                        <h5 class="card-title" style="color:green">Data OPD Account / ClaimTo Day</h5>
+                                        <p class="card-title-desc">ข้อมูลผู้ป่วยนอก ตั้งลูกหนี้ / เคลม วันนี้</p>
                                     </div>
                                     <div class="col"></div>
                                     <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -160,90 +168,64 @@
                                 </div>
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
+                                        {{-- <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered"> --}}
+                                            <table id="scroll-vertical-datatable" class="table dt-responsive table-striped table-bordered nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th>ลำดับ</th>
-                                                    <th>ผัง</th>
-                                                    <th>ผังลูกหนี้</th>
-                                                    <th>เงินลูกหนี้ปัจจุบัน</th>
-                                                    <th>เงินลูกหนี้สะสม</th>
-                                                    <th>เงินชดเชย</th>
-                                                    <th>คิดเป็นร้อยละของจัดเก็บรายได้</th>
+                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">ผัง</th>     
+                                                    <th class="text-center">vn</th>                                          
+                                                    <th class="text-center">hn</th>
+                                                    <th class="text-center">cid</th>
+                                                    <th class="text-center">vstdate</th>
+                                                    <th class="text-center">pttype</th>
+                                                    <th class="text-center">hospmain</th> 
+                                                    <th class="text-center">ptname</th> 
+                                                    <th class="text-center">pdx</th>
+                                                    <th class="text-center">Authen/Approve</th>
+                                                    <th class="text-center">income</th>
                                                 </tr>
                                             </thead>
-                                            {{-- <tbody>
+                                            <tbody>
                                             <?php $i = 1; ?>
-                                                @foreach ($pang as $item)
+                                                @foreach ($data_today as $item)
                                                         <?php 
-                                                            $data_debit_ =  DB::connection('mysql')->select('SELECT SUM(debit_total) debit_total FROM acc_debtor WHERE account_code ="'.$item->pang.'"');
-                                                            foreach ($data_debit_ as $key => $value) {
-                                                                $debittotal = $value->debit_total;
-                                                            } 
-                                                            $data_stm_ =  DB::connection('mysql')->select('SELECT SUM(stm_total) stm_total FROM acc_1102050101_202 WHERE account_code ="1102050101.202"');
-                                                            foreach ($data_stm_ as $key => $value_) {
-                                                                $stmtotal = $value_->stm_total;
-                                                            }  
-                                                            $data_stm_3 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_203 WHERE account_code ="1102050101.203"');
-                                                            foreach ($data_stm_3 as $key => $value3_) {
-                                                                $stmtotal203 = $value3_->stm_money;
-                                                            } 
-                                                            $data_stm_216 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_216 WHERE account_code ="1102050101.216"');
-                                                                foreach ($data_stm_216 as $key => $value216_) {
-                                                                    $stmtotal216 = $value216_->stm_money;
-                                                                } 
-                                                            $data_stm_217 =  DB::connection('mysql')->select('SELECT SUM(stm_total) stm_total FROM acc_1102050101_217 WHERE account_code ="1102050101.217"');
-                                                            foreach ($data_stm_217 as $key => $value217_) {
-                                                                $stmtotal217 = $value217_->stm_total;
-                                                            } 
-                                                            $data_stm_301 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_301 WHERE account_code ="1102050101.301"');
-                                                            foreach ($data_stm_301 as $key => $value301_) {
-                                                                $stmtotal301 = $value301_->stm_money;
-                                                            } 
-                                                            $data_stm_302 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_302 WHERE account_code ="1102050101.302"');
-                                                            foreach ($data_stm_302 as $key => $value302_) {
-                                                                $stmtotal302 = $value302_->stm_money;
-                                                            } 
-                                                            $data_stm_303 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_303 WHERE account_code ="1102050101.303"');
-                                                            foreach ($data_stm_303 as $key => $value303_) {
-                                                                $stmtotal303 = $value303_->stm_money;
-                                                            } 
-                                                            $data_stm_304 =  DB::connection('mysql')->select('SELECT SUM(recieve_true) recieve_true FROM acc_1102050101_304 WHERE account_code ="1102050101.304"');
-                                                            foreach ($data_stm_304 as $key => $value304_) {
-                                                                $stmtotal304 = $value304_->recieve_true;
-                                                            }  
+                                                            // $data_debit_ =  DB::connection('mysql')->select('SELECT SUM(debit_total) debit_total FROM acc_debtor WHERE account_code ="'.$item->pang.'"');
+                                                            // foreach ($data_debit_ as $key => $value) {
+                                                            //     $debittotal = $value->debit_total;
+                                                            // }                                                              
                                                         ?>                                       
                                                     <tr>
                                                         <td width="3%" class="text-center">{{ $i++ }}</td>
-                                                        <td width="10%" class="text-center">{{$item->pang}}</td>
-                                                        <td class="p-2">{{$item->pangname}}</td>
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 124, 207)">{{ number_format($debittotal, 2) }}</td>
-                                                        <td width="10%" class="text-center"></td>
-
-                                                        @if ($item->pang =="1102050101.202")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.203")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal203, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.216")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal216, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.217")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal217, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.301")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal301, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.302")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal302, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.303")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal303, 2) }}</td>
-                                                        @elseif ($item->pang =="1102050101.304")
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal304, 2) }}</td>
-                                                        @else
-                                                        <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">0.00</td>
-                                                        @endif                                               
-
-                                                        <td width="15%" class="text-center"></td>
+                                                        <td width="10%" class="text-center" style="color: rgb(8, 142, 160)">{{$item->pang}}</td>
+                                                        <td class="text-center" width="5%">{{$item->vn}}</td>
+                                                        <td class="text-center" width="5%">{{$item->hn}}</td>
+                                                        <td class="text-center" width="8%">{{$item->cid}}</td>
+                                                        <td class="text-center" width="8%">{{$item->vstdate}}</td>
+                                                        <td class="text-center" width="8%">{{$item->pttype}}</td>
+                                                        <td class="text-center" width="8%">{{$item->hospmain}}</td>
+                                                        <td class="p-2">{{$item->ptname}}</td>
+                                                        <td class="text-center" width="5%" style="color: rgb(5, 86, 153)">{{$item->pdx}}</td>
+                                                        <td class="text-center" width="8%" style="color: rgb(247, 24, 98)">
+                                                            @if ($item->pttype =='O1' || $item->pttype =='O2' || $item->pttype =='O3' || $item->pttype =='O4' ||$item->pttype =='O5')                                                               
+                                                                @if ($item->claim_code !='')
+                                                                    <span class="bg-info badge">{{ $item->claim_code }}</span> 
+                                                                @else
+                                                                    <span class="bg-warning badge">*_*</span> 
+                                                                @endif                                                                 
+                                                            @else
+                                                                @if ($item->authen !='')
+                                                                    <span class="bg-info badge">{{ $item->authen }}</span> 
+                                                                @else
+                                                                    <span class="bg-warning badge">*_*</span> 
+                                                                @endif  
+                                                            @endif
+                                                           
+                                                        </td>
+                                                        <td width="10%" class="text-end" style="color: rgb(23, 124, 207)">{{ number_format($item->income, 2) }}</td> 
                                                     </tr>
                                                 @endforeach
-                                            </tbody> --}}
+                                            </tbody>
                                         </table> 
                                     </div>
                                 </div>  
@@ -370,6 +352,14 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
+            var table = $('#example21').DataTable({
+                scrollY: '60vh',
+                scrollCollapse: true,
+                scrollX: true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "lengthMenu": [10,25,50,100,150,200,300,400,500],
+            });
             $('#p4p_work_month').select2({
                 placeholder: "--เลือก--",
                 allowClear: true

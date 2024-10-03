@@ -171,7 +171,7 @@ class PreauditController extends Controller
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="") AND v.pttype NOT IN("10")   
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")   
                 AND v.income > 0 
                 GROUP BY o.vn 
             ');
@@ -211,19 +211,19 @@ class PreauditController extends Controller
             //     ORDER BY claimcode DESC 
             // ');
             $data['authen_excel'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
                 FROM vn_stat v
                 JOIN visit_pttype vp
                 JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7") 
+                WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7") 
                 GROUP BY v.vn  
             ');
             $data['authen_excel_date'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
                 FROM vn_stat v
                 JOIN visit_pttype vp
                 JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
+                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (vp.auth_code IS NULL OR vp.auth_code ="")  
                 GROUP BY v.vn  
             ');
         }
@@ -251,40 +251,22 @@ class PreauditController extends Controller
             LEFT JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.claim_code IS NULL OR vs.claim_code ="")  
+            AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")  
             AND v.income > 0 
             GROUP BY o.vn 
-        ');
-        // Visit_import_date::truncate();
-        Visit_pttype_import::truncate();
-        
-        // $add = new Visit_import_date();
-        // $add->startdate  = $startdate;
-        // $add->enddate    = $enddate;
-        // $add->save();
-    
-        foreach ($data_vn_1 as $key => $value_1) {                
-            // $check = Visit_pttype_import::where('vn', $value_1->vn)->count();
-            //     if ($check > 0) {   
-                    // Check_sit_auto::where('vn', $value_1->vn)->update([  
-                    //     'vstdate'    => $value_1->vstdate,
-                    //     'pttype'     => $value_1->pttype,
-                    //     'debit'      => $value_1->debit, 
-                    //     'debit'      => $value_1->income,
-                    // ]);              
-                // } else {
-                    Visit_pttype_import::insert([
-                        'vn'         => $value_1->vn, 
-                        'hn'         => $value_1->hn,
-                        'pid'        => $value_1->cid,
-                        'vstdate'    => $value_1->vstdate,
-                        'hometel'    => $value_1->hometel, 
-                        'ptname'     => $value_1->ptname,
-                        'pttype'     => $value_1->pttype,
-                        'hcode'      => $value_1->hospmain, 
-                    ]);
-                // }
-           
+        ');     
+        Visit_pttype_import::truncate();     
+        foreach ($data_vn_1 as $key => $value_1) {    
+            Visit_pttype_import::insert([
+                'vn'         => $value_1->vn, 
+                'hn'         => $value_1->hn,
+                'pid'        => $value_1->cid,
+                'vstdate'    => $value_1->vstdate,
+                'hometel'    => $value_1->hometel, 
+                'ptname'     => $value_1->ptname,
+                'pttype'     => $value_1->pttype,
+                'hcode'      => $value_1->hospmain, 
+            ]); 
         }
 
         return response()->json([
@@ -327,35 +309,33 @@ class PreauditController extends Controller
                     $hm = substr($reg,12,2);
                     $mm = substr($reg,15,2);
                     $ss = substr($reg,18,2);
-                    $datesave = $regyear.'-'.$regmo.'-'.$regday.'-'.$vsttime; 
- 
-                        
+                    $datesave = $regyear.'-'.$regmo.'-'.$regday.'-'.$vsttime;  
                     $data[] = [
                             'hcode'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                            'hosname'                      =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'hosname'                  =>$sheet->getCell( 'B' . $row )->getValue(),
                             'cid'                      =>$sheet->getCell( 'C' . $row )->getValue(),
-                            'ptname'                      =>$sheet->getCell( 'D' . $row )->getValue(),
-                            'birthday'                     =>$sheet->getCell( 'E' . $row )->getValue(),
-                            'hometel'                =>$sheet->getCell( 'F' . $row )->getValue(), 
-                            'mainpttype'                =>$sheet->getCell( 'G' . $row )->getValue(),
-                            'subpttype'                 =>$sheet->getCell( 'H' . $row )->getValue(), 
-                            'repcode'                 =>$sheet->getCell( 'I' . $row )->getValue(),
-                            'claimcode'                 =>$sheet->getCell( 'J' . $row )->getValue(),
-                            'servicerep'                 =>$sheet->getCell( 'K' . $row )->getValue(),
-                            'claimtype'                 =>$sheet->getCell( 'L' . $row )->getValue(),
-                            'servicename'                 =>$sheet->getCell( 'M' . $row )->getValue(),
-                            'hncode'                 =>$sheet->getCell( 'N' . $row )->getValue(),
-                            'ancode'                 =>$sheet->getCell( 'O' . $row )->getValue(), 
-                            'vstdate'               =>$vstdate,
-                            'regdate'                     =>$datesave, 
+                            'ptname'                   =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'birthday'                 =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'hometel'                  =>$sheet->getCell( 'F' . $row )->getValue(), 
+                            'mainpttype'               =>$sheet->getCell( 'G' . $row )->getValue(),
+                            'subpttype'                =>$sheet->getCell( 'H' . $row )->getValue(), 
+                            'repcode'                  =>$sheet->getCell( 'I' . $row )->getValue(),
+                            'claimcode'                =>$sheet->getCell( 'J' . $row )->getValue(),
+                            'servicerep'               =>$sheet->getCell( 'K' . $row )->getValue(),
+                            'claimtype'                =>$sheet->getCell( 'L' . $row )->getValue(),
+                            'servicename'              =>$sheet->getCell( 'M' . $row )->getValue(),
+                            'hncode'                   =>$sheet->getCell( 'N' . $row )->getValue(),
+                            'ancode'                   =>$sheet->getCell( 'O' . $row )->getValue(), 
+                            'vstdate'                  =>$vstdate,
+                            'regdate'                  =>$datesave, 
                             // 'regdate'                     =>$sheet->getCell( 'Q' . $row )->getValue(),
-                            'status'                    =>$sheet->getCell( 'R' . $row )->getValue(),
-                            'repauthen'                    =>$sheet->getCell( 'S' . $row )->getValue(),
-                            'authentication'                    =>$sheet->getCell( 'T' . $row )->getValue(),
-                            'staffservice'                 =>$sheet->getCell( 'U' . $row )->getValue(),
-                            'dateeditauthen'                   =>$sheet->getCell( 'V' . $row )->getValue(),
-                            'nameeditauthen'                =>$sheet->getCell( 'W' . $row )->getValue(), 
-                            'comment'                =>$sheet->getCell( 'X' . $row )->getValue(), 
+                            'status'                   =>$sheet->getCell( 'R' . $row )->getValue(),
+                            'repauthen'                =>$sheet->getCell( 'S' . $row )->getValue(),
+                            'authentication'           =>$sheet->getCell( 'T' . $row )->getValue(),
+                            'staffservice'             =>$sheet->getCell( 'U' . $row )->getValue(),
+                            'dateeditauthen'           =>$sheet->getCell( 'V' . $row )->getValue(),
+                            'nameeditauthen'           =>$sheet->getCell( 'W' . $row )->getValue(), 
+                            'comment'                  =>$sheet->getCell( 'X' . $row )->getValue(), 
                             // 'STMdoc'                  =>$file_
                     ];                             
                     $startcount++;                            
@@ -423,7 +403,6 @@ class PreauditController extends Controller
         Visit_pttype_import::truncate();
         Visit_pttype_import_excel::truncate();
         // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
-
             return response()->json([
                 'status'    => '200',
             ]);

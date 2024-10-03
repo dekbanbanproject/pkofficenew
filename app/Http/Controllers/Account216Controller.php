@@ -1012,7 +1012,7 @@ class Account216Controller extends Controller
                     ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
                     ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB,"" GOVCODE ,"" GOVNAME                    
-                    ,vp.claim_code PERMITNO
+                    ,IFNULL(vp.claim_code,vp.auth_code) as PERMITNO
                     ,"" DOCNO ,"" OWNRPID,"" OWNNAME ,i.an AN ,v.vn SEQ ,"" SUBINSCL,"" RELINSCL
                     ,"" HTYPE
                     FROM vn_stat v
