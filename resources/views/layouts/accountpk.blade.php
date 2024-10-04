@@ -1052,7 +1052,7 @@ if (Auth::check()) {
                                             <a href="{{ url('account_302_detail_date') }}" class="dropdown-item">ค้นหาลูกหนี้</a>
                                         </div>
                                     </div>
-                                    <div class="dropdown">
+                                    {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
                                             3012-อุปกรณ์เบิก New-Eclaim<div class="arrow-down"></div>
@@ -1062,7 +1062,7 @@ if (Auth::check()) {
                                             <a href="{{ url('account_3012_pull') }}" class="dropdown-item">ดึงลูกหนี้</a>
                                             <a href="{{ url('account_3012_detail_date') }}" class="dropdown-item">ค้นหาลูกหนี้</a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">

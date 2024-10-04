@@ -17,7 +17,8 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-    
+    $ynow = date('Y')+543;
+    $yb =  date('Y')+542;
     ?>
      
      <style>
@@ -87,19 +88,19 @@
         </div>
     </div>
  
-            <form action="{{ route('acc.account_pkucs217_dash') }}" method="GET">
+            <form action="{{ route('acc.account_303_dash') }}" method="GET">
                 @csrf
                 <div class="row"> 
                     <div class="col"></div>
-                    <div class="col-md-7"> 
-                        <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.217</h4>
-                        <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                    <div class="col-md-7">
+                        <h4 class="card-title" style="color:green">Detail 1102050101.303</h4>
+                        <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.303</p>
                     </div>
                     {{-- <div class="col"></div> --}}
                      
                     @if ($budget_year =='')
                     <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                 @foreach ($dabudget_year as $item_y)
                                     @if ($y == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
@@ -111,7 +112,7 @@
                     </div>
                     @else
                     <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                 @foreach ($dabudget_year as $item_y)
                                     @if ($budget_year == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
@@ -140,17 +141,15 @@
                     <div class="col-xl-10 col-md-10">
                         <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                             <div class="table-responsive p-3">                                
-                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-striped table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">เดือน</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ต้องตั้ง-217</th>  
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้-217</th> 
-                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm-217</th>
-                                       
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ลูกหนี้ที่ต้องตั้ง</th>  
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้</th> 
+                                            <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm</th>
                                             <th class="text-center" style="background-color: rgb(250, 225, 234)">ยกยอดไป</th> 
                                         </tr>
                                     </thead>
@@ -161,28 +160,28 @@
                                         @foreach ($datashow as $item)
                                             <?php
                                                 $number++;
-                                                $y = $item->years;
+                                                $y = $item->year;
                                                     $ynew = $y + 543;
-                                                // ลูกหนี้ที่ต้องตั้ง 217
+                                                // ลูกหนี้ที่ต้องตั้ง 303
                                                 $datas = DB::select('
-                                                    SELECT count(DISTINCT an) as Can
+                                                    SELECT count(DISTINCT vn) as Can
                                                         ,SUM(debit_total) as sumdebit
                                                         from acc_debtor
-                                                        WHERE account_code="1102050101.217"
+                                                        WHERE account_code="1102050101.303"
                                                         AND stamp = "N" AND debit_total > 0
-                                                        AND month(dchdate) = "'.$item->months.'"
-                                                        AND year(dchdate) = "'.$item->years.'"
+                                                        AND month(vstdate) = "'.$item->months.'"
+                                                        AND year(vstdate) = "'.$item->year.'"
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                // ตั้งลูกหนี้ IPD 217
+                                                // ตั้งลูกหนี้ IPD 303
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
-                                                    from acc_1102050101_217
-                                                    where month(dchdate) = "'.$item->months.'"
-                                                    AND year(dchdate) = "'.$item->years.'"
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
+                                                    from acc_1102050101_303
+                                                    where month(vstdate) = "'.$item->months.'"
+                                                    AND year(vstdate) = "'.$item->year.'"
                                                 
                                                 ');   
                                                 foreach ($datasum_ as $key => $value2) {
@@ -190,91 +189,95 @@
                                                     $total_countY = $value2->Cvit;
                                                 } 
  
-                                                
-                                                // STM 402
+                                                // STM 303
                                                 $stm_ = DB::select(
-                                                    'SELECT sum(stm_money) as stm_money,count(DISTINCT an) as Countvisit FROM acc_1102050101_217 
-                                                    WHERE month(dchdate) = "'.$item->months.'" AND year(dchdate) = "'.$item->years.'" 
-                                                    AND stm_money >= "0"
-                                                   
-                                                ');  
-                                                // AND (stm_money IS NOT NULL OR stm_money <> "")                                         
+                                                    'SELECT sum(recieve_true) as recieve_true,count(DISTINCT vn) as Countvisit 
+                                                    FROM acc_1102050101_303 
+                                                    WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->year.'" 
+                                                    AND (recieve_true IS NOT NULL OR recieve_true <> "")
+                                                ');                                           
                                                 foreach ($stm_ as $key => $value3) {
-                                                    $sum_stm_money  = $value3->stm_money; 
+                                                    $sum_recieve_true  = $value3->recieve_true; 
                                                     $count_stm      = $value3->Countvisit; 
                                                 }
 
-                                                  // ยกยอดไป 
-                                                $sumyokma_all_ = DB::select('
-                                                    SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
-                                                        FROM acc_1102050101_217 U1 
-                                                        WHERE month(U1.dchdate) = "'.$item->months.'"
-                                                        AND year(U1.dchdate) = "'.$item->years.'" 
-                                                        AND (U1.stm_money IS NULL OR U1.stm_money = "")
-                                                ');                                     
-                                                foreach ($sumyokma_all_ as $key => $value6) {
-                                                    $total_yokma_alls = $value6->debityokma ;
-                                                    $count_yokma_alls = $value6->anyokma ;
-                                                }   
-    
-                                               
+                                                // ยกไป 303
+                                                $yokpai_ = DB::select('
+                                                        SELECT sum(debit_total) as debit_total,count(vn) as Countvi
+                                                            from acc_1102050101_303
+                                                            where month(vstdate) = "'.$item->months.'"
+                                                            AND year(vstdate) = "'.$item->year.'"
+                                                            AND (recieve_true IS NULL OR recieve_true = "") 
+                                                    ');                                           
+                                                    foreach ($yokpai_ as $key => $valpai) {
+                                                        $sum_yokpai = $valpai->debit_total; 
+                                                        $count_yokpai = $valpai->Countvi; 
+                                                    }
+  
     
                                             ?>
                                     
                                                 <tr>
                                                     <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
-                                                    <td class="p-2">
-                                                        {{-- <p style="font-size: 14px;"> {{$item->MONTH_NAME}}</p> --}}
+                                                    <td class="p-2"> 
                                                         {{$item->MONTH_NAME}} {{$ynew}}
                                                     </td>    
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>                                      
                                                     <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
-                                                        <a href="{{url('account_pkucs217_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
+                                                        <a href="{{url('account_303_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
                                                     </td>                                                    
                                                     <td class="text-end" style="color:rgb(231, 73, 139);background-color: rgb(203, 227, 255)" width="10%"> 
-                                                        <a href="{{url('account_pkucs217_detail/'.$item->months.'/'.$item->years)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a> 
+                                                        <a href="{{url('account_303_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(231, 73, 139);"> {{ number_format($total_sumY, 2) }}</a> 
                                                     </td> 
                                                     <td class="text-end" style="color:rgb(2, 116, 63);background-color: rgb(203, 227, 255)" width="10%"> 
-                                                         <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->years)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_stm_money, 2) }}</a> 
+                                                         {{-- <a href="{{url('account_303_stm/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(2, 116, 63);"> {{ number_format($sum_recieve_true, 2) }}</a>  --}}
+                                                         {{ number_format($sum_recieve_true, 2) }}
                                                     </td> 
-                                                    {{-- <td class="text-end" style="color:rgb(45, 57, 230);background-color: rgb(255, 174, 201)" width="10%"> 
-                                                       <a href="{{url('account_pkti4022_pull')}}" target="_blank" style="color:rgb(21, 85, 223);"> {{ number_format($sum_N4022, 2) }}</a>
-                                                    </td> 
-                                                    <td class="text-end" width="10%" style="background-color: rgb(255, 174, 201)">  
-                                                        <a href="{{url('account_pkti4022_detail/'.$item->months.'/'.$item->years)}}" target="_blank" style="color:rgb(101, 12, 153);"> {{ number_format($sum_fokliad, 2) }}</a>
-                                                    </td>                                               
-                                                    <td class="text-end" style="color:rgb(5, 114, 96);background-color: rgb(255, 174, 201)" width="10%">
-                                                        <a href="{{url('account_pkti4022_stm/'.$item->months.'/'.$item->years)}}" target="_blank" style="color:rgb(101, 12, 153);">{{ number_format($sum_stm_moneyti, 2) }}</a>
-                                                    </td>  --}}
-                                                    <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">0.00</td> 
+                                                  
+                                                    <td class="text-end" style="color:rgb(224, 128, 17)" width="10%">  
+                                                        {{-- <a href="{{url('account_303_yok/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(224, 128, 17);"> {{ number_format($sum_yokpai, 2) }}</a>  --}}
+                                                        {{ number_format($sum_yokpai, 2) }}
+                                                    </td>
                                                 </tr>
                                             <?php
                                                     $total1 = $total1 + $item->income; 
                                                     $total2 = $total2 + $sum_N;
                                                    
                                                     $total3 = $total3 + $total_sumY; 
-                                                    $total4 = $total4 + $sum_stm_money; 
-                                                    // $total7 = $total7 + $sum_N4022; 
-                                                    // $total5 = $total5 + $sum_fokliad;
-                                                    // $total6 = $total6 + $sum_stm_moneyti; 
-                                                    // $total4 = $total4 + $sum_fokliad; 
+                                                    $total4 = $total4 + $sum_recieve_true; 
+                                                    $total5 = $total5 + $sum_yokpai; 
                                             ?> 
                                         @endforeach
     
                                     </tbody>
-                                    <tr style="background-color: #f3fca1">
-                                        <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #000000">{{ number_format($total3, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td> 
-                                        {{-- <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td>  --}}
-                                        {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> --}}
-                                        {{-- <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>  --}}
-                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #000000">0.00</label></td> 
-                                     
+                                    <tr>
+                                        <td colspan="2" class="text-end"></td>
+                                        <td class="text-end"><label for="">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end"><label for="">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-end"><label for="">{{ number_format($total3, 2) }}</label></td>
+                                        <td class="text-end"><label for="">{{ number_format($total4, 2) }}</label></td>  
+                                        <td class="text-end"><label for="">{{ number_format($total5, 2) }}</label></td>  
                                     </tr>  
+                                    {{-- <tr style="background-color: #f3fca1">
+                                        <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-end bg-info"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>  
+                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>  
+                                    </tr>   --}}
                                 </table>
+
+
+                                {{-- <div class="card bg-info text-white-50">
+                                    <div class="card-body">
+                                        <h5 class="mb-4 text-white"><i class="mdi mdi-alert-circle-outline me-3"></i>Info Card</h5>
+                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div> --}}
+
+
+
                             </div>
                         </div>
                     </div>

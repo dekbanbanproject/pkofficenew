@@ -136,7 +136,7 @@ class AirController extends Controller
                     ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                     ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                     ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
+                    ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name ,a.air_problems_orthersub
                     ,b.repaire_no,s.supplies_name
                     FROM air_repaire a 
                     LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
@@ -179,7 +179,7 @@ class AirController extends Controller
                         ,a.air_location_name,(SELECT detail FROM air_list WHERE air_list_id = a.air_list_id) as debsubsub 
                         ,concat(p.fname," ",p.lname) as staff_name,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_tech_id) as tect_name
                         ,a.air_list_num,(SELECT concat(fname," ",lname) as ptname FROM users WHERE id = a.air_techout_name) as air_techout_name
-                        ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name 
+                        ,m.air_repaire_type_code,(select GROUP_CONCAT(distinct b.repaire_sub_name,"" "|")) as repaire_sub_name  ,a.air_problems_orthersub
                         ,b.repaire_no,s.supplies_name
                         FROM air_repaire a 
                         LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id

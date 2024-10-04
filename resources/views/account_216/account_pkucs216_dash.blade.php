@@ -252,11 +252,11 @@
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-end" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td> 
                                     {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td> --}}
-                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
-                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td> 
+                                    <td class="text-end" style="background-color: #f89625"><label for="" style="color: #000000">{{ number_format($total5, 2) }}</label></td> 
                                  
                                 </tr>  
                             </table>

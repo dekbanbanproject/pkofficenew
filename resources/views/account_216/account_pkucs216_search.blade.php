@@ -187,8 +187,9 @@
                                             <td class="text-end" style="background-color: #088ca3;color:rgb(0, 0, 0)">{{ number_format($total5,2)}}</td> 
                                             <td class="text-end" style="background-color: #0783d6;color:rgb(0, 0, 0)">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #e09be9;color:rgb(0, 0, 0)">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" colspan="2" style="background-color: #ff9d9d"></td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total8,2)}}</td> 
+                                            <td class="text-end" style="background-color: #ff9d9d"></td> 
+                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total9,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                            
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>  --}}

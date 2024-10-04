@@ -3959,10 +3959,6 @@ class AccountPKController extends Controller
                         'covid'                 =>$sheet2->getCell( 'AN' . $row2 )->getValue(),
                         // 'ao'                    =>$sheet->getCell( 'AO' . $row )->getValue(),
                         'STMdoc'                =>$file_,
-                        
-                        'rep_auton'             =>$sheet2->getCell( 'A' . $row2 )->getValue(),
-                        'repno_auton'           =>$sheet2->getCell( 'B' . $row2 )->getValue(),
-                        'tranid_authon'         =>$sheet2->getCell( 'C' . $row2 )->getValue(), 
                         'auton'                 =>$del_al2,
                         'STMdoc_authon'         =>$file_,
                         'STMdoc_type'           =>'AUTON'
@@ -3996,11 +3992,21 @@ class AccountPKController extends Controller
             foreach ($data_ as $key => $value) {
                 if ($value->cid != '') {
                     $check = Acc_stm_ucs::where('tranid','=',$value->tranid)->count();
-                    if ($check > 0) {         
-                        Acc_stm_ucs::where('tranid','=',$value->tranid)->update([
-                            'rep_auton'      => $value->rep_auton,
-                            'repno_auton'    => $value->repno_auton
-                        ]);          
+                    if ($check > 0) {
+  
+                        // $data_add = Acc_stm_ucs::where('tranid','=',$value->tranid)->first();
+                        // $ip_payt = $data_add->ip_paytrue;
+                        // $to_app  = $data_add->total_approve;
+
+                        // Acc_stm_ucs::where('an','=', $value->an)
+                        //     ->update([
+                        //         'ip_paytrue_auton'        => $value->ip_paytrue_auton, 
+                        //         'total_approve_auton'     => $value->total_approve_auton, 
+                        //         'ip_paytrue_total'        => $ip_payt + $value->ip_paytrue_auton,
+                        //         'total_approve_total'     => $to_app + $value->total_approve_auton,
+                        //         'auton'                   => $value->auton, 
+                        //         'STMdoc_authon'           => $value->STMdoc_authon, 
+                        // ]);
                     } else {
                         $add = new Acc_stm_ucs();
                         $add->rep            = $value->rep;
@@ -4048,48 +4054,65 @@ class AccountPKController extends Controller
                         $add->covid          = $value->covid;
                         $add->date_save      = $value->date_save;
                         $add->STMdoc         = $value->STMdoc;
-                        $add->rep_auton      = $value->rep_auton;
-                        $add->repno_auton    = $value->repno_auton;
                         $add->auton          = $value->auton;
                         $add->STMdoc_authon  = $value->STMdoc_authon;
                         $add->STMdoc_type    = $value->STMdoc_type;
                         $add->save();  
                     } 
- 
-                    if ($value->STMdoc_type == 'AUTON') {
 
-                        if ($value->ip_paytrue > "0.00") {
-                            Acc_1102050101_202::where('an',$value->an) 
-                                ->update([ 
-                                    'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
-                                    'auton'             => $value->ip_paytrue,
-                                    'STMdoc_authon'     => $value->STMdoc_authon, 
-                            ]); 
-                        }                            
-                        if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug == "0") {
+                    // if ($value->ip_paytrue == "0.00") {
+                    //     // if ($value->ip_paytrue_auton >= "0.00") {
+                    //     if ($value->ip_paytrue_auton != "") {
                             
-                            Acc_1102050101_217::where('an',$value->an) 
-                                ->update([
-                                    'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
-                                    'stm_auton'         => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                    'auton'             => $value->auton, 
-                                    'STMdoc_authon'     => $value->STMdoc_authon,  
-                            ]); 
-                        }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
-                            Acc_1102050101_217::where('an',$value->an) 
-                                ->update([
-                                    'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
-                                    'stm_auton'         => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                    'auton'             => $value->auton, 
-                                    'STMdoc_authon'     => $value->STMdoc_authon,  
-                            ]);
-    
-                        } else {    
-                        }
-                    } else {
+                    //         if ($value->projectcode =="UCEP24") { 
+                    //             Acc_1102050101_202::where('an',$value->an)  
+                    //                 ->update([
+                    //                     'status'          => 'Y',
+                    //                     'stm_rep'         => $value->debit, 
+                    //                     'stm_auton'       => $value->ip_paytrue_auton,
+                    //                     'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //                     'stm_trainid'     => $value->tranid,
+                    //                     'stm_total'       => "0.00",
+                    //                     'STMdoc'          => $value->STMdoc,
+                    //                     'va'              => $value->va,
+                    //                     'auton'           => $value->auton,
+                    //                     'STMdoc_authon'   => $value->STMdoc_authon,
+                    //             ]); 
+                    //         } else {
+                                
+                    //             Acc_1102050101_202::where('an',$value->an)  
+                    //             ->update([
+                    //                 'status'          => 'Y',
+                    //                 'stm_rep'         => $value->debit, 
+                    //                 'stm_auton'       => '',
+                    //                 'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                    //                 'stm_trainid'     => $value->tranid,
+                    //                 'stm_total'       => "0.00",
+                    //                 'STMdoc'          => $value->STMdoc,
+                    //                 'va'              => $value->va,
+                    //                 'auton'           => '',
+                    //                 'STMdoc_authon'   => '',
+                    //         ]); 
+                    //         }
+                            
+                           
+                    //     }
+
+                        // Acc_1102050101_202::where('an',$value->an) 
+                        // ->update([
+                        //     'status'          => 'Y',
+                        //     'stm_rep'         => $value->debit,
+                        //     'stm_money'       => "0.00", 
+                        //     'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                        //     'stm_trainid'     => $value->tranid,
+                        //     'stm_total'       => "0.00",
+                        //     'STMdoc'          => $value->STMdoc,
+                        //     'va'              => $value->va,
+                        // ]);
+                        
+                        
+                    // }else if ($value->ip_paytrue > "0.00") {
+
                         if ($value->ip_paytrue > "0.00") {
                             Acc_1102050101_202::where('an',$value->an) 
                                 ->update([
@@ -4101,42 +4124,46 @@ class AccountPKController extends Controller
                                     'stm_total'       => $value->ip_paytrue,
                                     'STMdoc'          => $value->STMdoc,
                                     'va'              => $value->va,
-                                    // 'auton'           => $value->ip_paytrue,
-                                    // 'STMdoc_authon'   => $value->STMdoc_authon, 
+                                    'auton'           => $value->ip_paytrue,
+                                    'STMdoc_authon'   => $value->STMdoc_authon,
+                                    
                             ]); 
-                        }                            
-                        if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug == "0") {                            
-                            Acc_1102050101_217::where('an',$value->an) 
-                                ->update([
-                                    'status'          => 'Y',
-                                    'stm_rep'         => $value->debit, 
-                                    'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                                    'stm_trainid'     => $value->tranid,
-                                    'stm_total'       => $value->total_approve,
-                                    // 'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                    'STMdoc'          => $value->STMdoc,
-                                    'va'              => $value->va,
-                                    // 'auton'           => $value->auton,
-                                    // 'STMdoc_authon'   => $value->STMdoc_authon,
-                            ]); 
-                        }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
-                            Acc_1102050101_217::where('an',$value->an) 
-                                ->update([
-                                    'status'          => 'Y',
-                                    'stm_rep'         => $value->debit,
-                                    'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                    'stm_rcpno'       => $value->rep.'-'.$value->repno,
-                                    'stm_trainid'     => $value->tranid,
-                                    'stm_total'       => $value->total_approve,
-                                    // 'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
-                                    'STMdoc'          => $value->STMdoc,
-                                    'va'              => $value->va,
-                                    // 'auton'           => $value->auton,
-                                    // 'STMdoc_authon'   => $value->STMdoc_authon,
-                            ]);    
-                        } else {    
                         }
-                    }  
+                            
+
+                    if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug == "0") {
+                        
+                        Acc_1102050101_217::where('an',$value->an) 
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit, 
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
+                                'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                'STMdoc'          => $value->STMdoc,
+                                'va'              => $value->va,
+                                'auton'           => $value->auton,
+                                'STMdoc_authon'   => $value->STMdoc_authon,
+                        ]); 
+                    }else if ($value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug > "0") {
+                        Acc_1102050101_217::where('an',$value->an) 
+                            ->update([
+                                'status'          => 'Y',
+                                'stm_rep'         => $value->debit,
+                                'stm_money'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                'stm_rcpno'       => $value->rep.'-'.$value->repno,
+                                'stm_trainid'     => $value->tranid,
+                                'stm_total'       => $value->total_approve,
+                                'stm_auton'       => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
+                                'STMdoc'          => $value->STMdoc,
+                                'va'              => $value->va,
+                                'auton'           => $value->auton,
+                                'STMdoc_authon'   => $value->STMdoc_authon,
+                        ]);
+ 
+                    } else {    
+                    }
  
 
                 } else {

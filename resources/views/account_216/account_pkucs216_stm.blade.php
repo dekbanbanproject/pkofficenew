@@ -113,10 +113,10 @@ $yb = date('Y') + 542;
                     </div> --}}
                     <div class="card-body">  
                         <div class="table-responsive">
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                             {{-- <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="scroll-vertical-datatable" class="table dt-responsive table-striped table-bordered nowrap w-100">
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
@@ -165,11 +165,11 @@ $yb = date('Y') + 542;
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td> 
-                                <td class="text-end" style="background-color: #ec1959"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-end" style="background-color: #06869c" ><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label> </td> 
+                                <td class="text-end" style="background-color: #ec1959"><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #06869c" ><label for="" style="color: #000000">{{ number_format($total3, 2) }}</label></td>
                                 {{-- <td class="text-center" style="background-color: #f08640"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td>  --}}
-                                <td class="text-end" style="background-color: rgb(5, 201, 184)"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label> </td> 
+                                <td class="text-end" style="background-color: rgb(5, 201, 184)"><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label> </td> 
                                 <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
                             </tr>  
                                      

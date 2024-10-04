@@ -175,9 +175,9 @@ $pos = strrpos($url, '/') + 1;
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
-                                    <td class="text-end" style="background-color: #04346b;color:white">{{ number_format($total1,2)}}</td>   
-                                    <td class="text-end" style="background-color: #8f0c63;color:white">{{ number_format($total2,2)}}</td> 
-                                    <td class="text-end" style="background-color: #096894;color:white">{{ number_format($total3,2)}}</td> 
+                                    <td class="text-end" style="background-color: #04346b;color:rgb(0, 0, 0)">{{ number_format($total1,2)}}</td>   
+                                    <td class="text-end" style="background-color: #8f0c63;color:rgb(0, 0, 0)">{{ number_format($total2,2)}}</td> 
+                                    <td class="text-end" style="background-color: #096894;color:rgb(0, 0, 0)">{{ number_format($total3,2)}}</td> 
                                 </tr>  
                             </table>
                         </div>
