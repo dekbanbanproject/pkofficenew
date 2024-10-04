@@ -252,7 +252,7 @@
                                     </tbody>
                                     <tr>
                                         <td colspan="2" class="text-end"></td>
-                                        <td class="text-end"><label for="">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end bg-info"><label for="">{{ number_format($total1, 2) }}</label></td>
                                         <td class="text-end"><label for="">{{ number_format($total2, 2) }}</label></td>
                                         <td class="text-end"><label for="">{{ number_format($total3, 2) }}</label></td>
                                         <td class="text-end"><label for="">{{ number_format($total4, 2) }}</label></td>  
