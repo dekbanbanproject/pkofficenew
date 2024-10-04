@@ -165,9 +165,11 @@ class DrinkingController extends Controller
         // $datashow = DB::select('SELECT * FROM water_check WHERE water_year = "'.$bg_yearnow.'" ORDER BY water_check_id ASC'); 
         $datashow = DB::select(
             'SELECT a.*
-              ,(SELECT location_name FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as location_name
-              ,(SELECT class FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as class
-              ,(SELECT detail FROM water_filter WHERE water_filter_id = a.water_filter_id AND check_date ="'.$datenow.'") as detail
+              ,(SELECT location_name FROM water_filter WHERE water_filter_id = a.water_filter_id AND water_year ="'.$bg_yearnow.'") as location_name
+              ,(SELECT class FROM water_filter WHERE water_filter_id = a.water_filter_id AND water_year ="'.$bg_yearnow.'") as class
+              ,(SELECT detail FROM water_filter WHERE water_filter_id = a.water_filter_id AND water_year ="'.$bg_yearnow.'") as detail
+
+              
             FROM water_check a 
             WHERE a.check_year = "'.$bg_yearnow.'" AND a.check_date BETWEEN "'.$newweek.'" AND "'.$datenow.'"
             GROUP BY a.water_code

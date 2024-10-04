@@ -100,7 +100,7 @@
                                         <span class="pe-2 opactiy-6">
                                             <i class="fa fa-comment-dots"></i>
                                         </span>
-                                        ข้อมูลแยกตามผังบัญชี
+                                        WWW
                                     </div>
                                 </a>
                             </li>
@@ -112,7 +112,7 @@
                                         </span>
                                         <span>45,311,2563</span>
                                     </div>
-                                    <div class="tab-subheading">ข้อมูลแยกตามกองทุน</div>
+                                    <div class="tab-subheading">TTT</div>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -124,7 +124,7 @@
                                         <span class="pe-2 opactiy-6">
                                             <i class="fa fa-bullhorn"></i>
                                         </span>
-                                        Income
+                                        ABC
                                     </div>
                                 </a>
                             </li>
@@ -146,83 +146,9 @@
                                             <th>คิดเป็นร้อยละของจัดเก็บรายได้</th>
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
-                                      <?php $i = 1; ?>
-                                        @foreach ($pang as $item)
-                                                <?php 
-                                                    $data_debit_ =  DB::connection('mysql')->select('SELECT SUM(debit_total) debit_total FROM acc_debtor WHERE account_code ="'.$item->pang.'"');
-                                                    foreach ($data_debit_ as $key => $value) {
-                                                        $debittotal = $value->debit_total;
-                                                    } 
-                                                    $data_stm_ =  DB::connection('mysql')->select('SELECT SUM(stm_total) stm_total FROM acc_1102050101_202 WHERE account_code ="1102050101.202"');
-                                                    foreach ($data_stm_ as $key => $value_) {
-                                                        $stmtotal = $value_->stm_total;
-                                                    }  
-                                                    $data_stm_3 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_203 WHERE account_code ="1102050101.203"');
-                                                    foreach ($data_stm_3 as $key => $value3_) {
-                                                        $stmtotal203 = $value3_->stm_money;
-                                                    } 
-                                                    $data_stm_216 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_216 WHERE account_code ="1102050101.216"');
-                                                        foreach ($data_stm_216 as $key => $value216_) {
-                                                            $stmtotal216 = $value216_->stm_money;
-                                                        } 
-                                                    $data_stm_217 =  DB::connection('mysql')->select('SELECT SUM(stm_total) stm_total FROM acc_1102050101_217 WHERE account_code ="1102050101.217"');
-                                                    foreach ($data_stm_217 as $key => $value217_) {
-                                                        $stmtotal217 = $value217_->stm_total;
-                                                    } 
-                                                    $data_stm_301 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_301 WHERE account_code ="1102050101.301"');
-                                                    foreach ($data_stm_301 as $key => $value301_) {
-                                                        $stmtotal301 = $value301_->stm_money;
-                                                    } 
-                                                    $data_stm_302 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_302 WHERE account_code ="1102050101.302"');
-                                                    foreach ($data_stm_302 as $key => $value302_) {
-                                                        $stmtotal302 = $value302_->stm_money;
-                                                    } 
-                                                    $data_stm_303 =  DB::connection('mysql')->select('SELECT SUM(stm_money) stm_money FROM acc_1102050101_303 WHERE account_code ="1102050101.303"');
-                                                    foreach ($data_stm_303 as $key => $value303_) {
-                                                        $stmtotal303 = $value303_->stm_money;
-                                                    } 
-                                                    $data_stm_304 =  DB::connection('mysql')->select('SELECT SUM(recieve_true) recieve_true FROM acc_1102050101_304 WHERE account_code ="1102050101.304"');
-                                                    foreach ($data_stm_304 as $key => $value304_) {
-                                                        $stmtotal304 = $value304_->recieve_true;
-                                                    } 
-                                                   
-                                                
-                                                ?>
-                                       
-                                            <tr>
-                                                <td width="3%" class="text-center">{{ $i++ }}</td>
-                                                <td width="10%" class="text-center">{{$item->pang}}</td>
-                                                <td class="p-2">{{$item->pangname}}</td>
-                                                <td width="10%" class="text-end" style="color: rgb(23, 124, 207)">{{ number_format($debittotal, 2) }}</td>
-                                                <td width="10%" class="text-center"></td>
-
-                                                @if ($item->pang =="1102050101.202")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.203")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal203, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.216")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal216, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.217")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal217, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.301")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal301, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.302")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal302, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.303")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal303, 2) }}</td>
-                                                @elseif ($item->pang =="1102050101.304")
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">{{ number_format($stmtotal304, 2) }}</td>
-                                                @else
-                                                <td width="10%" class="text-end" style="color: rgb(23, 207, 146)">0.00</td>
-                                                @endif
-                                               
-
-                                                <td width="15%" class="text-center"></td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody> --}}
+                                   
                                 </table>  
+
                             </div>
                         </div>
                         <div class="tab-pane " id="tab-minimal-2">

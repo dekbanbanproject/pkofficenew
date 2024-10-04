@@ -47,7 +47,7 @@
     <div class="row"> 
         <div class="col-md-4">
            
-            <h4 style="color:rgb(255, 255, 255)">รายการตรวสอบเครื่องผลิตน้ำดื่ม</h4> 
+            <h4 style="color:rgb(255, 255, 255)">รายการตรวจสอบเครื่องผลิตน้ำดื่ม</h4> 
         </div>
         <div class="col"></div>
       
@@ -87,10 +87,20 @@
                                     <th width="3%" class="text-center">ลำดับ</th>  
                                     {{-- <th class="text-center" width="3%">สถานะ</th>  --}}
                                     {{-- <th class="text-center" width="3%">รูปภาพ</th>   --}}
-                                    <th class="text-center" width="5%">รหัสครุภัณฑ์</th>  
-                                    <th class="text-center" >รายการ</th> 
-                                    <th class="text-center" >อาคาร/ชั้น</th> 
-                                    <th class="text-center" >หน่วยงาน</th>  
+                                    <th class="text-center" width="5%">รหัส</th>  
+                                    {{-- <th class="text-center" >รายการ</th>  --}}
+                                    <th class="text-center" >อาคาร/ชั้น/หน่วยงาน</th> 
+                                    {{-- <th class="text-center" >หน่วยงาน</th>   --}}
+                                    <th class="text-center" >ไส้กรอง</th> 
+                                    <th class="text-center" >ถังกรองน้ำ</th> 
+                                    <th class="text-center" >หลอด UV</th> 
+                                    <th class="text-center" >โซลินอยวาล์ว</th> 
+                                    <th class="text-center" >โลเพรสเซอร์สวิส</th> 
+                                    <th class="text-center" >ไฮเพรสเซอร์สวิส</th> 
+                                    <th class="text-center" >สายน้ำเข้า</th> 
+                                    <th class="text-center" >ก๊อกน้ำร้อน-เย็น</th> 
+                                    <th class="text-center" >ข้อต่อและท่อ</th> 
+                                    <th class="text-center" >ถังเก็บน้ำกรอง</th> 
                                     {{-- <th class="text-center">จัดการ</th>  --}}
                                 </tr>
                             </thead>
@@ -114,11 +124,80 @@
                                         @endif --}}
  
                                         <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_code }}</td>  
-                                        <td class="p-2">{{ $item->water_name }}</td>  
-                                        <td class="p-2">{{ $item->location_name }} / ชั้น {{ $item->class }}</td>  
-                                        <td class="p-2">{{ $item->detail }}</td>                                          
-                                        {{-- <td class="text-center" width="5%">
- 
+                                        {{-- <td class="p-2">{{ $item->water_name }}</td>   --}}
+                                        <td class="p-2">{{ $item->location_name }} / ชั้น {{ $item->class }} / {{ $item->detail }}</td>  
+                                        {{-- <td class="p-2">{{ $item->detail }}</td>   --}}
+                                        <td class="text-center" width="5%">
+                                            @if ($item->filter == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>    
+                                        <td class="text-center" width="5%">
+                                            @if ($item->filter_tank == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->tube == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->solinoi_vaw == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->lowplessor_swith == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->hiplessor_swith == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->water_in == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->hot_clod == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->pipes == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>  
+                                        <td class="text-center" width="5%">
+                                            @if ($item->storage_tank == 'Y') 
+                                                <img src="{{asset('images/true_sm_50.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @else 
+                                                <img src="{{asset('images/false_smal.png')}}" height="25px" width="25px" alt="Image" class="img-thumbnail bg_prs">
+                                            @endif
+                                        </td>                                     
+                                        {{-- <td class="text-center" width="5%"> 
                                             <div class="btn-group me-1">
                                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     ทำรายการ <i class="mdi mdi-chevron-down"></i>
@@ -144,12 +223,10 @@
                                                         <span>แก้ไข</span>
                                                         
                                                     </a>
-                                                <div class="dropdown-divider"></div>
-                                                    
+                                                <div class="dropdown-divider"></div>                                                    
                                                 </div>
                                             </div>
                                         </td> --}}
-
                                     </tr>
                                 @endforeach
                             </tbody>

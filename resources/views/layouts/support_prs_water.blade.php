@@ -415,7 +415,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('drinking_water_list') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fire-extinguisher me-2"></i>ทะเบียนเครื่องผลิตน้ำดื่ม
+                                    <i class="fa-solid fa-glass-water me-2"></i>ทะเบียนเครื่องผลิตน้ำดื่ม
                                 </a>
                                 
                             </li>
@@ -426,12 +426,12 @@
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('gas_check_list') }}" id="topnav-more" role="button">
                                    <i class="fa-solid fa-fire-flame-simple me-2"></i> บันทึกการตรวจสอบ
                                 </a>
-                            </li> --}}
+                            </li> --}} 
 
                              <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-fire-flame-simple me-2"></i><span key="t-layouts">บันทึกการตรวจสอบ</span> <div class="arrow-down"></div>
-                              
+                                    <i class="fa-solid fa-circle-check me-2"></i><span key="t-layouts">บันทึกการตรวจสอบ</span> <div class="arrow-down"></div>
+                                   
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">

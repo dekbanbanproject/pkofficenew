@@ -87,7 +87,7 @@ date_default_timezone_set("Asia/Bangkok");
 
 class Account209Controller extends Controller
  { 
-    public function account_pkucs209_dash(Request $request)
+    public function account_pkucs209_dash_old(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -149,6 +149,117 @@ class Account209Controller extends Controller
             'leave_month_year' =>  $leave_month_year,
         ]);
     }
+    public function account_pkucs209_dash(Request $request)
+    { 
+        // $startdate          = $request->startdate;
+        // $enddate            = $request->enddate; 
+        $budget_year        = $request->budget_year;
+        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี        
+        if ($budget_year == '') {
+            $yearnew     = date('Y');
+            $year_old    = date('Y')-1; 
+            $startdate   = (''.$year_old.'-10-01');
+            $enddate     = (''.$yearnew.'-09-30'); 
+            // dd($startdate);
+            $datashow = DB::select(
+                'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME
+                from acc_1102050101_209 U1      
+                left outer join leave_month l on l.MONTH_ID = month(U1.vstdate)       
+                WHERE U1.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                group by month(U1.vstdate)  
+            ');  
+        } else {          
+            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end; 
+     
+            $datashow = DB::select(
+                'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME
+                from acc_1102050101_209 U1      
+                left outer join leave_month l on l.MONTH_ID = month(U1.vstdate)       
+                WHERE U1.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                group by month(U1.vstdate) 
+            ');
+        }
+   
+        return view('account_209.account_pkucs209_dash',[
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate, 
+            'leave_month_year'  =>  $leave_month_year, 
+            'datashow'          =>  $datashow,
+            'dabudget_year'     =>  $dabudget_year,
+            'budget_year'       =>  $budget_year,
+            'y'                 =>  $y,
+        ]);
+    }
+    // public function account_pkucs209_dash(Request $request)
+    // {
+    //     $datenow = date('Y-m-d');
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+
+    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $date = date('Y-m-d');
+    //     $y = date('Y') + 543;
+    //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+    //     $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+    //     $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+    //     $yearnew = date('Y')+1;
+    //     $yearold = date('Y')-1;
+    //     $start = (''.$yearold.'-10-01');
+    //     $end = (''.$yearnew.'-09-30'); 
+
+    //     if ($startdate == '') {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+    //                 and account_code="1102050101.209"
+    //                 group by month(a.vstdate) order by a.vstdate desc limit 3;
+    //         ');
+    //         // and stamp = "N"
+    //     } else {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.209"
+                    
+    //                order by a.vstdate desc;
+    //         ');
+    //     }
+    //     // group by month(a.vstdate) 
+    //     return view('account_209.account_pkucs209_dash',[
+    //         'startdate'        =>  $startdate,
+    //         'enddate'          =>  $enddate,
+    //         'datashow'         =>  $datashow,
+    //         'leave_month_year' =>  $leave_month_year,
+    //     ]);
+    // }
     public function account_pkucs209_pull(Request $request)
     {
         $datenow = date('Y-m-d');

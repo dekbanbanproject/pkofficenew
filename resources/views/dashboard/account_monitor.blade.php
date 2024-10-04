@@ -141,6 +141,8 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-minimal-1">
                             <div class="card-body">
+                                <form action="{{ URL('account_monitor') }}" method="GET">
+                                    @csrf
 
                                 <div class="row"> 
                                     <div class="col-md-4"> 
@@ -166,6 +168,8 @@
                                         </div> 
                                     </div>
                                 </div>
+
+                                </form>
                                 <div class="row"> 
                                     <div class="col-xl-12">
                                         {{-- <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered"> --}}
