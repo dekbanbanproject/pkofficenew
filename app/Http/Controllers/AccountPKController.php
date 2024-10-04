@@ -3999,7 +3999,8 @@ class AccountPKController extends Controller
                     if ($check > 0) {         
                         Acc_stm_ucs::where('tranid','=',$value->tranid)->update([
                             'rep_auton'      => $value->rep_auton,
-                            'repno_auton'    => $value->repno_auton
+                            'repno_auton'    => $value->repno_auton,
+                            'tranid_authon'  => $value->tranid_authon
                         ]);          
                     } else {
                         $add = new Acc_stm_ucs();
@@ -4050,6 +4051,7 @@ class AccountPKController extends Controller
                         $add->STMdoc         = $value->STMdoc;
                         $add->rep_auton      = $value->rep_auton;
                         $add->repno_auton    = $value->repno_auton;
+                        $add->tranid_authon  = $value->tranid_authon;
                         $add->auton          = $value->auton;
                         $add->STMdoc_authon  = $value->STMdoc_authon;
                         $add->STMdoc_type    = $value->STMdoc_type;
@@ -4062,8 +4064,8 @@ class AccountPKController extends Controller
                             Acc_1102050101_202::where('an',$value->an) 
                                 ->update([ 
                                     'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
-                                    'auton'             => $value->ip_paytrue,
+                                    'tranid_authon'     => $value->tranid_authon,  
+                                    'auton'             => $value->auton,
                                     'STMdoc_authon'     => $value->STMdoc_authon, 
                             ]); 
                         }                            
@@ -4072,7 +4074,7 @@ class AccountPKController extends Controller
                             Acc_1102050101_217::where('an',$value->an) 
                                 ->update([
                                     'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
+                                    'tranid_authon'     => $value->tranid_authon,  
                                     'stm_auton'         => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                     'auton'             => $value->auton, 
                                     'STMdoc_authon'     => $value->STMdoc_authon,  
@@ -4081,7 +4083,7 @@ class AccountPKController extends Controller
                             Acc_1102050101_217::where('an',$value->an) 
                                 ->update([
                                     'repno_auton'       => $value->rep_auton.'-'.$value->repno_auton,
-                                    'tranid_authon'     => $value->tranid,  
+                                    'tranid_authon'     => $value->tranid_authon,  
                                     'stm_auton'         => $value->hc_drug+$value->hc+$value->ae+$value->ae_drug+$value->inst+$value->dmis_money2+$value->dmis_drug,
                                     'auton'             => $value->auton, 
                                     'STMdoc_authon'     => $value->STMdoc_authon,  
