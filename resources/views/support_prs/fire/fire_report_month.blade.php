@@ -220,22 +220,43 @@
                                                             AND year(f.check_date) = "'.$itemreport->years.'" 
             
                                                         ');  
-                                                        // ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot                                   
+                                                        // ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot   
+                                                        
+                                                    //    dd($counts_);
                                                         foreach ($dashboard_ as $key => $value) {
                                                             // $red_all               = $value->red_all;
-                                                            $redten                = $value->redten;
-                                                            $redfifteen            = $value->redfifteen;
-                                                            $redtwenty             = $value->redtwenty;
-                                                            $greenten              = $value->greenten;
-                                                            $total_all             = $value->total_all;
-                                                            $Check_redten          = $value->Check_redten;
-                                                            $Check_redfifteen      = $value->Check_redfifteen;
-                                                            $Check_redtwenty       = $value->Check_redtwenty;
-                                                            $Check_greenten        = $value->Check_greenten;
-                                                            $Checktotal_all        = $value->Checktotal_all;
-                                                            $camroot               = $value->camroot;
-                                                            $green_all             = $value->green_all;
-                                                            $Checkgreen_all        = $value->Checkgreen_all;
+                                                            $counts_ = DB::select('SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'"');                                 
+                                                            // if ($counts_ < 1) {
+                                                            //     $redten                = '0';
+                                                            //     $redfifteen            = '0';
+                                                            //     $redtwenty             ='0';
+                                                            //     $greenten              ='0';
+                                                            //     $total_all             = '0';
+                                                            //     $Check_redten          = '0';
+                                                            //     $Check_redfifteen      = '0';
+                                                            //     $Check_redtwenty       = '0';
+                                                            //     $Check_greenten        ='0';
+                                                            //     $Checktotal_all        = '0';
+                                                            //     $camroot               ='0';
+                                                            //     $green_all             = '0';
+                                                            //     $Checkgreen_all        = '0';
+                                                            // } else {
+                                                                $redten                = $value->redten;
+                                                                $redfifteen            = $value->redfifteen;
+                                                                $redtwenty             = $value->redtwenty;
+                                                                $greenten              = $value->greenten;
+                                                                $total_all             = $value->total_all;
+                                                                $Check_redten          = $value->Check_redten;
+                                                                $Check_redfifteen      = $value->Check_redfifteen;
+                                                                $Check_redtwenty       = $value->Check_redtwenty;
+                                                                $Check_greenten        = $value->Check_greenten;
+                                                                $Checktotal_all        = $value->Checktotal_all;
+                                                                $camroot               = $value->camroot;
+                                                                $green_all             = $value->green_all;
+                                                                $Checkgreen_all        = $value->Checkgreen_all;
+                                                            // }
+                                                            
+                                                            
                                                         } 
                                                         $sumyokma_all_ = DB::select(
                                                             'SELECT COUNT(f.fire_id) as cfire 
