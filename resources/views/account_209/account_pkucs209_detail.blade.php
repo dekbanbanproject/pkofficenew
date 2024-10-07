@@ -113,8 +113,8 @@ $yb = date('Y') + 542;
                     </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="scroll-vertical-datatable" class="table dt-responsive table-striped table-bordered nowrap w-100">
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="scroll-vertical-datatable" class="table dt-responsive table-striped table-bordered nowrap w-100"> --}}
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>

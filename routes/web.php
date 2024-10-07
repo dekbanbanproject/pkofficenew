@@ -838,54 +838,41 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::put('warehouse/warehouse_inven_update', [App\Http\Controllers\WarehouseController::class, 'warehouse_inven_update'])->name('ware.warehouse_inven_update'); //
   Route::delete('warehouse/warehouse_inven_addper_destroy/{id}', [App\Http\Controllers\WarehouseController::class, 'warehouse_inven_addper_destroy'])->name('ware.warehouse_inven_addper_destroy'); //
   Route::match(['get', 'post'], 'warehouse/warehouse_editplus', [App\Http\Controllers\WarehouseController::class, 'warehouse_editplus'])->name('ware.warehouse_editplus'); //
-
   // Route::get('warehouse/warehouse_addsub/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_addsub']);
-
   Route::match(['get', 'post'], 'warehouse/warehouse_vendor', [App\Http\Controllers\WarehouseController::class, 'warehouse_vendor'])->name('ware.warehouse_vendor'); //
   Route::match(['get', 'post'], 'warehouse/warehouse_vendorsave', [App\Http\Controllers\WarehouseController::class, 'warehouse_vendorsave'])->name('ware.warehouse_vendorsave'); //
   Route::match(['get', 'post'], 'warehouse/warehouse_vendor_edit/{id}', [App\Http\Controllers\WarehouseController::class, 'warehouse_vendor_edit'])->name('ware.warehouse_vendor_edit'); //
   Route::match(['get', 'post'], 'warehouse/warehouse_vendorupdte', [App\Http\Controllers\WarehouseController::class, 'warehouse_vendorupdte'])->name('ware.warehouse_vendorupdte'); //
   Route::delete('warehouse/warehouse_vendor_destroy/{id}', [App\Http\Controllers\WarehouseController::class, 'warehouse_vendor_destroy'])->name('ware.warehouse_vendor_destroy'); //
-
   Route::get('warehouse/checksummoney', [App\Http\Controllers\WarehouseController::class, 'checksummoney'])->name('ware.checksummoney'); //
   Route::get('warehouse/checkunitref', [App\Http\Controllers\WarehouseController::class, 'checkunitref'])->name('ware.checkunitref'); //
-
   Route::get('warehouse/checksummoney_pay', [App\Http\Controllers\WarehouseController::class, 'checksummoney_pay'])->name('ware.checksummoney_pay'); //
   Route::get('warehouse/checkunitref_pay', [App\Http\Controllers\WarehouseController::class, 'checkunitref_pay'])->name('ware.checkunitref_pay'); //
   // Route::match(['get','post'],'warehouse/warehouse_save',[App\Http\Controllers\WarehouseController::class, 'warehouse_save'])->name('ware.warehouse_save');//
   Route::match(['get', 'post'], 'warehouse/warehouse_main', [WarehouseController::class, 'warehouse_main'])->name('ware.warehouse_main');
   Route::match(['get', 'post'], 'warehouse/warehouse_main_detail/{id}', [WarehouseController::class, 'warehouse_main_detail'])->name('ware.warehouse_main_detail');
   Route::match(['get', 'post'], 'warehouse/warehouse_main_detail_sub/{idpro}', [WarehouseController::class, 'warehouse_main_detail_sub'])->name('ware.warehouse_main_detail_sub');
-
   // Route::get('warehouse/warehouse_pay', function () {
   //   return view('welcome');
   // });
   // Route::match(['get','post'],'warehouse/warehouse_pay',[App\Http\Controllers\WarehousePayController::class,'warehouse_pay'])->name('pay.warehouse_pay');//
-
   // Route::match(['get','post'],'warehouse/warehouse_pay','WarehousePayController@warehouse_pay')->name('pay.warehouse_pay');//warehouse_payedit
-
   Route::match(['get', 'post'], 'warehouse/warehouse_pay', [WarehousePayController::class, 'warehouse_pay'])->name('pay.warehouse_pay');
   Route::match(['get', 'post'], 'warehouse/warehouse_pay_edit/{id}', [WarehousePayController::class, 'warehouse_pay_edit'])->name('pay.warehouse_pay_edit');
   Route::match(['get', 'post'], 'warehouse_payedit/{id}', [WarehousePayController::class, 'warehouse_payedit'])->name('pay.warehouse_payedit');
   Route::match(['get', 'post'], 'warehouse_paymodal_edit/{id}', [WarehousePayController::class, 'warehouse_paymodal_edit'])->name('pay.warehouse_paymodal_edit');
-
   Route::match(['get', 'post'], 'get_year/{id}', [WarehousePayController::class, 'get_year'])->name('pay.get_year');
-
   Route::match(['get', 'post'], 'warehouse/warehouse_paysave', [WarehousePayController::class, 'warehouse_paysave'])->name('pay.warehouse_paysave');
   Route::match(['get', 'post'], 'warehouse/warehouse_payupdate', [WarehousePayController::class, 'warehouse_payupdate'])->name('pay.warehouse_payupdate');
-
   Route::match(['get', 'post'], 'warehouse_payadd/{id}', [WarehousePayController::class, 'warehouse_payadd'])->name('pay.warehouse_payadd');
   Route::match(['get', 'post'], 'warehouse_payadd_save', [WarehousePayController::class, 'warehouse_payadd_save'])->name('pay.warehouse_payadd_save');
   Route::match(['get', 'post'], 'warehouse_payadd_savesub', [WarehousePayController::class, 'warehouse_payadd_savesub'])->name('pay.warehouse_payadd_savesub');
   Route::match(['get', 'post'], 'warehouse/warehouse_pay_sub/{id}', [WarehousePayController::class, 'warehouse_pay_sub'])->name('pay.warehouse_pay_sub');
-
   Route::get('warehouse/warehouse_plus/{id}', [WarehouseController::class, 'warehouse_plus'])->name('pay.warehouse_plus');
-
-
-
-
-
-
+ 
+  Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
+  Route::match(['get', 'post'], 'wh_dashboard', [App\Http\Controllers\WhController::class, 'wh_dashboard'])->name('wh.wh_dashboard'); //
+  Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
 
 
 

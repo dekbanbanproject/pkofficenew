@@ -398,35 +398,39 @@ class Account307Controller extends Controller
                                     'hospmain'      => $value->hospcode, 
                                 ]);  
                             } else {
-                                Acc_debtor::insert([
-                                    'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
-                                    'vn'                 => $value->vn,
-                                    'cid'                => $value->cid,
-                                    'ptname'             => $value->ptname,
-                                    'pttype'             => $pttype,
-                                    'hospmain'           => $value->hospcode, 
-                                    'vstdate'            => $value->vstdate,
-                                    'dchdate'            => $value->dchdate,
-                                    'acc_code'           => $value->acc_code,
-                                    'account_code'       => $value->account_code,
-                                    'account_name'       => $value->account_name,
-                                    'income_group'       => $value->income_group,
-                                    'income'             => $value->income,
-                                    'uc_money'           => $value->uc_money,
-                                    'discount_money'     => $value->discount_money,
-                                    'paid_money'         => $value->paid_money,
-                                    'rcpt_money'         => $value->rcpt_money,
-                                    'debit'              => $data_debit,
-                                    'debit_drug'         => $value->debit_drug,
-                                    'debit_instument'    => $value->debit_instument,
-                                    'debit_toa'          => $value->debit_toa,
-                                    'debit_refer'        => $value->debit_refer, 
-                                    'fokliad'            => $value->fokliad, 
-                                    'debit_total'        => $data_debit,
-                                    'max_debt_amount'    => $value->max_debt_money,
-                                    'acc_debtor_userid'  => Auth::user()->id
-                                ]);
+                                if ($data_debit > 0) {
+                                    Acc_debtor::insert([
+                                        'hn'                 => $value->hn,
+                                        'an'                 => $value->an,
+                                        'vn'                 => $value->vn,
+                                        'cid'                => $value->cid,
+                                        'ptname'             => $value->ptname,
+                                        'pttype'             => $pttype,
+                                        'hospmain'           => $value->hospcode, 
+                                        'vstdate'            => $value->vstdate,
+                                        'dchdate'            => $value->dchdate,
+                                        'acc_code'           => $value->acc_code,
+                                        'account_code'       => $value->account_code,
+                                        'account_name'       => $value->account_name,
+                                        'income_group'       => $value->income_group,
+                                        'income'             => $value->income,
+                                        'uc_money'           => $value->uc_money,
+                                        'discount_money'     => $value->discount_money,
+                                        'paid_money'         => $value->paid_money,
+                                        'rcpt_money'         => $value->rcpt_money,
+                                        'debit'              => $data_debit,
+                                        'debit_drug'         => $value->debit_drug,
+                                        'debit_instument'    => $value->debit_instument,
+                                        'debit_toa'          => $value->debit_toa,
+                                        'debit_refer'        => $value->debit_refer, 
+                                        'fokliad'            => $value->fokliad, 
+                                        'debit_total'        => $data_debit,
+                                        'max_debt_amount'    => $value->max_debt_money,
+                                        'acc_debtor_userid'  => Auth::user()->id
+                                    ]); 
+                                }
+                                
+                               
                             }
                             
                             // if ($check == 0) {
@@ -492,35 +496,37 @@ class Account307Controller extends Controller
                             //     'acc_debtor_userid'  => Auth::user()->id
                             // ]);
                         } else {
-                            Acc_debtor::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->ptname,
-                                'pttype'             => $pttype,
-                                'vstdate'            => $value->vstdate,
-                                'hospmain'           => $value->hospcode, 
-                                'dchdate'            => $value->dchdate,
-                                'acc_code'           => $value->acc_code,
-                                'account_code'       => $value->account_code,
-                                'account_name'       => $value->account_name,
-                                'income_group'       => $value->income_group,
-                                'income'             => $value->income,
-                                'uc_money'           => $value->uc_money,
-                                'discount_money'     => $value->discount_money,
-                                'paid_money'         => $value->paid_money,
-                                'rcpt_money'         => $value->rcpt_money,
-                                'debit'              => $value->debit,
-                                'debit_drug'         => $value->debit_drug,
-                                'debit_instument'    => $value->debit_instument,
-                                'debit_toa'          => $value->debit_toa,
-                                'debit_refer'        => $value->debit_refer, 
-                                'fokliad'            => $value->fokliad, 
-                                'debit_total'        => $value->debit_total,
-                                'max_debt_amount'    => $value->max_debt_money,
-                                'acc_debtor_userid'  => Auth::user()->id
-                            ]);
+                            if ($value->debit > 0) { 
+                                Acc_debtor::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->ptname,
+                                    'pttype'             => $pttype,
+                                    'vstdate'            => $value->vstdate,
+                                    'hospmain'           => $value->hospcode, 
+                                    'dchdate'            => $value->dchdate,
+                                    'acc_code'           => $value->acc_code,
+                                    'account_code'       => $value->account_code,
+                                    'account_name'       => $value->account_name,
+                                    'income_group'       => $value->income_group,
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money,
+                                    'paid_money'         => $value->paid_money,
+                                    'rcpt_money'         => $value->rcpt_money,
+                                    'debit'              => $value->debit,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer, 
+                                    'fokliad'            => $value->fokliad, 
+                                    'debit_total'        => $value->debit_total,
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            }
                         }
                         
                             // if ($check == 0) {

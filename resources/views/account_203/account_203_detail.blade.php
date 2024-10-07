@@ -394,7 +394,7 @@
 
                                 </tbody>
                                 <tr style="background-color: #f3fca1">
-                                    <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                    <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
                                     <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total111, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #9f4efc" ><label for="" style="color: #000000">{{ number_format($total222, 2) }}</label></td>
                                     <td class="text-center" style="background-color: #c5224b"><label for="" style="color: #000000">{{ number_format($total666, 2) }}</label> </td>

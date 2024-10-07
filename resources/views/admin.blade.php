@@ -570,13 +570,25 @@ $per_nurse                = StaticController::per_nurse($iduser);
     
              @if ($countpesmiss_store != 0)  
             <div class="col-xl-3 col-md-3">
-                <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
+                <a href="{{ url('wh_dashboard') }}" target="_blank">
+                {{-- <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> --}}
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 101, 1)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
+                                                    <h5 class="text-start mb-2">WAREHOUSE</h5> 
+                                            </div>
+                                            <div class="avatar"> 
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                      
+                                                        <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                </button> 
+                                            </div>
+                                        </div>
+                                        {{-- <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
                                                     <h5 class="text-start mb-2">WAREHOUSE</h5> 
@@ -589,7 +601,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                                     </button>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -599,7 +611,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             </div>
             @else
             <div class="col-xl-3 col-md-3">
-                {{-- <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> --}}
+               
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
@@ -624,7 +636,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                             </div>
                         </div>
                     </div>
-                {{-- </a> --}}
+             
             </div>
             @endif
     
@@ -642,11 +654,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                                     <h5 class="text-start mb-2">FINANCE</h5> 
                                             </div>
                                             <div class="avatar"> 
-                                                    <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                      
-                                                            <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                      
+                                                        <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                </button> 
                                             </div>
                                         </div>
                                     </div>
@@ -744,7 +754,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             </div>
             @endif
     
-            @if ($countpermiss_p4p != 0)  
+            {{-- @if ($countpermiss_p4p != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('p4p') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -756,19 +766,19 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+                                                
                                                     <h5 class="text-start">P4P</h5>
-                                                {{-- </a> --}}
+                                              
                                             </div>
                                             <div class="avatar ms-2">
-                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+                                              
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        {{-- <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> --}}
+                                                       
                                                         <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                         
                                                     </button>
-                                                {{-- </a> --}}
+                                         
                                             </div>
                                         </div>
                                     </div>
@@ -780,7 +790,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             </div>
             @else
             <div class="col-xl-3 col-md-3">
-                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+          
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
                         style="background-color: rgba(235, 104, 247, 0.781)">
                         <div class="grid-menu-col">
@@ -789,20 +799,15 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
-                                                    <h5 class="text-start">P4P</h5>
-                                                {{-- </a> --}}
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
+                                                    <h5 class="text-start">P4P</h5> 
                                             </div>
-                                            <div class="avatar ms-2">
-                                                {{-- <a href="{{ url('p4p') }}" target="_blank"> --}}
+                                            <div class="avatar ms-2"> 
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        {{-- <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> --}}
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
                                                         <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
                                                         
-                                                    </button>
-                                                {{-- </a> --}}
+                                                    </button> 
                                             </div>
                                         </div>
                                     </div>
@@ -810,9 +815,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
                             </div>
                         </div>
                     </div>
-                {{-- </a> --}}
+            
             </div>
-            @endif
+            @endif --}}
      
             @if ($countpermiss_env != 0)  
             <div class="col-xl-3 col-md-3">
@@ -1442,7 +1447,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                     </div> 
                 </a> 
             </div>
-            @else
+            @else            
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('nurse_index') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"

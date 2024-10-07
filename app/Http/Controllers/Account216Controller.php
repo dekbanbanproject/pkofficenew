@@ -316,7 +316,7 @@ class Account216Controller extends Controller
                 AND vstdate BETWEEN "'.$newday.'" AND "'.$datenow.'"
                 AND a.debit_total > 0
                 group by a.vn
-                order by a.vstdate DESC;
+                order by a.hn ASC;
             ');
             // AND a.stamp = "N" 
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
@@ -345,7 +345,7 @@ class Account216Controller extends Controller
                 WHERE a.account_code="1102050101.216"
                  AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND a.debit_total > 0
                 group by a.vn
-                order by a.vstdate DESC;
+                order by a.hn ASC;
             ');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="WALKIN"');
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="WALKIN"');
@@ -628,6 +628,15 @@ class Account216Controller extends Controller
                 }  
             }
         }
+        // SELECT  
+        // COUNT(vn), vn,hn,sum(debit_total)
+        // FROM acc_debtor
+        //  WHERE vstdate BETWEEN "2024-10-01" AND "2024-10-01" AND account_code ="1102050101.216"
+        // GROUP BY hn
+        // HAVING COUNT(hn) > 1;
+        $getdata =  DB::connection('mysql')->select('SELECT COUNT(vn), vn,hn,sum(debit_total) FROM acc_debtor WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND account_code ="1102050101.216" GROUP BY hn HAVING COUNT(hn) > 1;');
+        // Acc_debtor::where('account_code', '1102050101.216')->whereBetween('vstdate', [$startdate, $enddate])->get();
+        
         return response()->json([
             'status'    => '200'
         ]);

@@ -397,12 +397,14 @@ class Account402Controller extends Controller
                 LEFT JOIN opitemrece op ON op.an = i.an
                 LEFT JOIN drugitems d on d.icode=op.icode
                 LEFT OUTER JOIN iptdiag di on di.an = i.an
-                INNER JOIN icd101 ic on ic.code = di.icd10
+                LEFT OUTER JOIN icd101 ic on ic.code = di.icd10
                 LEFT JOIN vn_stat v on v.vn = i.vn                
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND op.paidst ="02"
-                AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD")                            
+                AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD")                          
                 GROUP BY i.an 
         '); 
+        // in("38","09","o1","o2","o3","o4","o5","o6","20") 
+        // IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD")  
         //  //D_idx OK 
         //  $data_idx_ = DB::connection('mysql2')->select('
         //                 SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
