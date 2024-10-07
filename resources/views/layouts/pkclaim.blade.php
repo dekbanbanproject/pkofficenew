@@ -658,9 +658,19 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('document') }}">เก็บเอกสาร</a></li>
-                                {{-- <li><a href="{{ url('inst_sss_todtan') }}">กองทุนทดแทน-ปกส.</a></li> --}}
-                                {{-- <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li> --}}
-                                {{-- <li><a href="https://cs3.chi.or.th/ambtrcs/login.asp">เบิกค่ารถ Refer</a></li>  --}}
+                                <?php 
+                                    $datas = DB::select('SELECT * FROM document WHERE type_online ="1"');
+                                    // foreach ($datas as $key => $value) {
+                                    //     $data_name = $value->document_name;
+                                    //     $data_link = $value->link_online;
+                                    // }
+                                ?>
+                                @foreach ($datas as $value)
+                                    <li><a href="{{$value->link_online}}" target="_blank">{{$value->document_name}}</a></li>
+                                @endforeach
+                                {{-- <li><a href="https://docs.google.com/document/d/1eWlqdmK7i3VX64hXjVa7ddOilEhGEmCl/edit" target="_blank">Document Online</a></li> --}}
+                                {{-- <li><a href="https://docs.google.com/spreadsheets/d/1cRzIfjdbTHGfSEotIBlt7owXUsBU7rBhaa8d6wPme9M/edit?gid=0#gid=0" target="_blank">ติดตามการเบิก</a></li>  --}}
+                                
                             </ul>
                         </li>
                         <li>
@@ -801,9 +811,9 @@
                                                 target="_blank">ทะเบียนเปลี่ยนสิทธิ์</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1gzmOl_SjYxEyiqJUNPR1-QBtSKWNEJiyT6eQs48rmqw/edit#gid=0"
                                                 target="_blank">ลูกหนี้ชำระเงิน/สิ่งส่งตรวจ</a></li>
-                                        <li><a href="https://docs.google.com/spreadsheets/d/1LRUyXxWmRzBXu-z2-192rMorSBn6aRu6ncnPr71bBks/edit#gid=1232079612"
+                                        <li><a href="https://docs.google.com/spreadsheets/d/1vASAmknrsKgZ_lZiKZsv2vLXfDt0r05O/edit?gid=369053594#gid=369053594"
                                                 target="_blank">ลูกหนี้เรียกเก็บจังหวัด 203</a></li>
-                                        <li><a href="https://docs.google.com/spreadsheets/d/1S_mPfZLEIoNx53NZto3LXN6ilrJsZZ0NZBdk2ZWT2lI/edit#gid=635173635"
+                                        <li><a href="https://docs.google.com/spreadsheets/d/19VIat55VQzijMUzB__7586ptSnUmg9MX/edit?gid=481957264#gid=481957264"
                                                 target="_blank">ลูกหนี้ประกันสังคมผัง 301-310</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1npnk1VyLD8lqWUWRn8S16kfMyzaC3t-R/edit#gid=207253454"
                                                 target="_blank">ลูกหนี้รายตัวผัง 401/402</a></li>

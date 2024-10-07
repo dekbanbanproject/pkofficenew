@@ -310,7 +310,7 @@
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
             <div class="modal-content"> 
                     <div class="modal-body">
                         <form method="POST" action="{{ route('d.document_save') }}" id="insert_Form" enctype="multipart/form-data">
@@ -319,7 +319,7 @@
                             
                                 <div class="container"> 
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 text-center">
                                             <div class="form-group">
                                                 <img src="{{ asset('assets/images/default-image.jpg') }}" id="add_upload_preview"
                                                     alt="Image" class="img-thumbnail" width="450px" height="380px">
@@ -332,23 +332,42 @@
                                         </div>
                                     </div>
                                     <div class="row mt-4">
-                                        <div class="col"></div>
-                                        <div class="col-md-2 text-end">ชื่อ</div>
+                                    
+                                        <div class="col-md-3 text-end">ชื่อ</div>
                                         <div class="col-md-9"> 
                                             <input type="text" class="form-control" name="document_name" id="document_name" required>   
                                         </div> 
-                                        <div class="col"></div>
+                                     
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col"></div>
-                                        <div class="col-md-2 text-end">กองทุน</div>
+                                    
+                                        <div class="col-md-3 text-end">กองทุน</div>
                                         <div class="col-md-9"> 
                                             <input type="text" class="form-control" name="hip_code" id="hip_code">   
                                         </div> 
-                                        <div class="col"></div>
+                                  
                                     </div>
                                     <div class="row mt-3">
-                                        <div class="col"></div> 
+                                       
+                                        <div class="col-md-3 text-end">Link Online</div>
+                                        <div class="col-md-9"> 
+                                            <input type="text" class="form-control" name="link_online" id="link_online">   
+                                        </div> 
+                                       
+                                    </div>
+                                    <div class="row mt-3">
+                                    
+                                        <div class="col-md-3 text-end">ประเภท Document</div>
+                                        <div class="col-md-9"> 
+                                            <select type="text" class="form-control" name="type_online" id="type_online">
+                                                <option value="1">Online</option>
+                                                <option value="2">Offline</option>
+                                            </select>  
+                                        </div> 
+                                       
+                                    </div>
+                                    <div class="row mt-3 text-center">
+                                      
                                         <div class="col-md-3 text-end"></div>
                                         <div class="col-md-6"> 
                                                 <button type="submit" class="ladda-button btn-pill btn btn-info">
@@ -356,7 +375,7 @@
                                                     บันทึกข้อมูล
                                                 </button> 
                                         </div> 
-                                        <div class="col"></div>
+                                      
                                     </div> 
                                 </div>   
                                 <br>  

@@ -128,6 +128,11 @@
                                     <i class="fa-solid fa-spinner text-white me-2"></i>
                                    ประมวลผล
                                </button>
+                               <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc ClaimCancel" data-url="{{url('account_claim_cancel')}}">
+                                    <i class="fa-solid fa-spinner text-white me-2"></i>
+                                    ไม่ใช้สิทธิ์
+                                </button>
+                               
                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc" id="Apifdh">
                                     <i class="fa-solid fa-cloud-arrow-up me-2"></i>
                                     API FDH
@@ -559,7 +564,91 @@
                     // var check = confirm("Are you want ?");  
                 }
             });
+            
+            // ClaimCancel
+            $('.ClaimCancel').on('click', function(e) {
+                // alert('oo');
+                var allValls = [];
+                // $(".sub_destroy:checked").each(function () {
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({ position: "top-end",
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+                    Swal.fire({ position: "top-end",
+                        title: 'Are you Want Process sure?',
+                        text: "คุณต้องการ ประมวลผล รายการนี้ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Process it.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
 
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    // $(".sub_destroy:checked").each(function () {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({ position: "top-end",
+                                                        title: 'ประมวลผลสำเร็จ',
+                                                        text: "You Process data success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                 
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+                    // var check = confirm("Are you want ?");  
+                }
+            });
+            
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 

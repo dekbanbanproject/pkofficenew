@@ -2015,6 +2015,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   // Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
   Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\ApiFdhController::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
 
+  Route::match(['get', 'post'], 'account_claim_cancel', [App\Http\Controllers\FdhCenterController::class, 'account_claim_cancel'])->name('acc.account_claim_cancel'); // 
 
   Route::match(['get', 'post'], 'account_401_api', [App\Http\Controllers\ApiSpschController::class, 'account_401_api'])->name('acc.account_401_api'); //
 

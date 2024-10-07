@@ -142,6 +142,8 @@ class DocumentController extends Controller
         $add = new Document(); 
         $add->document_name     = $request->document_name;
         $add->hip_code          = $request->hip_code; 
+        $add->link_online       = $request->link_online; 
+        $add->type_online       = $request->type_online; 
 
         $maxid = Document::max('document_id');
         $nameid = $maxid + 1;
