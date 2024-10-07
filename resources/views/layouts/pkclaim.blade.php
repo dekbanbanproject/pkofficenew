@@ -809,7 +809,7 @@
                                                 target="_blank">ลูกหนี้รายตัวผัง 401/402</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1KgJ6ZVyrtrvlAIJfvbLm2q3cP3HpaLIO/edit#gid=516509406"
                                                 target="_blank">ลูกหนี้รายตัวผัง 501/502/503/504</a></li>
-                                        <li><a href="https://docs.google.com/spreadsheets/d/1yGbrUM8yv7ZcczX4qNMP49rXpLhFT1gVS1OmZmYXM1Y/edit#gid=1774899226"
+                                        <li><a href="https://docs.google.com/spreadsheets/d/1HGj_gLvA3WUb5EeyfbpMzw_r0KP2ptdx/edit?gid=772480482#gid=772480482"
                                                 target="_blank">ลูกหนี้รายตัว พรบ.ผัง 602/603</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1wWo3J7OqtbUFb_3US3n6rELMrN1z-bj7/edit#gid=598482675"
                                                 target="_blank">ลูกหนี้รายตัวผัง 701/702/704</a> </li>
