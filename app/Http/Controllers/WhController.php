@@ -92,6 +92,8 @@ class WhController extends Controller
     }
     public function wh_dashboard(Request $request)
     {
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
         $data['q'] = $request->query('q');
         $query = User::select('users.*')
             ->where(function ($query) use ($data) {
@@ -108,6 +110,38 @@ class WhController extends Controller
         $data['position'] = Position::get();
         $data['status'] = Status::get();
         return view('wh.wh_dashboard', $data);
+    }
+    public function wh_plan(Request $request)
+    {
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+        $data['q']  = $request->query('q');
+        $query = User::select('users.*')
+            ->where(function ($query) use ($data) {
+                $query->where('pname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('fname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('lname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('tel', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('username', 'like', '%' . $data['q'] . '%');
+            });
+        $data['users']              = $query->orderBy('id', 'DESC')->paginate(10);
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get();
+        $data['wh_product']         = Wh_product::get();
+        $data['wh_product']         = DB::select(
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,a.active
+            FROM wh_product a
+            LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+            WHERE a.active ="Y" 
+        ');
+        
+        return view('wh.wh_plan', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+        ]);
     }
     public function warehouse_index(Request $request)
     {

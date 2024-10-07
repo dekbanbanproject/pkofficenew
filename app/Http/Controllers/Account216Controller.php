@@ -499,7 +499,7 @@ class Account216Controller extends Controller
                 (sum(if(op.income="02",sum_price,0))) +
                 (sum(if(vp.pttype="W1",sum_price,0))) +
                 (sum(if(op.icode IN("1560016","1540073","1530005","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) -
-                (sum(if(s.nhso_adp_code like "82%",sum_price,0)))  
+                (sum(if(s.nhso_adp_code like "82%",sum_price,0))) - v.rcpt_money 
                 END as debit
                                                 
                 ,v.income-v.discount_money-v.rcpt_money as debit2

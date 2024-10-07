@@ -367,30 +367,44 @@ if (Auth::check()) {
                                 </div> 
                                 
                             </li>
- 
-                               
-                            {{-- @if ($permiss_ucs != 0) --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
+                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อ <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">แผนจัดซื้อพัสดุ-ครุภัณฑ์</a> 
+                                    {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
+                                </div> 
+                                
+                            </li>
+                            {{-- <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
+                                <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(245, 96, 121)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์ <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">dashboard</a> 
+                                </div>
+                                
+                            </li> --}}
+                               
+                            {{-- @if ($permiss_ucs != 0) --}}
+                            {{-- <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                              
                                     <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(245, 96, 121)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์ <div class="arrow-down"></div>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-apps"> 
-                                    
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">                                     
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
                                             แผนจัดซื้อ<div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-form">
-                                            <a href="{{ url('wh_plan') }}" class="dropdown-item">dashboard</a>
-                                            {{-- <a href="{{ url('account_201_pull') }}" class="dropdown-item">ดึงลูกหนี้</a> --}}
-                                            {{-- <a href="{{ url('account_201_detaildate') }}" class="dropdown-item">ตั้งลูกหนี้</a> --}}
+                                            <a href="{{ url('wh_plan') }}" class="dropdown-item">dashboard</a> 
                                         </div>
-                                    </div>
-                                     
-                                    {{-- <div class="dropdown">
+                                    </div>                                     
+                                    <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
                                             209-ลูกหนี้ค่ารักษา OP(P&P) <div class="arrow-down"></div>
@@ -398,10 +412,9 @@ if (Auth::check()) {
                                         <div class="dropdown-menu" aria-labelledby="topnav-form"> 
                                             <a href="{{ url('account_pkucs209_dash') }}" class="dropdown-item">dashboard</a>                                        
                                         </div>
-                                    </div> --}}
-                                     
+                                    </div>                                     
                                 </div>
-                            </li>
+                            </li> --}}
                             {{-- @endif --}}
  
                           

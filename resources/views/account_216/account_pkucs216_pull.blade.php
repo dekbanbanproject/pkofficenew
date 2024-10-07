@@ -201,11 +201,22 @@
                                             $total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0; $total6 = 0; $total7 = 0;
                                         ?>
                                         @foreach ($acc_debtor as $item) 
-                                        <?php $getdata =  DB::connection('mysql')->select('SELECT COUNT(vn), vn,hn,sum(debit_total) FROM acc_debtor WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND account_code ="1102050101.216" GROUP BY hn HAVING COUNT(hn) > 1;');
-                                            foreach ($getdata as $key => $val) {
-                                                $data_hn = $val->hn;
-                                            }
+                                        <?php 
+                                            if ($startdate !='') {
+                                                $getdata =  DB::connection('mysql')->select('SELECT COUNT(vn), vn,hn,sum(debit_total) FROM acc_debtor WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND account_code ="1102050101.216" GROUP BY hn HAVING COUNT(hn) > 1;');
+                                                foreach ($getdata as $key => $val) {
+                                                    $data_hn_ = $val->hn;
+                                                }
+                                                // if ($data_hn_!= '' ) {
+                                                //     $data_hn = $data_hn_;
+                                                // } else {
+                                                //     $data_hn = '';
+                                                // }                                                
+                                            } else {
+                                                $data_hn = '';
+                                            }                                                                                    
                                         ?>
+                                        {{-- {{$data_hn_}} --}}
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
                                                 @if ($activeclaim == 'Y')
@@ -232,12 +243,12 @@
                                                 {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                 {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">
-                                                    @if ($data_hn == $item->hn)
+                                                    {{-- @if ($data_hn == $item->hn)
                                                         <span class="bg-danger badge me-2">{{ $item->hn }}</span> 
                                                     @else
                                                         <span class="bg-success badge me-2">{{ $item->hn }}</span> 
-                                                    @endif
-                                                    {{-- {{ $item->hn }} --}}
+                                                    @endif --}}
+                                                    {{ $item->hn }}
                                                 </td>  
                                                 <td class="text-center" width="7%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
