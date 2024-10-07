@@ -579,49 +579,50 @@ class DrinkingController extends Controller
         } else {
             $storage_tank_name   ='ไม่พร้อมใช้งาน';
         }
-        $iduser    = Auth::user()->id;
-        $name_         = User::where('id', '=',$iduser)->first();
-        $name_check    = $name_->fname. '  '.$name_->lname;
+        
+            $iduser    = Auth::user()->id;
+            $name_         = User::where('id', '=',$iduser)->first();
+            $name_check    = $name_->fname. '  '.$name_->lname;
 
-        $add                       = new Water_check();
-        $add->check_year           = $bg_yearnow;
-        $add->check_date           = $date;
-        $add->check_time           = $mm;
-        $add->water_filter_id      = $water_filterid;
-        $add->water_code           = $water_code;
-        $add->water_name           = $water_name; 
-        $add->filter                = $request->filter; 
-        $add->filter_name           = $filter_name; 
-        $add->filter_tank           = $request->filter_tank;  
-        $add->filter_tank_name      = $filter_tank_name;  
-        $add->tube                  = $request->tube; 
-        $add->tube_name             = $tube_name; 
-        $add->solinoi_vaw           = $request->solinoi_vaw; 
-        $add->solinoi_vaw_name      = $solinoi_vaw_name; 
-        $add->lowplessor_swith      = $request->lowplessor_swith; 
-        $add->lowplessor_swith_name = $lowplessor_swith_name; 
-        $add->hiplessor_swith       = $request->hiplessor_swith;
-        $add->hiplessor_swith_name  = $hiplessor_swith_name;  
-        $add->water_in              = $request->water_in; 
-        $add->water_in_name         = $water_in_name; 
-        $add->hot_clod              = $request->hot_clod; 
-        $add->hot_clod_name         = $hot_clod_name; 
-        $add->pipes                 = $request->pipes;  
-        $add->pipes_name            = $pipes_name;  
-        $add->storage_tank          = $request->storage_tank;  
-        $add->storage_tank_name     = $storage_tank_name;  
-        $add->user_id               = $iduser;
-        $add->save();
+            $add                       = new Water_check();
+            $add->check_year           = $bg_yearnow;
+            $add->check_date           = $date;
+            $add->check_time           = $mm;
+            $add->water_filter_id      = $water_filterid;
+            $add->water_code           = $water_code;
+            $add->water_name           = $water_name; 
+            $add->filter                = $request->filter; 
+            $add->filter_name           = $filter_name; 
+            $add->filter_tank           = $request->filter_tank;  
+            $add->filter_tank_name      = $filter_tank_name;  
+            $add->tube                  = $request->tube; 
+            $add->tube_name             = $tube_name; 
+            $add->solinoi_vaw           = $request->solinoi_vaw; 
+            $add->solinoi_vaw_name      = $solinoi_vaw_name; 
+            $add->lowplessor_swith      = $request->lowplessor_swith; 
+            $add->lowplessor_swith_name = $lowplessor_swith_name; 
+            $add->hiplessor_swith       = $request->hiplessor_swith;
+            $add->hiplessor_swith_name  = $hiplessor_swith_name;  
+            $add->water_in              = $request->water_in; 
+            $add->water_in_name         = $water_in_name; 
+            $add->hot_clod              = $request->hot_clod; 
+            $add->hot_clod_name         = $hot_clod_name; 
+            $add->pipes                 = $request->pipes;  
+            $add->pipes_name            = $pipes_name;  
+            $add->storage_tank          = $request->storage_tank;  
+            $add->storage_tank_name     = $storage_tank_name;  
+            $add->user_id               = $iduser;
+            $add->save();
 
-        if ($request->filter == 'Y' || $request->filter_tank == 'Y' || $request->tube == 'Y' || $request->solinoi_vaw == 'Y' || $request->lowplessor_swith == 'Y' || $request->hiplessor_swith == 'Y' || $request->water_in == 'Y' || $request->hot_clod == 'Y' || $request->pipes == 'Y' || $request->storage_tank == 'Y') {
-            $active = 'Y';
-            $active_show = 'พร้อมใช้งาน';
-            Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
-        } else {
-            $active = 'N';
-            $active_show = 'ไม่พร้อมใช้งาน';
-            Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
-        }
+            if ($request->filter == 'Y' || $request->filter_tank == 'Y' || $request->tube == 'Y' || $request->solinoi_vaw == 'Y' || $request->lowplessor_swith == 'Y' || $request->hiplessor_swith == 'Y' || $request->water_in == 'Y' || $request->hot_clod == 'Y' || $request->pipes == 'Y' || $request->storage_tank == 'Y') {
+                $active = 'Y';
+                $active_show = 'พร้อมใช้งาน';
+                Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
+            } else {
+                $active = 'N';
+                $active_show = 'ไม่พร้อมใช้งาน';
+                Water_filter::where('water_filter_id', '=', $water_filterid)->update(['active' => $active]);
+            }
          
                     function DateThailine($strDate)
                     {
