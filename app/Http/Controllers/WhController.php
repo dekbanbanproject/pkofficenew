@@ -132,10 +132,20 @@ class WhController extends Controller
         $data['status']             = Status::get();
         $data['wh_product']         = Wh_product::get();
         $data['wh_product']         = DB::select(
-            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,a.active
-            FROM wh_product a
-            LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name ,a.active
+                ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
+                ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name
+                ,e.*
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2565") plan_65
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2566") plan_66
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2567") plan_67
+                FROM wh_product a
+                LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_plan e ON e.pro_id = a.pro_id
             WHERE a.active ="Y" 
+            GROUP BY a.pro_id
         ');
         
         return view('wh.wh_plan', $data,[

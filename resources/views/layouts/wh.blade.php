@@ -14,13 +14,14 @@
  
       
        <!-- DataTables --> 
+       <!-- Responsive Table css -->
+       <link href="{{ asset('pkclaim/libs/admin-resources/rwd-table/rwd-table.min.css') }}" rel="stylesheet" type="text/css" />
        <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
        <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-        <!-- DataTables -->
- 
+       <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />  
        <!-- Responsive datatable examples -->
        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+
        <!-- Bootstrap Css -->
        {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
        <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> 
@@ -370,10 +371,10 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อ <div class="arrow-down"></div>
+                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์  <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">แผนจัดซื้อพัสดุ-ครุภัณฑ์</a> 
+                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">แผนจัดซื้อวัสดุสำนักงาน</a> 
                                     {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
                                 </div> 
                                 
@@ -574,8 +575,11 @@ if (Auth::check()) {
     <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
     <!-- Datatable init js -->
-    {{-- <script src="assets/js/pages/datatables.init.js"></script> --}}
+    <script src="{{ asset('js/pages/datatables.init.js') }}"></script>
     {{-- <script src="assets/js/app.js"></script> --}}
+    
+        <!-- Init js -->
+        <script src="{{ asset('assets_ubi/js/pages/table-responsive.init.js') }}"></script>
       <!-- Datatable init js -->
       <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
       <script src="{{ asset('assets_ubi/js/app.js') }}"></script> 
