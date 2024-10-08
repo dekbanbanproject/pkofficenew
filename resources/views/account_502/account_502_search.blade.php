@@ -181,10 +181,10 @@
                                                 {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total2,2)}}</td>  --}}
                                                 {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total3,2)}}</td>  --}}
                                                 {{-- <td class="text-end" style="background-color: #f58d73;color:white">{{ number_format($total4,2)}}</td>                                              --}}
-                                                <td class="text-end" style="background-color: #0833A8;color:white">{{ number_format($total5,2)}}</td> 
-                                                <td class="text-end" style="background-color: #029286;color:white">{{ number_format($total6,2)}}</td> 
-                                                <td class="text-end" style="background-color: #1280DA;color:white">{{ number_format($total7,2)}}</td> 
-                                                <td class="text-end" style="background-color: #9310DF;color:white">{{ number_format($total8,2)}}</td>  
+                                                <td class="text-end" style="background-color: #0833A8;color:rgb(0, 0, 0)">{{ number_format($total5,2)}}</td> 
+                                                <td class="text-end" style="background-color: #029286;color:rgb(0, 0, 0)">{{ number_format($total6,2)}}</td> 
+                                                <td class="text-end" style="background-color: #1280DA;color:rgb(0, 0, 0)">{{ number_format($total7,2)}}</td> 
+                                                <td class="text-end" style="background-color: #9310DF;color:rgb(0, 0, 0)">{{ number_format($total8,2)}}</td>  
                                                 <td class="text-end" style="background-color: #047E5F">{{ number_format($total9,2)}}</td>  
                                                 {{-- <td class="text-end" style="background-color: #ff9d9d"></td>  --}}
                                             </tr>  

@@ -138,7 +138,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $number = 0; ?>
+                                    <?php $number = 0;  $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;?>
                                     @foreach ($data as $item)
                                         <?php $number++; ?>
 
@@ -156,9 +156,19 @@
                                             <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">
                                                 {{ number_format($item->debit_total, 2) }} </td>
                                         </tr>
+                                        <?php
+                                        $total1 = $total1 + $item->debit;
+                                        $total2 = $total2 + $item->debit_total;
+                                       
+                                    ?> 
                                     @endforeach
 
                                 </tbody>
+                                <tr style="background-color: #f3fca1">
+                                    <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td> 
+                                    <td class="text-end" style="background-color: #23a1eb;color:rgb(0, 0, 0)">{{ number_format($total1,2)}}</td> 
+                                    <td class="text-end" style="background-color: #0cc1ce;color:rgb(0, 0, 0)">{{ number_format($total2,2)}}</td>  
+                                </tr>  
                             </table>
                         </div>
                     </div>

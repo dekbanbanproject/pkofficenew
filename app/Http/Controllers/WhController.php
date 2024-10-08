@@ -131,14 +131,18 @@ class WhController extends Controller
         $data['position']           = Position::get();
         $data['status']             = Status::get();
         $data['wh_product']         = Wh_product::get();
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+
         $data['wh_product']         = DB::select(
             'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name ,a.active
                 ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
                 ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name
                 ,e.*
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2565") plan_65
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2566") plan_66
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "2567") plan_67
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy3.'") plan_65
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy2.'") plan_66
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy1.'") plan_67
                 FROM wh_product a
                 LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
                 LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
