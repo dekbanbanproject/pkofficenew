@@ -1618,6 +1618,7 @@ class Account401Controller extends Controller
                         'AN'                   => $va_22->AN,
                         'DATEOPD'              => $va_22->DATEOPD,
                         'TYPE'                 => $va_22->TYPE,
+                        // 'TYPE'                 => '19',
                         'CODE'                 => $va_22->billcode,
                         'QTY'                  => $va_22->QTY,
                         'RATE'                 => $va_22->RATE,
