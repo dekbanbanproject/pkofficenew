@@ -485,8 +485,8 @@ if (Auth::check()) {
             <div class="page-content">               
                     @yield('content') 
             </div>
-
-            <footer class="footer">
+     
+            {{-- <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
@@ -501,7 +501,7 @@ if (Auth::check()) {
                         </div>
                     </div>
                 </div>
-            </footer>
+            </footer> --}}
 
         </div>  
 
@@ -510,7 +510,7 @@ if (Auth::check()) {
 
 
 
-    
+ 
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

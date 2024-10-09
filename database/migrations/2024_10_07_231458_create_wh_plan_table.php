@@ -23,6 +23,7 @@ return new class extends Migration
                 $table->string('praman_buy')->nullable();  // ประมาณการจัดซื้อในปี 2568 (หน่วย)
                 $table->decimal('one_price',total: 12, places: 2)->nullable(); //   ราคาต่อหน่วย  (บาท)
                 $table->decimal('total_price',total: 12, places: 2)->nullable(); // ประมาณการจัดซื้อปี 2568 (บาท)
+                $table->string('trimart')->nullable(); 
                 $table->string('trimat_one')->nullable();  //ไตรมาสที่1 จำนวน  
                 $table->decimal('trimat_one_price',total: 12, places: 2)->nullable();  // ไตรมาสที่1 มูลค่า(บาท) 
                 $table->string('trimat_two')->nullable();  //ไตรมาสที่2 จำนวน  

@@ -185,7 +185,9 @@ class WhController extends Controller
         $yy3                        = date('Y') + 541;
 
         $data['wh_product']         = DB::select(
-            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name ,a.active
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+            ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+            ,a.active
                 ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
                 ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
 

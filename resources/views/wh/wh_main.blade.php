@@ -70,20 +70,28 @@
 
 <div class="tabs-animation">
 
-    <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
         </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
         </div>
-    </div>
-        
+    
+        <div class="row"> 
+            <div class="col-md-6"> 
+                <h5 class="card-title" style="color:green">คลัง {{$stock_name}}</h5>
+                <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p>
+            </div>
+            <div class="col"></div>                                   
+        </div>
+ 
        
         <div class="row">
             <div class="col-md-12">
@@ -91,32 +99,23 @@
                 <div class="card card_audit_4c">
    
                             <div class="card-body">
-                                <form action="{{ URL('wh_plan') }}" method="GET">
-                                    @csrf
-
-                                <div class="row"> 
-                                    <div class="col-md-6"> 
-                                        <h5 class="card-title" style="color:green">คลัง {{$stock_name}}</h5>
-                                        <p class="card-title-desc">หน่วยงาน  กลุ่มงานพัสดุ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัด ชัยภูมิ ประจำปีงบประมาณ 2568</p>
-                                    </div>
-                                    <div class="col"></div>
-                                   
-                                </div>
-
-                                </form>
+                               
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  --}}
-                                        <table class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;"> 
+                                        {{-- <table class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                             <thead> 
                                                 <tr style="font-size: 10px;">
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ลำดับ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">รายการ</th>
+                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;" width="5%">ลำดับ</th>
+                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;" width="10%">รายการ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ประเภท</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ขนาดบรรจุ /<br>หน่วยนับ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 237, 117);font-size: 11px;">รับเข้า</th> 
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">จ่ายออก</th> 
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;"> คงเหลือ</th> 
+                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ขนาดบรรจุ / หน่วยนับ</th>
+                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 11px;">จำนวน</th> 
+                                                    <th class="text-center" style="background-color: rgb(250, 242, 187);font-size: 11px;">รับเข้า</th> 
+                                                    <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 11px;">จ่ายออก</th> 
+                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 11px;">คงเหลือ</th> 
+                                                    <th class="text-center" style="background-color: rgb(255, 228, 234);font-size: 11px;">ราคา/ชิ้น</th> 
+                                                    <th class="text-center" style="background-color: rgb(255, 228, 234);font-size: 11px;">ราคารวม</th> 
                                                 </tr> 
                                             </thead>
                                             <tbody>
@@ -124,15 +123,34 @@
                                                 @foreach ($wh_product as $item)
                                                 <?php $i++ ?>
                                                 <tr>
-                                                    <td class="text-center">{{$i}}</td>
+                                                    <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-start" width="10%">{{$item->pro_name}}</td>
                                                     <td class="text-center">{{$item->wh_type_name}}</td>
                                                     <td class="text-center">{{$item->wh_unit_pack_qty}}/{{$item->unit_name}}</td> 
-                                                    <td class="text-center">0</td>
-                                                    <td class="text-center">0</td>
-                                                    <td class="text-center">0</td>
-                                                    {{-- <td class="text-center" width="5%">{{number_format($item->total_plan, 0)}}</td> --}}
-                                                    {{-- <td class="text-center" width="5%">{{number_format($item->total_plan_price, 2)}}</td>   --}}
+                                                   
+                                                    @if ($item->stock_qty == '0')
+                                                        <td class="text-center" style="color:rgb(228, 49, 5);font-weight: bold">{{$item->stock_qty}} </td>
+                                                    @else
+                                                        <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_qty}} </td>
+                                                    @endif 
+                                                   
+                                                    <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_rep}}</td>
+                                                    <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_pay}}</td>
+                                                    
+                                                    @if ($item->stock_total == '0')
+                                                        <td class="text-center" style="color:rgb(228, 49, 5);font-weight: bold">{{$item->stock_total}} </td>
+                                                    @else
+                                                        <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_total}} </td>
+                                                    @endif
+                                                    
+                                                    <td class="text-end" width="10%" style="color:rgb(4, 115, 180)">{{number_format($item->stock_price, 2)}}</td> 
+                                                    @if ($item->stock_total == '0')
+                                                        <td class="text-end" style="color:rgb(228, 49, 5);font-weight: bold">{{number_format(($item->stock_price*$item->stock_total), 2)}} </td>
+                                                    @else
+                                                        <td class="text-end" style="color:rgb(4, 180, 121)">{{number_format(($item->stock_price*$item->stock_total), 2)}}</td>
+                                                    @endif
+
+                                                    {{-- <td class="text-end" width="10%" style="color:rgb(4, 180, 121)">{{number_format(($item->stock_price*$item->stock_total), 2)}}</td>  --}}
                                                 </tr>
                                                     
                                                 @endforeach                                                
@@ -147,10 +165,11 @@
                  
             </div>
         </div>
-    </div>
+
+</div>
 
 
-    </div>
+ 
  
 @endsection
 @section('footer')
