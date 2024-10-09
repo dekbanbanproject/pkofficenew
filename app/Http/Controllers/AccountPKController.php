@@ -25,6 +25,7 @@ use App\Models\Acc_1102050101_217;
 use App\Models\Acc_1102050101_2166;
 use App\Models\Acc_stm_ucs;
 use App\Models\Acc_1102050101_304;
+use App\Models\Acc_1102050101_307;
 use App\Models\Acc_1102050101_308;
 use App\Models\Acc_1102050101_4011;
 use App\Models\Acc_1102050101_3099;
@@ -50,8 +51,10 @@ use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_stm_repmoney;
 use App\Models\Acc_stm_lgoti_excel;
 use App\Models\Acc_stm_lgoti;
-use App\Models\Acc_stm_repmoney_file;
+use App\Models\Acc_stm_sssnew;
 use App\Models\Acc_trimart;
+use App\Models\Acc_stm_sss;
+use App\Models\Acc_stm_sssexcel;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -3065,13 +3068,13 @@ class AccountPKController extends Controller
             WHERE b.STMDoc LIKE "10978_DCKD%" AND b.HDBill_TBill_HDflag IN("UCS","WEL")
             GROUP BY b.STMDoc ORDER BY STMDoc DESC
         ');
-    //     $data['ucs_ti']     = DB::connection('mysql')->select('
-    //     SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
-    //     FROM acc_1102050101_2166 a 
-    //     LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
-    //     WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
-    //     GROUP BY b.STMDoc ORDER BY STMDoc DESC
-    // ');
+        //     $data['ucs_ti']     = DB::connection('mysql')->select('
+        //     SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+        //     FROM acc_1102050101_2166 a 
+        //     LEFT JOIN acc_stm_ti_total b ON b.HDBill_pid = a.cid AND b.vstdate = a.vstdate
+        //     WHERE b.STMDoc LIKE "10978_DCKD%" AND HDBill_TBill_HDflag IN("UCS","WEL")
+        //     GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        // ');
         $data['datashow']     = DB::connection('mysql')->select('
             SELECT a.vn,a.hn,a.vstdate,a.cid,a.ptname,a.pttype,a.income,a.debit,a.debit_total,b.STMdoc,b.Total_amount
             FROM acc_1102050101_2166 a 
@@ -3398,8 +3401,6 @@ class AccountPKController extends Controller
         ]);
     }
 
- 
-
     public function upstm_ofc_ti_ipd(Request $request)
     {
         $datenow             = date('Y-m-d');
@@ -3680,13 +3681,7 @@ class AccountPKController extends Controller
             'STMDoc'        =>     $id, 
         ]);
     }
-
-
-
-
-
  
-
     public function upstm_ucs(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -4676,7 +4671,6 @@ class AccountPKController extends Controller
         Acc_stm_ti_excel::truncate();
         return redirect()->back();
     }
-
    
     function upstm_ti_importexcel(Request $request)
     { 
@@ -5618,8 +5612,7 @@ class AccountPKController extends Controller
             'enddate'       =>     $enddate,
         ]);
     }
- 
-
+  
     public function acc_setting(Request $request)
     {
         $startdate = $request->startdate;
@@ -5733,82 +5726,212 @@ class AccountPKController extends Controller
         ]);
     }
 
-    // public function book_inside_manage(Request $request)
-    // {
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     if ( $startdate != '') {
-    //         $datashow = DB::connection('mysql')->select('SELECT * from book_control b LEFT JOIN users u ON u.id = b.user_id WHERE daterep BETWEEN "'.$startdate.'" AND "'.$enddate.'" ORDER BY daterep DESC'); 
-    //     } else {
-    //         $datashow = DB::connection('mysql')->select('SELECT * from book_control b LEFT JOIN users u ON u.id = b.user_id ORDER BY daterep DESC'); 
-    //     }
-        
-    //      return view('bookcontrol.book_inside_manage',[
-    //         'datashow'      =>     $datashow,
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate, 
-    //      ]);
-    // }
-    // public function book_inside_manage_save(Request $request)
-    // {  
-    //     $add = new Book_control(); 
-    //     $add->bookno             = $request->input('bookno');
-    //     $add->datebook           = $request->input('datebook');
-    //     $add->daterep            = $request->input('daterep');
-    //     $add->department_from    = $request->input('department_from');
-    //     $add->bookname           = $request->input('bookname');
-    //     $add->comment            = $request->input('comment');
-    //     $add->user_id            = $request->input('user_id');
-    //     $add->save();
+    public function upstm_sss_excel(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT *
+            FROM Acc_stm_sssexcel
+            GROUP BY an
+            ');
+        $countc = DB::table('Acc_stm_sssexcel')->count(); 
+        return view('account_pk.upstm_sss_excel',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    function upstm_sss_excelsave(Request $request)
+    {  
+        $the_file_ = $request->file('file_stm');    
+    
+            try{                
+                // Cheet 1
+                $spreadsheet = IOFactory::load($the_file_->getRealPath());  
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow(); 
+                $row_range    = range( '10', $row_limit ); 
+                $startcount = '10';
+                $data = array();
+                foreach ($row_range as $row ) { 
+                    $data[] = [
+                        'vn'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                        'an'                   =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'hn'                   =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'cid'                  =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'ptname'               =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'vstdate'              =>$sheet->getCell( 'F' . $row )->getValue(),
+                        'dchdate'              =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        'pttype'               =>$sheet->getCell( 'H' . $row )->getValue(), 
+                        'nhso_docno'           =>$sheet->getCell( 'I' . $row )->getValue(),  
+                        'hospmain'             =>$sheet->getCell( 'J' . $row )->getValue(),
+                        'income'               =>$sheet->getCell( 'K' . $row )->getValue(),
+                        'claim'                =>$sheet->getCell( 'L' . $row )->getValue(),
+                        'debit'                =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'stm'                  =>$sheet->getCell( 'N' . $row )->getValue(),
+                        'difference'           =>$sheet->getCell( 'O' . $row )->getValue(),
+                        'stm_no'               =>$sheet->getCell( 'P' . $row )->getValue(),
+                        'date_save'            =>$sheet->getCell( 'Q' . $row )->getValue() 
+                    ];
+                    $startcount++;  
+                } 
+                $for_insert = array_chunk($data, length:5000);
+                foreach ($for_insert as $key => $data_) {
+                    Acc_stm_sssexcel::insert($data_); 
+                } 
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            } 
+            return response()->json([
+            'status'    => '200',
+        ]);
+    }
+    public function upstm_sss_excelsend(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM acc_stm_sssexcel where an <>""');
+            foreach ($data_ as $key => $value) {
+                if ($value->an != '') {
+                    $check = Acc_stm_sssnew::where('an','=',$value->an)->count();
+                    if ($check > 0) {
+                    } else {
+                        $add = new Acc_stm_sssnew();
+                        $add->vn            = $value->vn;
+                        $add->an            = $value->an;
+                        $add->hn            = $value->hn;
+                        $add->cid           = $value->cid;
+                        $add->ptname        = $value->ptname;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->pttype        = $value->pttype;
+                        $add->nhso_docno    = $value->nhso_docno;
+                        $add->hospmain      = $value->hospmain;
+                        $add->income        = $value->income;
+                        $add->claim         = $value->claim;
+                        $add->debit         = $value->debit;
+                        $add->stm           = $value->stm;
+                        $add->difference    = $value->difference;
+                        $add->stm_no        = $value->stm_no;
+                        $add->date_save     = $value->date_save; 
+                        $add->save();  
+                    }  
+                }
 
-    //     return response()->json([
-    //         'status'     => '200',
-    //     ]);
-    // }
+                Acc_1102050101_304::where('an',$value->an)->update([
+                    'stm'          => $value->stm,
+                    'difference'   => $value->difference,
+                    'stm_no'       => $value->stm_no,
+                    'date_save'    => $value->date_save,
+                ]);     
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Acc_stm_sssexcel::truncate();
+        return redirect()->back();
+    }
+    public function upstm_sss_excelsend307(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM acc_stm_sssexcel where vn <>""');
+            foreach ($data_ as $key => $value) {
+                if ($value->vn != '') {
+                    $check = Acc_stm_sssnew::where('vn','=',$value->vn)->count();
+                    if ($check > 0) {
+                    } else {
+                        $add = new Acc_stm_sssnew();
+                        $add->vn            = $value->vn;
+                        $add->an            = $value->an;
+                        $add->hn            = $value->hn;
+                        $add->cid           = $value->cid;
+                        $add->ptname        = $value->ptname;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->pttype        = $value->pttype;
+                        $add->nhso_docno    = $value->nhso_docno;
+                        $add->hospmain      = $value->hospmain;
+                        $add->income        = $value->income;
+                        $add->claim         = $value->claim;
+                        $add->debit         = $value->debit;
+                        $add->stm           = $value->stm;
+                        $add->difference    = $value->difference;
+                        $add->stm_no        = $value->stm_no;
+                        $add->date_save     = $value->date_save; 
+                        $add->save();  
+                    }  
+                }
+                
+                Acc_1102050101_307::where('vn',$value->vn)->update([
+                    'stm'          => $value->stm,
+                    'difference'   => $value->difference,
+                    'stm_no'       => $value->stm_no,
+                    'date_save'    => $value->date_save,
+                ]);     
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Acc_stm_sssexcel::truncate();
+        return redirect()->back();
+    }
+    public function upstm_sss_excelsend308(Request $request)
+    {
+        try{
+            $data_ = DB::connection('mysql')->select('SELECT * FROM acc_stm_sssexcel where an <>""');
+            foreach ($data_ as $key => $value) {
+                if ($value->an != '') {
+                    $check = Acc_stm_sssnew::where('an','=',$value->an)->count();
+                    if ($check > 0) {
+                    } else {
+                        $add = new Acc_stm_sssnew();
+                        $add->vn            = $value->vn;
+                        $add->an            = $value->an;
+                        $add->hn            = $value->hn;
+                        $add->cid           = $value->cid;
+                        $add->ptname        = $value->ptname;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->vstdate       = $value->vstdate;
+                        $add->dchdate       = $value->dchdate;
+                        $add->pttype        = $value->pttype;
+                        $add->nhso_docno    = $value->nhso_docno;
+                        $add->hospmain      = $value->hospmain;
+                        $add->income        = $value->income;
+                        $add->claim         = $value->claim;
+                        $add->debit         = $value->debit;
+                        $add->stm           = $value->stm;
+                        $add->difference    = $value->difference;
+                        $add->stm_no        = $value->stm_no;
+                        $add->date_save     = $value->date_save; 
+                        $add->save();  
+                    }  
+                }
 
-    // public function book_inside_manage_edit(Request $request,$id)
-    // {
-    //     $data_show = Book_control::find($id);
-    //     return response()->json([
-    //         'status'               => '200', 
-    //         'data_show'            =>  $data_show,
-    //     ]);
-    // }
+                Acc_1102050101_308::where('an',$value->an)->update([
+                    'stm'          => $value->stm,
+                    'difference'   => $value->difference,
+                    'stm_no'       => $value->stm_no,
+                    'date_save'    => $value->date_save,
+                ]);     
+            }
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+            Acc_stm_sssexcel::truncate();
+        return redirect()->back();
+    }
 
-    // public function book_inside_manage_update(Request $request)
-    // {  
-    //     $id = $request->input('book_control_id');
-         
-    //     $update = Book_control::find($id); 
-    //     $update->bookno             = $request->input('bookno');
-    //     $update->datebook           = $request->input('datebook');
-    //     $update->daterep            = $request->input('daterep');
-    //     $update->department_from    = $request->input('department_from');
-    //     $update->bookname           = $request->input('bookname');
-    //     $update->comment            = $request->input('comment');
-    //     $update->user_id            = $request->input('user_id');
-    //     $update->save();
-
-    //     return response()->json([
-    //         'status'     => '200',
-    //     ]);
-    // }
-    // public function book_inside_manage_destroy(Request $request,$id)
-    // {
-        
-        // $file_ = Acc_stm_repmoney_file::find($id);  
-        // $file_name = $file_->filename; 
-        // $filepath = public_path('storage/account/'.$file_name);
-        // $description = File::delete($filepath);
-
-    //     $del = Book_control::find($id);  
-    //     $del->delete(); 
-
-    //     // return redirect()->route('acc.uprep_money');
-    //     return response()->json(['status' => '200']);
-    // }
-
-   
-
+    
 
 }

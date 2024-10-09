@@ -143,7 +143,7 @@
                                     <th width="3%" class="text-center">ลำดับ</th>  
                                     <th class="text-center" width="3%">สถานะ</th> 
                                     <th class="text-center" width="3%">รูปภาพ</th> 
-                                    {{-- <th class="text-center" width="5%">QRcode</th>   --}}
+                                    <th class="text-center" width="5%">รหัสเครื่อง</th>  
                                     <th class="text-center" width="5%">รหัสครุภัณฑ์</th>  
                                     <th class="text-center" >รายการ</th> 
                                     <th class="text-center" >อาคาร/ชั้น</th> 
@@ -174,6 +174,7 @@
                                         {{-- <td class="text-center" width="5%">  
                                             {!! QrCode::size(20)->style('round')->generate('http://smarthos-phukieohos.moph.go.th/pkbackoffice/public/water_check/' . $item->water_filter_id) !!} 
                                         </td>   --}}
+                                        <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_code }}</td>  
                                         <td class="text-center" width="7%" style="font-size: 12px">{{ $item->water_num }}</td>  
                                         <td class="p-2">{{ $item->water_name }}</td>  
                                         <td class="p-2">{{ $item->location_name }} / ชั้น {{ $item->class }}</td>  

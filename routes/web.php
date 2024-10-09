@@ -873,8 +873,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
   Route::match(['get', 'post'], 'wh_dashboard', [App\Http\Controllers\WhController::class, 'wh_dashboard'])->name('wh.wh_dashboard'); //
   Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
-
-
+  Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
+  Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
 
 
 
@@ -1756,34 +1756,27 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'upstm_lgo_ti', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ti'])->name('acc.upstm_lgo_ti'); //
   Route::match(['get', 'post'], 'upstm_lgo_ti_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ti_detail'])->name('acc.upstm_lgo_ti_detail'); //
-
   Route::match(['get', 'post'], 'upstm_ofc_opd', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_opd'])->name('acc.upstm_ofc_opd'); //
   Route::match(['get', 'post'], 'upstm_ofc_opd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_opd_detail'])->name('acc.upstm_ofc_opd_detail'); //
   Route::match(['get', 'post'], 'upstm_ofc_ipd', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_ipd'])->name('acc.upstm_ofc_ipd'); //
   Route::match(['get', 'post'], 'upstm_ofc_ipd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_ipd_detail'])->name('acc.upstm_ofc_ipd_detail'); //
-
   Route::match(['get', 'post'], 'upstm_lgo_opd', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_opd'])->name('acc.upstm_lgo_opd'); //
   Route::match(['get', 'post'], 'upstm_lgo_opd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_opd_detail'])->name('acc.upstm_lgo_opd_detail'); //
   Route::match(['get', 'post'], 'upstm_lgo_ipd', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ipd'])->name('acc.upstm_lgo_ipd'); //
   Route::match(['get', 'post'], 'upstm_lgo_ipd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_ipd_detail'])->name('acc.upstm_lgo_ipd_detail'); //
-
   Route::match(['get', 'post'], 'upstm_bkk_opd', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk_opd'])->name('acc.upstm_bkk_opd'); //
   Route::match(['get', 'post'], 'upstm_bkk_opd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk_opd_detail'])->name('acc.upstm_bkk_opd_detail'); //
   Route::match(['get', 'post'], 'upstm_bkk_ipd', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk_ipd'])->name('acc.upstm_bkk_ipd'); //
   Route::match(['get', 'post'], 'upstm_bkk_ipd_detail/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk_ipd_detail'])->name('acc.upstm_bkk_ipd_detail'); //
-
   Route::match(['get', 'post'], 'upstm_ucs', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs'); //
   Route::match(['get', 'post'], 'upstm_ucs_excel', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel'); //
   Route::match(['get', 'post'], 'upstm_ucs_sendexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel'); //
-
   Route::match(['get', 'post'], 'upstm_ucsopd', [App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopd'])->name('acc.upstm_ucsopd'); //
   Route::match(['get', 'post'], 'upstm_ucsopdsave', [App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopdsave'])->name('acc.upstm_ucsopdsave'); //
   Route::match(['get', 'post'], 'upstm_ucsopdsend', [App\Http\Controllers\AccountSTMController::class, 'upstm_ucsopdsend'])->name('acc.upstm_ucsopdsend'); //
-
   Route::match(['get', 'post'], 'upstm_ucs_opd', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_opd'])->name('acc.upstm_ucs_opd'); //
   Route::match(['get', 'post'], 'upstm_ucs_detail_opd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_opd'])->name('acc.upstm_ucs_detail_opd'); //
   Route::match(['get', 'post'], 'upstm_ucs_detail_opd_216/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_opd_216'])->name('acc.upstm_ucs_detail_opd_216'); //
-
   Route::match(['get', 'post'], 'upstm_ucs_ipd', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_ipd'])->name('acc.upstm_ucs_ipd'); //
   Route::match(['get', 'post'], 'upstm_ucs_detail_ipd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_ipd'])->name('acc.upstm_ucs_detail_ipd'); //
   Route::match(['get', 'post'], 'upstm_ucs_detail_ipd_217/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_ipd_217'])->name('acc.upstm_ucs_detail_ipd_217'); //
@@ -1791,46 +1784,41 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'upstm_lgo_detail_ipd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_detail_ipd'])->name('acc.upstm_lgo_detail_ipd'); //
   Route::match(['get', 'post'], 'upstm_ofc_detail_opd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_opd'])->name('acc.upstm_ofc_detail_opd'); //
   Route::match(['get', 'post'], 'upstm_ofc_detail_ipd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_ipd'])->name('acc.upstm_ofc_detail_ipd'); //
-
   Route::match(['get', 'post'], 'upstm_ucs_detail_ti/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ucs_detail_ti'])->name('acc.upstm_ucs_detail_ti'); //
   Route::match(['get', 'post'], 'upstm_ofc_detail_ti/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_ti'])->name('acc.upstm_ofc_detail_ti'); //
   Route::match(['get', 'post'], 'upstm_ofc_detail_ti_ipd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_ofc_detail_ti_ipd'])->name('acc.upstm_ofc_detail_ti_ipd'); //
   Route::match(['get', 'post'], 'upstm_sss_detail_ti/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_detail_ti'])->name('acc.upstm_sss_detail_ti'); //
   Route::match(['get', 'post'], 'upstm_lgo_detail_ti/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_detail_ti'])->name('acc.upstm_lgo_detail_ti'); //
   Route::match(['get', 'post'], 'upstm_lgo_detail_ti_ipd/{id}', [App\Http\Controllers\AccountPKController::class, 'upstm_lgo_detail_ti_ipd'])->name('acc.upstm_lgo_detail_ti_ipd'); //
-
-
   Route::match(['get', 'post'], 'phthisis_opd', [App\Http\Controllers\ReportOrtherController::class, 'phthisis_opd'])->name('rep.phthisis_opd'); //
   Route::match(['get', 'post'], 'phthisis_ipd', [App\Http\Controllers\ReportOrtherController::class, 'phthisis_ipd'])->name('rep.phthisis_ipd'); //
-
   Route::match(['get', 'post'], 'upstm_tixml', [App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml'); // ไต
   Route::match(['get', 'post'], 'upstm_tixml_import', [App\Http\Controllers\AccountPKController::class, 'upstm_tixml_import'])->name('acc.upstm_tixml_import'); // ไต
-
   Route::match(['get', 'post'], 'upstm_tixml_sss', [App\Http\Controllers\AccountPKController::class, 'upstm_tixml_sss'])->name('acc.upstm_tixml_sss'); // ไต
   Route::match(['get', 'post'], 'upstm_tixml_sssimport', [App\Http\Controllers\AccountPKController::class, 'upstm_tixml_sssimport'])->name('acc.upstm_tixml_sssimport'); // ไต
-
   Route::match(['get', 'post'], 'upstm_sss_xml', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_xml'])->name('acc.upstm_sss_xml'); //  
   Route::match(['get', 'post'], 'upstm_sss_xmlsave', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_xmlsave'])->name('acc.upstm_sss_xmlsave'); //  
+  Route::match(['get', 'post'], 'upstm_sss_excel', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_excel'])->name('acc.upstm_sss_excel'); //
+  Route::match(['get', 'post'], 'upstm_sss_excelsave', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_excelsave'])->name('acc.upstm_sss_excelsave'); //
+  Route::match(['get', 'post'], 'upstm_sss_excelsend', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_excelsend'])->name('acc.upstm_sss_excelsend'); //
+  Route::match(['get', 'post'], 'upstm_sss_excelsend307', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_excelsend307'])->name('acc.upstm_sss_excelsend307'); //
+  Route::match(['get', 'post'], 'upstm_sss_excelsend308', [App\Http\Controllers\AccountPKController::class, 'upstm_sss_excelsend308'])->name('acc.upstm_sss_excelsend308'); //
 
   Route::match(['get', 'post'], 'upstm_ofcexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel'])->name('acc.upstm_ofcexcel'); //
   Route::match(['get', 'post'], 'upstm_ofcexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_save'])->name('acc.upstm_ofcexcel_save'); //
   Route::match(['get', 'post'], 'upstm_ofcexcel_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_senddata'])->name('acc.upstm_ofcexcel_senddata'); //
   Route::match(['get', 'post'], 'upstm_ofcexcel_sendstmdata', [App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_sendstmdata'])->name('acc.upstm_ofcexcel_sendstmdata'); //
   Route::match(['get', 'post'], 'upstm_ofcexcel_sendstmipddata', [App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_sendstmipddata'])->name('acc.upstm_ofcexcel_sendstmipddata'); //
-
   Route::match(['get', 'post'], 'upstm_bkkexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_bkkexcel'])->name('acc.upstm_bkkexcel'); //
   Route::match(['get', 'post'], 'upstm_bkkexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_bkkexcel_save'])->name('acc.upstm_bkkexcel_save'); //
   Route::match(['get', 'post'], 'upstm_bkk803_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk803_senddata'])->name('acc.upstm_bkk803_senddata'); //
   Route::match(['get', 'post'], 'upstm_bkk804_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_bkk804_senddata'])->name('acc.upstm_bkk804_senddata'); //
-
   Route::match(['get', 'post'], 'upstm_lgoexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel'])->name('acc.upstm_lgoexcel'); //
   Route::match(['get', 'post'], 'upstm_lgoexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel_save'])->name('acc.upstm_lgoexcel_save'); //
   Route::match(['get', 'post'], 'upstm_lgoexcel_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel_senddata'])->name('acc.upstm_lgoexcel_senddata'); //
-
   Route::match(['get', 'post'], 'upstm_lgotiexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_lgotiexcel'])->name('acc.upstm_lgotiexcel'); //
   Route::match(['get', 'post'], 'upstm_lgotiexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_lgotiexcel_save'])->name('acc.upstm_lgotiexcel_save'); //
   Route::match(['get', 'post'], 'upstm_lgotiexcel_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_lgotiexcel_senddata'])->name('acc.upstm_lgotiexcel_senddata'); //
-
   Route::match(['get', 'post'], 'upstm_lgoipexcel', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel'])->name('acc.upstm_lgoipexcel'); //
   Route::match(['get', 'post'], 'upstm_lgoipexcel_save', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel_save'])->name('acc.upstm_lgoipexcel_save'); //
   Route::match(['get', 'post'], 'upstm_lgoipexcel_senddata', [App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel_senddata'])->name('acc.upstm_lgoipexcel_senddata'); //

@@ -150,7 +150,7 @@
                                         <p class="card-title-desc">หน่วยงาน  กลุ่มงานพัสดุ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัด ชัยภูมิ ประจำปีงบประมาณ 2568</p>
                                     </div>
                                     <div class="col"></div>
-                                    <div class="col-md-1 text-end mt-2">วันที่</div>
+                                    {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
                                     <div class="col-md-4 text-end">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                             <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -161,12 +161,9 @@
                                                     <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                                     <span class="ladda-spinner"></span>
                                                 </button>
-                                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
-                                                    <span class="ladda-label"> <i class="fa-solid fa-spinner me-2"></i>ประมวลผล</span>
-                                                    <span class="ladda-spinner"></span>
-                                                </button>  --}}
+                                               
                                         </div> 
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 </form>
@@ -210,21 +207,18 @@
                                                                 <th rowspan="2" class="text-center" style="background-color: rgb(139, 247, 211);font-size: 11px;">ปี (2566)</th>
                                                                 <th rowspan="2" class="text-center" style="background-color: rgb(138, 189, 247);font-size: 11px;">ปี (2567)</th>   
                                                             </tr>
-                                                            <tr>
-                                                                {{-- <th class="text-center" style="background-color: rgb(255, 251, 228)"></th> --}}
-                                                                {{-- <th class="text-center" style="background-color: rgb(255, 251, 228)"></th> --}}
-                                                                {{-- <th class="text-center" style="background-color: rgb(255, 251, 228)"></th>  --}}
+                                                            <tr> 
                                                                 <th class="text-center" style="background-color: rgb(255, 251, 228)"></th> 
                                                                 <th class="text-center" style="background-color: rgb(240, 255, 228);font-size: 10px;">จำนวน</th>
-                                                                <th class="text-center" style="background-color: rgb(240, 211, 50);font-size: 10px;">มูลค่า(บาท)</th>
+                                                                <th class="text-center" style="background-color: rgb(255, 175, 209);font-size: 10px;">มูลค่า(บาท)</th>
                                                                 <th class="text-center" style="background-color: rgb(240, 255, 228);font-size: 10px;">จำนวน</th>
-                                                                <th class="text-center" style="background-color: rgb(240, 211, 50);font-size: 10px;">มูลค่า(บาท)</th>
+                                                                <th class="text-center" style="background-color: rgb(255, 175, 209);font-size: 10px;">มูลค่า(บาท)</th>
                                                                 <th class="text-center" style="background-color: rgb(240, 255, 228);font-size: 10px;">จำนวน</th>
-                                                                <th class="text-center" style="background-color: rgb(240, 211, 50);font-size: 10px;">มูลค่า(บาท)</th>
+                                                                <th class="text-center" style="background-color: rgb(255, 175, 209);font-size: 10px;">มูลค่า(บาท)</th>
                                                                 <th class="text-center" style="background-color: rgb(240, 255, 228);font-size: 10px;">จำนวน</th>
-                                                                <th class="text-center" style="background-color: rgb(240, 211, 50);font-size: 10px;">มูลค่า(บาท)</th>
+                                                                <th class="text-center" style="background-color: rgb(255, 175, 209);font-size: 10px;">มูลค่า(บาท)</th>
                                                                 <th class="text-center" style="background-color: rgb(240, 255, 228);font-size: 10px;">จำนวน</th>
-                                                                <th class="text-center" style="background-color: rgb(240, 211, 50);font-size: 10px;">มูลค่า(บาท)</th>
+                                                                <th class="text-center" style="background-color: rgb(255, 175, 209);font-size: 10px;">มูลค่า(บาท)</th>
                                                             </tr>
                                                             
                                                         </thead>
@@ -259,9 +253,7 @@
                                                                 
                                                             @endforeach                                                
                                                         </tbody>
-                                                </table> 
-                                            {{-- </div> --}}
-                                        {{-- </div>  --}}
+                                                </table>  
                                     </div>
                                 </div>  
                             </div>
@@ -405,76 +397,7 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
- 
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ route('acc.account_dashline') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    label = datas.Dataset1.map(function(e) {
-                        return e.label;
-                    });
-                    
-                    count_vn = datas.Dataset1.map(function(e) {
-                        return e.count_vn;
-                    });
-                    income = datas.Dataset1.map(function(e) {
-                        return e.income;
-                    });
-                    rcpt_money = datas.Dataset1.map(function(e) {
-                        return e.rcpt_money;
-                    });
-                    debit = datas.Dataset1.map(function(e) {
-                        return e.debit;
-                    });
-                     // setup 
-                    const data = {
-                        // labels: ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"] ,
-                        labels: label ,
-                        datasets: [      
-                            {
-                                label: ['income'], 
-                                data: income,
-                                fill: false,
-                                borderColor: 'rgba(75, 192, 192)',
-                                lineTension: 0.4 
-                            },
-                            {
-                                label: ['rcpt_money'], 
-                                data: rcpt_money,
-                                fill: false,
-                                borderColor: 'rgba(255, 99, 132)',
-                                lineTension: 0.4 
-                            },  
-                            
-                        ]
-                    };
-             
-                    const config = {
-                        type: 'line',
-                        data:data,
-                        options: { 
-                            scales: { 
-                                y: {
-                                    beginAtZero: true 
-                                }
-                            } 
-                        },                        
-                        plugins:[ChartDataLabels],                        
-                    };                    
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartNew'),
-                        config
-                    );
-                    
-                }
-             }
-
+  
         });
     </script>
   

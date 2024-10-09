@@ -10,17 +10,7 @@
 
     <!-- Font Awesome -->
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
- 
-      
-       <!-- DataTables --> 
-       <!-- Responsive Table css -->
-       <link href="{{ asset('pkclaim/libs/admin-resources/rwd-table/rwd-table.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />  
-       <!-- Responsive datatable examples -->
-       <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">      
 
        <!-- Bootstrap Css -->
        {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
@@ -37,9 +27,20 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
          <!-- App Css-->
-       <link href="{{ asset('assets_ubi/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+       <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
        {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
-       <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}"> 
+       {{-- <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">  --}}
+
+         <!-- DataTables --> 
+         <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+         <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+         <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+        <link href="{{ asset('pkclaim/libs/admin-resources/rwd-table/rwd-table.min.css') }}" rel="stylesheet" type="text/css" />
+        {{-- <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> --}}
+        {{-- <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> --}}
+        {{-- <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />   --}}
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
 
  
 </head>
@@ -121,16 +122,14 @@
     .loadingIcon {
         width: 40px;
         height: 40px;
-        border: 2px solid rgb(255, 255, 255);
-        /* border-bottom: 4px solid transparent; */
+        border: 2px solid rgb(255, 255, 255); 
         border-radius: 100%;
         animation: 6s infinite linear spin;
     }
     .loadingIcon2 {
         width: 40px;
         height: 40px;
-        border: 2px solid rgb(255, 255, 255);
-        /* border-bottom: 4px solid transparent; */
+        border: 2px solid rgb(255, 255, 255); 
         border-radius: 100%;
         animation: 3s infinite linear spin;
     }
@@ -189,13 +188,9 @@
             }
             .dcheckbox_{         
                 width: 20px;
-                height: 20px;       
-                /* border-radius: 2em 2em 2em 2em; */
-                border: 10px solid rgb(252, 101, 1);
-                /* color: teal; */
-                /* border-color: teal; */
-                box-shadow: 0 0 10px rgb(252, 101, 1);
-                /* box-shadow: 0 0 10px teal; */
+                height: 20px;      
+                border: 10px solid rgb(252, 101, 1); 
+                box-shadow: 0 0 10px rgb(252, 101, 1); 
             }
             @keyframes colorShift {
                 0% {
@@ -211,16 +206,14 @@
             .loadingIcon {
                 width: 40px;
                 height: 40px;
-                border: 2px solid rgb(255, 255, 255);
-                /* border-bottom: 4px solid transparent; */
+                border: 2px solid rgb(255, 255, 255); 
                 border-radius: 100%;
                 animation: 6s infinite linear spin;
             }
             .loadingIcon2 {
                 width: 40px;
                 height: 40px;
-                border: 2px solid rgb(255, 255, 255);
-                /* border-bottom: 4px solid transparent; */
+                border: 2px solid rgb(255, 255, 255); 
                 border-radius: 100%;
                 animation: 3s infinite linear spin;
             }
@@ -262,7 +255,7 @@ if (Auth::check()) {
     {{-- <body data-topbar="dark" data-layout="horizontal"> --}}
     <div id="layout-wrapper">
         
-        <header id="page-topbar" style="background-color: rgb(252, 101, 1)">
+        <header id="page-topbar" style="background-color: rgb(253, 139, 111)">
       
             <div class="navbar-header">
                 <div class="d-flex">
@@ -374,20 +367,32 @@ if (Auth::check()) {
                                     <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์  <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">แผนจัดซื้อวัสดุสำนักงาน</a> 
+                                    <a href="{{ url('wh_plan') }}" class="dropdown-item" target="_blank">แผนจัดซื้อวัสดุสำนักงาน</a> 
                                     {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
                                 </div> 
                                 
                             </li>
-                            {{-- <li class="nav-item dropdown">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(245, 96, 121)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์ <div class="arrow-down"></div>
+                                <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i>คลังหลัก <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_plan') }}" class="dropdown-item">dashboard</a> 
+                                    @foreach ($wh_stock_list as $item)
+                                        <a href="{{ url('wh_main/'.$item->stock_list_id) }}" class="dropdown-item" target="_blank">{{$item->stock_list_name}}</a> 
+                                    @endforeach
+                                    
                                 </div>
                                 
-                            </li> --}}
+                            </li> 
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
+                                <i class="fa-solid fa-cubes-stacked me-2" style="font-size: 20px;color:rgb(10, 116, 187)"></i>คลังย่อย <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('wh_sub') }}" class="dropdown-item" target="_blank">คลัง</a> 
+                                </div>
+                                
+                            </li> 
                                
                             {{-- @if ($permiss_ucs != 0) --}}
                             {{-- <li class="nav-item dropdown">
@@ -558,30 +563,30 @@ if (Auth::check()) {
     <!-- Required datatable js -->
     {{-- <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script> --}}
     {{-- <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script> --}}
-    <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <!-- Buttons examples -->
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>    
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>    
     <!-- Responsive examples -->
-    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
     <!-- Datatable init js -->
-    <script src="{{ asset('js/pages/datatables.init.js') }}"></script>
+    <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
     {{-- <script src="assets/js/app.js"></script> --}}
     
         <!-- Init js -->
-        <script src="{{ asset('assets_ubi/js/pages/table-responsive.init.js') }}"></script>
+        {{-- <script src="{{ asset('assets_ubi/js/pages/table-responsive.init.js') }}"></script> --}}
       <!-- Datatable init js -->
-      <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
+      <script src="{{ asset('js/pages/datatables.init.js') }}"></script>
       <script src="{{ asset('assets_ubi/js/app.js') }}"></script> 
       {{-- <script src="{{ asset('pkclaim/js/app.js') }}"></script>  --}}
 

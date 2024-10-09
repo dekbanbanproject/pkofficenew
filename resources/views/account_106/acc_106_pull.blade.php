@@ -100,7 +100,7 @@
          
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card">
+                <div class="card card_audit_4c">
                     <div class="card-body shadow-lg">
                        
                       
@@ -187,7 +187,7 @@
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
                                         <td colspan="11" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td> 
+                                        <td class="text-center" style="background-color: #44E952"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label> </td> 
                                        
                                     </tr>  
                                 </table>

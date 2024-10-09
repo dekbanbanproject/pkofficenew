@@ -33,9 +33,7 @@ return new class extends Migration
                 $table->decimal('trimat_four_price',total: 12, places: 2)->nullable();  // ไตรมาสที่4 มูลค่า(บาท) 
                 $table->string('total_plan')->nullable();  // ยอดรวมจัดซื้อจำนวน
                 $table->decimal('total_plan_price',total: 12, places: 2)->nullable();  //ยอดรวมจัดซื้อจำนวน มูลค่า(บาท) 
-
-                $table->string('user_id')->nullable(); //
-                                 
+                $table->string('user_id')->nullable(); //                                 
                 $table->timestamps();
             });
         }

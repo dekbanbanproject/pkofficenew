@@ -1537,8 +1537,8 @@ if (Auth::check()) {
                                     <a href="{{ url('upstm_tixml') }}" class="dropdown-item">OFC(Xml-ไต)OK</a>
                                     <a href="{{ url('upstm_lgotiexcel') }}" class="dropdown-item">LGO(Excel-ไต)OK</a>
                                     <a href="{{ url('upstm_tixml_sss') }}" class="dropdown-item">SSS(Xml-ไต)OK</a>
-                                    <a href="{{ url('upstm_sss_xml') }}" class="dropdown-item">SSS(Xml)</a> 
-                                   
+                                    {{-- <a href="{{ url('upstm_sss_xml') }}" class="dropdown-item">SSS(Xml)</a>  --}}
+                                    <a href="{{ url('upstm_sss_excel') }}" class="dropdown-item">SSS(Excel)</a> 
                                     {{-- <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
