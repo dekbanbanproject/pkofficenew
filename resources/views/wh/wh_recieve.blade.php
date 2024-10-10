@@ -357,6 +357,12 @@
             $('#stock_list_id').select2({
                     dropdownParent: $('#Recieve')
             });
+            $('#edit_vendor_id').select2({
+                    dropdownParent: $('#Recieve')
+            });
+            $('#edit_stock_list_id').select2({
+                    dropdownParent: $('#Recieve')
+            });
             
             $.ajaxSetup({
                 headers: {
