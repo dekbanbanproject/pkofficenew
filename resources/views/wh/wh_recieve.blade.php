@@ -95,7 +95,7 @@
             <div class="col"></div>   
             <div class="col-md-2 text-end"> 
                     <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Recieve">
-                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> ตรวจรับ  
+                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                     </a>
                     {{-- <div id="headingTwo" class="b-radius-0">   
                         <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
