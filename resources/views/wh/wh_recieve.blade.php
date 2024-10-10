@@ -223,7 +223,9 @@
                                 
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
+                                        <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
+                                        {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
+                                            
                                             <thead> 
                                                 <tr>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
@@ -264,13 +266,14 @@
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
                                                     <td class="text-center" width="5%">
-                                                        <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
-                                                            <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                        </a>
+                                                       
                                                         @if ($item->active == 'PREPARE')
+                                                            <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
+                                                                <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
+                                                            </a>
                                                             <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                            </a>
+                                                            </a>                                                           
                                                         @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
                                                         @endif
