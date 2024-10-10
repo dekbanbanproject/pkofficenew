@@ -877,7 +877,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
   Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
   Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
-
+  Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
+  Route::match(['get', 'post'], 'wh_recieve_update', [App\Http\Controllers\WhController::class, 'wh_recieve_update'])->name('wh.wh_recieve_update'); //
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************
   Route::match(['get', 'post'], 'setting/setting_index', [App\Http\Controllers\SettingController::class, 'setting_index'])->name('setting.setting_index'); //

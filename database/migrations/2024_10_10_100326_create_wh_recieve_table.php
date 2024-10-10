@@ -15,13 +15,16 @@ return new class extends Migration
         {
             Schema::create('wh_recieve', function (Blueprint $table) {
                 $table->bigIncrements('wh_recieve_id'); 
-                $table->string('recieve_no')->nullable();          //
+              
                 $table->string('year')->nullable();          //  ปีงบประมาณ
                 $table->date('recieve_date')->nullable();    //  วันที่รับ 
+                $table->time('recieve_time')->nullable();    //  เวลา
+                $table->string('recieve_no')->nullable();    //
                 $table->string('stock_list_id')->nullable(); //  คลัง
                 $table->string('vendor_id')->nullable();     //  บริษัท  
-                $table->string('wh_total')->nullable();  //   
-                $table->string('praman_buy')->nullable();  //  
+                $table->string('recieve_po')->nullable();     //เลขที่บริษัท
+                // $table->string('wh_total')->nullable();  //   
+                // $table->string('praman_buy')->nullable();  //  
                 $table->decimal('total_price',total: 12, places: 4)->nullable(); //  
                 $table->string('user_recieve')->nullable(); //                                 
                 $table->timestamps();

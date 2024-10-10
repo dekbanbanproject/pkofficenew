@@ -17,13 +17,16 @@ return new class extends Migration
                 $table->bigIncrements('wh_recieve_sub_id'); 
                 $table->string('wh_recieve_id')->nullable(); //   
                 $table->string('pro_id')->nullable();  //  
-                $table->string('praman_chay')->nullable();  //   
-                $table->string('wh_total')->nullable();  //  
-                $table->string('praman_buy')->nullable();  //  
+                $table->string('pro_name')->nullable();  //   
+                $table->string('qty')->nullable();  //  
+                $table->string('unit_id')->nullable();  //  
+                $table->string('unit_name')->nullable();  // 
                 $table->decimal('one_price',total: 12, places: 2)->nullable(); //   
-                $table->decimal('total_price',total: 12, places: 2)->nullable(); //  
-                
-                $table->string('user_id')->nullable(); //                                 
+                $table->decimal('total_price',total: 12, places: 2)->nullable(); //                  
+                $table->string('user_id')->nullable(); //   
+                $table->string('lot_no')->nullable();  //    
+                $table->date('date_start')->nullable();  //  
+                $table->date('date_enddate')->nullable();  //                           
                 $table->timestamps();
             });
         }

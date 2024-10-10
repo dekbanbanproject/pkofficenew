@@ -168,8 +168,8 @@ $pos = strrpos($url, '/') + 1;
                                                 <td class="text-end" style="color:rgb(10, 117, 150)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                                 <td class="text-end" style="color:rgb(4, 156, 118)" width="7%">{{ number_format($item->stm,2)}}</td>
                                                 <td class="text-end" style="color:rgb(131, 6, 93)" width="7%">{{ number_format($item->difference,2)}}</td>
-                                                <td class="text-end" style="color:rgb(131, 6, 93)" width="7%">stm_no</td>
-                                                <td class="text-end" style="color:rgb(131, 6, 93)" width="7%">date_save</td>
+                                                <td class="text-end" style="color:rgb(131, 6, 93)" width="7%">{{ $item->stm_no }}</td>
+                                                <td class="text-end" style="color:rgb(131, 6, 93)" width="7%">{{ $item->date_save }}</td>
                                                     
                                             </tr>
                                             <?php

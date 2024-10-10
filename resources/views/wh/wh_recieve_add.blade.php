@@ -83,34 +83,43 @@
                 </div>
             </div>
         </div>
+        <div class="container"> 
     
-        <div class="row"> 
-            <div class="col-md-6"> 
-                <h4 class="card-title" style="color:green">รายละเอียดการตรวจรับ</h4>
-                {{-- <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p> --}}
-            </div>
-            <div class="col"></div>   
-            <div class="col-md-2 text-end">
-                <a href="{{url('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" target="_blank">
-                    <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
-                    ตรวจรับ
-            </a> 
-            </div>
-        </div>
- 
-       
-        <div class="row mt-3">
-            <div class="col-md-12">
-                
-                <div class="card card_audit_4c">
-   
-                            <div class="card-body">
-                               
-                               
-                            </div>
-                        
+            <div class="row"> 
+                <div class="col-md-6"> 
+                    <h4 class="card-title" style="color:green">รายละเอียดการตรวจรับ</h4> 
                 </div>
-                 
+                <div class="col"></div>   
+                <div class="col-md-2 text-end">
+                    <a href="{{url('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" target="_blank">
+                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
+                        ตรวจรับ
+                </a> 
+                </div>
+            </div> 
+        
+            <div class="row mt-3">
+                <div class="col-md-12">                
+                    <div class="card card_audit_4c">   
+                        <div class="card-body"> 
+                            <div class="row">
+                                <div class="col-md-2">เลขที่</div>
+                                <div class="col-md-4">
+
+                                </div>
+                                <div class="col-md-2">วันที่</div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">   
+                </div>
             </div>
         </div>
 
