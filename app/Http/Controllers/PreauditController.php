@@ -132,15 +132,17 @@ class PreauditController extends Controller
             }                       
 
             $data['authen_excel'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code,v.income
+                ,v.income-v.discount_money-v.rcpt_money as debit
                 FROM vn_stat v
                 LEFT JOIN visit_pttype vp ON vp.vn = v.vn
                 LEFT JOIN patient p ON p.hn = v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.claim_code IS NULL OR vp.claim_code ="") 
+                WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
           
-                AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
+                AND v.pttype NOT IN("10","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","l5","l6")  
                 GROUP BY v.vn  
             ');
+            // AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
             // WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
 
 
@@ -170,11 +172,12 @@ class PreauditController extends Controller
                 LEFT JOIN pttype pt on pt.pttype=v.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+                AND v.pttype NOT IN("10","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","l5","l6")   
                 AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")   
                 AND v.income > 0 
                 GROUP BY o.vn 
             ');
+            // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             // AND p.birthday <> "'.$startdate.'" 
             // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             // AND (vp.claim_code IS NULL OR vp.claim_code ="")
@@ -249,12 +252,13 @@ class PreauditController extends Controller
             LEFT JOIN patient p on p.hn=v.hn
             LEFT JOIN pttype pt on pt.pttype=v.pttype
             LEFT JOIN opduser op on op.loginname = o.staff
-            WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
+            WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"           
             AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")  
-            AND v.income > 0 
+           
             GROUP BY o.vn 
-        ');     
+        '); 
+        // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")    
+        // AND v.income > 0 
         Visit_pttype_import::truncate();     
         foreach ($data_vn_1 as $key => $value_1) {    
             Visit_pttype_import::insert([
@@ -350,7 +354,8 @@ class PreauditController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }  
 
-            $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"');
+            $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND repauthen <> "ENDPOINT"');
+            // AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%")
             // AND repauthen <> "ENDPOINT"  
             foreach ($data_authen_excel as $key => $value) {
                 $check = Visit_pttype_import::where('pid', $value->cid)->where('vstdate', $value->vstdate)->whereNotIn('pttype', ['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->count();
@@ -362,7 +367,8 @@ class PreauditController extends Controller
                     ]); 
                 } 
             } 
-            $data_authen_excel_ti = DB::connection('mysql')->select('SELECT * FROM Visit_pttype_import_excel WHERE claimtype = "PG0130001" AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") AND repauthen <> "ENDPOINT"');
+            $data_authen_excel_ti = DB::connection('mysql')->select('SELECT * FROM Visit_pttype_import_excel WHERE claimtype = "PG0130001" AND repauthen <> "ENDPOINT"');
+            // AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") 
             // AND repauthen <> "ENDPOINT"
             foreach ($data_authen_excel_ti as $key => $value_ti) {
                 $checkti = Visit_pttype_import::where('pid', $value_ti->cid)->where('vstdate', $value_ti->vstdate)->whereIn('pttype', ['M1','M2','M3','M4','M5'])->count();
@@ -373,8 +379,9 @@ class PreauditController extends Controller
                         'claimtype'     => $value_ti->claimtype,  
                     ]);  
                 } 
-            }             
-            return redirect()->route('audit.authen_excel');   
+            }  
+            return back();           
+            // return redirect()->route('audit.authen_excel');   
             // return response()->json([
             //     'status'    => '200',
             // ]);
@@ -384,7 +391,7 @@ class PreauditController extends Controller
         $date        = date('Y-m-d');
         $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import WHERE claimtype = "PG0060001" AND vstdate = "'.$date.'"');
         foreach ($data_authen_excel as $key => $value) {
-            Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
+            Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
                 'claim_code'     => $value->claimcode,  
                 'auth_code'      => $value->claimcode, 
             ]);  
@@ -400,8 +407,9 @@ class PreauditController extends Controller
                 'auth_code'      => $valueti->claimcode, 
             ]);  
         }
-        Visit_pttype_import::truncate();
-        Visit_pttype_import_excel::truncate();
+        // Visit_pttype_import::truncate();
+        // Visit_pttype_import_excel::truncate();
+
         // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
             return response()->json([
                 'status'    => '200',

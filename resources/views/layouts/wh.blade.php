@@ -182,7 +182,10 @@
     }
     /* Logo หมุน END */
 
-            
+            .input_new{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 10px rgb(252, 101, 1);
+            }
             .card_pink{
                 border-radius: 3em 3em 3em 3em;
                 box-shadow: 0 0 10px rgb(252, 101, 1);
@@ -377,15 +380,17 @@ if (Auth::check()) {
                                 
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
-                                >
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                     <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์  <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_plan') }}" class="dropdown-item" target="_blank">แผนจัดซื้อวัสดุสำนักงาน</a> 
-                                    {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
-                                </div> 
-                                
+                                    <a href="{{ url('wh_plan') }}" class="dropdown-item" target="_blank">แผนจัดซื้อวัสดุสำนักงาน</a>  
+                                </div>  
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('wh_recieve') }}" target="_blank">
+                                     <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> ตรวจรับ
+                                </a> 
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
@@ -399,6 +404,7 @@ if (Auth::check()) {
                                 </div>
                                 
                             </li> 
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                 <i class="fa-solid fa-cubes-stacked me-2" style="font-size: 20px;color:rgb(10, 116, 187)"></i>คลังย่อย <div class="arrow-down"></div>

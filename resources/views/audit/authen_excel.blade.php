@@ -178,6 +178,7 @@
                                                 <th class="text-center">pttype</th>
                                                 <th class="text-center">ชื่อ-สกุล</th>
                                                 <th class="text-center">claimcode</th> 
+                                                <th class="text-center">debit</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -197,7 +198,7 @@
                                                             <span class="bg-success badge me-2">{{ $item_n->claim_code }}</span> 
                                                         @endif 
                                                     </td>
-                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->claimtype }}</td>  --}}
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td> 
                                                 </tr>
                                             @endforeach
                 

@@ -183,6 +183,55 @@ class WhController extends Controller
         $yy1                        = date('Y') + 543;
         $yy2                        = date('Y') + 542;
         $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $data['wh_product']         = DB::select(
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+            ,a.active ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+                FROM wh_stock e
+                LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+                LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+            WHERE a.active ="Y" AND e.stock_list_id ="'.$id.'" AND e.stock_year ="'.$bg_yearnow.'"
+            GROUP BY e.pro_id
+        ');
+        $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
+        $data['stock_name']    = $data_main->stock_list_name;
+
+        return view('wh.wh_main', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+        ]);
+    }
+    public function wh_recieve(Request $request)
+    {
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+        $data['q']  = $request->query('q');
+        $query = User::select('users.*')
+            ->where(function ($query) use ($data) {
+                $query->where('pname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('fname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('lname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('tel', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('username', 'like', '%' . $data['q'] . '%');
+            });
+        $data['users']              = $query->orderBy('id', 'DESC')->paginate(10);
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get();
+        // $data['wh_product']         = Wh_product::get();
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
 
         $data['wh_product']         = DB::select(
             'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
@@ -197,42 +246,93 @@ class WhController extends Controller
                 LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
                 LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
                 LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
-            WHERE a.active ="Y" AND e.stock_list_id ="'.$id.'"
+            WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
             GROUP BY e.pro_id
         ');
         $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-        $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
-        $data['stock_name']    = $data_main->stock_list_name;
+        // $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
+        // $data['stock_name']    = $data_main->stock_list_name;
 
-        return view('wh.wh_main', $data,[
+        return view('wh.wh_recieve', $data,[
             'startdate'  => $startdate,
             'enddate'    => $enddate,
         ]);
     }
-    public function warehouse_index(Request $request)
+    public function wh_recieve_add(Request $request)
     {
-        $data['product_category'] = Products_category::get();
-        $data['product_type'] = Products_type::get();
-        $data['product_group'] = Product_group::where('product_group_id', '=', 1)->orWhere('product_group_id', '=', 2)->get();
-        $data['product_unit'] = Product_unit::get();
-        $data['product_data'] = Products::where('product_groupid', '=', 1)->orwhere('product_groupid', '=', 2)->orderBy('product_id', 'DESC')->get();
-        $data['countsttus'] = DB::table('warehouse_rep_sub')->where('warehouse_rep_sub_status', '=','2')->count();
-        $data['warehouse_rep'] = DB::connection('mysql')
-            ->select('select wr.warehouse_rep_id,wr.warehouse_rep_code,wr.warehouse_rep_no_bill,wr.warehouse_rep_po,wr.warehouse_rep_year,wr.warehouse_rep_send
-        ,wr.warehouse_rep_user_id,wr.warehouse_rep_user_name,wr.warehouse_rep_inven_id,wr.warehouse_rep_inven_name,wr.warehouse_rep_total
-        ,wr.warehouse_rep_vendor_id,wr.warehouse_rep_vendor_name,wr.warehouse_rep_date,wr.warehouse_rep_status
-        ,wr.warehouse_rep_type
-        from warehouse_rep wr
-        order by wr.warehouse_rep_id desc
-        ');
-        // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
-        $data['users'] = User::get();
-        $data['budget_year'] = DB::table('budget_year')->where('active','=','True')->get();
-        $data['products_vendor'] = Products_vendor::get();
-        $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+        $data['q']  = $request->query('q');
+        $query = User::select('users.*')
+            ->where(function ($query) use ($data) {
+                $query->where('pname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('fname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('lname', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('tel', 'like', '%' . $data['q'] . '%');
+                $query->orwhere('username', 'like', '%' . $data['q'] . '%');
+            });
+        $data['users']              = $query->orderBy('id', 'DESC')->paginate(10);
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get();
+        // $data['wh_product']         = Wh_product::get();
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
 
-        return view('warehouse.warehouse_index', $data);
+        $data['wh_product']         = DB::select(
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+            ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+            ,a.active
+                ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
+                ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+
+                FROM wh_stock e
+                LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+                LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+            WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
+            GROUP BY e.pro_id
+        ');
+        $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        // $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
+        // $data['stock_name']    = $data_main->stock_list_name;
+
+        return view('wh.wh_recieve_add', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+        ]);
     }
+    // public function warehouse_index(Request $request)
+    // {
+    //     $data['product_category'] = Products_category::get();
+    //     $data['product_type'] = Products_type::get();
+    //     $data['product_group'] = Product_group::where('product_group_id', '=', 1)->orWhere('product_group_id', '=', 2)->get();
+    //     $data['product_unit'] = Product_unit::get();
+    //     $data['product_data'] = Products::where('product_groupid', '=', 1)->orwhere('product_groupid', '=', 2)->orderBy('product_id', 'DESC')->get();
+    //     $data['countsttus'] = DB::table('warehouse_rep_sub')->where('warehouse_rep_sub_status', '=','2')->count();
+    //     $data['warehouse_rep'] = DB::connection('mysql')
+    //         ->select('select wr.warehouse_rep_id,wr.warehouse_rep_code,wr.warehouse_rep_no_bill,wr.warehouse_rep_po,wr.warehouse_rep_year,wr.warehouse_rep_send
+    //     ,wr.warehouse_rep_user_id,wr.warehouse_rep_user_name,wr.warehouse_rep_inven_id,wr.warehouse_rep_inven_name,wr.warehouse_rep_total
+    //     ,wr.warehouse_rep_vendor_id,wr.warehouse_rep_vendor_name,wr.warehouse_rep_date,wr.warehouse_rep_status
+    //     ,wr.warehouse_rep_type
+    //     from warehouse_rep wr
+    //     order by wr.warehouse_rep_id desc
+    //     ');
+    //     // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
+    //     $data['users'] = User::get();
+    //     $data['budget_year'] = DB::table('budget_year')->where('active','=','True')->get();
+    //     $data['products_vendor'] = Products_vendor::get();
+    //     $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
+
+    //     return view('warehouse.warehouse_index', $data);
+    // }
     // public function warehouse_add(Request $request)
     // {
     //     $data['budget_year'] = DB::table('budget_year')->get();

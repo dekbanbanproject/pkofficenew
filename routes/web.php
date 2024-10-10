@@ -875,7 +875,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
   Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
   Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
-
+  Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
+  Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
 
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************

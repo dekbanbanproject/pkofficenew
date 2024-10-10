@@ -86,15 +86,20 @@
     
         <div class="row"> 
             <div class="col-md-6"> 
-                <h5 class="card-title" style="color:green">คลัง {{$stock_name}}</h5>
-                <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p>
+                <h4 class="card-title" style="color:green">รายละเอียดการตรวจรับ</h4>
+                {{-- <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p> --}}
             </div>
             <div class="col"></div>   
-
+            <div class="col-md-2 text-end">
+                <a href="{{url('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" target="_blank">
+                    <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
+                    ตรวจรับ
+            </a> 
+            </div>
         </div>
  
        
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-md-12">
                 
                 <div class="card card_audit_4c">
@@ -103,8 +108,7 @@
                                
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;"> 
-                                        {{-- <table class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
                                             <thead> 
                                                 <tr style="font-size: 10px;">
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;" width="5%">ลำดับ</th>
@@ -119,7 +123,7 @@
                                                     <th class="text-center" style="background-color: rgb(255, 228, 234);font-size: 11px;">ราคารวม</th> 
                                                 </tr> 
                                             </thead>
-                                            <tbody>
+                                            {{-- <tbody>
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_product as $item)
                                                 <?php $i++ ?>
@@ -127,31 +131,25 @@
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-start" width="10%">{{$item->pro_name}}</td>
                                                     <td class="text-center">{{$item->wh_type_name}}</td>
-                                                    <td class="text-center">{{$item->wh_unit_pack_qty}}/{{$item->unit_name}}</td> 
-                                                   
+                                                    <td class="text-center">{{$item->wh_unit_pack_qty}}/{{$item->unit_name}}</td>                                                    
                                                     @if ($item->stock_qty == '0')
                                                         <td class="text-center" style="color:rgb(228, 49, 5);font-weight: bold">{{$item->stock_qty}} </td>
                                                     @else
                                                         <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_qty}} </td>
-                                                    @endif 
-                                                   
+                                                    @endif                                                    
                                                     <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_rep}}</td>
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_pay}}</td>
-                                                    
+                                                    <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_pay}}</td>                                                    
                                                     @if ($item->stock_total == '0')
                                                         <td class="text-center" style="color:rgb(228, 49, 5);font-weight: bold">{{$item->stock_total}} </td>
                                                     @else
                                                         <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_total}} </td>
-                                                    @endif
-                                                    
+                                                    @endif                                                    
                                                     <td class="text-end" width="10%" style="color:rgb(4, 115, 180)">{{number_format($item->stock_price, 2)}}</td> 
                                                     @if ($item->stock_total == '0')
                                                         <td class="text-end" style="color:rgb(228, 49, 5);font-weight: bold">{{number_format(($item->stock_price*$item->stock_total), 2)}} </td>
                                                     @else
                                                         <td class="text-end" style="color:rgb(4, 180, 121)">{{number_format(($item->stock_price*$item->stock_total), 2)}}</td>
-                                                    @endif
-
-                                                    {{-- <td class="text-end" width="10%" style="color:rgb(4, 180, 121)">{{number_format(($item->stock_price*$item->stock_total), 2)}}</td>  --}}
+                                                    @endif 
                                                 </tr>
                                                 <?php
                                                     $total1 = $total1 + $item->stock_qty;
@@ -173,7 +171,7 @@
                                                 <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{number_format($total5,2)}}</td>  
                                                 <td class="text-end" style="background-color: #276ed8;color: #019765">{{number_format($total6,2)}}</td> 
                                              
-                                            </tr>  
+                                            </tr>   --}}
                                         </table>
 
                                     </div>
