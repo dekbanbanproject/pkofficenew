@@ -878,7 +878,19 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
   Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
   Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
+  Route::match(['get', 'post'], 'wh_recieve_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_edit'])->name('wh.wh_recieve_edit'); //
   Route::match(['get', 'post'], 'wh_recieve_update', [App\Http\Controllers\WhController::class, 'wh_recieve_update'])->name('wh.wh_recieve_update'); //
+  Route::match(['get', 'post'], 'wh_recieve_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub'])->name('wh.wh_recieve_addsub'); //
+  Route::match(['get', 'post'], 'wh_recieve_addsub_save', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub_save'])->name('wh.wh_recieve_addsub_save'); //
+  Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
+  Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
+
+
+
+
+
+
+
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************
   Route::match(['get', 'post'], 'setting/setting_index', [App\Http\Controllers\SettingController::class, 'setting_index'])->name('setting.setting_index'); //

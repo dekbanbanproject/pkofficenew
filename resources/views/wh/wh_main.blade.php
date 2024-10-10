@@ -125,7 +125,7 @@
                                                 <?php $i++ ?>
                                                 <tr>
                                                     <td class="text-center" width="5%">{{$i}}</td>
-                                                    <td class="text-start" width="10%">{{$item->pro_name}}</td>
+                                                    <td class="text-start" width="10%">{{$item->pro_code}} || {{$item->pro_name}}</td>
                                                     <td class="text-center">{{$item->wh_type_name}}</td>
                                                     <td class="text-center">{{$item->wh_unit_pack_qty}}/{{$item->unit_name}}</td> 
                                                    

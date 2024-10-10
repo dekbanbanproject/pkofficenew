@@ -88,146 +88,40 @@
             </div>
         </div>
     
-        <div class="row">  
+        <div class="row"> 
             <div class="col-md-6"> 
-                <h4 style="color:green">รายละเอียดการตรวจรับ</h4> 
+                <h4 class="card-title" style="color:green">รายละเอียดการตรวจรับ</h4>
+                {{-- <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p> --}}
             </div>
             <div class="col"></div>   
-            <div class="col-md-2 text-end"> 
-                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Recieve">
+            <div class="col-md-2 text-end">
+                {{-- <a href="{{url('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new" target="_blank">
+                    <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
+                    ตรวจรับ
+                </a>  --}}
+                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
+                    ตรวจรับ
+                  </button> --}}
+                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new" data-bs-toggle="modal" data-bs-target="#Recieve">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> ตรวจรับ  
                     </a>
-                    {{-- <div id="headingTwo" class="b-radius-0">   
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
-                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i>  ตรวจรับ
-                        </button>  
-                    </div>  --}}
             </div>
         </div>
-
-        
  
-        <div data-parent="#accordion" id="collapseOne2" class="collapse">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card cardplan">    
-                            <div class="card-body ">  
-                                <div class="row">  
-                                    <div class="col-md-12">         
-                                           
-                                            
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <h4 class="card-title">ตรวจรับทั่วไป</h4>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-2 text-end">
-                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2" id="InsertData">
-                                                        <i class="pe-7s-diskette btn-icon-wrapper text-info ms-2 me-2"></i>Save 
-                                                    </button> 
-                                                    
-                                                
-                                                </div>
-                                            </div>
-                                           
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-bs-toggle="tab" href="#detail" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
-                                                        <span class="d-none d-sm-block">รายละเอียด</span>    
-                                                    </a>
-                                                </li>
-                                               <!-- <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#trimart" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block">ไตรมาส</span>    
-                                                    </a>
-                                                </li>  -->
-                                            </ul>
-    
-                                            <!-- Tab panes -->
-                                            <div class="tab-content p-3 text-muted">
-                                                <div class="tab-pane active" id="detail" role="tabpanel">
-                                                    {{-- <p class="mb-0">
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end">เลขที่บิล</div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group text-center">
-                                                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center"> 
-                                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                                            data-date-language="th-th" value="{{ $date_now }}" required/>
-                                                                             
-                                                                    </div> 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center">
-                                                                    <input type="time" class="form-control form-control-sm" id="recieve_time" name="recieve_time" value="{{$mm}}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-2 text-end">รับจากบริษัท</div>
-                                                            <div class="col-md-4">
-                                                                <select name="vendor_id" id="vendor_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                        <option value="">--เลือก--</option>
-                                                                        @foreach ($air_supplies as $item_sup)
-                                                                            <option value="{{$item_sup->air_supplies_id}}">{{$item_sup->supplies_name}}</option>
-                                                                        @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">รับเข้าคลัง</div>
-                                                            <div class="col-md-4">
-                                                                <select name="stock_list_id" id="stock_list_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                    <option value="">--เลือก--</option>
-                                                                    @foreach ($wh_stock_list as $item_st)
-                                                                        <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
-                                                                    @endforeach
-                                                            </select>
-                                                            </div>
-                                                        </div>                                
-                                                        <input type="hidden" id="bg_yearnow" name="bg_yearnow" value="{{$bg_yearnow}}">
-                                                       
-                                                        </div> 
-                                                    </p> --}}
-                                                </div>
-                                                <div class="tab-pane" id="trimart" role="tabpanel">
-                                                    <p class="mb-0">
-                                                        
-                                                    </p>
-                                                </div>
-                                            
-                                            </div> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>   
-                </div>
-            </div>
-        </div> 
        
-                <div class="row">
-                    <div class="col-md-12">     
-                        <div class="card card_audit_4c">
-        
+        <div class="row mt-3">
+            <div class="col-md-12">                
+                <div class="card card_audit_4c">
+   
                             <div class="card-body">
-                                
+                               
                                 <div class="row"> 
                                     <div class="col-xl-12">
                                         <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
                                             <thead> 
                                                 <tr>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลัง</th>
@@ -245,14 +139,6 @@
                                                 <?php $i++ ?>
                                                 <tr >
                                                     <td class="text-center" width="5%">{{$i}}</td>
-                                                    <td class="text-center" width="5%">
-                                                        @if ($item->active == 'PREPARE')
-                                                            <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
-                                                        @else
-                                                            <span class="bg-info badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif
-                                                        
-                                                    </td>
                                                     <td class="text-center" width="5%">{{$item->year}}</td>
                                                     <td class="text-center" width="8%">{{$item->recieve_no}}</td>
                                                     <td class="text-center" width="10%">{{$item->recieve_date}}</td>
@@ -264,30 +150,28 @@
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
                                                     <td class="text-center" width="5%">
-                                                        <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
-                                                            <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                        </a>
-                                                        @if ($item->active == 'PREPARE')
-                                                            <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                            </a>
-                                                        @else
-                                                            <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
-                                                        @endif
-                                                        
-                                                        {{-- RECIVE --}}
-                                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRecieve{{$item->wh_recieve_id}}">
+                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRecieve{{$item->wh_recieve_id}}">
                                                             <i class="fa-solid fa-file-pen" style="color: #06a59d;font-size:20px"></i>
-                                                        </a>  --}}
-                                                        {{-- <button type="button" data-bs-toggle="collapse" data-bs-target="#collapsed" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
-                                                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i>  ตรวจรับ
-                                                        </button>  --}}
+                                                        </a>
+                                                        <button type="button" class="dropdown-item menu btn btn-outline-info btn-sm MoneyModal_"  value="{{ $item->wh_recieve_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เบิกเงิน"> 
+                                                            <i class="fa-brands fa-bitcoin me-3 mb-1" style="font-size:17px;color: rgb(20, 199, 190)"></i> 
+                                                            <label for=""
+                                                            style="color: rgb(20, 199, 190);font-size:13px">เบิกเงิน</label>
+                                                        </button> 
                                                     </td>
                                                     
                                                 </tr>
-                                                
-                                                    <!--  Modal content forRecieve -->
-                                                {{-- <div class="modal fade" id="EditRecieve{{$item->wh_recieve_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                                <?php
+                                                    // $total1 = $total1 + $item->stock_qty;
+                                                    // $total2 = $total2 + $item->stock_rep;
+                                                    // $total3 = $total3 + $item->stock_pay;
+                                                    // $total4 = $total4 + $item->stock_total;
+                                                    // $total5 = $total5 + $item->stock_price;        
+                                                    // $total6 = $total6 + ($item->stock_price*$item->stock_total);  
+                                                ?>  
+
+                                                 <!--  Modal content forRecieve -->
+                                                <div class="modal fade" id="EditRecieve{{$item->wh_recieve_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -321,7 +205,7 @@
                                                                 <div class="row mt-2">
                                                                     <div class="col-md-2 text-end">รับจากบริษัท</div>
                                                                     <div class="col-md-4">
-                                                                        <select name="vendor_id" id="edit_vendor_id"  class="form-control js-example-basic-single" style="width: 100%">
+                                                                        <select name="vendor_id" id="edit_vendor_id"  class="custom-select custom-select-sm" style="width: 100%">
                                                                                 <option value="">--เลือก--</option>
                                                                                 @foreach ($air_supplies as $item_sup)
                                                                                     @if ($item->vendor_id == $item_sup->air_supplies_id)
@@ -366,29 +250,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                                     
                                                 @endforeach                                                
                                             </tbody>
-                                            
+                                            {{-- <tr style="background-color: #f3fca1">
+                                                <td colspan="4" class="text-end" style="background-color: #ff9d9d"></td>
+                                                <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total1,0)}}</td> 
+                                                <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total2,0)}}</td> 
+                                                <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total3,0)}}</td> 
+                                                <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total4,0)}}</td>    
+                                                <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{number_format($total5,2)}}</td>  
+                                                <td class="text-end" style="background-color: #276ed8;color: #019765">{{number_format($total6,2)}}</td>  
+                                            </tr>   --}}
                                         </table>
 
                                     </div>
                                 </div>  
                             </div>
-                                
-                        </div>  
-
-                    </div>
-                </div>
-
-
-                {{-- <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
-                    </div>
-                </div> --}}
-             
+                        
+                </div>                 
+            </div>
+        </div>
 
 
         <!--  Modal content forRecieve -->
@@ -396,7 +279,7 @@
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel" style="color:rgb(236, 105, 18)">ตรวจรับทั่วไป </h5>
+                        <h5 class="modal-title" id="myExtraLargeModalLabel">ตรวจรับทั่วไป </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -404,7 +287,7 @@
                             <div class="col-md-2 text-end">เลขที่บิล</div>
                             <div class="col-md-4">
                                 <div class="form-group text-center">
-                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" >
+                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no">
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
@@ -453,8 +336,8 @@
                                      <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                                     บันทึก
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new" data-bs-dismiss="modal">
-                                    <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new" data-bs-dismiss="modal"><i
+                                        class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
 
                             </div>
                         </div>
@@ -472,34 +355,18 @@
     <script>
          $(document).ready(function() {
             $('select').select2();
-            // $('select').select2({
-            //     width: '100%'
-            // });
-
-            // $("#edit_vendor_id").select2({
-            //     dropdownParent: $("#myModal")
-            // });
-
-            // $('#vendor_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
-            // $('#stock_list_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
             $('#vendor_id').select2({
                     dropdownParent: $('#Recieve')
             });
             $('#stock_list_id').select2({
                     dropdownParent: $('#Recieve')
             });
-            // $('#edit_vendor_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
-            // $('#edit_stock_list_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
+            $('#edit_vendor_id').select2({
+                    dropdownParent: $('#Recieve')
+            });
+            $('#edit_stock_list_id').select2({
+                    dropdownParent: $('#Recieve')
+            });
             
             $.ajaxSetup({
                 headers: {
@@ -636,18 +503,6 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-
-            // $(".collapse.show").each(function(){
-            // $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-
-            // Toggle plus minus icon on show hide of collapse element
-            // $(".collapse").on('show.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-            // }).on('hide.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-            // });
-            // });
-        
   
         });
     </script>

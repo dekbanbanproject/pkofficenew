@@ -26,7 +26,8 @@ return new class extends Migration
                 // $table->string('wh_total')->nullable();  //   
                 // $table->string('praman_buy')->nullable();  //  
                 $table->decimal('total_price',total: 12, places: 4)->nullable(); //  
-                $table->string('user_recieve')->nullable(); //                                 
+                $table->string('user_recieve')->nullable(); //     
+                $table->enum('active', ['PREPARE','RECIVE','CONFIRM'])->default('PREPARE');                              
                 $table->timestamps();
             });
         }

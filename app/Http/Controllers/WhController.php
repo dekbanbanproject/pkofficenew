@@ -42,8 +42,8 @@ use App\Models\Car_status;
 use App\Models\Car_index;
 use App\Models\Article_status;
 use App\Models\Air_supplies;
-use App\Models\Product_brand;
-use App\Models\Product_color;
+use App\Models\Wh_recieve_sub;
+use App\Models\Wh_stock;
 use App\Models\Wh_recieve;
 use App\Models\Building;
 use App\Models\Product_budget;
@@ -265,15 +265,16 @@ class WhController extends Controller
         ');
         $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
         $data['wh_recieve']         = DB::select(
-            'SELECT r.wh_recieve_id,r.year,r.recieve_date,r.recieve_time,r.recieve_no,r.stock_list_id,r.vendor_id,a.supplies_name,r.recieve_po,s.stock_list_name,concat(u.fname," ",u.lname) as ptname,r.total_price
+            'SELECT r.wh_recieve_id,r.year,r.recieve_date,r.recieve_time,r.recieve_no,r.stock_list_id,r.vendor_id,r.active
+            ,a.supplies_name,r.recieve_po,s.stock_list_name,concat(u.fname," ",u.lname) as ptname,r.total_price
             FROM wh_recieve r 
             LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id
             LEFT JOIN air_supplies a ON a.air_supplies_id = r.vendor_id
-            LEFT JOIN users u ON u.id = r.user_recieve
+            LEFT JOIN users u ON u.id = r.user_recieve           
             ORDER BY wh_recieve_id DESC');
         // $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
         // $data['stock_name']    = $data_main->stock_list_name;
-
+        // WHERE active = ""
         return view('wh.wh_recieve',$data,[
             'startdate'     => $startdate,
             'enddate'       => $enddate,
@@ -331,7 +332,6 @@ class WhController extends Controller
             'enddate'    => $enddate,
         ]);
     }
-
     public function wh_recieve_save(Request $request)
     {
         // $year                = date('Y')+ 543;
@@ -351,6 +351,185 @@ class WhController extends Controller
             'status'    => '200'
         ]);
     }
+    public function wh_recieve_edit(Request $request,$id)
+    {
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+      
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get(); 
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();
+        
+        // $data['wh_product']         = DB::select(
+        //     'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+        //     ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+        //     ,a.active
+        //         ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
+        //         ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+
+        //         FROM wh_stock e
+        //         LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+        //         LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+        //         LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+        //         LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+        //         LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+        //     WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
+        //     GROUP BY e.pro_id
+        // ');
+        $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $data_edit             = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+        // $data['stock_name']    = $data_main->stock_list_name;
+
+        return view('wh.wh_recieve_edit', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+            'data_edit'  => $data_edit,
+        ]);
+    }
+    public function wh_recieve_update(Request $request)
+    {
+        $id            = $request->wh_recieve_id;
+        // $ynew          = substr($request->bg_yearnow,2,2); 
+        Wh_recieve::where('wh_recieve_id',$id)->update([
+            'year'                 => $request->bg_yearnow,
+            'recieve_date'         => $request->recieve_date,
+            'recieve_time'         => $request->recieve_time, 
+            'recieve_no'           => $request->recieve_no,
+            'stock_list_id'        => $request->stock_list_id,
+            'vendor_id'            => $request->vendor_id, 
+            'user_recieve'         => Auth::user()->id
+        ]);
+        return response()->json([ 
+            'status'    => '200'
+        ]);
+    }
+    public function wh_recieve_addsub(Request $request,$id)
+    {
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+      
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get(); 
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $data['air_supplies']       = Air_supplies::where('active','=','Y')->get(); 
+        $data['wh_stock_list']    = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $data_edit                = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+        $data['data_year']    = $data_edit->year;
+        $data_supplies            = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
+        $data['supplies_name']    = $data_supplies->supplies_name;
+        $data['supplies_tax']     = $data_supplies->supplies_tax;
+
+        $data['wh_product']         = DB::select(
+            'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
+                ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+
+                FROM wh_stock e
+                LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+                LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+            WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
+            GROUP BY e.pro_id
+        ');
+        $data['wh_recieve_sub']      = DB::select('SELECT * FROM wh_recieve_sub WHERE wh_recieve_id = "'.$id.'"');
+
+        return view('wh.wh_recieve_addsub', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+            'data_edit'  => $data_edit,
+        ]);
+    }
+    public function wh_recieve_addsub_save(Request $request)
+    { 
+        $ynew          = substr($request->bg_yearnow,2,2); 
+        $idpro         = $request->pro_id;
+        $pro           = Wh_product::where('pro_id',$idpro)->first();
+        $proid         = $pro->pro_id;
+        $proname       = $pro->pro_name;
+        $unitid        = $pro->unit_id;
+
+        $unit          = Wh_unit::where('wh_unit_id',$unitid)->first();
+        $idunit        = $unit->wh_unit_id;
+        $nameunit      = $unit->wh_unit_name;
+
+        Wh_recieve_sub::insert([
+            'wh_recieve_id'        => $request->wh_recieve_id,
+            'pro_id'               => $proid,
+            'pro_name'             => $proname, 
+            'unit_id'              => $idunit,
+            'unit_name'            => $nameunit,
+            'qty'                  => $request->qty, 
+            'one_price'            => $request->one_price, 
+            'total_price'          => $request->one_price*$request->qty, 
+            'lot_no'               => $request->lot_no, 
+            'user_id'              => Auth::user()->id
+        ]);
+        return back();
+         
+    }
+    public function wh_recieve_destroy(Request $request)
+    {
+        $id = $request->ids;
+        Wh_recieve_sub::whereIn('wh_recieve_sub_id',explode(",",$id))->delete();               
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+    public function wh_recieve_updatestock(Request $request)
+    {   
+        $id            = $request->wh_recieve_id;
+        $data_year     = $request->data_year;
+        $getdate       = Wh_recieve_sub::where('wh_recieve_id',$id)->get();
+        foreach ($getdate as $key => $value) {
+            $stock       = Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->first();
+            $stock_new   = $stock->stock_rep; 
+            $stock_qty   = $stock->stock_qty; 
+            $stock_total = $stock->stock_qty; 
+            Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->update([
+                'stock_qty'    => $stock_qty + $value->qty,
+                'stock_rep'    => $stock_new + $value->qty,
+                'stock_total'  => $stock_total + $value->qty
+            ]);
+        }
+
+        $sum_total       = Wh_recieve_sub::where('wh_recieve_id',$id)->sum('total_price');
+        Wh_recieve::where('wh_recieve_id',$id)->update([
+            'total_price'  => $sum_total, 
+            'active'       => 'RECIVE', 
+        ]);
+
+        // $idpro         = $request->pro_id;
+        // $pro           = Wh_product::where('pro_id',$idpro)->first();
+        // $proid         = $pro->pro_id;
+        // $proname       = $pro->pro_name;
+        // $unitid        = $pro->unit_id;
+
+        // $unit          = Wh_unit::where('wh_unit_id',$unitid)->first();
+        // $idunit        = $unit->wh_unit_id;
+        // $nameunit      = $unit->wh_unit_name;
+
+        return response()->json([
+            'status'    => '200'
+        ]);
+         
+    }
+
     
 
      
