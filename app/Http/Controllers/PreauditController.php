@@ -39,7 +39,7 @@ use App\Models\D_apiwalkin_ipd;
 use App\Models\D_apiwalkin_pat;
 use App\Models\D_apiwalkin_opd;
 use App\Models\D_walkin;
-use App\Models\D_walkin_drug;
+use App\Models\Authen_date;
 use App\Models\Audit_approve_code;
 use App\Models\Ovstdiag;
 use App\Models\Ovst;
@@ -122,14 +122,15 @@ class PreauditController extends Controller
             //     AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
             //     GROUP BY c.vn 
             // ');
-            $date_old      = DB::table('visit_import_date')->where('visit_import_date_id','1')->first();
-            if ($date_old == null || $date_old == '') {
-                $startdate_    = '';
-                $enddate_      = '';
-            } else {
-                $startdate_    = $date_old->startdate;
-                $enddate_      = $date_old->enddate;
-            }                       
+            // $date_old      = DB::table('visit_import_date')->where('visit_import_date_id','1')->first();
+            // if ($date_old == null || $date_old == '') {
+            //     $startdate_    = '';
+            //     $enddate_      = '';
+            // } else {
+            //     $startdate_    = $date_old->startdate;
+            //     $enddate_      = $date_old->enddate;
+            // }    
+                               
 
             $data['authen_excel'] = DB::connection('mysql10')->select(
                 'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code,v.income
@@ -145,7 +146,6 @@ class PreauditController extends Controller
             // AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
             // WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
 
-
             // $data['authen_excel_date'] = DB::connection('mysql2')->select(
             //     'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
             //     FROM vn_stat v
@@ -160,6 +160,10 @@ class PreauditController extends Controller
             //     'startdate'  => $startdate,
             //     'enddate'    => $enddate,
             // ]);
+
+            $date_befir  = Authen_date::where('authen_id','=','1')->first();
+            $startdate   = $date_befir->startdate;
+            $enddate     = $date_befir->enddate;
             
             $data_vn_1 = DB::connection('mysql2')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -173,10 +177,11 @@ class PreauditController extends Controller
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("10","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","l5","l6")   
-                AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")   
-                AND v.income > 0 
+                AND p.cid IS NOT NULL AND (vs.auth_code IS NULL OR vs.auth_code ="")   
+                
                 GROUP BY o.vn 
             ');
+            // AND p.nationality ="99"
             // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             // AND p.birthday <> "'.$startdate.'" 
             // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
@@ -242,6 +247,8 @@ class PreauditController extends Controller
     { 
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
+        Authen_date::truncate();
+
         $data_vn_1 = DB::connection('mysql2')->select(
             'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
             ,concat(p.pname,p.fname," ",p.lname) as ptname
@@ -253,10 +260,11 @@ class PreauditController extends Controller
             LEFT JOIN pttype pt on pt.pttype=v.pttype
             LEFT JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"           
-            AND p.cid IS NOT NULL AND p.nationality ="99" AND (vs.auth_code IS NULL OR vs.auth_code ="")  
+            AND p.cid IS NOT NULL   
            
             GROUP BY o.vn 
         '); 
+        // AND (vs.auth_code IS NULL OR vs.auth_code ="")  
         // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")    
         // AND v.income > 0 
         Visit_pttype_import::truncate();     
@@ -270,8 +278,20 @@ class PreauditController extends Controller
                 'ptname'     => $value_1->ptname,
                 'pttype'     => $value_1->pttype,
                 'hcode'      => $value_1->hospmain, 
-            ]); 
+            ]);  
         }
+
+        $months                     = date('H');
+        $authen_time                = date('H:m:s');
+        $data['datefull']           = date('Y-m-d H:m:s');
+        $data['monthsnew']          = substr($months,1,2); 
+        $datenow        = date('Y-m-d');
+        Authen_date::insert([
+            'authen_date'     => $datenow, 
+            'authen_time'     => $authen_time,
+            'startdate'       => $startdate,
+            'enddate'         => $enddate, 
+        ]); 
 
         return response()->json([
             'status'    => '200',
@@ -381,15 +401,16 @@ class PreauditController extends Controller
                 } 
             }  
             return back();           
-            // return redirect()->route('audit.authen_excel');   
-            // return response()->json([
-            //     'status'    => '200',
-            // ]);
+          
     }
     public function authen_update(Request $request)
     {
         $date        = date('Y-m-d');
-        $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import WHERE claimtype = "PG0060001" AND vstdate = "'.$date.'"');
+        $date_befir  = Authen_date::where('authen_id','=','1')->first();
+        $startdate   = $date_befir->startdate;
+        $enddate     = $date_befir->enddate;
+
+        $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import WHERE claimtype = "PG0060001" AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"');
         foreach ($data_authen_excel as $key => $value) {
             Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
                 'claim_code'     => $value->claimcode,  
@@ -399,7 +420,7 @@ class PreauditController extends Controller
         $data_authen_excel_ti = DB::connection('mysql')->select(
             'SELECT * FROM
             Visit_pttype_import
-            WHERE claimtype = "PG0130001" AND vstdate = "'.$date.'" 
+            WHERE claimtype = "PG0130001" AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
         ');
         foreach ($data_authen_excel_ti as $key => $valueti) {
             Visit_pttype::where('vn', $valueti->vn)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([   
@@ -407,8 +428,8 @@ class PreauditController extends Controller
                 'auth_code'      => $valueti->claimcode, 
             ]);  
         }
-        // Visit_pttype_import::truncate();
-        // Visit_pttype_import_excel::truncate();
+        Visit_pttype_import::truncate();
+        Visit_pttype_import_excel::truncate();
 
         // AND (vp.claim_code IS NOT NULL OR vp.claim_code <>"")
             return response()->json([

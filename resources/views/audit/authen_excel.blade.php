@@ -209,46 +209,7 @@
                         </div>
                     </div>
                 </div> 
-
-                {{-- <div class="col-xl-6">
-                    <div class="card card_audit_4">
-                        <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Authen Code ย้อนหลัง(สำหรับงานประกัน)</h4>  
-                                <div class="table-responsive"> 
-                                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">    
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">ลำดับ</th> 
-                                                <th class="text-center">HN</th>  
-                                                <th class="text-center">CID</th>
-                                                <th class="text-center">vstdate</th>
-                                                <th class="text-center">pttype</th>
-                                                <th class="text-center">ชื่อ-สกุล</th>
-                                                <th class="text-center">claimcode</th> 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $jj = 1; ?>
-                                            @foreach ($authen_excel_date as $item_n) 
-                                                <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td> 
-                                                    <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
-                                                    <td class="text-center" style="width: 10%">{{ $item_n->vstdate }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->pttype }}</td>
-                                                    <td class="p-2">{{ $item_n->ptname }}</td>  
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->claim_code }}</td> 
-                                                </tr>
-                                            @endforeach
-                
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                        </div>
-                    </div>
-                </div>  --}}
-
+ 
             </div>
     </div>
 
