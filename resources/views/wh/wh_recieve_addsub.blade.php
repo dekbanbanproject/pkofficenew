@@ -103,8 +103,7 @@
                 </div>
             </div> 
 
-            <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$data_edit->wh_recieve_id}}"> 
-            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
+           
         
         <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST">
             @csrf
@@ -115,11 +114,20 @@
                              
                             <div class="row mt-2">
                                 <div class="col-md-1 text-end">รายการวัสดุ</div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm" style="width: 100%">
                                             <option value="">--เลือก--</option>
                                             @foreach ($wh_product as $item_sup) 
-                                                <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
+                                            <?php 
+                                                $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id <> "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
+                                            
+                                            ?>
+                                                {{-- @if ($count_proid > 0)  --}}
+                                                    {{-- <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option> --}}
+                                                {{-- @else --}}
+                                                    <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
+                                                {{-- @endif --}}
+                                               
                                            
                                             @endforeach
                                     </select>
@@ -130,8 +138,8 @@
                                 <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="one_price" name="one_price" placeholder="ราคา">
                                 </div>
-                                <div class="col-md-1 text-start">
-                                    <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" >
+                                <div class="col-md-2 text-start">
+                                    <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
                                 </div>   
                                 <div class="col-md-2 text-start">
                                     <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
@@ -143,6 +151,8 @@
                                 </div>
                             </div> 
                            
+                            <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$data_edit->wh_recieve_id}}"> 
+                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
                             
                     </form>
                     <hr>
@@ -157,7 +167,8 @@
                                                         <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">ลำดับ</th> 
                                                         {{-- <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รหัส</th>  --}}
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รายการ</th>  
-                                                        <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">หน่วยนับ</th> 
+                                                        <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">หน่วยนับ</th> 
+                                                        <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th> 
                                                         <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">จำนวน</th> 
                                                         <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">ราคา</th> 
                                                         <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>  
@@ -178,6 +189,7 @@
                                                         {{-- <td class="text-center" style="color:rgb(3, 93, 145)" width="7%">{{$item->pro_code}}</td>     --}}
                                                         <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_name}}</td>                                                     
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
+                                                        <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>  
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty}}</td>  
                                                         <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->one_price, 2)}}</td>  
                                                         <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
@@ -192,7 +204,7 @@
                                                     @endforeach                                                
                                                 </tbody>
                                                 <tr style="font-size:20px">
-                                                    <td colspan="3" class="text-end" style="background-color: #fca1a1"></td>
+                                                    <td colspan="4" class="text-end" style="background-color: #fca1a1"></td>
                                                     <td class="text-center" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total1, 2) }}</label></td> 
                                                     <td class="text-end" style="background-color: #ffffff" ><label for="" style="color: #0c4da1">{{ number_format($total2, 2) }}</label></td>
                                                     <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td> 

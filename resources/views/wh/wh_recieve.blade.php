@@ -252,8 +252,7 @@
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
                                                         @else
                                                             <span class="bg-info badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif
-                                                        
+                                                        @endif                                                        
                                                     </td>
                                                     <td class="text-center" width="5%">{{$item->year}}</td>
                                                     <td class="text-center" width="8%">{{$item->recieve_no}}</td>
@@ -265,28 +264,19 @@
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
-                                                    <td class="text-center" width="5%">
-                                                       
-                                                        @if ($item->active == 'PREPARE')
+                                                    <td class="text-center" width="5%">                                                       
+                                                        {{-- @if ($item->active == 'PREPARE') --}}
                                                             <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a>
                                                             <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
                                                             </a>                                                           
-                                                        @else
+                                                        {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
-                                                        @endif
-                                                        
-                                                        {{-- RECIVE --}}
-                                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRecieve{{$item->wh_recieve_id}}">
-                                                            <i class="fa-solid fa-file-pen" style="color: #06a59d;font-size:20px"></i>
-                                                        </a>  --}}
-                                                        {{-- <button type="button" data-bs-toggle="collapse" data-bs-target="#collapsed" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
-                                                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i>  ตรวจรับ
-                                                        </button>  --}}
-                                                    </td>
-                                                    
+                                                        @endif --}}
+                                                       
+                                                    </td>                                                    
                                                 </tr>
                                                 
                                                     <!--  Modal content forRecieve -->

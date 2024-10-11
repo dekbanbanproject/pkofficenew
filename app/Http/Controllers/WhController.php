@@ -424,15 +424,15 @@ class WhController extends Controller
         $yy1                        = date('Y') + 543;
         $yy2                        = date('Y') + 542;
         $yy3                        = date('Y') + 541;
-        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-        $bg_yearnow    = $bgs_year->leave_year_id;
+        $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow                 = $bgs_year->leave_year_id;
         $data['air_supplies']       = Air_supplies::where('active','=','Y')->get(); 
-        $data['wh_stock_list']    = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-        $data_edit                = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
-        $data['data_year']    = $data_edit->year;
-        $data_supplies            = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
-        $data['supplies_name']    = $data_supplies->supplies_name;
-        $data['supplies_tax']     = $data_supplies->supplies_tax;
+        $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $data_edit                  = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+        $data['data_year']          = $data_edit->year;
+        $data_supplies              = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
+        $data['supplies_name']      = $data_supplies->supplies_name;
+        $data['supplies_tax']       = $data_supplies->supplies_tax;
 
         $data['wh_product']         = DB::select(
             'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
@@ -448,6 +448,11 @@ class WhController extends Controller
             GROUP BY e.pro_id
         ');
         $data['wh_recieve_sub']      = DB::select('SELECT * FROM wh_recieve_sub WHERE wh_recieve_id = "'.$id.'"');
+        $year                        = substr(date("Y"),2) + 43;
+        $mounts                      = date('m');
+        $day                         = date('d');
+        $time                        = date("His");  
+        $data['lot_no']              = $year.''.$mounts.''.$day.''.$time;
 
         return view('wh.wh_recieve_addsub', $data,[
             'startdate'  => $startdate,
@@ -468,18 +473,31 @@ class WhController extends Controller
         $idunit        = $unit->wh_unit_id;
         $nameunit      = $unit->wh_unit_name;
 
-        Wh_recieve_sub::insert([
-            'wh_recieve_id'        => $request->wh_recieve_id,
-            'pro_id'               => $proid,
-            'pro_name'             => $proname, 
-            'unit_id'              => $idunit,
-            'unit_name'            => $nameunit,
-            'qty'                  => $request->qty, 
-            'one_price'            => $request->one_price, 
-            'total_price'          => $request->one_price*$request->qty, 
-            'lot_no'               => $request->lot_no, 
-            'user_id'              => Auth::user()->id
-        ]);
+        $pro_check     = Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->count();
+        if ($pro_check > 0) {
+            Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->update([ 
+                'qty'                  => $request->qty, 
+                'one_price'            => $request->one_price, 
+                'total_price'          => $request->one_price*$request->qty, 
+                'lot_no'               => $request->lot_no, 
+                'user_id'              => Auth::user()->id
+            ]);
+        } else {
+            Wh_recieve_sub::insert([
+                'wh_recieve_id'        => $request->wh_recieve_id,
+                'pro_id'               => $proid,
+                'pro_name'             => $proname, 
+                'unit_id'              => $idunit,
+                'unit_name'            => $nameunit,
+                'qty'                  => $request->qty, 
+                'one_price'            => $request->one_price, 
+                'total_price'          => $request->one_price*$request->qty, 
+                'lot_no'               => $request->lot_no, 
+                'user_id'              => Auth::user()->id
+            ]);
+        }
+        
+       
         return back();
          
     }
