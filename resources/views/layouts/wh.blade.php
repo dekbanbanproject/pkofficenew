@@ -392,6 +392,11 @@ if (Auth::check()) {
                                      <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> ตรวจรับ
                                 </a> 
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('wh_pay') }}" target="_blank">
+                                     <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(9, 188, 201)"></i>เบิก-จ่าย
+                                </a> 
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                 <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i>คลังหลัก <div class="arrow-down"></div>
@@ -582,7 +587,7 @@ if (Auth::check()) {
 
   <!-- App js -->
   <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-
+  <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
     @yield('footer')
 
 

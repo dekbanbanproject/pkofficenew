@@ -45,8 +45,8 @@ use App\Models\Air_supplies;
 use App\Models\Wh_recieve_sub;
 use App\Models\Wh_stock;
 use App\Models\Wh_recieve;
-use App\Models\Building;
-use App\Models\Product_budget;
+use App\Models\Wh_pay;
+use App\Models\Wh_pay_sub;
 use App\Models\Product_method;
 use App\Models\Product_buy;
 use App\Models\Warehouse_inven;
@@ -187,7 +187,14 @@ class WhController extends Controller
         $bg_yearnow    = $bgs_year->leave_year_id;
 
         $data['wh_product']         = DB::select(
-            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+            ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS stock_rep
+            ,(SELECT SUM(one_price) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS sum_one_price
+            ,(SELECT SUM(total_price) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS sum_stock_price
+            ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = e.pro_id AND pay_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") as stock_pay
+            
+             
+
             ,a.active ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
                 FROM wh_stock e
                 LEFT JOIN wh_product a ON a.pro_id = e.pro_id
@@ -198,10 +205,12 @@ class WhController extends Controller
             WHERE a.active ="Y" AND e.stock_list_id ="'.$id.'" AND e.stock_year ="'.$bg_yearnow.'"
             GROUP BY e.pro_id
         ');
+        // ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'")-
+        // (SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = e.pro_id AND pay_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") as stock_total
         $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
         $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
         $data['stock_name']    = $data_main->stock_list_name;
-
+        // ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
         return view('wh.wh_main', $data,[
             'startdate'  => $startdate,
             'enddate'    => $enddate,
@@ -266,7 +275,8 @@ class WhController extends Controller
         $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
         $data['wh_recieve']         = DB::select(
             'SELECT r.wh_recieve_id,r.year,r.recieve_date,r.recieve_time,r.recieve_no,r.stock_list_id,r.vendor_id,r.active
-            ,a.supplies_name,r.recieve_po,s.stock_list_name,concat(u.fname," ",u.lname) as ptname,r.total_price
+            ,a.supplies_name,r.recieve_po,s.stock_list_name,concat(u.fname," ",u.lname) as ptname 
+            ,(SELECT SUM(total_price) FROM wh_recieve_sub WHERE wh_recieve_id = r.wh_recieve_id) as total_price
             FROM wh_recieve r 
             LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id
             LEFT JOIN air_supplies a ON a.air_supplies_id = r.vendor_id
@@ -429,7 +439,10 @@ class WhController extends Controller
         $data['air_supplies']       = Air_supplies::where('active','=','Y')->get(); 
         $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
         $data_edit                  = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+        $data['wh_recieve_id']      = $data_edit->wh_recieve_id;
         $data['data_year']          = $data_edit->year;
+        $data['stock_list_id']      = $data_edit->stock_list_id;
+
         $data_supplies              = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
         $data['supplies_name']      = $data_supplies->supplies_name;
         $data['supplies_tax']       = $data_supplies->supplies_tax;
@@ -473,10 +486,15 @@ class WhController extends Controller
         $idunit        = $unit->wh_unit_id;
         $nameunit      = $unit->wh_unit_name;
 
-        $pro_check     = Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->count();
+        // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        // $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $pro_check     = Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->where('recieve_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->count();
         if ($pro_check > 0) {
-            Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->update([ 
+            Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->where('recieve_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->update([ 
                 'qty'                  => $request->qty, 
+                'stock_list_id'        => $request->stock_list_id,
+                'recieve_year'         => $request->data_year,  
                 'one_price'            => $request->one_price, 
                 'total_price'          => $request->one_price*$request->qty, 
                 'lot_no'               => $request->lot_no, 
@@ -485,6 +503,8 @@ class WhController extends Controller
         } else {
             Wh_recieve_sub::insert([
                 'wh_recieve_id'        => $request->wh_recieve_id,
+                'stock_list_id'        => $request->stock_list_id,
+                'recieve_year'         => $request->data_year,   
                 'pro_id'               => $proid,
                 'pro_name'             => $proname, 
                 'unit_id'              => $idunit,
@@ -496,35 +516,45 @@ class WhController extends Controller
                 'user_id'              => Auth::user()->id
             ]);
         }
-        
-       
+               
         return back();
          
     }
     public function wh_recieve_destroy(Request $request)
     {
-        $id = $request->ids;
-        Wh_recieve_sub::whereIn('wh_recieve_sub_id',explode(",",$id))->delete();               
+        $id             = $request->ids;
+        // $wh_re          = DB::table('wh_recieve_sub')->where('wh_recieve_sub_id','=',$id)->first();
+        // $wh_recieve_id  = $wh_re->wh_recieve_id;       
+        
+        // $wh_re_sum      = DB::table('wh_recieve_sub')->where('wh_recieve_sub_id','=',$id)->sum('total_price');
+        // $sum_total       = Wh_recieve_sub::where('wh_recieve_id',$wh_recieve_id)->sum('total_price');
+        // Wh_recieve::where('wh_recieve_id',$wh_recieve_id)->update([
+        //     'total_price'  => $sum_total 
+        // ]);
+
+        Wh_recieve_sub::whereIn('wh_recieve_sub_id',explode(",",$id))->delete(); 
+
         return response()->json([
             'status'    => '200'
         ]);
     }
     public function wh_recieve_updatestock(Request $request)
     {   
-        $id            = $request->wh_recieve_id;
-        $data_year     = $request->data_year;
-        $getdate       = Wh_recieve_sub::where('wh_recieve_id',$id)->get();
-        foreach ($getdate as $key => $value) {
-            $stock       = Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->first();
-            $stock_new   = $stock->stock_rep; 
-            $stock_qty   = $stock->stock_qty; 
-            $stock_total = $stock->stock_qty; 
-            Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->update([
-                'stock_qty'    => $stock_qty + $value->qty,
-                'stock_rep'    => $stock_new + $value->qty,
-                'stock_total'  => $stock_total + $value->qty
-            ]);
-        }
+        $id              = $request->wh_recieve_id;
+        $data_year       = $request->data_year;
+        $stock_list_id   = $request->stock_list_id;
+        // $getdate         = Wh_recieve_sub::where('wh_recieve_id',$id)->get();
+        // foreach ($getdate as $key => $value) {
+        //     $stock       = Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->first();
+        //     $stock_new   = $stock->stock_rep; 
+        //     $stock_qty   = $stock->stock_qty; 
+        //     $stock_total = $stock->stock_qty; 
+        //     Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->update([
+        //         'stock_qty'    => $stock_qty + $value->qty,
+        //         'stock_rep'    => $stock_new + $value->qty,
+        //         'stock_total'  => $stock_total + $value->qty
+        //     ]);
+        // }
 
         $sum_total       = Wh_recieve_sub::where('wh_recieve_id',$id)->sum('total_price');
         Wh_recieve::where('wh_recieve_id',$id)->update([
@@ -546,6 +576,97 @@ class WhController extends Controller
             'status'    => '200'
         ]);
          
+    }
+    public function wh_recieve_edittable(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $data  = array(  
+                    'lot_no'        => $request->lot_no,  
+                    'qty'           => $request->qty,
+                    'one_price'     => $request->one_price,
+                    'total_price'   => $request->qty * $request->one_price,
+                );
+                DB::connection('mysql')->table('wh_recieve_sub')->where('wh_recieve_sub_id', $request->wh_recieve_sub_id)->update($data);
+            }  
+            return response()->json([
+                'status'     => '200'
+            ]);
+        }
+    }
+
+
+    public function wh_pay(Request $request)
+    {
+        $startdate           = $request->datepicker;
+        $enddate             = $request->datepicker2;
+        $datenow             = date('Y-m-d');
+        $data['date_now']    = date('Y-m-d');
+        $months              = date('m');
+        $year                = date('Y');
+        $newday              = date('Y-m-d', strtotime($datenow . ' -5 Day')); //ย้อนหลัง 1 สัปดาห์
+ 
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get();
+        $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();
+        $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','1')->get();
+
+        $data['m']                  = date('H');
+        $data['mm']                 = date('H:m:s');
+        $data['datefull']           = date('Y-m-d H:m:s');
+        $data['monthsnew']          = substr($months,1,2);  
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $data['wh_product']         = DB::select(
+            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+            ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
+            ,a.active
+                ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
+                ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+
+                FROM wh_stock e
+                LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+                LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+            WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
+            GROUP BY e.pro_id
+        ');
+        $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $data['wh_recieve']         = DB::select(
+            'SELECT r.wh_recieve_id,r.year,r.recieve_date,r.recieve_time,r.recieve_no,r.stock_list_id,r.vendor_id,r.active
+            ,a.supplies_name,r.recieve_po,s.stock_list_name,concat(u.fname," ",u.lname) as ptname 
+            ,(SELECT SUM(total_price) FROM wh_recieve_sub WHERE wh_recieve_id = r.wh_recieve_id) as total_price
+            FROM wh_recieve r 
+            LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id
+            LEFT JOIN air_supplies a ON a.air_supplies_id = r.vendor_id
+            LEFT JOIN users u ON u.id = r.user_recieve           
+            ORDER BY wh_recieve_id DESC
+        '); 
+        $data['wh_pay']         = DB::select(
+            'SELECT r.wh_pay_id,r.year,r.pay_date,r.pay_time,r.pay_no,r.stock_list_id,r.vendor_id,r.active,r.pay_po
+            ,a.supplies_name,s.stock_list_name,concat(u.fname," ",u.lname) as ptname 
+            ,(SELECT SUM(total_price) FROM wh_pay_sub WHERE wh_pay_id = r.wh_pay_id) as total_price
+            FROM wh_pay r 
+            LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id
+            LEFT JOIN air_supplies a ON a.air_supplies_id = r.vendor_id
+            LEFT JOIN users u ON u.id = r.user_pay           
+            ORDER BY wh_pay_id DESC
+        '); 
+        
+        return view('wh.wh_pay',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'bg_yearnow'    => $bg_yearnow,
+        ]);
     }
 
     

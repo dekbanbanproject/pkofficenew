@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="container"> 
+        {{-- <div class="container">  --}}
     
             <div class="row"> 
                 <div class="col-md-8"> 
@@ -118,17 +118,16 @@
                                     <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm" style="width: 100%">
                                             <option value="">--เลือก--</option>
                                             @foreach ($wh_product as $item_sup) 
-                                            <?php 
-                                                $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id <> "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
-                                            
-                                            ?>
-                                                {{-- @if ($count_proid > 0)  --}}
-                                                    {{-- <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option> --}}
-                                                {{-- @else --}}
+                                                <?php 
+                                                    $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id = "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
+                                                    foreach ($count_proid as $key => $value) {
+                                                        $countproid   =  $value->Cpro_id;
+                                                    }
+                                                ?>
+                                                @if ($countproid > 0)  
+                                                @else
                                                     <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
-                                                {{-- @endif --}}
-                                               
-                                           
+                                                @endif 
                                             @endforeach
                                     </select>
                                 </div> 
@@ -150,8 +149,9 @@
                                     </button>
                                 </div>
                             </div> 
-                           
-                            <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$data_edit->wh_recieve_id}}"> 
+
+                            <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$wh_recieve_id}}"> 
+                            <input type="hidden" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
                             <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
                             
                     </form>
@@ -161,11 +161,12 @@
                                     <div class="row"> 
                                         <div class="col-xl-12">
                                             {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  --}}
-                                            <table class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
+                                            {{-- <table class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
+                                                <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                                 <thead> 
                                                     <tr>
                                                         <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">ลำดับ</th> 
-                                                        {{-- <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รหัส</th>  --}}
+                                                        <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รหัส</th> 
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รายการ</th>  
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">หน่วยนับ</th> 
                                                         <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th> 
@@ -185,8 +186,8 @@
                                                     @foreach ($wh_recieve_sub as $item)
                                                     <?php $i++ ?>
                                                     <tr id="tr_{{$item->wh_recieve_sub_id}}">
-                                                        <td class="text-center" width="5%">{{$i}}</td>  
-                                                        {{-- <td class="text-center" style="color:rgb(3, 93, 145)" width="7%">{{$item->pro_code}}</td>     --}}
+                                                        <td class="text-center" width="5%">{{$i}}</td>   
+                                                        <td class="text-start" style="color:rgb(3, 93, 145)" width="3%">{{$item->wh_recieve_sub_id}}</td>  
                                                         <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_name}}</td>                                                     
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>  
@@ -204,10 +205,11 @@
                                                     @endforeach                                                
                                                 </tbody>
                                                 <tr style="font-size:20px">
-                                                    <td colspan="4" class="text-end" style="background-color: #fca1a1"></td>
+                                                    <td colspan="5" class="text-end" style="background-color: #fca1a1"></td>
                                                     <td class="text-center" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total1, 2) }}</label></td> 
                                                     <td class="text-end" style="background-color: #ffffff" ><label for="" style="color: #0c4da1">{{ number_format($total2, 2) }}</label></td>
-                                                    <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td> 
+                                                    <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td>  
+                                                    <td class="text-end" style="background-color: #fca1a1"></td>
                                                 </tr> 
                                                 
                                             </table>
@@ -231,7 +233,7 @@
        
 
            
-        </div>
+        {{-- </div> --}}
 
 </div>
 
@@ -268,6 +270,7 @@
                     }  
             }); 
             $("#spinner-div").hide(); //Request is complete so hide spinner
+            
             $('.Destroystamp').on('click', function(e) {
                 // alert('oo');
                 var allValls = [];
@@ -356,9 +359,9 @@
                 // var recieve_date  = $('#datepicker').val(); 
                 // var recieve_time  = $('#recieve_time').val(); 
                 // var vendor_id     = $('#vendor_id').val(); 
-                // var stock_list_id = $('#stock_list_id').val(); 
-                var data_year     = $('#data_year').val();  
-                var wh_recieve_id = $('#wh_recieve_id').val();  
+                var stock_list_id    = $('#stock_list_id').val(); 
+                var data_year        = $('#data_year').val();  
+                var wh_recieve_id    = $('#wh_recieve_id').val();  
 
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
@@ -377,7 +380,7 @@
                                     url: "{{ route('wh.wh_recieve_updatestock') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {data_year,wh_recieve_id},
+                                    data: {data_year,wh_recieve_id,stock_list_id},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({ position: "top-end",
@@ -408,6 +411,42 @@
                                 
                             }
                 })
+            });
+
+            $('#Tabledit').Tabledit({
+                url:'{{route("wh.wh_recieve_edittable")}}',
+                
+                dataType:"json", 
+                removeButton: false,
+                columns:{
+                    identifier:[1,'wh_recieve_sub_id'], 
+                    editable: [[4, 'lot_no'], [5, 'qty'], [6, 'one_price']]
+                }, 
+                deleteButton: false,
+                saveButton: false,
+                autoFocus: false,
+                buttons: {
+                    edit: {
+                        class:'btn btn-sm btn-default', 
+                        html: '<i class="fa-regular fa-pen-to-square text-danger"></i>',
+                        action: 'Edit'
+                    }
+                }, 
+                onSuccess:function(data)
+                {
+                   if (data.status == 200) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Your Edit Success",
+                            showConfirmButton: false,
+                            timer: 1500
+                            });
+                            window.location.reload();
+                   } else { 
+                   } 
+                }
+
             });
   
         });

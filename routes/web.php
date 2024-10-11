@@ -875,6 +875,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
   Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
   Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
+
   Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
   Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
   Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
@@ -884,10 +885,18 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_recieve_addsub_save', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub_save'])->name('wh.wh_recieve_addsub_save'); //
   Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
   Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
+  Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
 
-
-
-
+  Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
+  Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //
+  Route::match(['get', 'post'], 'wh_pay_save', [App\Http\Controllers\WhController::class, 'wh_pay_save'])->name('wh.wh_pay_save'); //
+  Route::match(['get', 'post'], 'wh_pay_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_edit'])->name('wh.wh_pay_edit'); //
+  Route::match(['get', 'post'], 'wh_pay_update', [App\Http\Controllers\WhController::class, 'wh_pay_update'])->name('wh.wh_pay_update'); //
+  Route::match(['get', 'post'], 'wh_pay_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_addsub'])->name('wh.wh_pay_addsub'); //
+  Route::match(['get', 'post'], 'wh_pay_addsub_save', [App\Http\Controllers\WhController::class, 'wh_pay_addsub_save'])->name('wh.wh_pay_addsub_save'); //
+  Route::match(['get', 'post'], 'wh_pay_destroy', [App\Http\Controllers\WhController::class, 'wh_pay_destroy'])->name('wh.wh_pay_destroy'); //
+  Route::match(['get', 'post'], 'wh_pay_updatestock', [App\Http\Controllers\WhController::class, 'wh_pay_updatestock'])->name('wh.wh_pay_updatestock'); //
+  Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
 
 
 

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('wh_recieve_sub'))
+        if (!Schema::hasTable('wh_pay_sub'))
         {
-            Schema::create('wh_recieve_sub', function (Blueprint $table) {
-                $table->bigIncrements('wh_recieve_sub_id'); 
-                $table->string('recieve_year')->nullable();  // 
-                $table->string('stock_list_id')->nullable(); //   
-                $table->string('wh_recieve_id')->nullable(); // 
+            Schema::create('wh_pay_sub', function (Blueprint $table) {
+                $table->bigIncrements('wh_pay_sub_id'); 
+                $table->string('pay_year')->nullable();  // 
+                $table->string('stock_list_id')->nullable(); //     คลังใหญ่
+                $table->string('stock_list_id_sub')->nullable(); //  คลังย่อย
+                $table->string('wh_pay_id')->nullable(); // 
                 $table->string('pro_id')->nullable();  //  
                 $table->string('pro_name')->nullable();  //   
                 $table->string('qty')->nullable();  //  
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wh_recieve_sub');
+        Schema::dropIfExists('wh_pay_sub');
     }
 };
