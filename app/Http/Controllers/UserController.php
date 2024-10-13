@@ -42,7 +42,7 @@ public function user_index(Request $request)
     $data['department_sub_sub'] = Departmentsubsub::get();
     $data['position'] = Position::get();
     $data['status'] = Status::get();
-    return view('user.user_index',$data);
+    return view('user_main',$data);
 }
 public function user_data(Request $request)
 {   

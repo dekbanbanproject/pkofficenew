@@ -899,7 +899,19 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
 
 
-
+  Route::match(['get', 'post'], 'wh_sub_main', [App\Http\Controllers\WhUserController::class, 'wh_sub_main'])->name('wh.wh_sub_main'); //
+  Route::match(['get', 'post'], 'wh_sub_main_rp', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rp'])->name('wh.wh_sub_main_rp'); //
+  Route::match(['get', 'post'], 'wh_request', [App\Http\Controllers\WhUserController::class, 'wh_request'])->name('wh.wh_request'); //
+  Route::match(['get', 'post'], 'wh_request_add', [App\Http\Controllers\WhUserController::class, 'wh_request_add'])->name('wh.wh_request_add'); //
+  Route::match(['get', 'post'], 'wh_request_save', [App\Http\Controllers\WhUserController::class, 'wh_request_save'])->name('wh.wh_request_save'); //
+  Route::match(['get', 'post'], 'wh_request_edit/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_edit'])->name('wh.wh_request_edit'); //
+  Route::match(['get', 'post'], 'wh_request_update', [App\Http\Controllers\WhUserController::class, 'wh_request_update'])->name('wh.wh_request_update'); //
+  Route::match(['get', 'post'], 'wh_request_addsub/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub'])->name('wh.wh_request_addsub'); //
+  Route::match(['get', 'post'], 'wh_request_addsub_save', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub_save'])->name('wh.wh_request_addsub_save'); //
+  Route::match(['get', 'post'], 'wh_request_destroy', [App\Http\Controllers\WhUserController::class, 'wh_request_destroy'])->name('wh.wh_request_destroy'); //
+  Route::match(['get', 'post'], 'wh_request_updatestock', [App\Http\Controllers\WhUserController::class, 'wh_request_updatestock'])->name('wh.wh_request_updatestock'); //
+  Route::match(['get', 'post'], 'wh_request_edittable', [App\Http\Controllers\WhUserController::class, 'wh_request_edittable'])->name('wh.wh_request_edittable'); //
+  
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************
   Route::match(['get', 'post'], 'setting/setting_index', [App\Http\Controllers\SettingController::class, 'setting_index'])->name('setting.setting_index'); //

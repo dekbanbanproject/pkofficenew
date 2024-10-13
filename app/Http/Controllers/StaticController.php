@@ -233,6 +233,16 @@ class StaticController extends Controller
     $per_config =  User::where('id','=',$iduser)->where('per_config','=','on')->count();   
     return $per_config;
   }
+  public static function per_fdh($iduser)
+  {
+    $per_fdh =  User::where('id','=',$iduser)->where('per_fdh','=','on')->count();   
+    return $per_fdh;
+  }
+  public static function per_den($iduser)
+  {
+    $per_den =  User::where('id','=',$iduser)->where('per_den','=','on')->count();   
+    return $per_den;
+  }
 
 
 
