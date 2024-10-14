@@ -1,4 +1,4 @@
-@extends('layouts.wh')
+@extends('layouts.user_layout')
 @section('title', 'PK-OFFICE || Where House')
 
 @section('content')
@@ -85,9 +85,9 @@
         </div>
         {{-- <div class="container">  --}}
     
-            <div class="row"> 
+            <div class="row mt-5"> 
                 <div class="col-md-8"> 
-                    <h5 style="color:rgb(236, 105, 18)">เพิ่มรายการพัสดุ || เลขที่บิล {{ $data_edit->recieve_no }} || บริษัท {{ $supplies_name }} || เลขประจำตัวผู้เสียภาษี {{ $supplies_tax }}</h5> 
+                    <h5 style="color:rgb(236, 105, 18)">เพิ่มรายการพัสดุ || เลขที่บิล {{ $data_edit->request_no }} || คลังที่ต้องการเบิก {{ $stock_name }} </h5> 
                 </div>
                 <div class="col"></div>   
                 <div class="col-md-2 text-end">
@@ -99,13 +99,13 @@
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
-                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                   <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
                 </div>
             </div> 
 
            
         
-        <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST">
+        <form action="{{ route('wh.wh_request_addsub_save') }}" method="POST">
             @csrf
             <div class="row mt-3">
                 <div class="col-md-12">                
@@ -119,14 +119,15 @@
                                             <option value="">--เลือก--</option>
                                             @foreach ($wh_product as $item_sup) 
                                                 <?php 
-                                                    $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id = "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
+                                                    $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_request_sub WHERE pro_id = "'.$item_sup->pro_id.'" AND wh_request_id = "'.$wh_request_id.'"');
                                                     foreach ($count_proid as $key => $value) {
                                                         $countproid   =  $value->Cpro_id;
                                                     }
                                                 ?>
-                                                @if ($countproid > 0)  
+                                                @if ($countproid < 1 || $countproid == '')  
+                                                <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
                                                 @else
-                                                    <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
+                                                    
                                                 @endif 
                                             @endforeach
                                     </select>
@@ -134,25 +135,26 @@
                                 <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="qty" name="qty" placeholder="จำนวน">
                                 </div>
-                                <div class="col-md-1 text-start">
+                                {{-- <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="one_price" name="one_price" placeholder="ราคา">
-                                </div>
-                                <div class="col-md-2 text-start">
+                                </div> --}}
+                                {{-- <div class="col-md-2 text-start">
                                     <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
-                                </div>   
+                                </div>    --}}
                                 <div class="col-md-2 text-start">
                                     <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button>
-                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}">
+                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_request_destroy')}}">
                                         <i class="fa-solid fa-trash-can text-white ms-2"></i> 
                                     </button>
                                 </div>
                             </div> 
 
-                            <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$wh_recieve_id}}"> 
+                            <input type="hidden" id="wh_request_id" name="wh_request_id" value="{{$wh_request_id}}"> 
                             <input type="hidden" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
-                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
+                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}">
+                            <input type="hidden" id="supsup_id" name="supsup_id" value="{{$supsup_id}}">  
                             
                     </form>
                     <hr>
@@ -183,18 +185,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
-                                                    @foreach ($wh_recieve_sub as $item)
+                                                    @foreach ($wh_request_sub as $item)
                                                     <?php $i++ ?>
-                                                    <tr id="tr_{{$item->wh_recieve_sub_id}}">
+                                                    <tr id="tr_{{$item->wh_request_sub_id}}">
                                                         <td class="text-center" width="5%">{{$i}}</td>   
-                                                        <td class="text-start" style="color:rgb(3, 93, 145)" width="3%">{{$item->wh_recieve_sub_id}}</td>  
+                                                        <td class="text-start" style="color:rgb(3, 93, 145)" width="3%">{{$item->wh_request_sub_id}}</td>  
                                                         <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_name}}</td>                                                     
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>  
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty}}</td>  
                                                         <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->one_price, 2)}}</td>  
                                                         <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->wh_recieve_sub_id}}"> </td>                                                         
+                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->wh_request_sub_id}}"> </td>                                                         
                                                     </tr>
                                                     <?php
                                                             $total1 = $total1 + $item->qty;
@@ -414,12 +416,12 @@
             });
 
             $('#Tabledit').Tabledit({
-                url:'{{route("wh.wh_recieve_edittable")}}',
+                url:'{{route("wh.wh_request_edittable")}}',
                 
                 dataType:"json", 
                 removeButton: false,
                 columns:{
-                    identifier:[1,'wh_recieve_sub_id'], 
+                    identifier:[1,'wh_request_sub_id'], 
                     editable: [[4, 'lot_no'], [5, 'qty'], [6, 'one_price']]
                 }, 
                 deleteButton: false,

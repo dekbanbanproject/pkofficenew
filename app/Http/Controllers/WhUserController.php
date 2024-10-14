@@ -390,7 +390,7 @@ class WhUserController extends Controller
             'status'    => '200'
         ]);
     }
-    public function wh_recieve_addsub(Request $request,$id)
+    public function wh_request_addsub(Request $request,$id)
     {
         $startdate  = $request->datepicker;
         $enddate    = $request->datepicker2;
@@ -406,15 +406,20 @@ class WhUserController extends Controller
         $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow                 = $bgs_year->leave_year_id;
         $data['air_supplies']       = Air_supplies::where('active','=','Y')->get(); 
-        $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-        $data_edit                  = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
-        $data['wh_recieve_id']      = $data_edit->wh_recieve_id;
+       
+
+        $data_edit                  = DB::table('wh_request')->where('wh_request_id','=',$id)->first();
+        $data['wh_request_id']      = $data_edit->wh_request_id;
         $data['data_year']          = $data_edit->year;
         $data['stock_list_id']      = $data_edit->stock_list_id;
+        $subsubid                   =  Auth::user()->dep_subsubtrueid;
+        $data_wh_stock_list         = DB::table('wh_stock_list')->where('stock_list_id',$data_edit->stock_list_id)->first();
+        $data['stock_name']         = $data_wh_stock_list->stock_list_name;
 
-        $data_supplies              = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
-        $data['supplies_name']      = $data_supplies->supplies_name;
-        $data['supplies_tax']       = $data_supplies->supplies_tax;
+        $data_debsubsub             = DB::table('department_sub_sub')->where('DEPARTMENT_SUB_SUB_ID','=',$subsubid)->first();
+        $data['supsup_id']          = $data_debsubsub->DEPARTMENT_SUB_SUB_ID;
+        $data['supsup_name']        = $data_debsubsub->DEPARTMENT_SUB_SUB_NAME;
+        // $data['supplies_tax']       = $data_debsubsub->supplies_tax;
 
         $data['wh_product']         = DB::select(
             'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
@@ -429,20 +434,20 @@ class WhUserController extends Controller
             WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
             GROUP BY e.pro_id
         ');
-        $data['wh_recieve_sub']      = DB::select('SELECT * FROM wh_recieve_sub WHERE wh_recieve_id = "'.$id.'"');
+        $data['wh_request_sub']      = DB::select('SELECT * FROM wh_request_sub WHERE wh_request_id = "'.$id.'"');
         $year                        = substr(date("Y"),2) + 43;
         $mounts                      = date('m');
         $day                         = date('d');
         $time                        = date("His");  
         $data['lot_no']              = $year.''.$mounts.''.$day.''.$time;
 
-        return view('wh.wh_recieve_addsub', $data,[
+        return view('wh_user.wh_request_addsub', $data,[
             'startdate'  => $startdate,
             'enddate'    => $enddate,
             'data_edit'  => $data_edit,
         ]);
     }
-    public function wh_recieve_addsub_save(Request $request)
+    public function wh_request_addsub_save(Request $request)
     { 
         $ynew          = substr($request->bg_yearnow,2,2); 
         $idpro         = $request->pro_id;
@@ -458,22 +463,24 @@ class WhUserController extends Controller
         // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         // $bg_yearnow    = $bgs_year->leave_year_id;
 
-        $pro_check     = Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->where('recieve_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->count();
+        $pro_check     = Wh_request_sub::where('wh_request_id',$request->wh_request_id)->where('pro_id',$proid)->where('request_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->where('stock_list_subid',$request->supsup_id)->count();
         if ($pro_check > 0) {
-            Wh_recieve_sub::where('wh_recieve_id',$request->wh_recieve_id)->where('pro_id',$proid)->where('recieve_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->update([ 
+            Wh_request_sub::where('wh_request_id',$request->wh_request_id)->where('pro_id',$proid)->where('request_year',$request->data_year)->where('stock_list_id',$request->stock_list_id)->where('stock_list_subid',$request->supsup_id)->update([ 
                 'qty'                  => $request->qty, 
                 'stock_list_id'        => $request->stock_list_id,
-                'recieve_year'         => $request->data_year,  
+                'stock_list_subid'     => $request->supsup_id,
+                'request_year'         => $request->data_year,  
                 'one_price'            => $request->one_price, 
                 'total_price'          => $request->one_price*$request->qty, 
                 'lot_no'               => $request->lot_no, 
                 'user_id'              => Auth::user()->id
             ]);
         } else {
-            Wh_recieve_sub::insert([
-                'wh_recieve_id'        => $request->wh_recieve_id,
+            Wh_request_sub::insert([
+                'wh_request_id'        => $request->wh_request_id,
                 'stock_list_id'        => $request->stock_list_id,
-                'recieve_year'         => $request->data_year,   
+                'stock_list_subid'     => $request->supsup_id,
+                'request_year'         => $request->data_year,   
                 'pro_id'               => $proid,
                 'pro_name'             => $proname, 
                 'unit_id'              => $idunit,
