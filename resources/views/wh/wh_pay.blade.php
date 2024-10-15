@@ -226,10 +226,10 @@
                                                 <tr>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th>
+                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th> --}}
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่เบิก-จ่าย</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th>
+                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th> --}}
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังใหญ่</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">คลังย่อย</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
@@ -239,33 +239,41 @@
                                             </thead>
                                             <tbody>
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
-                                                @foreach ($wh_pay as $item)
+                                                @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
                                                 <tr >
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
-                                                        @if ($item->active == 'PREPARE')
+                                                        @if ($item->active == 'REQUEST')
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
+                                                        @elseif ($item->active == 'APPREQUEST')
+                                                            <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
+                                                        @elseif ($item->active == 'APPROVE')
+                                                            <span class="bg-success badge" style="font-size:12px">เห็นชอบ</span> 
+                                                        @elseif ($item->active == 'ALLOCATE')
+                                                            <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
+                                                        @elseif ($item->active == 'CONFIRM')
+                                                            <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
                                                         @else
-                                                            <span class="bg-info badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif                                                        
+                                                            <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
+                                                        @endif                                                            
                                                     </td>
-                                                    <td class="text-center" width="5%">{{$item->year}}</td>
-                                                    <td class="text-center" width="8%">{{$item->pay_no}}</td>
-                                                    <td class="text-center" width="10%">{{$item->pay_date}}</td>
-                                                    <td class="text-center" width="7%">{{$item->pay_time}}</td>                                                    
+                                                    {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
+                                                    <td class="text-center" width="8%">{{$item->request_no}}</td>
+                                                    <td class="text-center" width="10%">{{$item->request_date}}</td>     
+                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>                                                     --}}
                                                                                                         
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->supplies_name}}</td>
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>  
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
                                                     <td class="text-center" width="5%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
-                                                            <a href="{{url('wh_pay_edit/'.$item->wh_pay_id)}}">
+                                                            {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                            </a>
-                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_pay_id)}}">
+                                                            </a> --}}
+                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
                                                             </a>                                                           
                                                         {{-- @else

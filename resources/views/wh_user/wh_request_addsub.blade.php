@@ -95,11 +95,11 @@
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
                         ตรวจรับ
                     </a>  --}}
-                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
+                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
-                   <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                   <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
                 </div>
             </div> 
 
@@ -142,10 +142,10 @@
                                     <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
                                 </div>    --}}
                                 <div class="col-md-2 text-start">
-                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
+                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button>
-                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_request_destroy')}}">
+                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4 Destroystamp" data-url="{{url('wh_request_destroy')}}">
                                         <i class="fa-solid fa-trash-can text-white ms-2"></i> 
                                     </button>
                                 </div>
@@ -171,16 +171,16 @@
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รหัส</th> 
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รายการ</th>  
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">หน่วยนับ</th> 
-                                                        <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th> 
+                                                        {{-- <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th>  --}}
                                                         <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">จำนวน</th> 
-                                                        <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">ราคา</th> 
-                                                        <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>  
+                                                        {{-- <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">ราคา</th>  --}}
+                                                        {{-- <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>   --}}
                                                         {{-- <th class="text-center" width="5%"> 
                                                             <button type="button" class="btn btn-danger btn-sm Destroystamp" data-url="{{url('wh_recieve_destroy')}}">
                                                                 <i class="fa-solid fa-trash-can text-white"></i> 
                                                             </button>
                                                         </th>  --}}
-                                                        <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
+                                                        <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
                                                     </tr> 
                                                 </thead>
                                                 <tbody>
@@ -190,13 +190,13 @@
                                                     <tr id="tr_{{$item->wh_request_sub_id}}">
                                                         <td class="text-center" width="5%">{{$i}}</td>   
                                                         <td class="text-start" style="color:rgb(3, 93, 145)" width="3%">{{$item->wh_request_sub_id}}</td>  
-                                                        <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_name}}</td>                                                     
+                                                        <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_code}} {{$item->pro_name}}</td>                                                     
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
-                                                        <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>  
+                                                        {{-- <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>   --}}
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty}}</td>  
-                                                        <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->one_price, 2)}}</td>  
-                                                        <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->wh_request_sub_id}}"> </td>                                                         
+                                                        {{-- <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->one_price, 2)}}</td>   --}}
+                                                        {{-- <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>    --}}
+                                                        <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox sub_chk" data-id="{{$item->wh_request_sub_id}}"> </td>                                                         
                                                     </tr>
                                                     <?php
                                                             $total1 = $total1 + $item->qty;
@@ -207,10 +207,10 @@
                                                     @endforeach                                                
                                                 </tbody>
                                                 <tr style="font-size:20px">
-                                                    <td colspan="5" class="text-end" style="background-color: #fca1a1"></td>
-                                                    <td class="text-center" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total1, 2) }}</label></td> 
-                                                    <td class="text-end" style="background-color: #ffffff" ><label for="" style="color: #0c4da1">{{ number_format($total2, 2) }}</label></td>
-                                                    <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td>  
+                                                    <td colspan="4" class="text-end" style="background-color: #fca1a1"></td>
+                                                    <td class="text-center" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ $total1 }}</label></td> 
+                                                    {{-- <td class="text-end" style="background-color: #ffffff" ><label for="" style="color: #0c4da1">{{ number_format($total2, 2) }}</label></td> --}}
+                                                    {{-- <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td>   --}}
                                                     <td class="text-end" style="background-color: #fca1a1"></td>
                                                 </tr> 
                                                 
@@ -360,10 +360,10 @@
                 // var recieve_no    = $('#recieve_no').val(); 
                 // var recieve_date  = $('#datepicker').val(); 
                 // var recieve_time  = $('#recieve_time').val(); 
-                // var vendor_id     = $('#vendor_id').val(); 
+                var supsup_id     = $('#supsup_id').val(); 
                 var stock_list_id    = $('#stock_list_id').val(); 
                 var data_year        = $('#data_year').val();  
-                var wh_recieve_id    = $('#wh_recieve_id').val();  
+                var wh_request_id    = $('#wh_request_id').val();  
 
                 Swal.fire({ position: "top-end",
                         title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
@@ -379,10 +379,10 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('wh.wh_recieve_updatestock') }}",
+                                    url: "{{ route('wh.wh_request_updatestock') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {data_year,wh_recieve_id,stock_list_id},
+                                    data: {data_year,wh_request_id,stock_list_id,supsup_id},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({ position: "top-end",
@@ -398,7 +398,7 @@
                                                     console.log(
                                                         data);
                                                     // window.location.reload();
-                                                    window.location="{{url('wh_recieve')}}"; 
+                                                    window.location="{{url('wh_sub_main_rp')}}"; 
                                                     $('#spinner').hide();//Request is complete so hide spinner
                                                         setTimeout(function(){
                                                             $("#overlay").fadeOut(300);
@@ -422,7 +422,7 @@
                 removeButton: false,
                 columns:{
                     identifier:[1,'wh_request_sub_id'], 
-                    editable: [[4, 'lot_no'], [5, 'qty'], [6, 'one_price']]
+                    editable: [ [4, 'qty']]
                 }, 
                 deleteButton: false,
                 saveButton: false,

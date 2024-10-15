@@ -661,6 +661,19 @@ class WhController extends Controller
             LEFT JOIN users u ON u.id = r.user_pay           
             ORDER BY wh_pay_id DESC
         '); 
+
+        $data['wh_request']         = DB::select(
+            'SELECT r.wh_request_id,r.year,r.request_date,r.request_time,r.request_no,r.stock_list_id,r.active
+            ,s.stock_list_name
+            ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
+            ,r.request_po,concat(u.fname," ",u.lname) as ptname 
+            ,(SELECT SUM(total_price) FROM wh_request_sub WHERE wh_request_id = r.wh_request_id) as total_price
+            FROM wh_request r 
+            LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
+            LEFT JOIN users u ON u.id = r.user_request  
+            WHERE r.active ="APPREQUEST" AND r.year ="'.$bg_yearnow.'"        
+            ORDER BY r.wh_request_id DESC
+        ');
         
         return view('wh.wh_pay',$data,[
             'startdate'     => $startdate,

@@ -269,7 +269,7 @@
                                                             <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a>
-                                                            <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}">
+                                                            <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}" target="_blank">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
                                                             </a>                                                           
                                                         {{-- @else

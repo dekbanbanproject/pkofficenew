@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string('request_po')->nullable();        //  เลขที่บริษัท 
                 $table->decimal('total_price',total: 12, places: 4)->nullable(); //  
                 $table->string('user_request')->nullable(); //     
-                $table->enum('active', ['REQUEST','APPROVE','ALLOCATE','CONFIRM'])->default('REQUEST');                              
+                $table->enum('active', ['REQUEST','APPREQUEST','APPROVE','ALLOCATE','CONFIRM'])->default('REQUEST');                              
                 $table->timestamps();
             });
         }

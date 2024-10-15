@@ -205,20 +205,20 @@
         width: 20px;
         height: 20px;       
         /* border-radius: 2em 2em 2em 2em; */
-        border: 10px solid rgb(250, 128, 124);
+        border: 10px solid #0583cc;
         /* color: teal; */
         /* border-color: teal; */
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        box-shadow: 0 0 10px #0583cc;
         /* box-shadow: 0 0 10px teal; */
     }
     .dcheckbox{         
         width: 25px;
         height: 25px;       
         /* border-radius: 2em 2em 2em 2em; */
-        border: 2px solid rgb(250, 128, 124);
+        border: 2px solid #0583cc;
         /* color: teal; */
         /* border-color: teal; */
-        box-shadow: 0 0 5px rgb(250, 128, 124);
+        box-shadow: 0 0 5px #0583cc;
         /* box-shadow: 0 0 10px teal; */
     }
 
@@ -724,7 +724,7 @@ $per_config               = StaticController::per_config($iduser);
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
- 
+    <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
     @yield('footer')
 
     <script type="text/javascript">

@@ -234,10 +234,10 @@
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลัง</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th>
-                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">รับจากคลัง</th> 
+                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังหลัก</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">รับเข้าคลัง</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้รับ</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้ร้องขอ</th>  
                                                     <th class="text-center" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
@@ -250,8 +250,16 @@
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
+                                                        @elseif ($item->active == 'APPREQUEST')
+                                                            <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
+                                                        @elseif ($item->active == 'APPROVE')
+                                                            <span class="bg-success badge" style="font-size:12px">เห็นชอบ</span> 
+                                                        @elseif ($item->active == 'ALLOCATE')
+                                                            <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
+                                                        @elseif ($item->active == 'CONFIRM')
+                                                            <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
                                                         @else
-                                                            <span class="bg-info badge" style="font-size:12px">รับเข้าคลัง</span> 
+                                                            <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
                                                         @endif                                                        
                                                     </td>
                                                     <td class="text-center" width="5%">{{$item->year}}</td>
@@ -275,7 +283,7 @@
                                                             {{-- <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
                                                                 <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                                                             </a> --}}
-                                                            <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}">
+                                                            <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
                                                             </a>                                                           
                                                        
