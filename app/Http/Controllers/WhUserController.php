@@ -85,7 +85,8 @@ class WhUserController extends Controller
         }
         $ye = date('Y') + 543;
         $y = substr($ye, -4);
-        $refnumber = $y . '-' . $ref;
+        $ynew   = substr($ye,2,2); 
+        $refnumber = $ynew . '-' . $ref;
         return $refnumber;
 
 
@@ -279,67 +280,17 @@ class WhUserController extends Controller
             'bg_yearnow'    => $bg_yearnow,
         ]);
     }
-    // public function wh_recieve_add(Request $request)
-    // {
-    //     $startdate  = $request->datepicker;
-    //     $enddate    = $request->datepicker2;
-    //     $data['q']  = $request->query('q');
-    //     $query = User::select('users.*')
-    //         ->where(function ($query) use ($data) {
-    //             $query->where('pname', 'like', '%' . $data['q'] . '%');
-    //             $query->orwhere('fname', 'like', '%' . $data['q'] . '%');
-    //             $query->orwhere('lname', 'like', '%' . $data['q'] . '%');
-    //             $query->orwhere('tel', 'like', '%' . $data['q'] . '%');
-    //             $query->orwhere('username', 'like', '%' . $data['q'] . '%');
-    //         });
-    //     $data['users']              = $query->orderBy('id', 'DESC')->paginate(10);
-    //     $data['department']         = Department::get();
-    //     $data['department_sub']     = Departmentsub::get();
-    //     $data['department_sub_sub'] = Departmentsubsub::get();
-    //     $data['position']           = Position::get();
-    //     $data['status']             = Status::get();
-    //     // $data['wh_product']         = Wh_product::get();
-    //     $yy1                        = date('Y') + 543;
-    //     $yy2                        = date('Y') + 542;
-    //     $yy3                        = date('Y') + 541;
-    //     $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-    //     $bg_yearnow    = $bgs_year->leave_year_id;
-
-    //     $data['wh_product']         = DB::select(
-    //         'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
-    //         ,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price
-    //         ,a.active
-    //             ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
-    //             ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
-
-    //             FROM wh_stock e
-    //             LEFT JOIN wh_product a ON a.pro_id = e.pro_id
-    //             LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
-    //             LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
-    //             LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
-    //             LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
-    //         WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
-    //         GROUP BY e.pro_id
-    //     ');
-    //     $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-    //     // $data_main             = DB::table('wh_stock_list')->where('stock_list_id','=',$id)->first();
-    //     // $data['stock_name']    = $data_main->stock_list_name;
-
-    //     return view('wh.wh_recieve_add', $data,[
-    //         'startdate'  => $startdate,
-    //         'enddate'    => $enddate,
-    //     ]);
-    // }
+     
     public function wh_request_save(Request $request)
     {
         // $year                = date('Y')+ 543;
-        $ynew             = substr($request->bg_yearnow,2,2); 
+        // $ynew             = substr($request->bg_yearnow,2,2); 
         $subsubid         =  Auth::user()->dep_subsubtrueid;
         Wh_request::insert([
             'year'                 => $request->bg_yearnow,
             'request_date'         => $request->request_date,
             'request_time'         => $request->request_time, 
-            'request_no'           => $ynew.'-'.$request->request_no,
+            'request_no'           => $request->request_no,
             'stock_list_id'        => $request->stock_list_id,
             'stock_list_subid'     => $subsubid, 
             'user_request'         => Auth::user()->id

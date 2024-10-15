@@ -37,9 +37,9 @@ use App\Models\Book_senddep;
 use App\Models\Book_senddep_sub;
 use App\Models\Book_send_person;
 use App\Models\Book_sendteam;
-use App\Models\Bookrepdelete;
-use App\Models\Car_status;
-use App\Models\Car_index;
+use App\Models\Wh_log;
+use App\Models\Wh_stock_export_sub;
+use App\Models\Wh_stock_export;
 use App\Models\Article_status;
 use App\Models\Air_supplies;
 use App\Models\Wh_recieve_sub;
@@ -681,7 +681,160 @@ class WhController extends Controller
             'bg_yearnow'    => $bg_yearnow,
         ]);
     }
+    public function wh_pay_addsub(Request $request,$id)
+    {
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2;
+      
+        $data['department']         = Department::get();
+        $data['department_sub']     = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position']           = Position::get();
+        $data['status']             = Status::get(); 
+        $yy1                        = date('Y') + 543;
+        $yy2                        = date('Y') + 542;
+        $yy3                        = date('Y') + 541;
+        $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow                 = $bgs_year->leave_year_id;
+        $data['air_supplies']       = Air_supplies::where('active','=','Y')->get(); 
+        $data['wh_stock_list']      = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        // wh_request_id
+        $data_edit                  = DB::table('wh_request')->where('wh_request_id','=',$id)->first();
+        // $data_edit                  = DB::table('wh_request_sub')->where('wh_request_sub_id','=',$id)->first();
+        $data['wh_request_id']      = $data_edit->wh_request_id;
+        $data['data_year']          = $data_edit->year;
+        $data['stock_list_id']      = $data_edit->stock_list_id;
+        $data['request_date']       = $data_edit->request_date;
+        $data['request_time']       = $data_edit->request_time;
+        $data['request_no']         = $data_edit->request_no;
 
+        $subsubid                   = $data_edit->stock_list_subid;
+        $data_wh_stock_list         = DB::table('wh_stock_list')->where('stock_list_id',$data_edit->stock_list_id)->first();
+        $data['stock_name']         = $data_wh_stock_list->stock_list_name;
+
+        $data_debsubsub             = DB::table('department_sub_sub')->where('DEPARTMENT_SUB_SUB_ID','=',$subsubid)->first();
+        $data['supsup_id']          = $data_debsubsub->DEPARTMENT_SUB_SUB_ID;
+        $data['supsup_name']        = $data_debsubsub->DEPARTMENT_SUB_SUB_NAME;
+        // $dep_subsubtrueid           =  Auth::user()->dep_subsubtrueid;
+        // $data_supplies              = DB::table('air_supplies')->where('air_supplies_id','=',$data_edit->vendor_id)->first();
+        // $data['supplies_name']      = $data_supplies->supplies_name;
+        // $data['supplies_tax']       = $data_supplies->supplies_tax;
+        // $data['wh_request']         = DB::select(
+        //     'SELECT r.wh_request_id,r.year,r.request_date,r.request_time,r.request_no,r.stock_list_id,r.active
+        //     ,s.stock_list_name
+        //     ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
+        //     ,r.request_po,concat(u.fname," ",u.lname) as ptname 
+        //     ,(SELECT SUM(total_price) FROM wh_request_sub WHERE wh_request_id = r.wh_request_id) as total_price
+        //     FROM wh_request r 
+        //     LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
+        //     LEFT JOIN users u ON u.id = r.user_request  
+        //     WHERE r.stock_list_subid ="'.$dep_subsubtrueid.'"         
+        //     ORDER BY r.wh_request_id DESC
+        // ');
+        $data['wh_request_sub']      = DB::select(
+            'SELECT a.*,b.pro_code 
+            ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = a.pro_id AND stock_list_id = a.stock_list_id) AS stock_rep
+            ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = a.pro_id AND stock_list_id = a.stock_list_id) AS stock_pay
+            FROM wh_request_sub a
+            LEFT JOIN wh_product b ON b.pro_id = a.pro_id
+            WHERE wh_request_id = "'.$id.'"
+            GROUP BY a.pro_id
+            ');
+
+        // $data['wh_product']         = DB::select(
+        //     'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
+        //         ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+
+        //         FROM wh_stock e
+        //         LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+        //         LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+        //         LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+        //         LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+        //         LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+        //     WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
+        //     GROUP BY e.pro_id
+        // ');
+        $data['wh_recieve_sub']      = DB::select('SELECT * FROM wh_recieve_sub WHERE wh_recieve_id = "'.$id.'"');
+        $year                        = substr(date("Y"),2) + 43;
+        $mounts                      = date('m');
+        $day                         = date('d');
+        $time                        = date("His");  
+        $data['lot_no']              = $year.''.$mounts.''.$day.''.$time;
+
+        return view('wh.wh_pay_addsub', $data,[
+            'startdate'  => $startdate,
+            'enddate'    => $enddate,
+            'data_edit'  => $data_edit,
+        ]);
+    }
+    public function wh_pay_addsub_save(Request $request)
+    { 
+        $ynew          = substr($request->bg_yearnow,2,2); 
+        $idpro         = $request->pro_id;
+        $pro           = Wh_product::where('pro_id',$idpro)->first();
+        $proid         = $pro->pro_id;
+        $proname       = $pro->pro_name;
+        $unitid        = $pro->unit_id;
+
+        $unit          = Wh_unit::where('wh_unit_id',$unitid)->first();
+        $idunit        = $unit->wh_unit_id;
+        $nameunit      = $unit->wh_unit_name;
+        // Wh_stock_export  
+        // Wh_stock_export_sub
+        // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        // $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $pro_check     = Wh_stock_export_sub::where('wh_request_id',$request->wh_request_id)->where('pro_id',$proid)->where('export_sub_year',$request->data_year)->where('stock_list_subid',$request->stock_list_subid)->count();
+        if ($pro_check > 0) {
+            Wh_stock_export_sub::where('wh_request_id',$request->wh_request_id)->where('pro_id',$proid)->where('export_sub_year',$request->data_year)->where('stock_list_subid',$request->stock_list_subid)->update([ 
+                'qty'                  => $request->qty, 
+                'qty_pay'              => $request->qty_pay, 
+                'wh_request_id'        => $request->wh_request_id,
+                'stock_list_id'        => $request->stock_list_id,
+                'stock_list_subid'     => $request->stock_list_subid,
+                'export_sub_year'      => $request->data_year,  
+                'one_price'            => $request->one_price, 
+                'total_price'          => $request->one_price*$request->qty_pay, 
+                'lot_no'               => $request->lot_no, 
+                'user_id'              => Auth::user()->id
+            ]);
+        } else {
+            Wh_stock_export_sub::insert([
+                'wh_request_id'        => $request->wh_request_id,
+                'stock_list_id'        => $request->stock_list_id,
+                'stock_list_subid'     => $request->stock_list_subid,
+                'export_sub_year'      => $request->data_year,   
+                'pro_id'               => $proid,
+                'pro_name'             => $proname, 
+                'unit_id'              => $idunit,
+                'unit_name'            => $nameunit,
+                'qty'                  => $request->qty, 
+                'qty_pay'              => $request->qty_pay, 
+                'one_price'            => $request->one_price, 
+                'total_price'          => $request->one_price*$request->qty_pay, 
+                'lot_no'               => $request->lot_no, 
+                'user_id'              => Auth::user()->id
+            ]);
+        }
+               
+        return back();
+         
+    }
+    public function wh_pay_edittable(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                $data  = array(  
+                    
+                    'qty_pay'      => $request->qty_pay, 
+                );
+                DB::connection('mysql')->table('wh_request_sub')->where('wh_request_sub_id', $request->wh_request_sub_id)->update($data);
+            }  
+            return response()->json([
+                'status'     => '200'
+            ]);
+        }
+    }
     
 
      

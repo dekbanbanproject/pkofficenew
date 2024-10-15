@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     { 
-        if (!Schema::hasTable('wh_request_sub'))
+        if (!Schema::hasTable('wh_stock_export_sub'))
         {
-            Schema::create('wh_request_sub', function (Blueprint $table) {
-                $table->bigIncrements('wh_request_sub_id'); 
+            Schema::create('wh_stock_export_sub', function (Blueprint $table) {
+                $table->bigIncrements('wh_stock_export_sub_id'); 
+                $table->string('wh_stock_export_id')->nullable(); // 
                 $table->string('wh_request_id')->nullable(); // 
-                $table->string('request_year')->nullable();  //
-
                 $table->string('stock_list_id')->nullable(); //  คลังหลัก
                 $table->string('stock_list_subid')->nullable(); //  รับเข้าคลัง(ย่อย)
-               
+                $table->string('export_sub_year')->nullable();  //     
                 $table->string('pro_id')->nullable();  //  
                 $table->string('pro_name')->nullable();  //   
                 $table->string('qty')->nullable();  //  
@@ -43,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wh_request_sub');
+        Schema::dropIfExists('wh_stock_export_sub');
     }
 };

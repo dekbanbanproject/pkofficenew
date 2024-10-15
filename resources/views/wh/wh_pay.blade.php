@@ -90,7 +90,7 @@
     
         <div class="row">  
             <div class="col-md-6"> 
-                <h4 style="color:rgb(3, 167, 145)">รายละเอียดการเบิกจ่าย</h4> 
+                <h5 style="color:rgb(3, 167, 145)">รายละเอียดการเบิกจ่าย</h5> 
             </div>
             <div class="col"></div>   
             <div class="col-md-2 text-end"> 
@@ -233,7 +233,7 @@
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังใหญ่</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">คลังย่อย</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้เบิก-จ่าย</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้ขอเบิก</th>  
                                                     <th class="text-center" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
@@ -267,13 +267,13 @@
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
                                                     <td class="text-center" width="5%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
                                                             {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
-                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}">
+                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
                                                             </a>                                                           
                                                         {{-- @else
