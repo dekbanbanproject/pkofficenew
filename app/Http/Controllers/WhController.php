@@ -962,6 +962,56 @@ class WhController extends Controller
             // ]);
         }
     }
+
+    public function wh_pay_approve(Request $request,$id)
+    {
+        // if ($request->ajax()) {
+        //     if ($request->action == 'Edit') {
+                $pro           = Wh_stock_export::where('wh_request_id',$request->wh_request_id)->get();
+        //         $proid         = $pro->pro_id;                
+        //         $count = wh_recieve_sub::where('pro_id',$proid)->count();                
+        //         if ($count < 1 ) {
+        //             return response()->json([
+        //                 'status'     => '100'
+        //             ]);
+        //         } else { 
+                
+        //                 $price_new_    = DB::select(
+        //                     'SELECT a.pro_id,a.qty,a.one_price,a.lot_no
+        //                         FROM wh_recieve_sub a
+        //                         WHERE a.pro_id = "'.$proid.'"
+        //                         GROUP BY a.pro_id
+        //                 '); 
+        //                 foreach ($price_new_ as $key => $value) {
+        //                     $price_news_    = $value->one_price;
+        //                 }
+                       
+        //                     $price_new  =  $price_news_ ;
+        //                     $data  = array(  
+                            
+        //                         'qty_pay'      => $request->qty_pay, 
+        //                         'one_price'    => $price_new, 
+        //                         'total_price'  => $price_new*$request->qty_pay, 
+        //                     );
+        //                     DB::connection('mysql')->table('wh_request_sub')->where('wh_request_sub_id', $request->wh_request_sub_id)->update($data);
+        //                     $datenow               = date('Y-m-d');
+        //                     $data['m']             = date('H');
+        //                     $mm                    = date('H:m:s');
+        //                     Wh_log::insert([
+        //                         'datesave'   => $datenow,
+        //                         'timesave'   => $mm,
+        //                         'userid'     => Auth::user()->id,
+        //                         'comment'    => 'ตัดจ่าย(EDITTable)'
+        //                     ]);
+        //                     return response()->json([
+        //                         'status'     => '200'
+        //                     ]);
+ 
+        //         }               
+        //     }  
+ 
+        // }
+    }
     
 
      

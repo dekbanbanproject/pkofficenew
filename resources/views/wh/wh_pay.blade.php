@@ -6,6 +6,49 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
+        function wh_pay_approve(wh_request_id) {
+            // alert(bookrep_id);
+            Swal.fire({
+                title: 'ต้องการตัดจ่ายใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกตัดจ่ายไปให้คลังย่อย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ตัดจ่ายเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "delete",
+                        url: "{{ url('wh_pay_approve') }}" + '/' + wh_request_id,
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ตัดจ่ายเรียบร้อย!',
+                                text: "You Pay success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + wh_request_id).remove();
+                                    window.location.reload();
+                                    // window.location = "/book/bookmake_index"; //   
+
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -243,7 +286,7 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
-                                                <tr >
+                                                <tr id="sid{{ $item->wh_request_id }}">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
@@ -272,14 +315,21 @@
                                                     <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
                                                     <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
                                                     <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
-                                                    <td class="text-center" width="5%">                                                       
+                                                    <td class="text-center" width="7%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
                                                             {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
-                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                            </a>                                                           
+                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="จัดสรรรายการวัสดุ">
+                                                                <i class="fa-solid fa-cart-plus" style="color: #0db8ec;font-size:20px"></i>
+                                                            </a>     
+                                                            {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}"> --}}
+                                                                {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i>  --}}
+                                                            {{-- </button> --}}
+                                                            <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i> 
+                                                        </a>                                           
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
                                                         @endif --}}
