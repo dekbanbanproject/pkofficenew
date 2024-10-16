@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('wh_stock_export', function (Blueprint $table) {
                 $table->bigIncrements('wh_stock_export_id');  
+                $table->string('wh_request_id')->nullable(); // 
                 $table->string('year')->nullable();               //  ปีงบประมาณ
                 $table->date('export_date')->nullable();         //  วันที่รับ 
                 $table->time('export_time')->nullable();         //  เวลา

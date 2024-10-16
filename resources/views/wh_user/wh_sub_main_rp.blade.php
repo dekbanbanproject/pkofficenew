@@ -277,15 +277,23 @@
                                                             {{-- <a href="{{url('wh_request_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
-                                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
-                                                                <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                            </a>
+                                                           
                                                             {{-- <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
                                                                 <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                                                             </a> --}}
-                                                            <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                            </a>                                                           
+                                                            
+                                                            @if ($item->active == 'ALLOCATE')
+                                                                <i class="fa-solid fa-spinner text-success"></i>
+                                                            @elseif ($item->active == 'CONFIRM')
+                                                                <i class="fa-solid fa-check text-success"></i> 
+                                                            @else
+                                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
+                                                                    <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
+                                                                </a>
+                                                                <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
+                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
+                                                                </a> 
+                                                            @endif                                                         
                                                        
                                                        
                                                     </td>                                                    

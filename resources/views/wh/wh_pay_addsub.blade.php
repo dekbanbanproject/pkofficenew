@@ -109,19 +109,19 @@
                     <div class="card card_audit_4c">   
                         <div class="card-body"> 
                               
-                            <input type="text" id="wh_request_id" name="wh_request_id" value="{{$wh_request_id}}"> 
-                            <input type="text" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
-                            <input type="text" id="supsup_id" name="supsup_id" value="{{$supsup_id}}"> 
-                            <input type="text" id="request_date" name="request_date" value="{{$request_date}}"> 
-                            <input type="text" id="request_time" name="request_time" value="{{$request_time}}"> 
-                            <input type="text" id="request_no" name="request_no" value="{{$request_no}}"> 
-                            <input type="text" id="data_year" name="data_year" value="{{$data_year}}"> 
+                            <input type="hidden" id="wh_request_id" name="wh_request_id" value="{{$wh_request_id}}"> 
+                            <input type="hidden" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
+                            <input type="hidden" id="supsup_id" name="supsup_id" value="{{$supsup_id}}"> 
+                            <input type="hidden" id="request_date" name="request_date" value="{{$request_date}}"> 
+                            <input type="hidden" id="request_time" name="request_time" value="{{$request_time}}"> 
+                            <input type="hidden" id="request_no" name="request_no" value="{{$request_no}}"> 
+                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
                             
                             <div class="row mt-3">
                                 <div class="col-md-12">   
                                     <div class="row"> 
                                         <div class="col-xl-12"> 
-                                                <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+                                            <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                                     <thead> 
                                                         <tr>
                                                             <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">ลำดับ</th> 
@@ -131,7 +131,7 @@
                                                             <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">Stock</th> 
                                                             <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">จำนวนที่ขอเบิก</th> 
                                                             <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">จำนวนที่จ่าย</th> 
-                                                            
+                                                            {{-- <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th>  --}}
                                                         </tr> 
                                                     </thead>
                                                     <tbody>
@@ -145,7 +145,8 @@
                                                             <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
                                                             <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{($item->stock_rep-$item->stock_pay)}}</td>  
                                                             <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty}}</td>  
-                                                            <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty_pay}}</td>                                                        
+                                                            <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty_pay}}</td>   
+                                                            {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->wh_request_sub_id}}"> </td>                                                                                                               --}}
                                                         </tr>
                                                         <?php
                                                                 $total1 = $total1 + $item->qty;
@@ -180,11 +181,8 @@
                     </div>
                 </div>
             </div>
-       
-
-           
+                  
         {{-- </div> --}}
-
 </div>
 
 
@@ -304,10 +302,11 @@
             //     }
             // });
 
+       
             $('#UpdateData').click(function() {
-                // var recieve_no    = $('#recieve_no').val(); 
-                // var recieve_date  = $('#datepicker').val(); 
-                // var recieve_time  = $('#recieve_time').val(); 
+                var request_date     = $('#request_date').val(); 
+                var request_time     = $('#request_time').val(); 
+                var request_no       = $('#request_no').val(); 
                 var supsup_id        = $('#supsup_id').val(); 
                 var stock_list_id    = $('#stock_list_id').val(); 
                 var data_year        = $('#data_year').val();  
@@ -330,7 +329,7 @@
                                     url: "{{ route('wh.wh_pay_addsub_save') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {data_year,wh_request_id,stock_list_id,supsup_id},
+                                    data: {data_year,wh_request_id,stock_list_id,supsup_id,request_no,request_date,request_time},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({ position: "top-end",
@@ -346,7 +345,7 @@
                                                     console.log(
                                                         data);
                                                     // window.location.reload();
-                                                    window.location="{{url('wh_recieve')}}"; 
+                                                    window.location="{{url('wh_pay')}}"; 
                                                     $('#spinner').hide();//Request is complete so hide spinner
                                                         setTimeout(function(){
                                                             $("#overlay").fadeOut(300);
@@ -393,7 +392,15 @@
                             timer: 1500
                             });
                             window.location.reload();
-                   } else { 
+                   } else {
+                    Swal.fire({
+                            position: "top-end",
+                            icon: "warning",
+                            title: "Stock ไม่เพียงพอ",
+                            showConfirmButton: false,
+                            timer: 3000
+                            });
+                            window.location.reload(); 
                    } 
                 }
 

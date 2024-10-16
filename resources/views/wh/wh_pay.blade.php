@@ -233,7 +233,9 @@
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังใหญ่</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">คลังย่อย</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้ขอเบิก</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้เบิก</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้จ่าย</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th> 
                                                     <th class="text-center" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
@@ -259,15 +261,17 @@
                                                         @endif                                                            
                                                     </td>
                                                     {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
-                                                    <td class="text-center" width="8%">{{$item->request_no}}</td>
-                                                    <td class="text-center" width="10%">{{$item->request_date}}</td>     
+                                                    <td class="text-center" width="7%">{{$item->request_no}}</td>
+                                                    <td class="text-center" width="8%">{{$item->request_date}}</td>     
                                                     {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>                                                     --}}
                                                                                                         
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
                                                     <td class="text-center" width="5%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
                                                             {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
