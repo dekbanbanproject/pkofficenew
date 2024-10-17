@@ -6,6 +6,49 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
+        function wh_approve_stock(wh_request_id) {
+            // alert(bookrep_id);
+            Swal.fire({
+                title: 'ยืนยันการรับใช่ไหม?',
+                text: "ถ้ากดยืนยันรายการพัสดุจะถูกรับเข้าคลังย่อย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, รับเข้าเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('wh_approve_stock') }}" + '/' + wh_request_id,
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'รับเข้าเรียบร้อย!',
+                                text: "You Confirm success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + wh_request_id).remove();
+                                    window.location.reload();
+                                    // window.location = "/book/bookmake_index"; //   
+
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -93,7 +136,10 @@
                 <h4 style="color:rgb(238, 33, 111)">รายละเอียดการเบิกจ่าย</h4> 
             </div>
             <div class="col"></div>   
-            <div class="col-md-2 text-end"> 
+            <div class="col-md-4 text-end"> 
+                    <a href="{{url('wh_sub_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new mb-3">
+                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> คลัง {{$stock_name}}  
+                    </a>
                     <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                     </a>
@@ -230,14 +276,16 @@
                                                 <tr>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th>
+                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th> --}}
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลัง</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th>
+                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th> --}}
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังหลัก</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">รับเข้าคลัง</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้ร้องขอ</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้เบิก</th> 
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้จ่าย</th> 
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th>  
                                                     <th class="text-center" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
@@ -245,7 +293,7 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
-                                                <tr >
+                                                <tr id="sid{{ $item->wh_request_id }}">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
@@ -258,20 +306,24 @@
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
                                                             <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
+                                                        @elseif ($item->active == 'REPEXPORT')
+                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
                                                             <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
                                                         @endif                                                        
                                                     </td>
-                                                    <td class="text-center" width="5%">{{$item->year}}</td>
+                                                    {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
                                                     <td class="text-center" width="8%">{{$item->request_no}}</td>
                                                     <td class="text-center" width="10%">{{$item->request_date}}</td>
-                                                    <td class="text-center" width="7%">{{$item->request_time}}</td>                                                    
+                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>--}}
                                                                                                         
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
-                                                    <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
+                                                    <td class="text-end" style="color:rgb(4, 115, 180)" width="8%">{{number_format($item->total_price, 2)}}</td>   
+                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
+                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
                                                     <td class="text-center" width="5%">                                                       
                                                      
                                                             {{-- <a href="{{url('wh_request_edit/'.$item->wh_request_id)}}">
@@ -283,9 +335,22 @@
                                                             </a> --}}
                                                             
                                                             @if ($item->active == 'ALLOCATE')
+                                                             <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="กำลังดำเนินการ"
                                                                 <i class="fa-solid fa-spinner text-success"></i>
+                                                            </a> 
                                                             @elseif ($item->active == 'CONFIRM')
+                                                             <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="จ่ายพัสดุเรียบร้อย"
                                                                 <i class="fa-solid fa-check text-success"></i> 
+                                                            </a> 
+                                                                {{-- <i class="fa-solid fa-hand-point-up text-primary"></i> --}}
+                                                                <a href="javascript:void(0)" onclick="wh_approve_stock({{ $item->wh_request_id }})"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า"><i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:20px"></i> 
+                                                                </a> 
+                                                            @elseif ($item->active == 'REPEXPORT')
+                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ยืนยันรับเข้าคลัง"
+                                                                   <i class="fa-solid fa-check text-success"></i> 
+                                                               </a> 
                                                             @else
                                                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
                                                                     <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>

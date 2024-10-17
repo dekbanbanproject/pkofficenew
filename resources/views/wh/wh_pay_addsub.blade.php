@@ -99,7 +99,7 @@
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
-                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                   <a href="{{url('wh_pay')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
                 </div>
             </div> 
 

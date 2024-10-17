@@ -14,7 +14,7 @@ use App\Models\Departmentsubsub;
 use App\Models\Products_vendor;
 use App\Models\Status;
 use App\Models\Position;
-use App\Models\Product_spyprice;
+use App\Models\Wh_log;
 use App\Models\Products;
 use App\Models\Products_type;
 use App\Models\Product_group;
@@ -35,9 +35,9 @@ use App\Models\Bookrep;
 use App\Models\Book_objective;
 use App\Models\Book_senddep;
 use App\Models\Book_senddep_sub;
-use App\Models\Book_send_person;
-use App\Models\Book_sendteam;
-use App\Models\Bookrepdelete;
+use App\Models\Wh_stock_export;
+use App\Models\Wh_stock_dep;
+use App\Models\Wh_stock_sub;
 use App\Models\Wh_request;
 use App\Models\Wh_request_sub;
 use App\Models\Article_status;
@@ -178,21 +178,22 @@ class WhUserController extends Controller
         $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
         $bg_yearnow    = $bgs_year->leave_year_id;
 
-        $data['wh_product']         = DB::select(
-            'SELECT a.pro_id,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
-            ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS stock_rep
-            ,(SELECT SUM(one_price) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS sum_one_price
-            ,(SELECT SUM(total_price) FROM wh_recieve_sub WHERE pro_id = e.pro_id AND recieve_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") AS sum_stock_price
-            ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = e.pro_id AND pay_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$id.'") as stock_pay                        
-            ,a.active ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.DEPARTMENT_SUB_SUB_NAME as stock_list_name
+        $data['wh_stock_sub']         = DB::select(
+            'SELECT e.stock_list_subid,f.DEPARTMENT_SUB_SUB_NAME,a.pro_year,a.pro_id,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+                ,(SELECT SUM(s.qty_pay) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS stock_rep
+                ,(SELECT SUM(s.one_price) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS sum_one_price
+                ,(SELECT SUM(s.total_price) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS sum_stock_price  
+                ,IFNULL(stock_pay,"0") as stock_pay
+                ,a.active ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name
                 FROM wh_stock_sub e
                 LEFT JOIN wh_product a ON a.pro_id = e.pro_id
                 LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
                 LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
                 LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
-                LEFT JOIN department_sub_sub f ON f.DEPARTMENT_SUB_SUB_ID = e.stock_list_id
-            WHERE a.active ="Y" AND e.stock_list_id ="'.$id.'" AND e.stock_year ="'.$bg_yearnow.'"
-            GROUP BY e.pro_id
+                LEFT JOIN department_sub_sub f ON f.DEPARTMENT_SUB_SUB_ID = e.stock_list_subid
+                WHERE a.active ="Y" 
+                AND e.stock_list_subid ="'.$id.'" AND e.stock_year ="'.$bg_yearnow.'"
+                GROUP BY e.pro_id
         ');
         
         $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
@@ -267,12 +268,26 @@ class WhUserController extends Controller
             ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
             ,r.request_po,concat(u.fname," ",u.lname) as ptname 
             ,(SELECT SUM(total_price) FROM wh_request_sub WHERE wh_request_id = r.wh_request_id) as total_price
+            ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
+            ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep
             FROM wh_request r 
             LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
             LEFT JOIN users u ON u.id = r.user_request  
             WHERE r.stock_list_subid ="'.$dep_subsubtrueid.'"         
             ORDER BY r.wh_request_id DESC
         ');
+
+        $data_main             = DB::select(
+            'SELECT a.DEPARTMENT_NAME,b.DEPARTMENT_SUB_NAME,c.DEPARTMENT_SUB_SUB_NAME 
+            FROM department a
+            LEFT JOIN department_sub b ON b.DEPARTMENT_ID = a.DEPARTMENT_ID
+            LEFT JOIN department_sub_sub c ON c.DEPARTMENT_SUB_ID = b.DEPARTMENT_SUB_ID
+            WHERE c.DEPARTMENT_SUB_SUB_ID = "'.$dep_subsubtrueid.'"
+        ');
+        foreach ($data_main as $key => $value) {
+            $data['stock_bigname']    = $value->DEPARTMENT_NAME;
+            $data['stock_name']       = $value->DEPARTMENT_SUB_SUB_NAME;
+        }
         
         return view('wh_user.wh_sub_main_rp',$data,[
             'startdate'     => $startdate,
@@ -516,7 +531,42 @@ class WhUserController extends Controller
             ]);
         }
     }
+    public function wh_approve_stock(Request $request,$id)
+    {
+            $userid           =  Auth::user()->id;
+            Wh_stock_dep::where('wh_request_id',$id)->update([ 
+                'active'           => 'REPEXPORT', 
+                'user_export_rep'  => $userid
+            ]);
 
+            Wh_stock_export::where('wh_request_id',$id)->update([ 
+                'active'           => 'REPEXPORT', 
+                'user_export_rep'  => $userid
+            ]);
+
+            
+
+            Wh_request::where('wh_request_id',$id)->update([ 
+                'active'       => 'REPEXPORT', 
+            ]);
+
+            $ip = $request->ip();
+            $datenow               = date('Y-m-d');
+            $data['m']             = date('H');
+            $mm                    = date('H:m:s'); 
+            Wh_log::insert([
+                'datesave'   => $datenow,
+                'ip'         => $ip,
+                'timesave'   => $mm,
+                'userid'     => Auth::user()->id,
+                'comment'    => 'ยืนยันการรับเข้าคลังย่อย(ขั้นตอนสุดท้าย)'
+            ]);
+
+            return response()->json([
+                'status'     => '200'
+            ]);
+         
+    }
 
     public function wh_pay(Request $request)
     {

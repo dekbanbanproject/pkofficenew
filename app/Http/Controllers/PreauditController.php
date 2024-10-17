@@ -1496,6 +1496,7 @@ class PreauditController extends Controller
                     order by ov.vsttime  
             ');
             // AND odx.icd10 IS NULL 
+            $data_z017_new = Audit_217::whereBetween('vstdate', [$date, $date])->get();
         } else {
            
             $data_z017 = DB::connection('mysql10')->select(
@@ -1543,10 +1544,10 @@ class PreauditController extends Controller
                     }
                
             }
-           
+            $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->get();
         }
 
-        $data_z017_new = Audit_217::get();
+        
 
         return view('audit.diag_z017', [
             'startdate'     => $startdate,

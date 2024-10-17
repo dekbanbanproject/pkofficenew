@@ -299,6 +299,8 @@
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
                                                             <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
+                                                        @elseif ($item->active == 'REPEXPORT')
+                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
                                                             <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
                                                         @endif                                                            
@@ -327,9 +329,9 @@
                                                                 {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i>  --}}
                                                             {{-- </button> --}}
                                                             <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
-                                                        </a>                                           
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
+                                                            </a>                                           
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
                                                         @endif --}}

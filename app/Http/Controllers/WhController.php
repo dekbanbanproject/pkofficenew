@@ -33,7 +33,7 @@ use App\Models\Book_import_fam;
 use App\Models\Book_signature;
 use App\Models\Bookrep;
 use App\Models\Book_objective;
-use App\Models\Book_senddep;
+use App\Models\Wh_stock_sub;
 use App\Models\Wh_stock_dep;
 use App\Models\Wh_stock_dep_sub;
 use App\Models\Wh_request;
@@ -869,17 +869,17 @@ class WhController extends Controller
             'total_price'   => $total
         ]);
 
+        $ip = $request->ip();
         $datenow               = date('Y-m-d');
         $data['m']             = date('H');
         $mm                    = date('H:m:s'); 
         Wh_log::insert([
             'datesave'   => $datenow,
+            'ip'         => $ip,
             'timesave'   => $mm,
             'userid'     => Auth::user()->id,
             'comment'    => 'ตัดจ่าย'
         ]);
-
-
 
         return response()->json([
             'status'     => '200'
@@ -922,6 +922,7 @@ class WhController extends Controller
                                 'total_price'  => $price_new*$request->qty_pay, 
                             );
                             DB::connection('mysql')->table('wh_request_sub')->where('wh_request_sub_id', $request->wh_request_sub_id)->update($data);
+                           
                             $datenow               = date('Y-m-d');
                             $data['m']             = date('H');
                             $mm                    = date('H:m:s');
@@ -965,49 +966,59 @@ class WhController extends Controller
 
     public function wh_pay_approve(Request $request,$id)
     {
-        // if ($request->ajax()) {
-        //     if ($request->action == 'Edit') {
-                $count_main       = Wh_stock_dep::where('wh_request_id',$id)->count();
-                if ($count_main > 0) {
-                    $pro_rep_deb      = Wh_stock_export::where('wh_request_id',$id)->get();
-                    foreach ($pro_rep_deb as $key => $values) {
-                        Wh_stock_dep::where('wh_request_id',$id)->update([                             
-                            'total_price'        => $values->total_price,  
-                        ]);
-                    }
-                } else {
-                    $pro_rep_deb      = Wh_stock_export::where('wh_request_id',$id)->get();
-                    foreach ($pro_rep_deb as $key => $value) {
-                        $count_sub_ssm       = Wh_stock_dep::where('wh_request_id',$id)->count();
-                        if ($count_sub_ssm > 0) { 
-                        } else {
-                            Wh_stock_dep::insert([
-                                'wh_request_id'      => $value->wh_request_id,
-                                'year'               => $value->year,
-                                'stock_date'         => $value->export_date,
-                                'stock_time'         => $value->export_time,
-                                'export_no'          => $value->export_no,   
-                                'stock_list_id'      => $value->stock_list_id,
-                                'stock_list_subid'   => $value->stock_list_subid,   
-                                'export_po'          => $value->export_po, 
-                                'total_price'        => $value->total_price, 
-                                'user_export_send'   => $value->user_export_send, 
-                                'user_export_rep'    => $value->user_export_rep,  
-                                
-                            ]);
-                        }
-                       
-                    }
+      
+            $count_main       = Wh_stock_dep::where('wh_request_id',$id)->count();
+            if ($count_main > 0) {
+                $pro_rep_deb      = Wh_stock_export::where('wh_request_id',$id)->get();
+                foreach ($pro_rep_deb as $key => $values) {
+                    Wh_stock_dep::where('wh_request_id',$id)->update([                             
+                        'total_price'   => $values->total_price, 
+                        'active'        => 'SENDEXPORT'  
+                    ]);
+                    wh_request::where('wh_request_id',$id)->update([
+                       'total_price'   => $values->total_price,
+                    ]);
                 }
+            } else {
+                $pro_rep_deb      = Wh_stock_export::where('wh_request_id',$id)->get();
+                foreach ($pro_rep_deb as $key => $value) {
+                    $count_sub_ssm       = Wh_stock_dep::where('wh_request_id',$id)->count();
+                    if ($count_sub_ssm > 0) { 
+                    } else {
+                        Wh_stock_dep::insert([
+                            'wh_request_id'      => $value->wh_request_id,
+                            'year'               => $value->year,
+                            'stock_date'         => $value->export_date,
+                            'stock_time'         => $value->export_time,
+                            'export_no'          => $value->export_no,   
+                            'stock_list_id'      => $value->stock_list_id,
+                            'stock_list_subid'   => $value->stock_list_subid,   
+                            'export_po'          => $value->export_po, 
+                            'total_price'        => $value->total_price, 
+                            'user_export_send'   => $value->user_export_send, 
+                            'user_export_rep'    => $value->user_export_rep,  
+                            'active'             => 'SENDEXPORT' 
+                        ]);
+                        wh_request::where('wh_request_id',$id)->update([
+                            'total_price'   => $value->total_price,
+                         ]);
+                    } 
+                }
+            }
+        
+            $pro_rep_debsub      = wh_stock_export_sub::where('wh_request_id',$id)->get();
+            $id_deb_             = Wh_stock_dep::where('wh_request_id',$id)->first();
+            $id_deb              = $id_deb_->wh_stock_dep_id;
 
-                // $count_sub       = Wh_stock_dep_sub::where('wh_request_id',$id)->count();
-                // if ($count_sub > 0) {
-                    $pro_rep_debsub      = wh_stock_export_sub::where('wh_request_id',$id)->get();
-                    foreach ($pro_rep_debsub as $key => $valuesub) {  
-                        $count_sub_s       = Wh_stock_dep_sub::where('wh_request_id',$id)->count();
-                                                                     
-                        Wh_stock_dep_sub::where('wh_request_id',$id)->update([ 
-                            // 'wh_stock_dep_id'        => $valuesub->wh_stock_dep_id,
+            // $stockname_  = Departmentsubsub::where('DEPARTMENT_SUB_SUB_ID',$id_deb)->first();
+            // $stockid     = $stockname_->DEPARTMENT_SUB_SUB_ID;
+            // $stockname   = $stockname_->DEPARTMENT_SUB_SUB_NAME;
+            foreach ($pro_rep_debsub as $key => $valuesub) {  
+                $count_sub_s     = Wh_stock_dep_sub::where('wh_stock_export_sub_id',$valuesub->wh_stock_export_sub_id)->count();
+                    if ( $count_sub_s > 0) {
+                        Wh_stock_dep_sub::where('wh_stock_export_sub_id',$valuesub->wh_stock_export_sub_id)->update([ 
+                            'wh_stock_dep_id'           => $id_deb,
+                            'wh_stock_export_sub_id'    => $valuesub->wh_stock_export_sub_id,
                             'wh_stock_export_id'        => $valuesub->wh_stock_export_id,
                             'wh_request_id'             => $valuesub->wh_request_id,
                             'stock_list_id'             => $valuesub->stock_list_id,
@@ -1026,42 +1037,99 @@ class WhController extends Controller
                             'date_start'                => $valuesub->date_start,
                             'date_enddate'              => $valuesub->date_enddate,  
                         ]);
+                    } else {
+                        Wh_stock_dep_sub::insert([ 
+                            'wh_stock_dep_id'           => $id_deb,
+                            'wh_stock_export_sub_id'    => $valuesub->wh_stock_export_sub_id,
+                            'wh_stock_export_id'        => $valuesub->wh_stock_export_id,
+                            'wh_request_id'             => $valuesub->wh_request_id,
+                            'stock_list_id'             => $valuesub->stock_list_id,
+                            'stock_list_subid'          => $valuesub->stock_list_subid,                            
+                            'stock_sub_year'            => $valuesub->export_sub_year,
+                            'pro_id'                    => $valuesub->pro_id,
+                            'pro_name'                  => $valuesub->pro_name,
+                            'qty'                       => $valuesub->qty,
+                            'qty_pay'                   => $valuesub->qty_pay,
+                            'unit_id'                   => $valuesub->unit_id,
+                            'unit_name'                 => $valuesub->unit_name,
+                            'one_price'                 => $valuesub->one_price,
+                            'total_price'               => $valuesub->total_price,
+                            'user_id'                   => $valuesub->user_id,
+                            'lot_no'                    => $valuesub->lot_no,
+                            'date_start'                => $valuesub->date_start,
+                            'date_enddate'              => $valuesub->date_enddate,  
+                        ]);
+                    } 
+
+                $count_stock_sub    = Wh_stock_sub::where('stock_list_subid',$valuesub->stock_list_subid)->where('pro_id',$valuesub->pro_id)->count();
+                if ($count_stock_sub >0) {
+                    # code...
+                } else {
+                    $stockname_  = Departmentsubsub::where('DEPARTMENT_SUB_SUB_ID',$valuesub->stock_list_subid)->first();
+                    $stockid     = $stockname_->DEPARTMENT_SUB_SUB_ID;
+                    $stockname   = $stockname_->DEPARTMENT_SUB_SUB_NAME;
+
+                    $pros           = Wh_product::where('pro_id',$valuesub->pro_id)->first();
+                    $proidnew       = $pros->pro_id;
+                    $procode        = $pros->pro_code;
+                    $pronamename    = $pros->pro_name; 
+
+                    $count_stocksub     = Wh_stock_sub::where('stock_list_subid',$stockid)->where('pro_id',$proidnew)->count();
+                    if ($count_stocksub > 0) {
+                        Wh_stock_sub::where('stock_list_subid',$stockid)->where('pro_id',$proidnew)->update([  
+                            'stock_list_subid'          => $stockid, 
+                            'stock_list_subname'        => $stockname,                            
+                            'stock_year'                => $valuesub->export_sub_year,
+                            'pro_id'                    => $proidnew,
+                            'pro_code'                  => $procode,
+                            'pro_name'                  => $pronamename, 
+                            'unit_id'                   => $valuesub->unit_id,
+                            'unit_name'                 => $valuesub->unit_name,
+                            'one_price'                 => $valuesub->one_price, 
+                        ]);
+                    } else {
+                        Wh_stock_sub::insert([  
+                            'stock_list_subid'          => $stockid, 
+                            'stock_list_subname'        => $stockname,                            
+                            'stock_year'                => $valuesub->export_sub_year,
+                            'pro_id'                    => $proidnew,
+                            'pro_code'                  => $procode,
+                            'pro_name'                  => $pronamename, 
+                            'unit_id'                   => $valuesub->unit_id,
+                            'unit_name'                 => $valuesub->unit_name,
+                            'one_price'                 => $valuesub->one_price, 
+                        ]);
                     }
-                // } else {
-                //     $pro_rep_debsub      = wh_stock_export_sub::where('wh_request_id',$id)->get();
-                //     foreach ($pro_rep_debsub as $key => $valuesub) {
-                //         $count_sub_s       = Wh_stock_dep_sub::where('wh_request_id',$id)->count();
-                //         if ($count_sub_s > 0) {
-                //             # code...
-                //         } else { 
-                //             Wh_stock_dep_sub::insert([ 
-                //                 // 'wh_stock_dep_id'        => $valuesub->wh_stock_dep_id,
-                //                 'wh_stock_export_id'        => $valuesub->wh_stock_export_id,
-                //                 'wh_request_id'             => $valuesub->wh_request_id,
-                //                 'stock_list_id'             => $valuesub->stock_list_id,
-                //                 'stock_list_subid'          => $valuesub->stock_list_subid,                            
-                //                 'stock_sub_year'            => $valuesub->export_sub_year,
-                //                 'pro_id'                    => $valuesub->pro_id,
-                //                 'pro_name'                  => $valuesub->pro_name,
-                //                 'qty'                       => $valuesub->qty,
-                //                 'qty_pay'                   => $valuesub->qty_pay,
-                //                 'unit_id'                   => $valuesub->unit_id,
-                //                 'unit_name'                 => $valuesub->unit_name,
-                //                 'one_price'                 => $valuesub->one_price,
-                //                 'total_price'               => $valuesub->total_price,
-                //                 'user_id'                   => $valuesub->user_id,
-                //                 'lot_no'                    => $valuesub->lot_no,
-                //                 'date_start'                => $valuesub->date_start,
-                //                 'date_enddate'              => $valuesub->date_enddate,  
-                //             ]);
-                //         }
-                //     }
-                // }
+                    
+                    
+                }
+                    
+
+
+            }
+
+            wh_request::where('wh_request_id',$id)->update([
+                'active'       => 'CONFIRM'
+            ]);
+            wh_stock_export::where('wh_request_id',$id)->update([
+                'active'       => 'SENDEXPORT'
+            ]); 
+
+            $ip = $request->ip();
+            $datenow               = date('Y-m-d');
+            $data['m']             = date('H');
+            $mm                    = date('H:m:s'); 
+            Wh_log::insert([
+                'datesave'   => $datenow,
+                'ip'         => $ip,
+                'timesave'   => $mm,
+                'userid'     => Auth::user()->id,
+                'comment'    => 'ยืนยันการตัดจ่าย(ขั้นตอนสุดท้าย)'
+            ]);
                 
-                
-                return response()->json([
-                    'status'     => '200'
-                ]);
+            return response()->json([
+                'status'     => '200'
+            ]);
         
     }
     
