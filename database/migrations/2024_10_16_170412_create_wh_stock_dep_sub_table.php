@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('wh_stock_dep_sub', function (Blueprint $table) {
                 $table->bigIncrements('wh_stock_dep_sub_id'); 
+                $table->string('wh_stock_dep_id')->nullable(); // 
                 $table->string('wh_stock_export_id')->nullable(); // 
                 $table->string('wh_request_id')->nullable(); // 
                 $table->string('stock_list_id')->nullable(); //  คลังหลัก

@@ -25,7 +25,7 @@
                         }
                     });
                     $.ajax({
-                        type: "delete",
+                        type: "POST",
                         url: "{{ url('wh_pay_approve') }}" + '/' + wh_request_id,
                         success: function(response) {
                             Swal.fire({
@@ -328,7 +328,7 @@
                                                             {{-- </button> --}}
                                                             <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i> 
+                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
                                                         </a>                                           
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
