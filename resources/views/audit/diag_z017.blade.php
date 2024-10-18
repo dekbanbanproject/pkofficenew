@@ -327,6 +327,7 @@
                     $(".sub_chk").prop('checked', false);
                 }
             });
+            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -1477,7 +1477,7 @@ class PreauditController extends Controller
             
             $data_z017 = DB::connection('mysql10')->select(
                 'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty,ov.pttype
                  from ovst ov 
                     left outer join patient pt on pt.hn=ov.hn 
                     left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
@@ -1503,7 +1503,7 @@ class PreauditController extends Controller
            
             $data_z017 = DB::connection('mysql10')->select(
                 'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty,ov.pttype
                  from ovst ov 
                     left outer join patient pt on pt.hn=ov.hn 
                     left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
