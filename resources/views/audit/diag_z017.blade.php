@@ -93,7 +93,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('audit.diag_z017') }}" method="GET" enctype="multipart/form-data"> 
+        <form action="{{ route('audit.diag_z017') }}" method="POST" enctype="multipart/form-data"> 
             @csrf
             <div class="row">
                 <div class="col-md-3">

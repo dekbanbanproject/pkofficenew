@@ -292,13 +292,13 @@
                                                         @if ($item->active == 'REQUEST')
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
                                                         @elseif ($item->active == 'APPREQUEST')
-                                                            <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #0dd6d6">รายการครบ</span> 
                                                         @elseif ($item->active == 'APPROVE')
-                                                            <span class="bg-success badge" style="font-size:12px">เห็นชอบ</span> 
+                                                            <span class="bg-info badge" style="font-size:12px">เห็นชอบ</span> 
                                                         @elseif ($item->active == 'ALLOCATE')
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
-                                                            <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
                                                         @elseif ($item->active == 'REPEXPORT')
                                                             <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
@@ -322,7 +322,7 @@
                                                             {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
-                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="จัดสรรรายการวัสดุ">
+                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="1-จัดสรรรายการวัสดุ">
                                                                 <i class="fa-solid fa-cart-plus" style="color: #0db8ec;font-size:20px"></i>
                                                             </a>     
                                                             {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}"> --}}
@@ -330,7 +330,7 @@
                                                             {{-- </button> --}}
                                                             <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-custom-class="custom-tooltip" title="ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
+                                                                data-bs-custom-class="custom-tooltip" title="2-ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
                                                             </a>                                           
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>

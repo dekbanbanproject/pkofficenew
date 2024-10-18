@@ -1493,12 +1493,16 @@ class PreauditController extends Controller
                     left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
                     left outer join vn_opd_complete c on c.vn=ov.vn  
                     left outer join ovst_seq ovq on ovq.vn = ov.vn  
-                    where (ov.vstdate="'.$date.'") AND ov.spclty = "'.$spclty.'"
-                    AND odx.icd10 IS NULL 
+                    where (ov.vstdate="'.$date.'") AND ov.pttype ="91" 
+                    AND odx.icd10 IS NULL AND ov.spclty = "'.$spclty.'"
+                     GROUP BY ov.vn
                     order by ov.vsttime  
             ');
+            // AND ov.spclty = "'.$spclty.'"
+
             // AND odx.icd10 IS NULL 
             $data_z017_new = Audit_217::whereBetween('vstdate', [$date, $date])->where('spclty', $spclty)->get();
+            // $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->where('pttype', '91')->get();
         } else {
            
             $data_z017 = DB::connection('mysql10')->select(
@@ -1519,11 +1523,15 @@ class PreauditController extends Controller
                     left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
                     left outer join vn_opd_complete c on c.vn=ov.vn  
                     left outer join ovst_seq ovq on ovq.vn = ov.vn  
-                    where ov.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND ov.spclty = "'.$spclty.'"
+                    where ov.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                   AND ov.spclty = "'.$spclty.'"
                     AND odx.icd10 IS NULL 
+                    GROUP BY ov.vn
                     order by ov.vsttime 
                   
             ');
+            // AND ov.spclty = "'.$spclty.'"
+            // AND ov.pttype ="91" 
             // AND odx.icd10 IS NULL 
             // Audit_217::truncate();
             foreach ($data_z017 as $key => $value_1) {                
@@ -1548,6 +1556,7 @@ class PreauditController extends Controller
                
             }
             $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->where('spclty', $spclty)->get();
+            // $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->where('pttype', '91')->get();
         }
 
         

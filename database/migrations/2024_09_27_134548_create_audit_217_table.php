@@ -28,6 +28,7 @@ return new class extends Migration
                 $table->string('staff', length: 200)->nullable(); //
                 $table->enum('active', ['Y','N'])->default('N');
                 $table->string('spclty', length: 200)->nullable(); //
+                $table->string('pttype', length: 200)->nullable(); //
                 $table->timestamps();
             });
         }

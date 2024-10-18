@@ -296,7 +296,7 @@
                                                 <tr id="sid{{ $item->wh_request_id }}">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
-                                                        @if ($item->active == 'REQUEST')
+                                                        {{-- @if ($item->active == 'REQUEST')
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
                                                         @elseif ($item->active == 'APPREQUEST')
                                                             <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
@@ -310,7 +310,24 @@
                                                             <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
                                                             <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif                                                        
+                                                        @endif    --}}
+                                                        
+                                                        @if ($item->active == 'REQUEST')
+                                                            <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
+                                                        @elseif ($item->active == 'APPREQUEST')
+                                                            <span class="badge" style="font-size:12px;background-color: #0dd6d6">รายการครบ</span> 
+                                                        @elseif ($item->active == 'APPROVE')
+                                                            <span class="bg-info badge" style="font-size:12px">เห็นชอบ</span> 
+                                                        @elseif ($item->active == 'ALLOCATE')
+                                                            <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
+                                                        @elseif ($item->active == 'CONFIRM')
+                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
+                                                        @elseif ($item->active == 'REPEXPORT')
+                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
+                                                        @else
+                                                            <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
+                                                        @endif    
+
                                                     </td>
                                                     {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
                                                     <td class="text-center" width="8%">{{$item->request_no}}</td>
