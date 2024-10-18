@@ -171,8 +171,8 @@
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รหัส</th> 
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">รายการ</th>  
                                                         <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 12px;">หน่วยนับ</th> 
-                                                        {{-- <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th>  --}}
-                                                        <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">จำนวน</th> 
+                                                        <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">คลังใหญ่(จำนวน)</th> 
+                                                        <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">ขอเบิก(จำนวน)</th> 
                                                         {{-- <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">ราคา</th>  --}}
                                                         {{-- <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>   --}}
                                                         {{-- <th class="text-center" width="5%"> 
@@ -192,7 +192,7 @@
                                                         <td class="text-start" style="color:rgb(3, 93, 145)" width="3%">{{$item->wh_request_sub_id}}</td>  
                                                         <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->pro_code}} {{$item->pro_name}}</td>                                                     
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->unit_name}}</td> 
-                                                        {{-- <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->lot_no}}</td>   --}}
+                                                        <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->stock_rep-$item->stock_pay}}</td>  
                                                         <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->qty}}</td>  
                                                         {{-- <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->one_price, 2)}}</td>   --}}
                                                         {{-- <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>    --}}
@@ -422,7 +422,7 @@
                 removeButton: false,
                 columns:{
                     identifier:[1,'wh_request_sub_id'], 
-                    editable: [ [4, 'qty']]
+                    editable: [ [5, 'qty']]
                 }, 
                 deleteButton: false,
                 saveButton: false,

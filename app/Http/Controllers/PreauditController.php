@@ -1464,6 +1464,8 @@ class PreauditController extends Controller
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
+        $spclty      = $request->spclty;
+        $icd10       = $request->icd10;
         $date        = date('Y-m-d');
         $y           = date('Y') + 543;
         $newdays     = date('Y-m-d', strtotime($date . ' -2 days')); //ย้อนหลัง 2 วัน
@@ -1475,7 +1477,7 @@ class PreauditController extends Controller
             
             $data_z017 = DB::connection('mysql10')->select(
                 'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty
                  from ovst ov 
                     left outer join patient pt on pt.hn=ov.hn 
                     left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
@@ -1491,17 +1493,17 @@ class PreauditController extends Controller
                     left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
                     left outer join vn_opd_complete c on c.vn=ov.vn  
                     left outer join ovst_seq ovq on ovq.vn = ov.vn  
-                    where (ov.vstdate="'.$date.'") AND ov.spclty = "16"
+                    where (ov.vstdate="'.$date.'") AND ov.spclty = "'.$spclty.'"
                     AND odx.icd10 IS NULL 
                     order by ov.vsttime  
             ');
             // AND odx.icd10 IS NULL 
-            $data_z017_new = Audit_217::whereBetween('vstdate', [$date, $date])->get();
+            $data_z017_new = Audit_217::whereBetween('vstdate', [$date, $date])->where('spclty', $spclty)->get();
         } else {
            
             $data_z017 = DB::connection('mysql10')->select(
                 'SELECT ov.vn,odx.icd10 as icd10,ov.hn,ov.vstdate,ov.vsttime,"1" as diagtype,ov.hcode,"0060" as doctor,"1" as episode,"pichamon" as staff
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,ov.spclty
                  from ovst ov 
                     left outer join patient pt on pt.hn=ov.hn 
                     left outer join ovstdiag odx on odx.vn=ov.vn and odx.diagtype="1" 
@@ -1517,7 +1519,7 @@ class PreauditController extends Controller
                     left outer join oapp on oapp.vn=ov.vn and oapp.app_no=1 
                     left outer join vn_opd_complete c on c.vn=ov.vn  
                     left outer join ovst_seq ovq on ovq.vn = ov.vn  
-                    where ov.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND ov.spclty = "16"
+                    where ov.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND ov.spclty = "'.$spclty.'"
                     AND odx.icd10 IS NULL 
                     order by ov.vsttime 
                   
@@ -1530,7 +1532,7 @@ class PreauditController extends Controller
                     } else {
                         Audit_217::insert([
                             'vn'         => $value_1->vn, 
-                            'icd10'      => 'Z017',
+                            'icd10'      => $icd10,
                             'hn'         => $value_1->hn,
                             'vstdate'    => $value_1->vstdate,
                             'vsttime'    => $value_1->vsttime, 
@@ -1540,11 +1542,12 @@ class PreauditController extends Controller
                             'episode'    => $value_1->episode, 
                             'staff'      => $value_1->staff, 
                             'ptname'     => $value_1->ptname, 
+                            'spclty'     => $value_1->spclty, 
                         ]);
                     }
                
             }
-            $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->get();
+            $data_z017_new = Audit_217::whereBetween('vstdate', [$startdate, $enddate])->where('spclty', $spclty)->get();
         }
 
         

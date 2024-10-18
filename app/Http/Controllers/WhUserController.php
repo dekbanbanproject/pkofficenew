@@ -378,9 +378,10 @@ class WhUserController extends Controller
         $data_edit                  = DB::table('wh_request')->where('wh_request_id','=',$id)->first();
         $data['wh_request_id']      = $data_edit->wh_request_id;
         $data['data_year']          = $data_edit->year;
+        $datastock_list_id          = $data_edit->stock_list_id;
         $data['stock_list_id']      = $data_edit->stock_list_id;
         $subsubid                   =  Auth::user()->dep_subsubtrueid;
-        $data_wh_stock_list         = DB::table('wh_stock_list')->where('stock_list_id',$data_edit->stock_list_id)->first();
+        $data_wh_stock_list         = DB::table('wh_stock_list')->where('stock_list_id',$datastock_list_id)->first();
         $data['stock_name']         = $data_wh_stock_list->stock_list_name;
 
         $data_debsubsub             = DB::table('department_sub_sub')->where('DEPARTMENT_SUB_SUB_ID','=',$subsubid)->first();
@@ -402,7 +403,10 @@ class WhUserController extends Controller
             GROUP BY e.pro_id
         ');
         $data['wh_request_sub']      = DB::select(
-            'SELECT a.*,b.pro_code FROM wh_request_sub a
+            'SELECT a.*,b.pro_code 
+            ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = a.pro_id AND request_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$datastock_list_id.'") AS stock_rep
+            ,(SELECT SUM(qty_pay) FROM wh_stock_export_sub WHERE pro_id = a.pro_id AND export_sub_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$datastock_list_id.'") as stock_pay
+            FROM wh_request_sub a
             LEFT JOIN wh_product b ON b.pro_id = a.pro_id
             WHERE wh_request_id = "'.$id.'"
             GROUP BY a.pro_id

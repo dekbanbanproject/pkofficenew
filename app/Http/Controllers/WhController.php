@@ -48,7 +48,7 @@ use App\Models\Wh_recieve;
 use App\Models\Wh_pay;
 use App\Models\Wh_pay_sub;
 use App\Models\Wh_request_sub;
-use App\Models\Product_buy;
+use App\Models\Wh_stock_list;
 use App\Models\Warehouse_inven;
 use App\Models\Warehouse_inven_person;
 use App\Models\Warehouse_rep;
@@ -543,18 +543,43 @@ class WhController extends Controller
         $id              = $request->wh_recieve_id;
         $data_year       = $request->data_year;
         $stock_list_id   = $request->stock_list_id;
-        // $getdate         = Wh_recieve_sub::where('wh_recieve_id',$id)->get();
-        // foreach ($getdate as $key => $value) {
-        //     $stock       = Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->first();
-        //     $stock_new   = $stock->stock_rep; 
-        //     $stock_qty   = $stock->stock_qty; 
-        //     $stock_total = $stock->stock_qty; 
-        //     Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->update([
-        //         'stock_qty'    => $stock_qty + $value->qty,
-        //         'stock_rep'    => $stock_new + $value->qty,
-        //         'stock_total'  => $stock_total + $value->qty
-        //     ]);
-        // }
+        $stock_name_     = Wh_stock_list::where('stock_list_id',$stock_list_id)->first();
+        $stock_name      = $stock_name_->stock_list_name;
+        
+        $getdate         = Wh_recieve_sub::where('wh_recieve_id',$id)->get();
+        foreach ($getdate as $key => $value) {
+            $stock_check   = Wh_stock::where('stock_year',$data_year)->where('stock_list_id',$stock_list_id)->where('pro_id',$value->pro_id)->count();
+            $pro_          = Wh_product::where('pro_id',$value->pro_id)->first();
+            $pro_id        = $pro_->pro_id;
+            $pro_code      = $pro_->pro_code;
+            $pro_name      = $pro_->pro_name;
+
+            if ($stock_check > 0) {
+                # code...
+            } else {
+                Wh_stock::insert([
+                    'stock_year'       => $data_year,
+                    'stock_list_id'    => $stock_list_id,
+                    'stock_list_name'  => $stock_name,
+                    'pro_id'           => $pro_id,
+                    'pro_code'         => $pro_code,
+                    'pro_name'         => $pro_name,
+                    'unit_id'          => $value->unit_id,
+                    'stock_price'      => $value->one_price,
+                    'stock_qty'        => $value->qty,
+                ]);
+            }
+            
+            // $stock       = Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->first();
+            // $stock_new   = $stock->stock_rep; 
+            // $stock_qty   = $stock->stock_qty; 
+            // $stock_total = $stock->stock_qty; 
+            // Wh_stock::where('stock_year',$data_year)->where('pro_id',$value->pro_id)->update([
+            //     'stock_qty'    => $stock_qty + $value->qty,
+            //     'stock_rep'    => $stock_new + $value->qty,
+            //     'stock_total'  => $stock_total + $value->qty
+            // ]);
+        }
 
         $sum_total       = Wh_recieve_sub::where('wh_recieve_id',$id)->sum('total_price');
         Wh_recieve::where('wh_recieve_id',$id)->update([
