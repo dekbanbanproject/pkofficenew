@@ -478,7 +478,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('audit_pdx_walkin') }}"> <span>ไม่ลง PDX WALKIN</span></a> </li> 
                                 <li><a href="{{ url('authen_excel') }}"> <span>Excel => hos</span></a> </li>   
                                 {{-- <li><a href="{{ url('authen_update') }}"> <span>สปสช => hos</span></a> </li>   --}}
-                                <li><a href="{{ url('diag_z017') }}"> <span>Diag Z017</span></a> </li> 
+                                <li><a href="{{ url('diag_z017') }}"> <span>Diag</span></a> </li> 
                             </ul> 
                         </li>
                         <li>
