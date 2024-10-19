@@ -137,10 +137,10 @@
             </div>
             <div class="col"></div>   
             <div class="col-md-4 text-end"> 
-                    <a href="{{url('wh_sub_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new mb-3">
+                    <a href="{{url('wh_sub_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-info card_prs_4 mb-3">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> คลัง {{$stock_name}}  
                     </a>
-                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
+                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary card_prs_4 mb-3" data-bs-toggle="modal" data-bs-target="#Request">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                     </a>
                     {{-- <div id="headingTwo" class="b-radius-0">   
@@ -293,7 +293,7 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
-                                                <tr id="sid{{ $item->wh_request_id }}">
+                                                <tr id="sid{{ $item->wh_request_id }}" style="font-size:12px;">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         {{-- @if ($item->active == 'REQUEST')
@@ -321,7 +321,9 @@
                                                         @elseif ($item->active == 'ALLOCATE')
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
-                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span>  
+                                                        @elseif ($item->active == 'CONFIRMSEND')
+                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลัง</span> 
                                                         @elseif ($item->active == 'REPEXPORT')
                                                             <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
@@ -360,10 +362,12 @@
                                                                 <i class="fa-solid fa-check text-success"></i> 
                                                             </a> 
                                                                 {{-- <i class="fa-solid fa-hand-point-up text-primary"></i> --}}
+                                                                @elseif ($item->active == 'CONFIRMSEND')
                                                                 <a href="javascript:void(0)" onclick="wh_approve_stock({{ $item->wh_request_id }})"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า"><i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:20px"></i> 
                                                                 </a> 
+                                                                {{-- ฃCONFIRMSEND --}}
                                                             @elseif ($item->active == 'REPEXPORT')
                                                                 <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ยืนยันรับเข้าคลัง"
                                                                    <i class="fa-solid fa-check text-success"></i> 

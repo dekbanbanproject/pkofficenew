@@ -71,7 +71,9 @@ class WhUserController extends Controller
     public static function ref_request_number()
     {
         $year = date('Y');
-        $maxnumber = DB::table('wh_request')->max('wh_request_id');
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        $maxnumber     = DB::table('wh_request')->max('wh_request_id');
         if ($maxnumber != '' ||  $maxnumber != null) {
             $refmax = DB::table('wh_request')->where('wh_request_id', '=', $maxnumber)->first();
             if ($refmax->request_no != '' ||  $refmax->request_no != null) {
@@ -85,8 +87,8 @@ class WhUserController extends Controller
         }
         $ye = date('Y') + 543;
         $y = substr($ye, -4);
-        $ynew   = substr($ye,2,2); 
-        $refnumber = $ref;
+        $ynew   = substr($bg_yearnow,2,2); 
+        $refnumber = $ynew.''.$ref;
         return $refnumber;
 
 

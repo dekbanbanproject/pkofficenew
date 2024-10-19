@@ -456,6 +456,9 @@ class WhController extends Controller
         $data['department_sub_sub'] = Departmentsubsub::get();
         $data['position']           = Position::get();
         $data['status']             = Status::get(); 
+        $data['product_unit']       = Product_unit::get();
+        $data['wh_unit']            = Wh_unit::get();
+        $data['product_category']   = Products_category::get();
         $yy1                        = date('Y') + 543;
         $yy2                        = date('Y') + 542;
         $yy3                        = date('Y') + 541;
@@ -497,6 +500,40 @@ class WhController extends Controller
             'enddate'    => $enddate,
             'data_edit'  => $data_edit,
         ]);
+    }
+    function add_product(Request $request)
+    {
+    if($request->pros_name!= null || $request->pros_name != ''){
+        $stock_list_id  = $request->stock_list_id;
+        $data_year      = $request->data_year;
+        $pro_type       = $request->pro_type;
+        $unit_id        = $request->wh_unit_id;
+        $count_check    = Wh_product::where('pro_name','=',$request->pros_name)->count();
+        $maxprocode     = DB::table('wh_product')->max('pro_code');
+        $procode        = ($maxprocode)+1;
+        $date           = date('Y-m-d');
+            if($count_check == 0){
+                    $add               = new Wh_product();
+                    $add->pro_year     = $data_year;
+                    $add->recieve_date = $date;
+                    $add->pro_code     = $procode;
+                    $add->pro_name     = $request->pros_name;
+                    $add->pro_type     = $pro_type;
+                    $add->unit_id      = $unit_id;
+                    $add->user_id      = Auth::user()->id;
+                    $add->save();
+            }
+            }
+                $query =  DB::table('wh_product')->get();
+                $output='<option value="">--เลือก--</option>';
+                foreach ($query as $row){
+                    if($request->pros_name == $row->pro_name){
+                        $output.= '<option value="'.$row->pro_id.'" selected>'.$row->pro_name.'</option>';
+                    }else{
+                        $output.= '<option value="'.$row->pro_id.'">'.$row->pro_name.'</option>';
+                    }
+            }
+        echo $output;
     }
     public function wh_recieve_addsub_save(Request $request)
     { 
@@ -543,6 +580,9 @@ class WhController extends Controller
         }
                
         return back();
+        // return response()->json([ 
+        //     'status'    => '200'
+        // ]);
          
     }
     public function wh_recieve_destroy(Request $request)
@@ -644,8 +684,6 @@ class WhController extends Controller
             ]);
         }
     }
-
-
     public function wh_pay(Request $request)
     {
         $startdate           = $request->datepicker;
@@ -789,12 +827,22 @@ class WhController extends Controller
         $data['wh_request_sub']      = DB::select(
             'SELECT a.*,b.pro_code 
             ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = a.pro_id AND stock_list_id = a.stock_list_id) AS stock_rep
-            ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = a.pro_id AND stock_list_id = a.stock_list_id) AS stock_pay
+            ,(SELECT SUM(qty_pay) FROM wh_stock_export_sub WHERE pro_id = a.pro_id AND stock_list_id = a.stock_list_id) AS stock_pay
             FROM wh_request_sub a
             LEFT JOIN wh_product b ON b.pro_id = a.pro_id
             WHERE wh_request_id = "'.$id.'"
             GROUP BY a.pro_id
             ');
+
+            // $data['wh_request_sub']      = DB::select(
+            //     'SELECT a.*,b.pro_code 
+            //     ,(SELECT SUM(qty) FROM wh_recieve_sub WHERE pro_id = a.pro_id AND request_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$datastock_list_id.'") AS stock_rep
+            //     ,(SELECT SUM(qty_pay) FROM wh_stock_export_sub WHERE pro_id = a.pro_id AND export_sub_year ="'.$bg_yearnow.'" AND stock_list_id ="'.$datastock_list_id.'") as stock_pay
+            //     FROM wh_request_sub a
+            //     LEFT JOIN wh_product b ON b.pro_id = a.pro_id
+            //     WHERE wh_request_id = "'.$id.'"
+            //     GROUP BY a.pro_id
+            //     ');
 
         // $data['wh_product']         = DB::select(
         //     'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
@@ -909,7 +957,7 @@ class WhController extends Controller
                 }
 
                 Wh_request::where('wh_request_id',$request->wh_request_id)->update([
-                    'active'   => 'ALLOCATE'
+                    'active'   => 'CONFIRM'
                 ]); 
         }
 
@@ -940,9 +988,9 @@ class WhController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
-                $pro           = Wh_request_sub::where('wh_request_sub_id',$request->wh_request_sub_id)->first();
-                $proid         = $pro->pro_id; 
-
+                $pro             = Wh_request_sub::where('wh_request_sub_id',$request->wh_request_sub_id)->first();
+                $proid           = $pro->pro_id; 
+                $wh_request_id   = $pro->wh_request_id;
                 // $pro           = Wh_request_sub::where('wh_request_sub_id',$request->wh_request_sub_id)->first();
                 // $proid         = $pro->pro_id;
                 $count = wh_recieve_sub::where('pro_id',$proid)->count();
@@ -972,6 +1020,11 @@ class WhController extends Controller
                                 'total_price'  => $price_new*$request->qty_pay, 
                             );
                             DB::connection('mysql')->table('wh_request_sub')->where('wh_request_sub_id', $request->wh_request_sub_id)->update($data);
+
+                            Wh_request::where('wh_request_id',$wh_request_id)->update([
+                                'active'   => 'ALLOCATE'
+                            ]); 
+
                            
                             $datenow               = date('Y-m-d');
                             $data['m']             = date('H');
@@ -1013,7 +1066,6 @@ class WhController extends Controller
             // ]);
         }
     }
-
     public function wh_pay_approve(Request $request,$id)
     {
       
@@ -1159,7 +1211,7 @@ class WhController extends Controller
             }
 
             wh_request::where('wh_request_id',$id)->update([
-                'active'       => 'CONFIRM'
+                'active'       => 'CONFIRMSEND'
             ]);
             wh_stock_export::where('wh_request_id',$id)->update([
                 'active'       => 'SENDEXPORT'

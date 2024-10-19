@@ -146,7 +146,7 @@
 
         
  
-        <div data-parent="#accordion" id="collapseOne2" class="collapse">
+        {{-- <div data-parent="#accordion" id="collapseOne2" class="collapse">
             <div class="card-body">
                 <div class="row">
                     <div class="col-xl-12">
@@ -189,7 +189,7 @@
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3 text-muted">
                                                 <div class="tab-pane active" id="detail" role="tabpanel">
-                                                    {{-- <p class="mb-0">
+                                                    <p class="mb-0">
                                                         <div class="row">
                                                             <div class="col-md-2 text-end">เลขที่บิล</div>
                                                             <div class="col-md-4">
@@ -236,7 +236,7 @@
                                                         <input type="hidden" id="bg_yearnow" name="bg_yearnow" value="{{$bg_yearnow}}">
                                                        
                                                         </div> 
-                                                    </p> --}}
+                                                    </p>
                                                 </div>
                                                 <div class="tab-pane" id="trimart" role="tabpanel">
                                                     <p class="mb-0">
@@ -252,9 +252,9 @@
                     </div>   
                 </div>
             </div>
-        </div> 
+        </div>  --}}
        
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-12">     
                         <div class="card card_audit_4c">
         
@@ -286,7 +286,7 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
-                                                <tr id="sid{{ $item->wh_request_id }}">
+                                                <tr id="sid{{ $item->wh_request_id }}" style="font-size:12px;">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
@@ -299,6 +299,8 @@
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
                                                             <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
+                                                        @elseif ($item->active == 'CONFIRMSEND')
+                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลัง</span> 
                                                         @elseif ($item->active == 'REPEXPORT')
                                                             <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
@@ -328,10 +330,13 @@
                                                             {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}"> --}}
                                                                 {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i>  --}}
                                                             {{-- </button> --}}
+                                                            @if ($item->active == 'CONFIRM')
                                                             <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 data-bs-custom-class="custom-tooltip" title="2-ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
-                                                            </a>                                           
+                                                            </a>
+                                                            @endif
+                                                                                                      
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
                                                         @endif --}}

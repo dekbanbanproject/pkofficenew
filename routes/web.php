@@ -886,6 +886,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
   Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
   Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
+  Route::match(['get', 'post'], 'add_product', [App\Http\Controllers\WhController::class, 'add_product'])->name('wh.add_product'); //
 
   Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
   Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //

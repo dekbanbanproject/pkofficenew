@@ -442,7 +442,7 @@
                     <div class="modal-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group">
-                                <button type="button" id="InsertData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" id="SaveData">
                                      <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                                     บันทึก
                                 </button>
@@ -494,7 +494,7 @@
                 }
             });
 
-            $('#InsertData').click(function() {
+            $('#SaveData').click(function() {
                 var recieve_no    = $('#recieve_no').val(); 
                 var recieve_date  = $('#datepicker').val(); 
                 var recieve_time  = $('#recieve_time').val(); 

@@ -127,7 +127,7 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_stock_sub as $item)
                                                 <?php $i++ ?>
-                                                <tr>
+                                                <tr style="font-size:12px;">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-start">{{$item->pro_code}} || {{$item->pro_name}}</td>
                                                     <td class="text-center" width="10%">{{$item->wh_type_name}}</td>
