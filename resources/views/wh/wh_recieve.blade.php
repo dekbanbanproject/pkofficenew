@@ -22,7 +22,7 @@
         use App\Http\Controllers\StaticController;
         use App\Http\Controllers\WhController;
         use App\Models\Products_request_sub;
-        $ref_ponumber = WhController::ref_ponumber();
+        $ref_nonumber = WhController::ref_nonumber();
     ?>
 
     <style>
@@ -397,7 +397,7 @@
                             <div class="col-md-2 text-end">เลขที่บิล</div>
                             <div class="col-md-4">
                                 <div class="form-group text-center">
-                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" >
+                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" value="{{$ref_nonumber}}">
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
@@ -464,35 +464,29 @@
  
     <script>
          $(document).ready(function() {
+            $('#example').DataTable();
+            $('#example2').DataTable();
+            
+            $('#p4p_work_month').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
             $('select').select2();
-            // $('select').select2({
-            //     width: '100%'
-            // });
-
-            // $("#edit_vendor_id").select2({
-            //     dropdownParent: $("#myModal")
-            // });
-
-            // $('#vendor_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
-            // $('#stock_list_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
+             
             $('#vendor_id').select2({
                     dropdownParent: $('#Recieve')
             });
             $('#stock_list_id').select2({
                     dropdownParent: $('#Recieve')
             });
-            // $('#edit_vendor_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
-            // $('#edit_stock_list_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
+            
             
             $.ajaxSetup({
                 headers: {
@@ -615,34 +609,7 @@
                 })
             });
         });
-        $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            
-            $('#p4p_work_month').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            // $(".collapse.show").each(function(){
-            // $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-
-            // Toggle plus minus icon on show hide of collapse element
-            // $(".collapse").on('show.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-            // }).on('hide.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-            // });
-            // });
         
-  
-        });
     </script>
   
 

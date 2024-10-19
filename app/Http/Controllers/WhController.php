@@ -90,6 +90,31 @@ class WhController extends Controller
 
 
     }
+
+    public static function ref_nonumber()
+    {
+        $year = date('Y');
+        $maxnumber = DB::table('wh_recieve')->max('wh_recieve_id');
+        if ($maxnumber != '' ||  $maxnumber != null) {
+            $refmax = DB::table('wh_recieve')->where('wh_recieve_id', '=', $maxnumber)->first();
+            if ($refmax->recieve_no != '' ||  $refmax->recieve_no != null) {
+                $maxref = substr($refmax->recieve_no, -7) + 1;
+            } else {
+                $maxref = 1;
+            }
+            $ref = str_pad($maxref, 8, "0", STR_PAD_LEFT);
+        } else {
+            $ref = '00000001';
+        }
+        $ye = date('Y') + 543;
+        $y = substr($ye, -2);
+        $ref_nonumber =  $ref;
+        return $ref_nonumber;
+
+
+    }
+
+    // 
     public function wh_dashboard(Request $request)
     {
         $startdate = $request->datepicker;
@@ -345,12 +370,12 @@ class WhController extends Controller
     public function wh_recieve_save(Request $request)
     {
         // $year                = date('Y')+ 543;
-        $ynew          = substr($request->bg_yearnow,2,2); 
+        // $ynew          = substr($request->bg_yearnow,2,2); 
         Wh_recieve::insert([
             'year'                 => $request->bg_yearnow,
             'recieve_date'         => $request->recieve_date,
             'recieve_time'         => $request->recieve_time, 
-            'recieve_no'           => $ynew.'-'.$request->recieve_no,
+            'recieve_no'           => $request->recieve_no,
             'stock_list_id'        => $request->stock_list_id,
             'vendor_id'            => $request->vendor_id,
             // 'recieve_po'           => $request->recieve_po,

@@ -75,18 +75,18 @@ class WhUserController extends Controller
         if ($maxnumber != '' ||  $maxnumber != null) {
             $refmax = DB::table('wh_request')->where('wh_request_id', '=', $maxnumber)->first();
             if ($refmax->request_no != '' ||  $refmax->request_no != null) {
-                $maxref = substr($refmax->request_no, -5) + 1;
+                $maxref = substr($refmax->request_no, -7) + 1;
             } else {
                 $maxref = 1;
             }
-            $ref = str_pad($maxref, 6, "0", STR_PAD_LEFT);
+            $ref = str_pad($maxref, 8, "0", STR_PAD_LEFT);
         } else {
-            $ref = '000001';
+            $ref = '00000001';
         }
         $ye = date('Y') + 543;
         $y = substr($ye, -4);
         $ynew   = substr($ye,2,2); 
-        $refnumber = $ynew . '-' . $ref;
+        $refnumber = $ref;
         return $refnumber;
 
 
