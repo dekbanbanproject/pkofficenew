@@ -300,7 +300,7 @@
                                                         @elseif ($item->active == 'CONFIRM')
                                                             <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
                                                         @elseif ($item->active == 'CONFIRMSEND')
-                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลัง</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลังย่อย</span> 
                                                         @elseif ($item->active == 'REPEXPORT')
                                                             <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
@@ -310,7 +310,7 @@
                                                     {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
                                                     <td class="text-center" width="7%">{{$item->request_no}}</td>
                                                     <td class="text-center" width="8%">{{$item->request_date}}</td>     
-                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>                                                     --}}
+                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td> --}}
                                                                                                         
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  

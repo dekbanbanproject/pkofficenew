@@ -142,16 +142,7 @@ class WhController extends Controller
     {
         $startdate  = $request->datepicker;
         $enddate    = $request->datepicker2;
-        $data['q']  = $request->query('q');
-        $query = User::select('users.*')
-            ->where(function ($query) use ($data) {
-                $query->where('pname', 'like', '%' . $data['q'] . '%');
-                $query->orwhere('fname', 'like', '%' . $data['q'] . '%');
-                $query->orwhere('lname', 'like', '%' . $data['q'] . '%');
-                $query->orwhere('tel', 'like', '%' . $data['q'] . '%');
-                $query->orwhere('username', 'like', '%' . $data['q'] . '%');
-            });
-        $data['users']              = $query->orderBy('id', 'DESC')->paginate(10);
+        
         $data['department']         = Department::get();
         $data['department_sub']     = Departmentsub::get();
         $data['department_sub_sub'] = Departmentsubsub::get();
