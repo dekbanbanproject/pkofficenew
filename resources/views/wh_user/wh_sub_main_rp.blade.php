@@ -50,22 +50,23 @@
             })
         }
     </script>
+
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y') + 543;
-    $yb = date('Y') + 542;
-        use App\Http\Controllers\StaticController;
-        use App\Http\Controllers\WhUserController;
-        use App\Models\Products_request_sub;
-        $ref_request_number = WhUserController::ref_request_number();
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+        $ynow = date('Y') + 543;
+        $yb = date('Y') + 542;
+            use App\Http\Controllers\StaticController;
+            use App\Http\Controllers\WhUserController;
+            use App\Models\Products_request_sub;
+            $ref_request_number = WhUserController::ref_request_number();
     ?>
 
     <style>
@@ -130,351 +131,244 @@
                 </div>
             </div>
         </div>
-    
+        <form action="{{ URL('wh_sub_main_rp') }}" method="GET">
+            @csrf
         <div class="row mt-5">  
-            <div class="col-md-6"> 
-                <h4 style="color:rgb(238, 33, 111)">รายละเอียดการเบิกจ่าย</h4> 
+            <div class="col-md-2"> 
+                <h4 style="color:rgb(238, 33, 111)">รายละเอียดการเบิก</h4> 
             </div>
-            <div class="col"></div>   
-            <div class="col-md-4 text-end"> 
+            <div class="col"></div>  
+            <div class="col-md-6 text-end mb-3">
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                <input type="text" class="form-control card_audit_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
+                    data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    data-date-language="th-th" value="{{ $startdate }}" required />
+                <input type="text" class="form-control card_audit_4" name="enddate"
+                    placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
+                    data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    data-date-language="th-th" value="{{ $enddate }}" />
+                        <button type="submit" class="ladda-button btn-pill btn btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                    </form>
+                        <a href="{{url('wh_sub_main')}}" class="ladda-button btn-pill btn btn-warning card_prs_4">
+                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> คลัง {{$stock_name}}  
+                        </a>
+                        <a href="javascript:void(0);" class="ladda-button btn-pill btn btn-primary card_prs_4" data-bs-toggle="modal" data-bs-target="#Request">
+                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
+                        </a> 
+            </div> 
+        </div> 
+             
+            {{-- <div class="col-md-4 text-end"> 
+                
                     <a href="{{url('wh_sub_main')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-info card_prs_4 mb-3">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> คลัง {{$stock_name}}  
                     </a>
                     <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary card_prs_4 mb-3" data-bs-toggle="modal" data-bs-target="#Request">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
-                    </a>
-                    {{-- <div id="headingTwo" class="b-radius-0">   
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
-                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i>  ตรวจรับ
-                        </button>  
-                    </div>  --}}
-            </div>
+                    </a> 
+            </div> --}}
         </div>
-
         
- 
-        <div data-parent="#accordion" id="collapseOne2" class="collapse">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card card_prs_4">    
-                            <div class="card-body ">  
-                                <div class="row">  
-                                    <div class="col-md-12">         
-                                           
-                                            
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <h4 class="card-title">ตรวจรับทั่วไป</h4>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-2 text-end">
-                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2" id="InsertData">
-                                                        <i class="pe-7s-diskette btn-icon-wrapper text-info ms-2 me-2"></i>Save 
-                                                    </button> 
-                                                    
+        <div class="row">
+            <div class="col-md-12">     
+                <div class="card card_prs_4">
+
+                    <div class="card-body">
+                        
+                        <div class="row"> 
+                            <div class="col-xl-12">
+                                <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
+                                {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
+                                    
+                                    <thead> 
+                                        <tr>
+                                            <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
+                                            <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
+                                            <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th>
+                                            <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
+                                            <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลัง</th>
+                                            {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th> --}}
+                                            <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังหลัก</th> 
+                                            <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">รับเข้าคลัง</th> 
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
+                                            <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้เบิก</th> 
+                                            <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้จ่าย</th> 
+                                            <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th>  
+                                            <th class="text-center" width="5%">จัดการ</th> 
+                                        </tr> 
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
+                                        @foreach ($wh_request as $item)
+                                        <?php $i++ ?>
+                                        <tr id="sid{{ $item->wh_request_id }}" style="font-size:12px;">
+                                            <td class="text-center" width="5%">{{$i}}</td>
+                                            <td class="text-center" width="5%"> 
                                                 
-                                                </div>
-                                            </div>
-                                           
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-bs-toggle="tab" href="#detail" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
-                                                        <span class="d-none d-sm-block">รายละเอียด</span>    
-                                                    </a>
-                                                </li>
-                                               <!-- <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#trimart" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block">ไตรมาส</span>    
-                                                    </a>
-                                                </li>  -->
-                                            </ul>
-    
-                                            <!-- Tab panes -->
-                                            <div class="tab-content p-3 text-muted">
-                                                <div class="tab-pane active" id="detail" role="tabpanel">
-                                                    {{-- <p class="mb-0">
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end">เลขที่บิล</div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group text-center">
-                                                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center"> 
-                                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                                            data-date-language="th-th" value="{{ $date_now }}" required/>
-                                                                             
-                                                                    </div> 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center">
-                                                                    <input type="time" class="form-control form-control-sm" id="recieve_time" name="recieve_time" value="{{$mm}}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-2 text-end">รับจากบริษัท</div>
-                                                            <div class="col-md-4">
-                                                                <select name="vendor_id" id="vendor_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                        <option value="">--เลือก--</option>
-                                                                        @foreach ($air_supplies as $item_sup)
-                                                                            <option value="{{$item_sup->air_supplies_id}}">{{$item_sup->supplies_name}}</option>
-                                                                        @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">รับเข้าคลัง</div>
-                                                            <div class="col-md-4">
-                                                                <select name="stock_list_id" id="stock_list_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                    <option value="">--เลือก--</option>
-                                                                    @foreach ($wh_stock_list as $item_st)
-                                                                        <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
-                                                                    @endforeach
-                                                            </select>
-                                                            </div>
-                                                        </div>                                
-                                                        <input type="hidden" id="bg_yearnow" name="bg_yearnow" value="{{$bg_yearnow}}">
-                                                       
-                                                        </div> 
-                                                    </p> --}}
-                                                </div>
-                                                <div class="tab-pane" id="trimart" role="tabpanel">
-                                                    <p class="mb-0">
-                                                        
-                                                    </p>
-                                                </div>
-                                            
-                                            </div> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>   
-                </div>
-            </div>
-        </div> 
-       
-                <div class="row">
-                    <div class="col-md-12">     
-                        <div class="card card_prs_4">
-        
-                            <div class="card-body">
-                                
-                                <div class="row"> 
-                                    <div class="col-xl-12">
-                                        <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
-                                        {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
-                                            
-                                            <thead> 
-                                                <tr>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
-                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th> --}}
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลัง</th>
-                                                    {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th> --}}
-                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังหลัก</th> 
-                                                    <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">รับเข้าคลัง</th> 
-                                                    <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้เบิก</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้จ่าย</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th>  
-                                                    <th class="text-center" width="5%">จัดการ</th> 
-                                                </tr> 
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
-                                                @foreach ($wh_request as $item)
-                                                <?php $i++ ?>
-                                                <tr id="sid{{ $item->wh_request_id }}" style="font-size:12px;">
-                                                    <td class="text-center" width="5%">{{$i}}</td>
-                                                    <td class="text-center" width="5%">
-                                                        {{-- @if ($item->active == 'REQUEST')
-                                                            <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
-                                                        @elseif ($item->active == 'APPREQUEST')
-                                                            <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
-                                                        @elseif ($item->active == 'APPROVE')
-                                                            <span class="bg-success badge" style="font-size:12px">เห็นชอบ</span> 
-                                                        @elseif ($item->active == 'ALLOCATE')
-                                                            <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
-                                                        @elseif ($item->active == 'CONFIRM')
-                                                            <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
-                                                        @elseif ($item->active == 'REPEXPORT')
-                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
-                                                        @else
-                                                            <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif    --}}
-                                                        
-                                                        @if ($item->active == 'REQUEST')
-                                                            <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
-                                                        @elseif ($item->active == 'APPREQUEST')
-                                                            <span class="badge" style="font-size:12px;background-color: #0dd6d6">รายการครบ</span> 
-                                                        @elseif ($item->active == 'APPROVE')
-                                                            <span class="bg-info badge" style="font-size:12px">เห็นชอบ</span> 
-                                                        @elseif ($item->active == 'ALLOCATE')
-                                                            <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
-                                                        @elseif ($item->active == 'CONFIRM')
-                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span>  
-                                                        @elseif ($item->active == 'CONFIRMSEND')
-                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลัง</span> 
-                                                        @elseif ($item->active == 'REPEXPORT')
-                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
-                                                        @else
-                                                            <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
-                                                        @endif    
+                                                @if ($item->active == 'REQUEST')
+                                                    <span class="bg-warning badge" style="font-size:10px">เปิดบิล</span> 
+                                                @elseif ($item->active == 'APPREQUEST')
+                                                    <span class="badge" style="font-size:10px;background-color: #0dd6d6">รายการครบ</span> 
+                                                @elseif ($item->active == 'APPROVE')
+                                                    <span class="bg-info badge" style="font-size:10px">เห็นชอบ</span> 
+                                                @elseif ($item->active == 'ALLOCATE')
+                                                    <span class="bg-secondary badge" style="font-size:10px">กำลังดำเนิน</span> 
+                                                @elseif ($item->active == 'CONFIRM')
+                                                    <span class="badge" style="font-size:10px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span>  
+                                                @elseif ($item->active == 'CONFIRMSEND')
+                                                    <span class="badge" style="font-size:10px;background-color: #ae58ff">รอรับเข้าคลัง</span> 
+                                                @elseif ($item->active == 'REPEXPORT')
+                                                    <span class="bg-success badge" style="font-size:10px">ยืนยันรับเข้าคลัง</span> 
+                                                @else
+                                                    <span class="bg-primary badge" style="font-size:10px">รับเข้าคลัง</span> 
+                                                @endif    
 
-                                                    </td>
-                                                    {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
-                                                    <td class="text-center" width="8%">{{$item->request_no}}</td>
-                                                    <td class="text-center" width="10%">{{$item->request_date}}</td>
-                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>--}}
-                                                                                                        
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
+                                            </td>
+                                            <td class="text-center" width="5%">{{$item->year}}</td>
+                                            <td class="text-center" width="8%">{{$item->request_no}}</td>
+                                            <td class="text-center" width="8%">{{Datethai($item->request_date)}}</td>
+                                            {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>--}}
+                                                                                                
+                                            <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
+                                            <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
+                                            
+                                            <td class="text-end" style="color:rgb(4, 115, 180)" width="8%">{{number_format($item->total_price, 2)}}</td>   
+                                            <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
+                                            <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
+                                            <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
+                                            <td class="text-center" width="5%">                                                       
+                                                
+                                                    {{-- <a href="{{url('wh_request_edit/'.$item->wh_request_id)}}">
+                                                        <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
+                                                    </a> --}}
                                                     
-                                                    <td class="text-end" style="color:rgb(4, 115, 180)" width="8%">{{number_format($item->total_price, 2)}}</td>   
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
-                                                    <td class="text-center" width="5%">                                                       
-                                                     
-                                                            {{-- <a href="{{url('wh_request_edit/'.$item->wh_request_id)}}">
-                                                                <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                            </a> --}}
-                                                           
-                                                            {{-- <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
-                                                                <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
-                                                            </a> --}}
-                                                            
-                                                            @if ($item->active == 'ALLOCATE')
-                                                             <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="กำลังดำเนินการ"
-                                                                <i class="fa-solid fa-spinner text-success"></i>
-                                                            </a> 
-                                                            @elseif ($item->active == 'CONFIRM')
-                                                             <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="จ่ายพัสดุเรียบร้อย"
-                                                                <i class="fa-solid fa-check text-success"></i> 
-                                                            </a> 
-                                                                {{-- <i class="fa-solid fa-hand-point-up text-primary"></i> --}}
-                                                                @elseif ($item->active == 'CONFIRMSEND')
-                                                                <a href="javascript:void(0)" onclick="wh_approve_stock({{ $item->wh_request_id }})"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า"><i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:20px"></i> 
-                                                                </a> 
-                                                                {{-- ฃCONFIRMSEND --}}
-                                                            @elseif ($item->active == 'REPEXPORT')
-                                                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ยืนยันรับเข้าคลัง"
-                                                                   <i class="fa-solid fa-check text-success"></i> 
-                                                               </a> 
-                                                            @else
-                                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
-                                                                    <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
-                                                                </a>
-                                                                <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
-                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                                </a> 
-                                                            @endif                                                         
-                                                       
-                                                       
-                                                    </td>                                                    
-                                                </tr>
+                                                    {{-- <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Request">
+                                                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
+                                                    </a> --}}
+                                                    
+                                                    @if ($item->active == 'ALLOCATE')
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="กำลังดำเนินการ"
+                                                        <i class="fa-solid fa-spinner text-success"></i>
+                                                    </a> 
+                                                    @elseif ($item->active == 'CONFIRM')
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="จ่ายพัสดุเรียบร้อย"
+                                                        <i class="fa-solid fa-check text-success"></i> 
+                                                    </a> 
+                                                        {{-- <i class="fa-solid fa-hand-point-up text-primary"></i> --}}
+                                                        @elseif ($item->active == 'CONFIRMSEND')
+                                                        <a href="javascript:void(0)" onclick="wh_approve_stock({{ $item->wh_request_id }})"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า"><i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:20px"></i> 
+                                                        </a> 
+                                                        {{-- ฃCONFIRMSEND --}}
+                                                    @elseif ($item->active == 'REPEXPORT')
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ยืนยันรับเข้าคลัง"
+                                                            <i class="fa-solid fa-check text-success"></i> 
+                                                        </a> 
+                                                    @else
+                                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
+                                                            <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
+                                                        </a>
+                                                        <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
+                                                            <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
+                                                        </a> 
+                                                    @endif                                                         
+                                                
+                                                
+                                            </td>                                                    
+                                        </tr>
 
-                                                 <!--  Modal content EditRequest -->
-                                                    <div class="modal fade" id="EditRequest{{$item->wh_request_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="myExtraLargeModalLabel" style="color:rgb(236, 105, 18)">แก้ไขใบเบิก </h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <!--  Modal content EditRequest -->
+                                            <div class="modal fade" id="EditRequest{{$item->wh_request_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="myExtraLargeModalLabel" style="color:rgb(236, 105, 18)">แก้ไขใบเบิก </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 text-end">เลขที่บิล</div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group text-center">
+                                                                        <input type="text" class="form-control form-control-sm" id="edit_request_no" name="edit_request_no" value="{{$item->request_no}}" readonly>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <div class="row">
-                                                                        <div class="col-md-3 text-end">เลขที่บิล</div>
-                                                                        <div class="col-md-8">
-                                                                            <div class="form-group text-center">
-                                                                                <input type="text" class="form-control form-control-sm" id="edit_request_no" name="edit_request_no" value="{{$item->request_no}}" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    <div class="row mt-2">
-                                                                        <div class="col-md-3 text-end">วันที่เบิกพัสดุ</div>
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group text-center"> 
-                                                                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                                                                    <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="edit_datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                                                        data-date-language="th-th" value="{{$item->request_date}}" required/>
-                                                                                        
-                                                                                </div> 
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <div class="form-group text-center">
-                                                                                <input type="time" class="form-control form-control-sm" id="edit_request_time" name="edit_request_time" value="{{$item->request_time}}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row mt-2">
-                                                                        <div class="col-md-3 text-end">คลังที่ต้องการเบิก</div>
-                                                                        <div class="col-md-8">
-                                                                            <select name="editstock_list_id" id="editstock_list_id"  class="form-control form-control-sm" style="width: 100%">
-                                                                                    <option value="">--เลือก--</option>
-                                                                                    @foreach ($wh_stock_list as $item_sup)
-                                                                                    @if ($item->stock_list_id == $item_sup->stock_list_id)
-                                                                                        <option value="{{$item_sup->stock_list_id}}" selected>{{$item_sup->stock_list_name}}</option>
-                                                                                    @else
-                                                                                        <option value="{{$item_sup->stock_list_id}}">{{$item_sup->stock_list_name}}</option>
-                                                                                    @endif
-                                                                                       
-                                                                                    @endforeach
-                                                                            </select>
+                                                                
+                                                            </div>
+                                                            <div class="row mt-2">
+                                                                <div class="col-md-3 text-end">วันที่เบิกพัสดุ</div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group text-center"> 
+                                                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                                            <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="edit_datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                                                                data-date-language="th-th" value="{{$item->request_date}}" required/>
+                                                                                
                                                                         </div> 
                                                                     </div>
-
-                                                                    <input type="hidden" id="edit_bg_yearnow" name="edit_bg_yearnow" value="{{$item->year}}">
-                                                                    <input type="hidden" id="edit_wh_request_id" name="edit_wh_request_id" value="{{$item->wh_request_id}}">
-
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <div class="col-md-12 text-center">
-                                                                        <div class="form-group">
-                                                                            <button type="button" id="UpdateRequest" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
-                                                                                <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
-                                                                                บันทึก
-                                                                            </button>
-                                                                            <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new" data-bs-dismiss="modal">
-                                                                                <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
-
-                                                                        </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="form-group text-center">
+                                                                        <input type="time" class="form-control form-control-sm" id="edit_request_time" name="edit_request_time" value="{{$item->request_time}}">
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-2">
+                                                                <div class="col-md-3 text-end">คลังที่ต้องการเบิก</div>
+                                                                <div class="col-md-8">
+                                                                    <select name="editstock_list_id" id="editstock_list_id"  class="form-control form-control-sm" style="width: 100%">
+                                                                            <option value="">--เลือก--</option>
+                                                                            @foreach ($wh_stock_list as $item_sup)
+                                                                            @if ($item->stock_list_id == $item_sup->stock_list_id)
+                                                                                <option value="{{$item_sup->stock_list_id}}" selected>{{$item_sup->stock_list_name}}</option>
+                                                                            @else
+                                                                                <option value="{{$item_sup->stock_list_id}}">{{$item_sup->stock_list_name}}</option>
+                                                                            @endif
+                                                                                
+                                                                            @endforeach
+                                                                    </select>
+                                                                </div> 
+                                                            </div>
+
+                                                            <input type="hidden" id="edit_bg_yearnow" name="edit_bg_yearnow" value="{{$item->year}}">
+                                                            <input type="hidden" id="edit_wh_request_id" name="edit_wh_request_id" value="{{$item->wh_request_id}}">
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-md-12 text-center">
+                                                                <div class="form-group">
+                                                                    <button type="button" id="UpdateRequest" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
+                                                                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                                                                        บันทึก
+                                                                    </button>
+                                                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new" data-bs-dismiss="modal">
+                                                                        <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
 
-                                               
-                                                    
-                                                @endforeach                                                
-                                            </tbody>
+                                        
                                             
-                                        </table>
+                                        @endforeach                                                
+                                    </tbody>
+                                    
+                                </table>
 
-                                    </div>
-                                </div>  
                             </div>
-                                
                         </div>  
-
                     </div>
-                </div>
+                        
+                </div>  
 
- 
+            </div>
+        </div> 
 
         <!--  Modal content forRecieve -->
         <div class="modal fade" id="Request" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
@@ -492,21 +386,7 @@
                                     <input type="text" class="form-control form-control-sm" id="request_no" name="request_no" value="{{$ref_request_number}}" readonly>
                                 </div>
                             </div>
-                            {{-- <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
-                            <div class="col-md-2">
-                                <div class="form-group text-center"> 
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $date_now }}" required/>
-                                             
-                                    </div> 
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group text-center">
-                                    <input type="time" class="form-control form-control-sm" id="request_time" name="request_time" value="{{$mm}}">
-                                </div>
-                            </div> --}}
+                            
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-3 text-end">วันที่เบิกพัสดุ</div>
@@ -556,8 +436,7 @@
             </div>
         </div>
 
-
- 
+</div>
  
 @endsection
 @section('footer')
@@ -567,28 +446,29 @@
             $('#example').DataTable();
             $('#example2').DataTable();
             
-            $('#p4p_work_month').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
+           
             $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
             $('#edit_datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            // $('select').select2();            
+            // $('select').select2();           
             
             $('#stock_list_id').select2({
                     dropdownParent: $('#Request')
             });
-
+            $('#p4p_work_month').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
             // $('#editstock_list_id').select2({
             //         dropdownParent: $('#EditRequest')
             // });
-
-            
-            
+                        
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

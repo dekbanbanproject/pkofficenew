@@ -502,7 +502,7 @@ Route::middleware(['type'])->group(function () {
   Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
 Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome'])->name('staff.home')->middleware('type');
-Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
+Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_main'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 // Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 
@@ -1869,6 +1869,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_monitor', [App\Http\Controllers\AccdashboardController::class, 'account_monitor'])->name('acc.account_monitor'); //
   Route::match(['get', 'post'], 'account_monitor_main', [App\Http\Controllers\AccdashboardController::class, 'account_monitor_main'])->name('acc.account_monitor_main'); //
 
+  Route::match(['get', 'post'], 'chang_dashboard', [App\Http\Controllers\MoveaccountController::class, 'chang_dashboard'])->name('acc.chang_dashboard');
   Route::match(['get', 'post'], 'chang_pttype_IPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_IPD'])->name('acc.chang_pttype_IPD'); //ย้ายผัง
   Route::match(['get', 'post'], 'chang_pttype_OPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_OPD'])->name('acc.chang_pttype_OPD'); //ย้ายผัง
   Route::delete('pttypeopd_destroy/{id}', [App\Http\Controllers\MoveaccountController::class, 'pttypeopd_destroy'])->name('acc.pttypeopd_destroy'); //ย้ายผัง

@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
@@ -56,7 +56,7 @@
 <!-- Plugins css -->
 <link href="{{ asset('assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
-{{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+ 
 </head>
 <style>
     .noto-sans-thai-looped-thin {
@@ -527,21 +527,17 @@ if (Auth::check()) {
     <div class="rightbar-overlay"></div>
  
   <!-- JAVASCRIPT -->
-  <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-  {{-- <script type="text/javascript" src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script> --}}
+  <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> 
   <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-
-  <script src="{{ asset('js/select2.min.js') }}"></script>
-  {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
+  <script src="{{ asset('js/select2.min.js') }}"></script> 
   <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-
   <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -553,7 +549,6 @@ if (Auth::check()) {
   <!-- Required datatable js -->
   <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
   <!-- Buttons examples -->
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
@@ -563,28 +558,20 @@ if (Auth::check()) {
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-
   <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-
   <!-- Responsive examples -->
   <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-
   <!-- Datatable init js -->
   <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-
-  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
-
-
+  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
   <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <!-- App js -->
   <script src="{{ asset('pkclaim/js/app.js') }}"></script>
   <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>

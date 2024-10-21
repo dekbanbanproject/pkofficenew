@@ -103,7 +103,13 @@ class Account203Controller extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30');  
+       
+        // dd($data['bg_yearnow']);
         if ($startdate == '') {
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate_    = $bg->date_begin;
+            $enddate_      = $bg->date_end;
+            // dd($startdate_ );
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
@@ -111,7 +117,7 @@ class Account203Controller extends Controller
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                    WHERE a.vstdate between "'.$startdate_.'" and "'.$enddate_.'"
                     and account_code="1102050101.203"
                     group by month(a.vstdate)                     
                     order by a.vstdate desc;
